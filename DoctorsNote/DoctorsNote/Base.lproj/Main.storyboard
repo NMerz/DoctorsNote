@@ -92,17 +92,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qn4-SY-qnD">
                                 <rect key="frame" x="0.0" y="764" width="414" height="44"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-y5-wVJ">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-y5-wVJ">
                                         <rect key="frame" x="8" y="5" width="340" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psD-nS-Yp3">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psD-nS-Yp3">
                                         <rect key="frame" x="356" y="5" width="50" height="34"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="57" id="7jy-db-ICp"/>
-                                            <constraint firstAttribute="width" constant="36" id="Cdt-YY-3g5"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="wGD-YW-cdP"/>
+                                            <constraint firstAttribute="width" constant="50" id="Cdt-YY-3g5"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Send"/>
@@ -129,10 +127,8 @@
                             <constraint firstItem="qn4-SY-qnD" firstAttribute="trailing" secondItem="Qjc-J3-ben" secondAttribute="trailing" id="coA-UV-cnr"/>
                             <constraint firstItem="qn4-SY-qnD" firstAttribute="leading" secondItem="Qjc-J3-ben" secondAttribute="leading" id="de0-vv-T7R"/>
                             <constraint firstItem="R5t-FB-M8U" firstAttribute="leading" secondItem="Qjc-J3-ben" secondAttribute="leading" id="fKp-HM-LLO"/>
-                            <constraint firstItem="qn4-SY-qnD" firstAttribute="top" secondItem="R5t-FB-M8U" secondAttribute="bottom" id="oEG-Y8-Wfb"/>
                             <constraint firstItem="R5t-FB-M8U" firstAttribute="top" secondItem="Qjc-J3-ben" secondAttribute="top" id="oVa-dV-cnX"/>
                             <constraint firstItem="R5t-FB-M8U" firstAttribute="trailing" secondItem="Qjc-J3-ben" secondAttribute="trailing" id="pzA-5T-KWi"/>
-                            <constraint firstItem="R5t-FB-M8U" firstAttribute="top" secondItem="Qjc-J3-ben" secondAttribute="top" id="sUG-TM-Gig"/>
                             <constraint firstItem="qn4-SY-qnD" firstAttribute="top" secondItem="R5t-FB-M8U" secondAttribute="bottom" constant="8" symbolic="YES" id="zyo-is-5FB"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Qjc-J3-ben"/>
