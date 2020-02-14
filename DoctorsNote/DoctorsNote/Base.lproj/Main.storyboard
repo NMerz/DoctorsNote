@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--Chats-->
         <scene sceneID="hGa-pO-7vH">
             <objects>
                 <viewController id="by2-sr-bJ2" sceneMemberID="viewController">
@@ -17,13 +17,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="SUE-fa-j8P"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="1jf-H2-gNh"/>
+                    <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="1jf-H2-gNh"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wcq-WC-jTA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-52" y="103"/>
+            <point key="canvasLocation" x="-1091" y="382"/>
         </scene>
-        <!--Item-->
+        <!--Support Groups-->
         <scene sceneID="MQb-Lv-nfu">
             <objects>
                 <viewController id="0bn-HO-OyB" sceneMemberID="viewController">
@@ -33,13 +33,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="VSR-KX-2cq"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="JoJ-gA-Jk5"/>
+                    <tabBarItem key="tabBarItem" title="Support Groups" image="person.3.fill" catalog="system" id="JoJ-gA-Jk5"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X7d-Z9-7bF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-52" y="793"/>
+            <point key="canvasLocation" x="-64" y="382"/>
         </scene>
-        <!--Item 1-->
+        <!--Profile-->
         <scene sceneID="8nC-kT-9yn">
             <objects>
                 <viewController id="mUm-ZQ-b5L" sceneMemberID="viewController">
@@ -49,11 +49,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Gxa-TX-UfL"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="w52-L4-hok"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle" catalog="system" id="w52-L4-hok"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pwn-wp-ViK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-51" y="-561"/>
+            <point key="canvasLocation" x="-2075" y="382"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ibc-jV-CHq">
@@ -72,7 +72,12 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-P5-HIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-980" y="102"/>
+            <point key="canvasLocation" x="-1090" y="-424"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="message" catalog="system" width="64" height="56"/>
+        <image name="person.3.fill" catalog="system" width="71" height="34"/>
+        <image name="person.crop.circle" catalog="system" width="64" height="60"/>
+    </resources>
 </document>
