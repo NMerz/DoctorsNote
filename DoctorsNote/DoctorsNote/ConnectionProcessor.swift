@@ -12,6 +12,7 @@ class ConnectionProcessor {
     var connectionData = Data()
     var connector = Connector()
     var connectionType = String()
+    let signalWaiter = DispatchSemaphore(value: 0)
     
     init(connector: Connector, connectionType: String = "default") {
         self.connector = connector
@@ -33,6 +34,8 @@ class ConnectionProcessor {
         let url = URL(string: urlString)!
         print(url)
         connector.conductRetrievalTask(manager: self, url: url)
+        signalWaiter.wait()
+        //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
         return connectionData
     }
     
@@ -61,6 +64,7 @@ class ConnectionProcessor {
         //        print()
         print("Return", String(bytes: returnData!, encoding: .utf8)!)
         self.connectionData = returnData!
+        signalWaiter.signal()
     }
     
     private func processConversationList(conversationListData: Data) -> [String : Any] {
