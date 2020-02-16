@@ -3,7 +3,7 @@
 //  DoctorsNote
 //
 //  Created by Benjamin Hardin on 2/13/20.
-//  Copyright © 2020 Benjamin Hardin. All rights reserved.
+//  Copyright © 2020 Benjamin Hardin and Nathan Merz. All rights reserved.
 //
 
 import UIKit
@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let connectionProcessor = ConnectionProcessor()
+        connectionProcessor.retrieveData(urlString: "https://2wahxpoqf9.execute-api.us-east-2.amazonaws.com/default/PythonAPITest")
         return true
     }
 
