@@ -73,6 +73,8 @@ class PersonalRegisterViewController: UIViewController {
         //self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func unwindToVC(segue:UIStoryboardSegue) { }
+    
     @IBAction func showDOB(_ sender: Any) {
 //        let height: CGFloat = 290
 //        let width = self.view.frame.width - 20
@@ -102,15 +104,26 @@ class PersonalRegisterViewController: UIViewController {
 class HealthRegisterViewController: UIViewController {
     
     @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var selectHospitalButton: UIButton!
+    @IBOutlet weak var selectHealthcareButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         requestButton.layer.cornerRadius = requestButton.frame.height / 2
         
+        selectHospitalButton.layer.cornerRadius = DefinedValues.fieldRadius
+        selectHealthcareButton.layer.cornerRadius = DefinedValues.fieldRadius
+        
+         selectHospitalButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
+         selectHospitalButton.layer.borderWidth = 2
+         selectHealthcareButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
+         selectHealthcareButton.layer.borderWidth = 2
+        
     }
     
     @IBAction func goBack(_ sender: Any) {
         //navigationController?.popViewController(animated: true)
+        performSegue(withIdentifier: "unwindto2", sender: self)
     }
     
     @IBAction func requestAccount(_ sender: Any) {
@@ -118,6 +131,10 @@ class HealthRegisterViewController: UIViewController {
     
 }
 
+
+//
+// Segue classes
+//
 class SegueFromLeft: UIStoryboardSegue
 {
     override func perform() {
