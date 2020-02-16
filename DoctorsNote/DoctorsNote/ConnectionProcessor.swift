@@ -20,7 +20,11 @@ class ConnectionProcessor {
     }
     
     func retrieveData(urlString: String) -> [String : Any] {
+        connectionType = "conversationList"
         let data = retrieveJSONData(urlString: urlString)
+        if data.isEmpty {
+            return [String : Any]()
+        }
         switch connectionType {
         case "conversationList":
             return processConversationList(conversationListData: data)
@@ -47,6 +51,11 @@ class ConnectionProcessor {
             signalWaiter.signal()
             return
         }
+        if (responseHeader == nil) {
+            print("Missing response header")
+            signalWaiter.signal()
+            return
+        }
         print("Return", String(bytes: returnData!, encoding: .utf8)!)
         let urlResponse = responseHeader as! HTTPURLResponse
         if (urlResponse.statusCode != 200) {
@@ -68,6 +77,7 @@ class ConnectionProcessor {
     }
     
     private func processConversationList(conversationListData: Data) -> [String : Any] {
+        print("JSON decoding:", String(bytes: conversationListData, encoding: .utf8)!)
         let data = try! JSONSerialization.jsonObject(with: conversationListData, options: .allowFragments) as! [String: Any]
         print(type(of: data))
         print(data)
