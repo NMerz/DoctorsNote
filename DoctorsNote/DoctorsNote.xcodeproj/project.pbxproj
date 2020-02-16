@@ -16,6 +16,8 @@
 		B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8023F5B874007B3D6A /* DoctorsNoteTests.swift */; };
 		B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */; };
 		B57E987523F8AF5F00E9FF27 /* DefinedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E987423F8AF5F00E9FF27 /* DefinedValues.swift */; };
+		B57E987823F8C99400E9FF27 /* DOBView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B57E987723F8C99400E9FF27 /* DOBView.xib */; };
+		B57E987B23F8CA4E00E9FF27 /* DOBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57E987A23F8CA4E00E9FF27 /* DOBView.swift */; };
 		B5BD5B3723F84C24009CCDA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5BD5B3623F84C24009CCDA0 /* Main.storyboard */; };
 		B5BD5B3A23F85817009CCDA0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5B3923F85817009CCDA0 /* LoginViewController.swift */; };
 		B5BD5B3C23F85A3E009CCDA0 /* PersonalRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5B3B23F85A3E009CCDA0 /* PersonalRegisterViewController.swift */; };
@@ -54,6 +56,8 @@
 		B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsNoteUITests.swift; sourceTree = "<group>"; };
 		B52ABE8D23F5B874007B3D6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B57E987423F8AF5F00E9FF27 /* DefinedValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinedValues.swift; sourceTree = "<group>"; };
+		B57E987723F8C99400E9FF27 /* DOBView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DOBView.xib; sourceTree = "<group>"; };
+		B57E987A23F8CA4E00E9FF27 /* DOBView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DOBView.swift; sourceTree = "<group>"; };
 		B5BD5B3623F84C24009CCDA0 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B5BD5B3923F85817009CCDA0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B5BD5B3B23F85A3E009CCDA0 /* PersonalRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRegisterViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +119,8 @@
 				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				B5BD5B3623F84C24009CCDA0 /* Main.storyboard */,
+				B57E987623F8C97D00E9FF27 /* ViewXIB */,
+				B57E987923F8CA2F00E9FF27 /* Views */,
 				B5BD5B3823F857CF009CCDA0 /* ViewControllers */,
 				B57E987323F8AF3B00E9FF27 /* Models */,
 			);
@@ -145,6 +151,22 @@
 				B57E987423F8AF5F00E9FF27 /* DefinedValues.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		B57E987623F8C97D00E9FF27 /* ViewXIB */ = {
+			isa = PBXGroup;
+			children = (
+				B57E987723F8C99400E9FF27 /* DOBView.xib */,
+			);
+			path = ViewXIB;
+			sourceTree = "<group>";
+		};
+		B57E987923F8CA2F00E9FF27 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B57E987A23F8CA4E00E9FF27 /* DOBView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		B5BD5B3823F857CF009CCDA0 /* ViewControllers */ = {
@@ -261,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5BD5B3723F84C24009CCDA0 /* Main.storyboard in Resources */,
+				B57E987823F8C99400E9FF27 /* DOBView.xib in Resources */,
 				B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */,
 				B52ABE7323F5B874007B3D6A /* Assets.xcassets in Resources */,
 				B52ABE7123F5B872007B3D6A /* Mains.storyboard in Resources */,
@@ -290,6 +313,7 @@
 			files = (
 				B5BD5B3A23F85817009CCDA0 /* LoginViewController.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ViewController.swift in Sources */,
+				B57E987B23F8CA4E00E9FF27 /* DOBView.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 				B5BD5B3C23F85A3E009CCDA0 /* PersonalRegisterViewController.swift in Sources */,

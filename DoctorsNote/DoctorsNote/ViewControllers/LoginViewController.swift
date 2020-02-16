@@ -16,14 +16,17 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    let radius: CGFloat = 10
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        loginButton.layer.cornerRadius = radius
-        self.navigationController?.navigationBar.isHidden = true
+        loginButton.layer.cornerRadius = loginButton.frame.height / 2
+        
+        usernameField.layer.cornerRadius = DefinedValues.fieldRadius
+        passwordField.layer.cornerRadius = DefinedValues.fieldRadius
+        
+        usernameField.layer.borderColor = UIColor.lightGray.cgColor
+        usernameField.layer.borderWidth = 2
     }
     
 

@@ -8,16 +8,45 @@
 
 import UIKit
 
+//
+//
+//
 class AccountRegisterViewController: UIViewController {
     
     @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var confirmField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         emailField.layer.cornerRadius = DefinedValues.fieldRadius
-        emailField.borderStyle = .roundedRect
-        //emailField.layer.borderColor = UIColor.blue.cgColor
-        //emailField.layer.borderWidth = 2
+        passwordField.layer.cornerRadius = DefinedValues.fieldRadius
+        confirmField.layer.cornerRadius = DefinedValues.fieldRadius
+        
+        let emailPadding = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: emailField.frame.height))
+        let passwordPadding = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: passwordField.frame.height))
+        let confirmPadding = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: confirmField.frame.height))
+        
+        emailField.leftView = emailPadding
+        emailField.rightView = emailPadding
+        passwordField.leftView = passwordPadding
+        passwordField.rightView = passwordPadding
+        confirmField.leftView = confirmPadding
+        confirmField.rightView = confirmPadding
+
+        emailField.leftViewMode = .always
+        emailField.rightViewMode = .always
+        passwordField.leftViewMode = .always
+        passwordField.rightViewMode = .always
+        confirmField.leftViewMode = .always
+        confirmField.rightViewMode = .always
+       
+        emailField.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
+        emailField.layer.borderWidth = 2
+        passwordField.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
+        passwordField.layer.borderWidth = 2
+        confirmField.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
+        confirmField.layer.borderWidth = 2
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -26,22 +55,50 @@ class AccountRegisterViewController: UIViewController {
     
 }
 
+
+
+//
+//
+//
 class PersonalRegisterViewController: UIViewController {
-    let radius: CGFloat = 10
+    @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.hidesBackButton = true
+        // The height element of this will need to be changed
+        scrollView.frame = self.view.bounds
     }
     
     @IBAction func goBack(_ sender: Any) {
-        self.dismiss(animated: true) {}
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func showDOB(_ sender: Any) {
+//        let height: CGFloat = 290
+//        let width = self.view.frame.width - 20
+//        let x = (self.view.frame.width / 2) - (width / 2)
+//        let y = (self.view.frame.height / 2) - (height / 2)
+//        
+//        //FIXME: The storyboard name will need to be changed
+//        let dobViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DOBView")
+//        
+//        present(dobViewController, animated: <#T##Bool#>, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
+//        
+//        let dateView = DOBView(frame: CGRect(x: x, y: y, width: width, height: height))
+//        dateView.layer.shadowColor = UIColor.black.cgColor
+//        dateView.layer.shadowRadius = 50
+//        dateView.layer.shadowOpacity = 1.0
+//        self.view.addSubview(dateView)
+//    
     }
     
 }
 
+
+
+//
+//
+//
 class HealthRegisterViewController: UIViewController {
     
     override func viewDidLoad() {
@@ -50,7 +107,7 @@ class HealthRegisterViewController: UIViewController {
     }
     
     @IBAction func goBack(_ sender: Any) {
-        self.dismiss(animated: true) {}
+        navigationController?.popViewController(animated: true)
     }
     
 }
