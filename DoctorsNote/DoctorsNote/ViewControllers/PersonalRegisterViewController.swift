@@ -70,7 +70,7 @@ class PersonalRegisterViewController: UIViewController {
     }
     
     @IBAction func goBack(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+        //self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func showDOB(_ sender: Any) {
@@ -101,13 +101,52 @@ class PersonalRegisterViewController: UIViewController {
 //
 class HealthRegisterViewController: UIViewController {
     
+    @IBOutlet weak var requestButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        requestButton.layer.cornerRadius = requestButton.frame.height / 2
         
     }
     
     @IBAction func goBack(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
+        //navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func requestAccount(_ sender: Any) {
     }
     
 }
+
+class SegueFromLeft: UIStoryboardSegue
+{
+    override func perform() {
+        let src: UIViewController = self.source
+        let dst: UIViewController = self.destination
+        let transition: CATransition = CATransition()
+        let timeFunc : CAMediaTimingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.duration = 0.25
+        transition.timingFunction = timeFunc
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromRight
+        src.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        src.navigationController!.pushViewController(dst, animated: false)
+    }
+}
+
+class SegueFromRight: UIStoryboardSegue
+{
+    override func perform() {
+        let src: UIViewController = self.source
+        let dst: UIViewController = self.destination
+        let transition: CATransition = CATransition()
+        let timeFunc : CAMediaTimingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.duration = 0.25
+        transition.timingFunction = timeFunc
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        src.navigationController!.view.layer.add(transition, forKey: kCATransition)
+        src.navigationController!.pushViewController(dst, animated: false)
+    }
+}
+

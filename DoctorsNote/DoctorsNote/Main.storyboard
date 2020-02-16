@@ -137,7 +137,6 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="55" id="ard-4x-9gF"/>
                                     <constraint firstAttribute="height" constant="55" id="xys-p4-GlO"/>
                                 </constraints>
-                                <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -154,7 +153,7 @@
                                 </constraints>
                                 <state key="normal" backgroundImage="arrow.right.circle.fill" catalog="system"/>
                                 <connections>
-                                    <segue destination="gpj-CC-1S8" kind="show" id="L6t-m4-TLm"/>
+                                    <segue destination="gpj-CC-1S8" kind="custom" customClass="SegueFromLeft" customModule="DoctorsNote" customModuleProvider="target" id="L6t-m4-TLm"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpZ-eB-nki">
@@ -264,7 +263,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a1q-5c-KYE">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="722"/>
+                                        <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="h90-Dw-DM8">
                                                 <rect key="frame" x="25" y="25" width="364" height="34"/>
@@ -297,28 +296,29 @@
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="0fW-jA-Hrv">
-                                                <rect key="frame" x="0.0" y="685" width="414" height="37"/>
+                                                <rect key="frame" x="0.0" y="781" width="414" height="37"/>
                                                 <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </pageControl>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PId-qM-BbZ">
-                                                <rect key="frame" x="329" y="600.5" width="75" height="74"/>
+                                                <rect key="frame" x="329" y="696.5" width="75" height="74"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="tga-yP-mgP"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="arrow.right.circle.fill" catalog="system"/>
                                                 <connections>
-                                                    <segue destination="3bd-aR-UMf" kind="show" id="lrY-Gt-LgO"/>
+                                                    <segue destination="3bd-aR-UMf" kind="custom" customClass="SegueFromLeft" customModule="DoctorsNote" customModuleProvider="target" id="lrY-Gt-LgO"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B0S-se-X45">
-                                                <rect key="frame" x="10" y="600.5" width="75" height="74"/>
+                                                <rect key="frame" x="10" y="696.5" width="75" height="74"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="Ayb-qo-GM0"/>
                                                 </constraints>
                                                 <state key="normal" backgroundImage="arrow.left.circle.fill" catalog="system"/>
                                                 <connections>
                                                     <action selector="goBack:" destination="gpj-CC-1S8" eventType="touchUpInside" id="Ki2-RJ-Lcu"/>
+                                                    <segue destination="etQ-qk-GXB" kind="custom" customClass="SegueFromRight" customModule="DoctorsNote" customModuleProvider="target" id="lHj-yf-CKI"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RiF-Jg-bPu">
@@ -391,7 +391,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hospital" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="He4-Tc-a2S">
-                                <rect key="frame" x="112" y="317" width="190" height="61"/>
+                                <rect key="frame" x="20" y="187" width="190" height="61"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -411,28 +411,65 @@
                                 <state key="normal" backgroundImage="arrow.left.circle.fill" catalog="system"/>
                                 <connections>
                                     <action selector="goBack:" destination="3bd-aR-UMf" eventType="touchUpInside" id="rcW-l8-8NY"/>
+                                    <segue destination="gpj-CC-1S8" kind="custom" customClass="SegueFromRight" customModule="DoctorsNote" customModuleProvider="target" id="8xy-Pt-xig"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JhQ-wb-a1I">
-                                <rect key="frame" x="149" y="645" width="117" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JhQ-wb-a1I">
+                                <rect key="frame" x="107" y="488" width="200" height="40"/>
                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="HV6-tJ-z5Y"/>
+                                    <constraint firstAttribute="width" constant="200" id="hXk-fy-zVB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Request Account">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="requestAccount:" destination="3bd-aR-UMf" eventType="touchUpInside" id="JCt-Qk-0RH"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Healthcare Provider" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Evt-Ne-lTi">
+                                <rect key="frame" x="35" y="419.5" width="160" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="oXM-9p-zba"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifv-9f-lBF">
+                                <rect key="frame" x="25" y="433" width="364" height="30"/>
+                                <state key="normal" title="Select Healthcare Provider"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3E-Eq-vLa">
+                                <rect key="frame" x="155" y="286" width="104" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Select Hospital"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="ifv-9f-lBF" firstAttribute="top" secondItem="Evt-Ne-lTi" secondAttribute="bottom" constant="-7" id="5mC-bi-KbV"/>
+                            <constraint firstItem="ifv-9f-lBF" firstAttribute="centerX" secondItem="zbi-dz-juT" secondAttribute="centerX" id="6sl-Do-6Yu"/>
+                            <constraint firstItem="cW5-d1-dle" firstAttribute="trailing" secondItem="ifv-9f-lBF" secondAttribute="trailing" constant="25" id="6x5-yE-Q12"/>
                             <constraint firstItem="eKu-rX-XZH" firstAttribute="leading" secondItem="cW5-d1-dle" secondAttribute="leading" constant="10" id="LeR-1d-jLq"/>
+                            <constraint firstItem="ifv-9f-lBF" firstAttribute="centerY" secondItem="zbi-dz-juT" secondAttribute="centerY" id="W7Z-NP-Hm7"/>
+                            <constraint firstItem="JhQ-wb-a1I" firstAttribute="centerX" secondItem="zbi-dz-juT" secondAttribute="centerX" id="YQW-Zc-Bdw"/>
                             <constraint firstItem="cW5-d1-dle" firstAttribute="trailing" secondItem="4PA-b9-EyP" secondAttribute="trailing" id="a5T-TT-0Kf"/>
+                            <constraint firstItem="JhQ-wb-a1I" firstAttribute="top" secondItem="ifv-9f-lBF" secondAttribute="bottom" constant="25" id="jLS-pf-jaH"/>
                             <constraint firstItem="4PA-b9-EyP" firstAttribute="leading" secondItem="cW5-d1-dle" secondAttribute="leading" id="jLg-d8-pZ3"/>
+                            <constraint firstItem="ifv-9f-lBF" firstAttribute="leading" secondItem="cW5-d1-dle" secondAttribute="leading" constant="25" id="mEk-oQ-wA1"/>
+                            <constraint firstItem="ifv-9f-lBF" firstAttribute="leading" secondItem="Evt-Ne-lTi" secondAttribute="leading" constant="-10" id="q4t-qk-f70"/>
                             <constraint firstItem="4PA-b9-EyP" firstAttribute="bottom" secondItem="cW5-d1-dle" secondAttribute="bottom" id="woN-rB-7gT"/>
                             <constraint firstItem="4PA-b9-EyP" firstAttribute="top" secondItem="eKu-rX-XZH" secondAttribute="bottom" constant="10" id="x5K-fu-BHn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cW5-d1-dle"/>
                     </view>
                     <navigationItem key="navigationItem" title="Healthcare Information" largeTitleDisplayMode="always" id="4fp-Db-kHM"/>
+                    <connections>
+                        <outlet property="requestButton" destination="JhQ-wb-a1I" id="tqK-ke-ffl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3st-MZ-j1u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -489,4 +526,8 @@
         <image name="arrow.right.circle.fill" catalog="system" width="64" height="60"/>
         <image name="doc.plaintext" catalog="system" width="56" height="64"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="8xy-Pt-xig"/>
+        <segue reference="lHj-yf-CKI"/>
+    </inferredMetricsTieBreakers>
 </document>
