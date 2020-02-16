@@ -7,11 +7,23 @@ target 'DoctorsNote' do
 
   # Pods for DoctorsNote
 
-  pod 'amplify-tools'
-
-  pod 'Amplify'
-  pod 'AWSPluginsCore'
-  pod 'AmplifyPlugins/AWSAPIPlugin'
+  pod 'AWSAutoScaling'
+  pod 'AWSCloudWatch'
+  pod 'AWSCognito'
+  pod 'AWSCognitoIdentityProvider'
+  pod 'AWSDynamoDB'
+  pod 'AWSEC2'
+  pod 'AWSElasticLoadBalancing'
+  pod 'AWSIoT'
+  pod 'AWSKinesis'
+  pod 'AWSLambda'
+  pod 'AWSMachineLearning'
+  pod 'AWSMobileAnalytics'
+  pod 'AWSS3'
+  pod 'AWSSES'
+  pod 'AWSSimpleDB'
+  pod 'AWSSNS'
+  pod 'AWSSQS'
 
   target 'DoctorsNoteTests' do
     inherit! :search_paths
