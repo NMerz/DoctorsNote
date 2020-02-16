@@ -1,0 +1,25 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'DoctorsNote' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for DoctorsNote
+
+  pod 'amplify-tools'
+
+  pod 'Amplify'
+  pod 'AWSPluginsCore'
+  pod 'AmplifyPlugins/AWSAPIPlugin'
+
+  target 'DoctorsNoteTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'DoctorsNoteUITests' do
+    # Pods for testing
+  end
+
+end
