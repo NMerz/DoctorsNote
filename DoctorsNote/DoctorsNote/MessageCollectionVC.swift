@@ -29,6 +29,7 @@ class MessageCollectionVC: UICollectionViewController, UICollectionViewDelegateF
         return textField
     }()
 
+    var bottomConstraint: NSLayoutConstraint?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,8 +50,8 @@ class MessageCollectionVC: UICollectionViewController, UICollectionViewDelegateF
         // 765 for padding from top
         view.addConstraintsWithFormat(format: "V:|-765-[v0(48)]", views: messageInputContainerView)
         
-        let bottomConstraint = NSLayoutConstraint(item: messageInputContainerView , attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-        view.addConstraint(bottomConstraint)
+        bottomConstraint = NSLayoutConstraint(item: messageInputContainerView , attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+        view.addConstraint(bottomConstraint!)
         
         setupInputComponents()
         
@@ -62,10 +63,14 @@ class MessageCollectionVC: UICollectionViewController, UICollectionViewDelegateF
     
     @objc func handleKeyboardNotification(notification: NSNotification) {
         if let userInfo = notification.userInfo {
-            //let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey]?.CGRectValue()
-            //print(keyboardFrame)
+            let frameInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+            let keyboardFrame = frameInfo?.cgRectValue
+            
+            // Text field goes negative height value from bottom
+            bottomConstraint?.constant = -keyboardFrame!.height
         }
     }
+    
     
     // Setup input text field
     private func setupInputComponents() {
