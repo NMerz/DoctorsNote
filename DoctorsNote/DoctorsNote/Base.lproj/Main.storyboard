@@ -69,36 +69,12 @@
                         <segue destination="mUm-ZQ-b5L" kind="relationship" relationship="viewControllers" id="VuX-vi-Msc"/>
                         <segue destination="by2-sr-bJ2" kind="relationship" relationship="viewControllers" id="iFy-Wi-UEg"/>
                         <segue destination="0bn-HO-OyB" kind="relationship" relationship="viewControllers" id="C0U-Kg-gT9"/>
-                        <segue destination="yO0-65-AgT" kind="relationship" relationship="viewControllers" id="3Ka-7m-Aap"/>
                         <segue destination="jks-77-WlU" kind="relationship" relationship="viewControllers" id="DlP-fu-HFH"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-P5-HIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1090" y="-424"/>
-        </scene>
-        <!--MessageVC-->
-        <scene sceneID="F3b-6T-Uui">
-            <objects>
-                <viewController title="MessageVC" id="yO0-65-AgT" customClass="MessageVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="nWH-pN-1eU">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sPs-4f-y8F">
-                                <rect key="frame" x="184" y="373" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="EvX-d4-9ZP"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Message" image="paperplane" catalog="system" id="klw-50-SYJ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QKa-DE-5xp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="882.60869565217399" y="381.69642857142856"/>
         </scene>
         <!--MessageCollectionVC-->
         <scene sceneID="qYO-x2-qOM">
@@ -129,11 +105,11 @@
                             <outlet property="delegate" destination="jks-77-WlU" id="GZF-1N-AdT"/>
                         </connections>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Item" id="qTI-Xb-b8R"/>
+                    <tabBarItem key="tabBarItem" title="Message" image="paperplane" catalog="system" id="qTI-Xb-b8R"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BUW-nl-QV3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1699" y="382"/>
+            <point key="canvasLocation" x="939" y="382"/>
         </scene>
     </scenes>
     <resources>

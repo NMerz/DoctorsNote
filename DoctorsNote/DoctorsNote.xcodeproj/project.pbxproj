@@ -15,7 +15,6 @@
 		B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */; };
 		B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8023F5B874007B3D6A /* DoctorsNoteTests.swift */; };
 		B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */; };
-		B894F1B623F9F44200E38A59 /* MessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B894F1B523F9F44200E38A59 /* MessageVC.swift */; };
 		B894F1B823FA179F00E38A59 /* MessageCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B894F1B723FA179F00E38A59 /* MessageCollectionVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +50,6 @@
 		B52ABE8723F5B874007B3D6A /* DoctorsNoteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoctorsNoteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsNoteUITests.swift; sourceTree = "<group>"; };
 		B52ABE8D23F5B874007B3D6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B894F1B523F9F44200E38A59 /* MessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageVC.swift; sourceTree = "<group>"; };
 		B894F1B723FA179F00E38A59 /* MessageCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,7 +108,6 @@
 				B52ABE7223F5B874007B3D6A /* Assets.xcassets */,
 				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
-				B894F1B523F9F44200E38A59 /* MessageVC.swift */,
 				B894F1B723FA179F00E38A59 /* MessageCollectionVC.swift */,
 			);
 			path = DoctorsNote;
@@ -265,7 +262,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B894F1B623F9F44200E38A59 /* MessageVC.swift in Sources */,
 				B894F1B823FA179F00E38A59 /* MessageCollectionVC.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ViewController.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
