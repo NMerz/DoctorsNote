@@ -1,0 +1,8 @@
+DB identifier: doctorsnotedatabase
+Username: admin
+Role: Instance
+Class: dbt2.micro
+Engine: MariaDB
+Endpoint: doctorsnotedatabase.clqjrzlnojkj.us-east-2.rds.amazonaws.com
+Port: 3306
+Availability zone: us-east-2b
