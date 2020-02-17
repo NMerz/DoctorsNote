@@ -31,10 +31,10 @@ USE `DoctorsNote` ;
 CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Message` (
   `idMessage` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `text` LONGTEXT NULL,
-  `createdTime` DATETIME(1) GENERATED ALWAYS AS (CURRENT_TIMESTAMP) VIRTUAL,
+  `createdTime` DATETIME(1),
   `sender` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idMessage`),
-  UNIQUE INDEX `idMessage_UNIQUE` (`idMessage` ASC) VISIBLE)
+  UNIQUE INDEX `idMessage_UNIQUE` (`idMessage` ASC))
 ENGINE = InnoDB;
 
 
@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Conversation` (
   `recipient` INT UNSIGNED NOT NULL,
   `Message_idMessage` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idConversation`),
-  INDEX `fk_Conversation_Message_idx` (`Message_idMessage` ASC) VISIBLE,
   CONSTRAINT `fk_Conversation_Message`
     FOREIGN KEY (`Message_idMessage`)
     REFERENCES `DoctorsNote`.`Message` (`idMessage`)
@@ -64,8 +63,6 @@ CREATE TABLE IF NOT EXISTS `DoctorsNote`.`SupportGroup` (
   `admin` INT UNSIGNED NOT NULL,
   `Message_idMessage` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`idSupportGroup`),
-  UNIQUE INDEX `idSupportGroup_UNIQUE` (`idSupportGroup` ASC) VISIBLE,
-  INDEX `fk_SupportGroup_Message1_idx` (`Message_idMessage` ASC) VISIBLE,
   CONSTRAINT `fk_SupportGroup_Message1`
     FOREIGN KEY (`Message_idMessage`)
     REFERENCES `DoctorsNote`.`Message` (`idMessage`)
