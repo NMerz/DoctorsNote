@@ -20,26 +20,68 @@ class ConnectionProcessorTests: XCTestCase {
     
     
 
-    func testRetrievalConducted() {
+    func testGarbageRetrievalConducted() {
         let connector = ConnectorMock()
         let processor = ConnectionProcessor(connector: connector)
         XCTAssert(connector.getConductRetrievalTaskCalls() == 0)
-        processor.retrieveData(urlString: "garbage")
+        let (potentialData, potentialError) = processor.retrieveData(urlString: "garbage")
         XCTAssert(connector.getConductRetrievalTaskCalls() == 1)
-        
+        XCTAssert(potentialData == nil)
+        XCTAssert(potentialError != nil)
+        XCTAssert(potentialError?.getMessage() == "Unknown Error")
     }
     
-    func testDefaultProcesingDoesNothing() {
-        let connector = ConnectorMock()
+    func testEmptyReturn() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        XCTAssert(processor.retrieveData(urlString: "default").isEmpty == true)
+        let (potentialData, potentialError) = processor.retrieveData(urlString: "url")
+        XCTAssert(potentialError != nil)
+        XCTAssert(potentialError?.getMessage() == "Malformed response body")
+        XCTAssert(potentialData == nil)
+    }
+    
+    func testEmptyJSONReturn() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        let (potentialData, potentialError) = processor.retrieveData(urlString: "url")
+        XCTAssert(potentialError == nil)
+        XCTAssert(potentialData != nil)
+        XCTAssert(potentialData!.count == 0)
+    }
+    
+    func testBadStatusCode() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        let (potentialData, potentialError) = processor.retrieveData(urlString: "url")
+        XCTAssert(potentialError != nil)
+        XCTAssert(potentialError?.getMessage() == "Error connecting on server with return code: 500")
+        XCTAssert(potentialData == nil)
+    }
+    
+    func testErrorConnecting() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: ConnectionError(message: "Test error")) //NOTE: The error would not be of this type but I do not knwo what type it would be
+        let processor = ConnectionProcessor(connector: connector)
+        let (potentialData, potentialError) = processor.retrieveData(urlString: "url")
+        XCTAssert(potentialError != nil)
+        XCTAssert(potentialError?.getMessage() == "Error connecting to server")
+        XCTAssert(potentialData == nil)
     }
 
-    func testConversationListNotEmpty() {
+    func testValidData() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"key1\":\"val1\"}".utf8), responseHeader: response, potentialError: nil)
-        let processor = ConnectionProcessor(connector: connector, connectionType: "conversationList")
-        XCTAssert(processor.retrieveData(urlString: "url").isEmpty == false)
+        let connector = ConnectorMock(returnData: Data("{\"key1\":\"val1\",\"key2\":\"val2\"}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        var (potentialData, potentialError) = processor.retrieveData(urlString: "url")
+        XCTAssert(potentialError == nil)
+        XCTAssert(potentialData != nil)
+        XCTAssert(potentialData!.count == 2)
+        //XCTAssert(potentialData?.contains(key: "key1", value: "val1"))
+        XCTAssert(potentialData?["key1"] as! String == "val1")
+        XCTAssert(potentialData?["key2"] as! String == "val2")
     }
 }
 

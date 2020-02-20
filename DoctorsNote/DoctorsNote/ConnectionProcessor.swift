@@ -1,5 +1,5 @@
 //
-//  ConnectionManager.swift
+//  ConnectionProcessor.swift
 //  DoctorsNote
 //
 //  Created by Nathan Merz on 2/16/20.
@@ -9,32 +9,38 @@
 import Foundation
 
 class ConnectionProcessor {
-    var connectionData = Data()
-    var connector = Connector()
-    var connectionType = String()
+    var connectionData: Data?
+    var connectionError: ConnectionError?
+    let connector: Connector
     let signalWaiter = DispatchSemaphore(value: 0)
     
-    init(connector: Connector, connectionType: String = "default") {
+    init(connector: Connector) {
         self.connector = connector
-        self.connectionType = connectionType
     }
     
-    func retrieveData(urlString: String) -> [String : Any] {
-        connectionType = "conversationList"
+    func retrieveData(urlString: String) -> ([String : Any]?, ConnectionError?) {
         let data = retrieveJSONData(urlString: urlString)
-        if data.isEmpty {
-            return [String : Any]()
+        if data == nil {
+            if connectionError == nil {
+                return (nil, ConnectionError(message: "Unknown Error"));
+            }
+            return (nil, connectionError);
         }
-        switch connectionType {
-        case "conversationList":
-            return processConversationList(conversationListData: data)
-        default:
-            //assert(false)
-            return [String : Any]()
+        var jsonData: [String: Any]
+        print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
+        do {
+            jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any]
         }
+        catch {
+            return (nil, ConnectionError(message: "Malformed response body"))
+            
+        }
+        print(type(of: jsonData))
+        print(jsonData)
+        return (jsonData, nil)
     }
     
-    private func retrieveJSONData(urlString: String) -> Data {
+    private func retrieveJSONData(urlString: String) -> Data? {
         let url = URL(string: urlString)!
         print(url)
         connector.conductRetrievalTask(manager: self, url: url)
@@ -47,7 +53,7 @@ class ConnectionProcessor {
         
         if (potentialError != nil) {
             print("Error locally")
-            //Handle error
+            connectionError = ConnectionError(message: "Error connecting to server")
             signalWaiter.signal()
             return
         }
@@ -60,29 +66,20 @@ class ConnectionProcessor {
         let urlResponse = responseHeader as! HTTPURLResponse
         if (urlResponse.statusCode != 200) {
             print("Error on server")
+            connectionError = ConnectionError(message: "Error connecting on server with return code: " + String(urlResponse.statusCode))
             print(responseHeader ?? "nil")
-            //Handle server error
             signalWaiter.signal()
             return
         }
         print("Status code:", urlResponse.statusCode)
-        //        print("Return: ", terminator: "")
-        //        for char in returnData! {
-        //            print(Character(UnicodeScalar(char)), terminator: "")
-        //        }
-        //        print()
         print("Return", String(bytes: returnData!, encoding: .utf8)!)
         self.connectionData = returnData!
         signalWaiter.signal()
     }
     
-    private func processConversationList(conversationListData: Data) -> [String : Any] {
-        print("JSON decoding:", String(bytes: conversationListData, encoding: .utf8)!)
-        let data = try! JSONSerialization.jsonObject(with: conversationListData, options: .allowFragments) as! [String: Any]
-        print(type(of: data))
-        print(data)
-        
-        return data
+    func processConversationList(url: String) -> ([String : Any]?, ConnectionError?) {
+        let (data, potentialError) = retrieveData(urlString: url)
+        return (data, potentialError)
     }
 }
 
@@ -92,5 +89,15 @@ class Connector {
             manager.processConnection(returnData: returnData, responseHeader: responseHeader, potentialError: potentialError)
         }
         retrievalTask.resume()
+    }
+}
+
+class ConnectionError : Error {
+    private let message: String
+    init(message: String) {
+        self.message = message
+    }
+    func getMessage() -> String {
+        return message
     }
 }
