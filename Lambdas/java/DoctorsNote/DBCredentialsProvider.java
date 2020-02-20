@@ -21,6 +21,7 @@ public class DBCredentialsProvider {
     private final String DBUrl;
     private final String DBUsername;
     private final String DBPassword;
+    private final String DBName;
     private final String DBDriver;
 
     public DBCredentialsProvider() throws IOException {
@@ -32,9 +33,10 @@ public class DBCredentialsProvider {
             DBPort = br.readLine().split(";;;;")[1];
             DBUsername = br.readLine().split(";;;;")[1];
             DBPassword = br.readLine().split(";;;;")[1];
+            DBName = br.readLine().split(";;;;")[1];
             DBDriver = br.readLine().split(";;;;")[1];
 
-            DBUrl = DBProvider + DBEndpoint + ":" + DBPort;
+            DBUrl = DBProvider + DBEndpoint + ":" + DBPort + "/";
         }
         catch(IOException e){
             throw new IOException("Unable to read DBCredentials.tsv");
@@ -63,6 +65,10 @@ public class DBCredentialsProvider {
 
     public String getDBPassword() {
         return this.DBPassword;
+    }
+
+    public String getDBName() {
+        return this.DBName;
     }
 
     public String getDBDriver() {
