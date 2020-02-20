@@ -1,0 +1,20 @@
+{
+  "Id": "Policy1582233281668",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt1582233274236",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:s3:::doctorsnote-bucket/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:Referer": "DoctorsNote"
+        }
+      },
+      "Principal": "*"
+    }
+  ]
+}

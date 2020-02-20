@@ -1,0 +1,16 @@
+ {
+  "Version":"2020-02-20",
+  "Id":"http referer policy",
+  "Statement":[
+    {
+      "Sid":"Allow get requests originating from doctorsnote-bucket.s3-website.us-east-2.amazonaws.com",
+      "Effect":"Allow",
+      "Principal":"*",
+      "Action":"s3:GetObject",
+      "Resource":"arn:aws:s3:::doctorsnote-bucket/*",
+      "Condition":{
+        "StringLike":{"aws:Referer":["http://doctorsnote-bucket.s3-website.us-east-2.amazonaws.com"]}
+      }
+    }
+  ]
+}

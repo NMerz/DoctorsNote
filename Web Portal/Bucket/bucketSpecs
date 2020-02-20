@@ -1,0 +1,12 @@
+Specifications for the Web Portal:
+
+Name and Region:
+  Name: doctorsnote-bucket
+  Region: US East (Ohio)
+
+Properties:
+  Default encryption: AES-256
+
+Public Access: 
+  Block all public access
+  Do not grant Amazon S3 Log Delivery group write access to this bucket
