@@ -60,6 +60,13 @@ public class DBCredentialsProviderTest {
     }
 
     @Test
+    public void getDBName() {
+        String actual = dbcp.getDBName();
+        Assert.assertNotNull(actual);
+        Assert.assertNotEquals("", actual);
+    }
+
+    @Test
     public void getDBDriver() {
         String actual = dbcp.getDBDriver();
         Assert.assertNotNull(actual);
