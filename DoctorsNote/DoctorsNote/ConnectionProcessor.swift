@@ -82,9 +82,26 @@ class ConnectionProcessor {
         signalWaiter.signal()
     }
     
-    func processConversationList(url: String) -> ([String : Any]?, ConnectionError?) {
-        let (data, potentialError) = retrieveData(urlString: url)
-        return (data, potentialError)
+    func processConversationList(url: String) -> ([Conversation]?, ConnectionError?) {
+        let (potentialData, potentialError) = retrieveData(urlString: url)
+        if (potentialError != nil) {
+            return (nil, potentialError)
+        }
+        if (potentialData == nil) { //Should never happen if potentialError is nil
+            return (nil, ConnectionError(message: "Data nil with no error"))
+        }
+        let conversationList = potentialData!
+        var conversations = [Conversation]()
+        for conversationKey in conversationList.keys {
+            let conversation = conversationList[conversationKey] as! [String : Any?]
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["conversationPartner"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["unreadMessages"] as? String) != nil) {
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["conversationPartner"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["unreadMessages"] as! String == "true")
+                conversations.append(newConversation)
+            } else {
+                return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
+            }
+        }
+        return (conversations, potentialError)
     }
     
     func processUser(url: String, uid: Int) -> (User?, ConnectionError?) {

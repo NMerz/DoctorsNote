@@ -25,7 +25,7 @@ class User {
         self.healthSystems = healthSystems
     }
     
-    convenience init? (uid: Int) {
+    convenience init! (uid: Int) {
         let connector = Connector()
         let connectionProcessor = ConnectionProcessor(connector: connector)
         let (potentialUser, potentialError) = connectionProcessor.processUser(url: ConnectionProcessor.standardUrl(), uid: uid)
@@ -33,7 +33,13 @@ class User {
             let user = potentialUser!
             self.init (uid: uid, firstName: user.getFirstName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), healthSystems: user.getHealthSystems())
         }
-        return nil
+        let user = potentialUser!
+        self.init (uid: uid, firstName: user.getFirstName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), healthSystems: user.getHealthSystems())
+//        return nil
+    }
+    
+    func getUID() -> Int {
+        return uid
     }
     
     func getFirstName() -> String {

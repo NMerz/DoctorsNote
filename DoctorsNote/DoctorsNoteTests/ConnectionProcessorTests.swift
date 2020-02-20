@@ -83,6 +83,39 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(potentialData?["key1"] as! String == "val1")
         XCTAssert(potentialData?["key2"] as! String == "val2")
     }
+    
+    func testConversationListInvalidDataType() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"conversationID\":1,\"conversationPartner\":\"0\",\"lastMessageTime\":0,\"unreadMessages\":\"false\"}}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        var (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
+        XCTAssert(potentialError != nil)
+        XCTAssert(potentialError?.getMessage() == "At least one JSON field was an incorrect format")
+        XCTAssert(potentialConversationList == nil)
+    }
+    
+    func testConversationListLowerFailure() {
+        let connector = ConnectorMock()
+        let processor = ConnectionProcessor(connector: connector)
+        XCTAssert(connector.getConductRetrievalTaskCalls() == 0)
+        let (potentialConversationList, potentialError) = processor.processConversationList(url: "garbage")
+        XCTAssert(potentialConversationList == nil)
+        XCTAssert(potentialError != nil)
+        XCTAssert(potentialError?.getMessage() == "Unknown Error")
+    }
+    
+    func testValidConversationList() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"conversationID\":1,\"conversationPartner\":0,\"lastMessageTime\":0,\"unreadMessages\":\"false\"}}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        var (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
+        XCTAssert(potentialError == nil)
+        XCTAssert(potentialConversationList != nil)
+        let conversationList = potentialConversationList!
+        XCTAssert(conversationList[0].getConversationPartner().getUID() == 0)
+        XCTAssert(conversationList[0].getLastMessageTime() == Date(timeIntervalSince1970: 0))
+        XCTAssert(conversationList[0].getUnreadMessages() == false)
+    }
 }
 
 class ConnectorMock: Connector {
