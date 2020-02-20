@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let connector = Connector()
         let connectionProcessor = ConnectionProcessor(connector: connector)
-        connectionProcessor.retrieveData(urlString: "https://2wahxpoqf9.execute-api.us-east-2.amazonaws.com/default/PythonAPITest")
+        connectionProcessor.retrieveData(urlString: ConnectionProcessor.standardUrl())
         return true
     }
 

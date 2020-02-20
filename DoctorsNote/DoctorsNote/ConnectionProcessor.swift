@@ -9,6 +9,7 @@
 import Foundation
 
 class ConnectionProcessor {
+    static private let standardURL = "https://2wahxpoqf9.execute-api.us-east-2.amazonaws.com/default/PythonAPITest"
     var connectionData: Data?
     var connectionError: ConnectionError?
     let connector: Connector
@@ -16,6 +17,10 @@ class ConnectionProcessor {
     
     init(connector: Connector) {
         self.connector = connector
+    }
+    
+    static func standardUrl() -> String {
+        return standardURL
     }
     
     func retrieveData(urlString: String) -> ([String : Any]?, ConnectionError?) {
@@ -80,6 +85,16 @@ class ConnectionProcessor {
     func processConversationList(url: String) -> ([String : Any]?, ConnectionError?) {
         let (data, potentialError) = retrieveData(urlString: url)
         return (data, potentialError)
+    }
+    
+    func processUser(url: String, uid: Int) -> (User?, ConnectionError?) {
+        //Placeholder
+        return (User(uid: -1, firstName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere", healthSystems: [HealthSystem]()), nil)
+    }
+    
+    func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
+        //Placeholder
+        return (Conversation(conversationID: -1, conversationPartner: User(uid: -1)!, lastMessageTime: Date(), unreadMessages: false), nil)
     }
 }
 
