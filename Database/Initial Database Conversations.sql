@@ -7,68 +7,58 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema DoctorsNote
 -- -----------------------------------------------------
--- Schema for CS307 Project;
--- Team 07;
--- DoctorsNote;
--- 2/13/2020
--- 
 
 -- -----------------------------------------------------
 -- Schema DoctorsNote
---
--- Schema for CS307 Project;
--- Team 07;
--- DoctorsNote;
--- 2/13/2020
--- 
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `DoctorsNote` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
 USE `DoctorsNote` ;
 
 -- -----------------------------------------------------
--- Table `DoctorsNote`.`Message`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Message` (
-  `idMessage` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `text` LONGTEXT NULL,
-  `createdTime` DATETIME(1),
-  `sender` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`idMessage`),
-  UNIQUE INDEX `idMessage_UNIQUE` (`idMessage` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `DoctorsNote`.`Conversation`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Conversation` (
-  `idConversation` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `recipient` INT UNSIGNED NOT NULL,
-  `Message_idMessage` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`idConversation`),
-  CONSTRAINT `fk_Conversation_Message`
-    FOREIGN KEY (`Message_idMessage`)
-    REFERENCES `DoctorsNote`.`Message` (`idMessage`)
+  `idConversation` INT(11) NOT NULL,
+  `ConversationName` VARCHAR(45) NULL,
+  `lastMessageTime` DATETIME NULL,
+  `status` TINYINT NULL,
+  PRIMARY KEY (`idConversation`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin;
+
+
+-- -----------------------------------------------------
+-- Table `DoctorsNote`.`Message`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Message` (
+  `idMessage` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `text` LONGTEXT NULL,
+  `sender` INT(10) UNSIGNED NOT NULL,
+  `timeCreated` DATETIME NULL,
+  `recipient` INT(10) UNSIGNED NOT NULL,
+  `Conversation_idConversation` INT(11) NOT NULL,
+  PRIMARY KEY (`idMessage`, `Conversation_idConversation`),
+  CONSTRAINT `fk_Message_Conversation`
+    FOREIGN KEY (`Conversation_idConversation`)
+    REFERENCES `DoctorsNote`.`Conversation` (`idConversation`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin;
 
 
 -- -----------------------------------------------------
 -- Table `DoctorsNote`.`SupportGroup`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DoctorsNote`.`SupportGroup` (
-  `idSupportGroup` INT NOT NULL AUTO_INCREMENT,
-  `members` INT UNSIGNED NOT NULL,
-  `admin` INT UNSIGNED NOT NULL,
-  `Message_idMessage` INT UNSIGNED NOT NULL,
-  PRIMARY KEY (`idSupportGroup`),
-  CONSTRAINT `fk_SupportGroup_Message1`
-    FOREIGN KEY (`Message_idMessage`)
-    REFERENCES `DoctorsNote`.`Message` (`idMessage`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  `idSupportGroup` INT(11) NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NULL,
+  PRIMARY KEY (`idSupportGroup`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_bin;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
