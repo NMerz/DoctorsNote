@@ -23,17 +23,9 @@ public class ConversationList implements RequestHandler<String, String> {
 
         // Establish connection with MariaDB
         DBCredentialsProvider dbCP;
-        Connection connection;
+        Connection connection = getConnection();
+        if (connection == null) return gson.toJson(new ConversationListResponse(new Conversation[]{}));
 
-        try {
-            dbCP = new DBCredentialsProvider();
-
-            connection = DriverManager.getConnection(dbCP.getDBURL() + dbCP.getDBName(),
-                    dbCP.getDBUsername(),
-                    dbCP.getDBPassword());
-        } catch (IOException | SQLException e) {
-            return gson.toJson(new ConversationListResponse(new Conversation[]{}));
-        }
 
 
 
@@ -44,6 +36,17 @@ public class ConversationList implements RequestHandler<String, String> {
         // TODO: Serialize and return ConversationListResponse
 
         return null;
+    }
+
+    private Connection getConnection() {
+        try {
+            DBCredentialsProvider dbCP = new DBCredentialsProvider();
+            return DriverManager.getConnection(dbCP.getDBURL() + dbCP.getDBName(),
+                    dbCP.getDBUsername(),
+                    dbCP.getDBPassword());
+        } catch (IOException | SQLException e) {
+            return null;
+        }
     }
 
     private class ConversationListRequest {
