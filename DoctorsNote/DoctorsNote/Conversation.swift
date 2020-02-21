@@ -9,10 +9,10 @@
 import Foundation
 
 class Conversation {
-    let conversationPartner: User
-    let conversationID: Int
-    var lastMessageTime: Date
-    var unreadMessages: Bool
+    private let conversationPartner: User
+    private let conversationID: Int
+    private var lastMessageTime: Date
+    private var unreadMessages: Bool
     
     init(conversationID: Int, conversationPartner: User, lastMessageTime: Date, unreadMessages: Bool) {
         self.conversationID = conversationID
@@ -30,6 +30,10 @@ class Conversation {
             self.init (conversationID: conversationID, conversationPartner: conversation.getConversationPartner(), lastMessageTime: conversation.getLastMessageTime(), unreadMessages: conversation.getUnreadMessages())
         }
         return nil
+    }
+    
+    func getConversationID() -> Int {
+        return conversationID
     }
     
     func getConversationPartner() -> User {

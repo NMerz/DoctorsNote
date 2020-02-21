@@ -24,7 +24,18 @@ class ConnectionProcessor {
     }
     
     func retrieveData(urlString: String) -> ([String : Any]?, ConnectionError?) {
-        let data = retrieveJSONData(urlString: urlString)
+        retrieveJSONData(urlString: urlString)
+        return processData()
+    }
+    
+    func postData(urlString: String, data: Data) -> ([String : Any]?, ConnectionError?) {
+        postJSONData(urlString: urlString, data: data)
+        return processData()
+    }
+    
+    private func processData() -> ([String : Any]?, ConnectionError?) {
+        let data = connectionData
+        
         if data == nil {
             if connectionError == nil {
                 return (nil, ConnectionError(message: "Unknown Error"));
@@ -45,13 +56,20 @@ class ConnectionProcessor {
         return (jsonData, nil)
     }
     
-    private func retrieveJSONData(urlString: String) -> Data? {
+    private func retrieveJSONData(urlString: String) {
         let url = URL(string: urlString)!
         print(url)
         connector.conductRetrievalTask(manager: self, url: url)
         signalWaiter.wait()
         //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
-        return connectionData
+    }
+    
+    private func postJSONData(urlString: String, data: Data) {
+        let url = URL(string: urlString)!
+        print(url)
+        connector.conductPostTask(manager: self, url: url, data: data)
+        signalWaiter.wait()
+        //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
     }
     
     func processConnection (returnData: Data?, responseHeader: URLResponse?, potentialError: Error?) {
@@ -113,6 +131,27 @@ class ConnectionProcessor {
         //Placeholder
         return (Conversation(conversationID: -1, conversationPartner: User(uid: -1)!, lastMessageTime: Date(), unreadMessages: false), nil)
     }
+    
+    func processNewMessage(url: String, message: Message) -> ConnectionError? {
+        var messageJSON = [String: Any]()
+        messageJSON["senderID"] = message.getSender().getUID()
+        messageJSON["conversationID"] = message.getConversation().getConversationID()
+        messageJSON["content"] = message.getContent()
+        var messageData = Data()
+        do {
+            messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])
+        } catch {
+            return ConnectionError(message: "Failed to extract data from message")
+        }
+        let (potentialData, potentialError) = postData(urlString: url, data: messageData)
+        if potentialError != nil {
+            return potentialError
+        }
+        if (potentialData == nil) { //Should never happen if potentialError is nil
+            return ConnectionError(message: "Data nil with no error")
+        }
+        return nil //Should have returned a blank 200 if successful, if so, no need to return an error
+    }
 }
 
 class Connector {
@@ -121,6 +160,11 @@ class Connector {
             manager.processConnection(returnData: returnData, responseHeader: responseHeader, potentialError: potentialError)
         }
         retrievalTask.resume()
+    }
+    
+    func conductPostTask(manager: ConnectionProcessor, url: URL, data: Data) {
+        let postSession = URLSession.shared.uploadTask(with: URLRequest(url: url), from: data, completionHandler: manager.processConnection(returnData:responseHeader:potentialError:))
+        postSession.resume()
     }
 }
 

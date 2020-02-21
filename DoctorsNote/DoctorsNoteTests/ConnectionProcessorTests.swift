@@ -108,7 +108,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"conversationID\":1,\"conversationPartner\":0,\"lastMessageTime\":0,\"unreadMessages\":\"false\"}}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        var (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
+        let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError == nil)
         XCTAssert(potentialConversationList != nil)
         let conversationList = potentialConversationList!
@@ -120,6 +120,7 @@ class ConnectionProcessorTests: XCTestCase {
 
 class ConnectorMock: Connector {
     private var conductRetrievalTaskCalls = Int(0);
+    private var conductPostTaskCalls = Int(0);
     var returnData = Data?(nil)
     var responseHeader = URLResponse?(nil)
     var potentialError = Error?(nil)
@@ -139,8 +140,18 @@ class ConnectorMock: Connector {
         manager.processConnection(returnData: returnData, responseHeader: responseHeader, potentialError: potentialError)
     }
     
+    override func conductPostTask(manager: ConnectionProcessor, url: URL, data: Data) {
+        conductPostTaskCalls += 1
+        
+        manager.processConnection(returnData: returnData, responseHeader: responseHeader, potentialError: potentialError)
+    }
+    
     func getConductRetrievalTaskCalls() -> Int {
         return conductRetrievalTaskCalls
+    }
+    
+    func getConductPostTaskCalls() -> Int {
+        return conductPostTaskCalls
     }
 }
 
