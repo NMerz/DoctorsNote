@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 public class DBCredentialsProvider {
     private final String tsvFilePath = "Lambdas/res/DBCredentials.tsv";
+    private final String delimeter = ";;;;";
 
     private final String DBProvider;
     private final String DBEndpoint;
@@ -28,15 +29,15 @@ public class DBCredentialsProvider {
         try {
             BufferedReader br = new BufferedReader(new FileReader(tsvFilePath));
 
-            DBProvider = br.readLine().split(";;;;")[1];
-            DBEndpoint = br.readLine().split(";;;;")[1];
-            DBPort = br.readLine().split(";;;;")[1];
-            DBUsername = br.readLine().split(";;;;")[1];
-            DBPassword = br.readLine().split(";;;;")[1];
-            DBName = br.readLine().split(";;;;")[1];
-            DBDriver = br.readLine().split(";;;;")[1];
+            DBProvider = br.readLine().split(delimeter)[1];
+            DBEndpoint = br.readLine().split(delimeter)[1];
+            DBPort = br.readLine().split(delimeter)[1];
+            DBUsername = br.readLine().split(delimeter)[1];
+            DBPassword = br.readLine().split(delimeter)[1];
+            DBName = br.readLine().split(delimeter)[1];
+            DBDriver = br.readLine().split(delimeter)[1];
 
-            DBUrl = DBProvider + DBEndpoint + ":" + DBPort + "/";
+            DBUrl = DBProvider + DBEndpoint + ":" + DBPort + "/" + DBName;
         }
         catch(IOException e){
             throw new IOException("Unable to read DBCredentials.tsv");
