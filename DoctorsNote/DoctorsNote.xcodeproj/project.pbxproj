@@ -21,6 +21,7 @@
 		B5BD5B3723F84C24009CCDA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5BD5B3623F84C24009CCDA0 /* Main.storyboard */; };
 		B5BD5B3A23F85817009CCDA0 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5B3923F85817009CCDA0 /* LoginViewController.swift */; };
 		B5BD5B3C23F85A3E009CCDA0 /* PersonalRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BD5B3B23F85A3E009CCDA0 /* PersonalRegisterViewController.swift */; };
+		B5DB44B323FC65B0004DD7BC /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB44B223FC65B0004DD7BC /* DataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		B5BD5B3623F84C24009CCDA0 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B5BD5B3923F85817009CCDA0 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B5BD5B3B23F85A3E009CCDA0 /* PersonalRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRegisterViewController.swift; sourceTree = "<group>"; };
+		B5DB44B223FC65B0004DD7BC /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				B57E987423F8AF5F00E9FF27 /* DefinedValues.swift */,
+				B5DB44B223FC65B0004DD7BC /* DataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				B52ABE6E23F5B872007B3D6A /* ViewController.swift in Sources */,
 				B57E987B23F8CA4E00E9FF27 /* DOBView.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
+				B5DB44B323FC65B0004DD7BC /* DataModel.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 				B5BD5B3C23F85A3E009CCDA0 /* PersonalRegisterViewController.swift in Sources */,
 				B57E987523F8AF5F00E9FF27 /* DefinedValues.swift in Sources */,
