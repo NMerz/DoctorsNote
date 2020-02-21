@@ -29,7 +29,10 @@ class Conversation {
             let conversation = potentialConversation!
             self.init (conversationID: conversationID, conversationPartner: conversation.getConversationPartner(), lastMessageTime: conversation.getLastMessageTime(), unreadMessages: conversation.getUnreadMessages())
         }
-        return nil
+        //Below this is a temporary mock for functionality
+        let conversation = potentialConversation!
+        self.init (conversationID: conversationID, conversationPartner: conversation.getConversationPartner(), lastMessageTime: conversation.getLastMessageTime(), unreadMessages: conversation.getUnreadMessages())
+        //return nil
     }
     
     func getConversationID() -> Int {

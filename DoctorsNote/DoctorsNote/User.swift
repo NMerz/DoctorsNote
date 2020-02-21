@@ -33,6 +33,7 @@ class User {
             let user = potentialUser!
             self.init (uid: uid, firstName: user.getFirstName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), healthSystems: user.getHealthSystems())
         }
+        //Below this is a temporary mock for functionality
         let user = potentialUser!
         self.init (uid: uid, firstName: user.getFirstName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), healthSystems: user.getHealthSystems())
 //        return nil

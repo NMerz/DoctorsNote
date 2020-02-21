@@ -9,11 +9,13 @@
 import Foundation
 
 class Message {
+    private let messageID: Int
     private let conversation: Conversation
-    private var content: [Int8]
+    private var content: [UInt8]
     private var sender: User
     
-    init(conversation: Conversation, content: [Int8], sender: User) {
+    init(messageID: Int, conversation: Conversation, content: [UInt8], sender: User) {
+        self.messageID = messageID
         self.conversation = conversation
         self.content = content
         self.sender = sender
@@ -23,7 +25,7 @@ class Message {
         return conversation
     }
     
-    func getContent() -> [Int8] {
+    func getContent() -> [UInt8] {
         return content
     }
     

@@ -40,8 +40,16 @@ class ConnectionProcessor {
             if connectionError == nil {
                 return (nil, ConnectionError(message: "Unknown Error"));
             }
-            return (nil, connectionError);
+            let returnError = ConnectionError(message: connectionError!.getMessage())
+            connectionError = nil
+            return (nil, returnError);
         }
+        if (connectionError != nil) { //Should never be the case if data is not nil
+            let returnError = ConnectionError(message: connectionError!.getMessage())
+            connectionError = nil
+            return (nil, returnError);
+        }
+        connectionError = nil
         var jsonData: [String: Any]
         print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
         do {
@@ -72,30 +80,31 @@ class ConnectionProcessor {
         //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
     }
     
-    func processConnection (returnData: Data?, responseHeader: URLResponse?, potentialError: Error?) {
+    func processConnection (returnData: Data?, response: URLResponse?, potentialError: Error?) {
         
         if (potentialError != nil) {
-            print("Error locally")
+            //print("Error (possibly) locally")
             connectionError = ConnectionError(message: "Error connecting to server")
             signalWaiter.signal()
             return
         }
-        if (responseHeader == nil) {
-            print("Missing response header")
+        if (response == nil) {
+            //print("Missing response header")
+            connectionError = ConnectionError(message: "Missing response")
             signalWaiter.signal()
             return
         }
-        print("Return", String(bytes: returnData!, encoding: .utf8)!)
-        let urlResponse = responseHeader as! HTTPURLResponse
+        //print("Return", String(bytes: returnData!, encoding: .utf8)!)
+        let urlResponse = response as! HTTPURLResponse
         if (urlResponse.statusCode != 200) {
-            print("Error on server")
+            //print("Error on server")
             connectionError = ConnectionError(message: "Error connecting on server with return code: " + String(urlResponse.statusCode))
-            print(responseHeader ?? "nil")
+            //print(response ?? "nil")
             signalWaiter.signal()
             return
         }
-        print("Status code:", urlResponse.statusCode)
-        print("Return", String(bytes: returnData!, encoding: .utf8)!)
+        //print("Status code:", urlResponse.statusCode)
+        //print("Return", String(bytes: returnData!, encoding: .utf8)!)
         self.connectionData = returnData!
         signalWaiter.signal()
     }
@@ -157,13 +166,13 @@ class ConnectionProcessor {
 class Connector {
     func conductRetrievalTask(manager: ConnectionProcessor, url: URL) {
         let retrievalTask = URLSession.shared.dataTask(with: url) {returnData, responseHeader, potentialError in
-            manager.processConnection(returnData: returnData, responseHeader: responseHeader, potentialError: potentialError)
+            manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
         }
         retrievalTask.resume()
     }
     
     func conductPostTask(manager: ConnectionProcessor, url: URL, data: Data) {
-        let postSession = URLSession.shared.uploadTask(with: URLRequest(url: url), from: data, completionHandler: manager.processConnection(returnData:responseHeader:potentialError:))
+        let postSession = URLSession.shared.uploadTask(with: URLRequest(url: url), from: data, completionHandler: manager.processConnection(returnData:response:potentialError:))
         postSession.resume()
     }
 }
