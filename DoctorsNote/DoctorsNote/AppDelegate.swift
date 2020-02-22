@@ -99,23 +99,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //
 //
         
-        AWSMobileClient.default().signIn(username: "hardin30@purdue.edu", password: "DoctorsNote1@") { (signInResult, error) in
-            if let error = error as? AWSMobileClientError {
-                print("\(error.message)")
-            } else if let signInResult = signInResult {
-                switch (signInResult.signInState) {
-                case .signedIn:
-                    print("User is signed in.")
-                case .smsMFA:
-                    print("SMS message sent to \(signInResult.codeDetails!.destination!)")
-                case .newPasswordRequired:
-                    print("New password required")
-                default:
-                    print("Sign In needs info which is not yet supported.")
+        if (!AWSMobileClient.default().isSignedIn) {
+            AWSMobileClient.default().signIn(username: "hardin30@purdue.edu", password: "DoctorsNote1@") { (signInResult, error) in
+                if let error = error as? AWSMobileClientError {
+                    print("\(error.message)")
+                } else if let signInResult = signInResult {
+                    switch (signInResult.signInState) {
+                    case .signedIn:
+                        print("User is signed in.")
+                    case .smsMFA:
+                        print("SMS message sent to \(signInResult.codeDetails!.destination!)")
+                    case .newPasswordRequired:
+                        print("New password required")
+                    default:
+                        print("Sign In needs info which is not yet supported.")
+                    }
                 }
             }
         }
-        
+            
         
 //        AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
 //            switch (userState) {
