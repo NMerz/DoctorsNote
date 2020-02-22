@@ -10,21 +10,24 @@
         <!--ChatsVC-->
         <scene sceneID="hGa-pO-7vH">
             <objects>
-                <viewController title="ChatsVC" id="by2-sr-bJ2" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="IQ8-sm-Bi2">
+                <viewController title="ChatsVC" id="by2-sr-bJ2" customClass="ConversationViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="nbe-fV-gcg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="SUE-fa-j8P"/>
-                    </view>
+                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WMf-13-68W">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells/>
+                    </collectionView>
                     <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="1jf-H2-gNh"/>
-                    <connections>
-                        <segue destination="Wdc-ot-CDS" kind="show" identifier="toMessage" id="e65-vj-OnN"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wcq-WC-jTA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1091" y="382"/>
+            <point key="canvasLocation" x="-1091.304347826087" y="381.69642857142856"/>
         </scene>
         <!--SupportGroupsVC-->
         <scene sceneID="MQb-Lv-nfu">
@@ -82,15 +85,15 @@
             <objects>
                 <viewController title="MessageVC" id="Wdc-ot-CDS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TDd-jW-Elo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="R5t-FB-M8U">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="766"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qn4-SY-qnD">
-                                <rect key="frame" x="0.0" y="764" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-y5-wVJ">
                                         <rect key="frame" x="8" y="5" width="340" height="34"/>
