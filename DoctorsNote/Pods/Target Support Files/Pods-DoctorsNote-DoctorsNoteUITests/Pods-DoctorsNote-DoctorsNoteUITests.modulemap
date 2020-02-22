@@ -1,0 +1,6 @@
+framework module Pods_DoctorsNote_DoctorsNoteUITests {
+  umbrella header "Pods-DoctorsNote-DoctorsNoteUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

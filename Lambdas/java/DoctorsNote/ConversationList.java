@@ -5,19 +5,48 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class ConversationList implements RequestHandler<String, String> {
+    private final String DB_URL = "jdbc:mysql://doctorsnotedatabase.clqjrzlnojkj.us-east-2.rds.amazonaws.com:3306/";
+
+
     @Override
     public String handleRequest(String jsonString, Context context) {
+
+        // Converting the passed JSON string into a POJO
         Gson gson = new Gson();
         ConversationListRequest request = gson.fromJson(jsonString, ConversationListRequest.class);
 
-        // TODO: Connect to MariaDB and retrieve correct information
+        // Establish connection with MariaDB
+        DBCredentialsProvider dbCP;
+        Connection connection = getConnection();
+        if (connection == null) return gson.toJson(new ConversationListResponse(new Conversation[]{}));
+
+
+
+
+
         // TODO: Pipe return into instances of Conversation
         // TODO: Combine Conversations into a ConversationListResponse
         // TODO: Sort Conversation objects
         // TODO: Serialize and return ConversationListResponse
 
         return null;
+    }
+
+    private Connection getConnection() {
+        try {
+            DBCredentialsProvider dbCP = new DBCredentialsProvider();
+            return DriverManager.getConnection(dbCP.getDBURL() + dbCP.getDBName(),
+                    dbCP.getDBUsername(),
+                    dbCP.getDBPassword());
+        } catch (IOException | SQLException e) {
+            return null;
+        }
     }
 
     private class ConversationListRequest {
@@ -82,24 +111,17 @@ public class ConversationList implements RequestHandler<String, String> {
 
     private class ConversationListResponse {
         private Conversation[] conversationList;
-        private int nConversations;
 
         public ConversationListResponse(Conversation[] conversationList) {
             this.conversationList = conversationList;
-            this.nConversations = conversationList.length;
         }
 
         public Conversation[] getConversationList() {
             return conversationList;
         }
 
-        public int getnConversations() {
-            return nConversations;
-        }
-
         public void setConversationList(Conversation[] conversationList) {
             this.conversationList = conversationList;
-            this.nConversations = conversationList.length;
         }
     }
 }
