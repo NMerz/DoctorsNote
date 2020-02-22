@@ -1,0 +1,12 @@
+projects:
+  amplifyDatasource:
+    schemaPath: graphql/schema.json
+    includes:
+      - ''
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: swift
+        generatedFileName: API.swift
+        docsFilePath: graphql

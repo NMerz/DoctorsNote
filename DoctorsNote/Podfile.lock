@@ -1,4 +1,9 @@
 PODS:
+  - AWSAuthCore (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSAuthUI (2.12.7):
+    - AWSAuthCore (= 2.12.7)
+    - AWSCore (= 2.12.7)
   - AWSAutoScaling (2.12.7):
     - AWSCore (= 2.12.7)
   - AWSCloudWatch (2.12.7):
@@ -26,6 +31,9 @@ PODS:
     - AWSCore (= 2.12.7)
   - AWSMobileAnalytics (2.12.7):
     - AWSCore (= 2.12.7)
+  - AWSMobileClient (2.12.7):
+    - AWSAuthCore (= 2.12.7)
+    - AWSCognitoIdentityProvider (= 2.12.7)
   - AWSS3 (2.12.7):
     - AWSCore (= 2.12.7)
   - AWSSES (2.12.7):
@@ -36,8 +44,12 @@ PODS:
     - AWSCore (= 2.12.7)
   - AWSSQS (2.12.7):
     - AWSCore (= 2.12.7)
+  - AWSUserPoolsSignIn (2.12.7):
+    - AWSAuthCore (= 2.12.7)
+    - AWSCognitoIdentityProvider (= 2.12.7)
 
 DEPENDENCIES:
+  - AWSAuthUI (~> 2.12.1)
   - AWSAutoScaling
   - AWSCloudWatch
   - AWSCognito
@@ -50,14 +62,18 @@ DEPENDENCIES:
   - AWSLambda
   - AWSMachineLearning
   - AWSMobileAnalytics
+  - AWSMobileClient (~> 2.12.1)
   - AWSS3
   - AWSSES
   - AWSSimpleDB
   - AWSSNS
   - AWSSQS
+  - AWSUserPoolsSignIn (~> 2.12.1)
 
 SPEC REPOS:
   trunk:
+    - AWSAuthCore
+    - AWSAuthUI
     - AWSAutoScaling
     - AWSCloudWatch
     - AWSCognito
@@ -72,13 +88,17 @@ SPEC REPOS:
     - AWSLambda
     - AWSMachineLearning
     - AWSMobileAnalytics
+    - AWSMobileClient
     - AWSS3
     - AWSSES
     - AWSSimpleDB
     - AWSSNS
     - AWSSQS
+    - AWSUserPoolsSignIn
 
 SPEC CHECKSUMS:
+  AWSAuthCore: 288cb737a35ff031fbf42edaa8d0062328791d4e
+  AWSAuthUI: 464fbab1841f8878e6370ec76581f9bea67e6252
   AWSAutoScaling: e2e8ce852065dfd84bb3a1c5f7bb38c457904b84
   AWSCloudWatch: eb3f241cde197ff25cab6bef2f402bd6196b8f49
   AWSCognito: 6d49ab5351072db2463c8c586ba89d3d07a48272
@@ -93,12 +113,14 @@ SPEC CHECKSUMS:
   AWSLambda: 46b763172227d6e74f54f0fbad34cf67dd74ce4f
   AWSMachineLearning: 90d59533ec4c31417255e649f7698e97249f4c2b
   AWSMobileAnalytics: 241dae54da3a9c1fa881ebfb740a08b932f3b586
+  AWSMobileClient: bf1fb0868f9187141ca7b69220383c14878c0a29
   AWSS3: 40d2f99d91e34999789a534d95c80cc7c1135c6d
   AWSSES: 6dbeaa21c65b001eb7ead23b70beebc1c38086d3
   AWSSimpleDB: c7933a6707c467b51a422b1ad4fe8ab74a18d595
   AWSSNS: ec093ba2aeea026c744ea372bc5f055b106b38c6
   AWSSQS: 542392beb66b4f0a5272f20b9201489cd977113e
+  AWSUserPoolsSignIn: fffc46e512e326783585e53639e58c355aae320f
 
-PODFILE CHECKSUM: 651879890bfc92d57d20adb2536f0f113118a584
+PODFILE CHECKSUM: e7bc84e6cd3b462345491e61184389f0fe95e480
 
 COCOAPODS: 1.8.4

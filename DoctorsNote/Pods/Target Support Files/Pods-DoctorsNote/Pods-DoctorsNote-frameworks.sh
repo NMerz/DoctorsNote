@@ -161,6 +161,8 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSAuthUI/AWSAuthUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSAutoScaling/AWSAutoScaling.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCloudWatch/AWSCloudWatch.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCognito/AWSCognito.framework"
@@ -175,13 +177,17 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AWSLambda/AWSLambda.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSMachineLearning/AWSMachineLearning.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSMobileAnalytics/AWSMobileAnalytics.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSES/AWSSES.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSNS/AWSSNS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSQS/AWSSQS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSimpleDB/AWSSimpleDB.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSUserPoolsSignIn/AWSUserPoolsSignIn.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSAuthUI/AWSAuthUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSAutoScaling/AWSAutoScaling.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCloudWatch/AWSCloudWatch.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSCognito/AWSCognito.framework"
@@ -196,11 +202,13 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AWSLambda/AWSLambda.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSMachineLearning/AWSMachineLearning.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSMobileAnalytics/AWSMobileAnalytics.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSES/AWSSES.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSNS/AWSSNS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSQS/AWSSQS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/AWSSimpleDB/AWSSimpleDB.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AWSUserPoolsSignIn/AWSUserPoolsSignIn.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

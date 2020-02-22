@@ -1,4 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AWSAuthCore/AWSAuthCore.framework
+${BUILT_PRODUCTS_DIR}/AWSAuthUI/AWSAuthUI.framework
 ${BUILT_PRODUCTS_DIR}/AWSAutoScaling/AWSAutoScaling.framework
 ${BUILT_PRODUCTS_DIR}/AWSCloudWatch/AWSCloudWatch.framework
 ${BUILT_PRODUCTS_DIR}/AWSCognito/AWSCognito.framework
@@ -13,8 +15,10 @@ ${BUILT_PRODUCTS_DIR}/AWSKinesis/AWSKinesis.framework
 ${BUILT_PRODUCTS_DIR}/AWSLambda/AWSLambda.framework
 ${BUILT_PRODUCTS_DIR}/AWSMachineLearning/AWSMachineLearning.framework
 ${BUILT_PRODUCTS_DIR}/AWSMobileAnalytics/AWSMobileAnalytics.framework
+${BUILT_PRODUCTS_DIR}/AWSMobileClient/AWSMobileClient.framework
 ${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework
 ${BUILT_PRODUCTS_DIR}/AWSSES/AWSSES.framework
 ${BUILT_PRODUCTS_DIR}/AWSSNS/AWSSNS.framework
 ${BUILT_PRODUCTS_DIR}/AWSSQS/AWSSQS.framework
 ${BUILT_PRODUCTS_DIR}/AWSSimpleDB/AWSSimpleDB.framework
+${BUILT_PRODUCTS_DIR}/AWSUserPoolsSignIn/AWSUserPoolsSignIn.framework

@@ -24,6 +24,9 @@ target 'DoctorsNote' do
   pod 'AWSSimpleDB'
   pod 'AWSSNS'
   pod 'AWSSQS'
+  pod 'AWSMobileClient', '~> 2.12.1'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.12.1'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.12.1'   # Optional dependency required to use drop-in UI
 
   target 'DoctorsNoteTests' do
     inherit! :search_paths
