@@ -1,19 +1,6 @@
-Static website specs
+Dynamic website specs
 
-Endpoint: http://doctorsnote-bucket.s3-website.us-east-2.amazonaws.com
+URL: testingWebPortal.us-west-2.elasticbeanstalk.com
 
-Index document: home.html
+Environment ID: e-jkwk8e2j5e
 
-Error Document: error.html
-
-Custom Headers:
-  Header Name: Referer
-  Value: DoctorsNote
-
-Viewer Protocol:
-  Redirect HTTP to HTTPS
-
-SSL Certificate:
-  Default CloudFront Certificate *.cloudfront.net
-
-Supported HTTP Versions: HTTP/2, HTTP/1.1, HTTP/1.0
