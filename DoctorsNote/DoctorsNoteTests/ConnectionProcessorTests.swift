@@ -172,7 +172,7 @@ class ConnectorMock: Connector {
         self.potentialError = potentialError
     }
     
-    override func conductRetrievalTask(manager: ConnectionProcessor, url: URL) {
+    override func conductGetTask(manager: ConnectionProcessor, url: URL) {
         conductRetrievalTaskCalls += 1
         
         manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)

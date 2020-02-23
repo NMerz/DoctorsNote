@@ -67,7 +67,7 @@ class ConnectionProcessor {
     private func retrieveJSONData(urlString: String) {
         let url = URL(string: urlString)!
         print(url)
-        connector.conductRetrievalTask(manager: self, url: url)
+        connector.conductGetTask(manager: self, url: url)
         signalWaiter.wait()
         //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
     }
@@ -141,6 +141,41 @@ class ConnectionProcessor {
         return (Conversation(conversationID: -1, conversationPartner: User(uid: -1)!, lastMessageTime: Date(), unreadMessages: false), nil)
     }
     
+    func processMessages(url: String, conversation: Conversation, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message]? {
+        var messageJSON = [String : Any]()
+        messageJSON["conversationID"] = conversation.getConversationID()
+        messageJSON["numberToRetrieve"] = numberToRetrieve
+        messageJSON["startIndex"] = startIndex
+        messageJSON["sinceWhen"] = sinceWhen
+        var messageData = Data()
+        do {
+            messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])
+        } catch {
+            throw ConnectionError(message: "Failed to extract data from message")
+        }
+        let (potentialData, potentialError) = postData(urlString: url, data: messageData)
+        if potentialError != nil {
+            throw potentialError!
+        }
+        if (potentialData == nil) { //Should never happen if potentialError is nil
+            throw ConnectionError(message: "Data nil with no error")
+        }
+        let messageList = potentialData!
+        var messages = [Message]()
+        for messageKey in messageList.keys {
+            let message = messageList[messageKey] as! [String : Any?]
+            if ((message["messageID"] as? Int) != nil) && ((message["conversationID"] as? Int) != nil) && ((message["content"] as? [UInt8]) != nil) && ((message["senderID"] as? Int) != nil) {
+                let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: message["content"] as! [UInt8], sender: User(uid: message["senderID"] as! Int))
+                messages.append(newMessage)
+            } else {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+        }
+        return messages
+    }
+    
+    //TODO: Finer processing/passing of any errors returned by server to UI
+    //  - Need to discuss this with team
     func processNewMessage(url: String, message: Message) -> ConnectionError? {
         var messageJSON = [String: Any]()
         messageJSON["senderID"] = message.getSender().getUID()
@@ -164,7 +199,7 @@ class ConnectionProcessor {
 }
 
 class Connector {
-    func conductRetrievalTask(manager: ConnectionProcessor, url: URL) {
+    func conductGetTask(manager: ConnectionProcessor, url: URL) {
         let retrievalTask = URLSession.shared.dataTask(with: url) {returnData, responseHeader, potentialError in
             manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
         }
