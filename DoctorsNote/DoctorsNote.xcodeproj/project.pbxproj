@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4AF6314224AD3B67E1F568B2 /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DDB5BFDE83A3634372ED986 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */; };
+		6C5E1BFDED7C4C82B2C7C9A3 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
 		AD4567D3634346E5B3E37C80 /* Pods_DoctorsNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */; };
-		B2E92EDF0D4EB4D291081AEE /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */; };
-		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
+		B2E92EDF0D4EB4D291081AEE /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6923F5B872007B3D6A /* AppDelegate.swift */; };
 		B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */; };
 		B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6D23F5B872007B3D6A /* ConversationViewController */; };
@@ -19,7 +20,6 @@
 		B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */; };
 		B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8023F5B874007B3D6A /* DoctorsNoteTests.swift */; };
 		B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */; };
-		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,11 +41,13 @@
 
 /* Begin PBXFileReference section */
 		088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		09B4D47ED2BE2D8D6C43DD61 /* Pods-DoctorsNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6AD397D1E99E16E4D6AE39F6 /* Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		87122CD23068385D7B24E2A2 /* Pods-DoctorsNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote/Pods-DoctorsNote.release.xcconfig"; sourceTree = "<group>"; };
 		897DD7D27778B748CB4A2FBF /* Pods-DoctorsNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.release.xcconfig"; sourceTree = "<group>"; };
+		9DDB5BFDE83A3634372ED986 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote_DoctorsNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FBEF9936E9344D4ADB669E6 /* Pods-DoctorsNote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote/Pods-DoctorsNote.debug.xcconfig"; sourceTree = "<group>"; };
 		A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		B52ABE6623F5B872007B3D6A /* DoctorsNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorsNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE6923F5B872007B3D6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsNoteUITests.swift; sourceTree = "<group>"; };
 		B52ABE8D23F5B874007B3D6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B894F1B723FA179F00E38A59 /* MessageCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionVC.swift; sourceTree = "<group>"; };
+		FCD05B9035237C0ED287FE3F /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +87,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2E92EDF0D4EB4D291081AEE /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */,
+				B2E92EDF0D4EB4D291081AEE /* BuildFile in Frameworks */,
+				4AF6314224AD3B67E1F568B2 /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */,
-				D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */,
 				A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */,
+				9DDB5BFDE83A3634372ED986 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -110,8 +114,6 @@
 				B52ABE6723F5B872007B3D6A /* Products */,
 				C6A1F618B19D1798082BEE97 /* Pods */,
 				9FB76464F40DF359B6007C74 /* Frameworks */,
-				24F61D7A5EA743CE919A6270 /* amplifyxc.config */,
-				6740B3FFB6664955BB5D35CC /* awsconfiguration.json */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,12 +163,12 @@
 		C6A1F618B19D1798082BEE97 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E7EEC0D4C0A8969CF5935EBF /* Pods-DoctorsNote.debug.xcconfig */,
 				87122CD23068385D7B24E2A2 /* Pods-DoctorsNote.release.xcconfig */,
-				DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */,
 				6AD397D1E99E16E4D6AE39F6 /* Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig */,
-				E6ADBC30FAE0BA411483A71E /* Pods-DoctorsNoteTests.debug.xcconfig */,
 				897DD7D27778B748CB4A2FBF /* Pods-DoctorsNoteTests.release.xcconfig */,
+				9FBEF9936E9344D4ADB669E6 /* Pods-DoctorsNote.debug.xcconfig */,
+				FCD05B9035237C0ED287FE3F /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */,
+				09B4D47ED2BE2D8D6C43DD61 /* Pods-DoctorsNoteTests.debug.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -283,7 +285,7 @@
 				B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */,
 				B52ABE7323F5B874007B3D6A /* Assets.xcassets in Resources */,
 				B52ABE7123F5B872007B3D6A /* Main.storyboard in Resources */,
-				6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */,
+				6C5E1BFDED7C4C82B2C7C9A3 /* BuildFile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,8 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B894F1B823FA179F00E38A59 /* MessageCollectionVC.swift in Sources */,
-				B52ABE6E23F5B872007B3D6A /* ViewController.swift in Sources */,
+				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 			);
@@ -585,7 +586,7 @@
 		};
 		B52ABE9123F5B874007B3D6A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7EEC0D4C0A8969CF5935EBF /* Pods-DoctorsNote.debug.xcconfig */;
+			baseConfigurationReference = 9FBEF9936E9344D4ADB669E6 /* Pods-DoctorsNote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -625,7 +626,7 @@
 		};
 		B52ABE9423F5B874007B3D6A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6ADBC30FAE0BA411483A71E /* Pods-DoctorsNoteTests.debug.xcconfig */;
+			baseConfigurationReference = 09B4D47ED2BE2D8D6C43DD61 /* Pods-DoctorsNoteTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -669,7 +670,7 @@
 		};
 		B52ABE9723F5B874007B3D6A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */;
+			baseConfigurationReference = FCD05B9035237C0ED287FE3F /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 72BQNS7NEU;
