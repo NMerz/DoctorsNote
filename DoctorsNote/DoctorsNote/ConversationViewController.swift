@@ -10,9 +10,22 @@ import UIKit
 
 //private let reuseIdentifier = "Cell"
 
+class Person: NSObject {
+    var name: String?
+    var profileImageName: String?
+}
+
+class Message: NSObject {
+    var text: String?
+    var date: NSDate?
+    
+    var person: Person?
+}
+
 class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let cellId = "cellId"
+//    var messages = [Message]?.self
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +34,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
-        collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(PersonCell.self, forCellWithReuseIdentifier: cellId)
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -37,13 +50,21 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         //return CGSizeMake(view.frame.width, 100)
         return CGSize(width: view.frame.width, height: 100.0)
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let layout = UICollectionViewLayout()
+        let controller = MessageCollectionVC(collectionViewLayout: layout)
+//        controller.person = messages?[indexPath.item].person
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
-class FriendCell: BaseCell {
+// Previously named FriendCell
+class PersonCell: BaseCell {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
