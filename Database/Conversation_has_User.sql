@@ -15,6 +15,3 @@ CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Conversation_has_User` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_bin;
-
-
-
