@@ -21,6 +21,10 @@ class Message {
         self.sender = sender
     }
     
+    func getMessageID() -> Int {
+        return messageID
+    }
+    
     func getConversation() -> Conversation {
         return conversation
     }

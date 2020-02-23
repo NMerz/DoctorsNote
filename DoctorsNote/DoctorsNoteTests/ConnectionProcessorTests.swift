@@ -134,6 +134,22 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(potentialError == nil)
     }
     
+    func testValidMessageRetrieval() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"messageID\":1,\"conversationID\":0,\"content\":\"123\",\"senderID\":2}}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
+            XCTAssert(potentialMessageList != nil)
+            let messageList = potentialMessageList!
+            XCTAssert(messageList[0].getConversation().getConversationID() == 0)
+            XCTAssert(messageList[0].getContent() == [UInt8]("123".utf8))
+            XCTAssert(messageList[0].getSender().getUID() == 2)
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
     //This test is testMessagePostBadStatus preceeding testValidConversationList without the ConnectionProcessor being reinititalized. This should provide some confidence that it is relatively stateless
     func testConsecutiveExecutions() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())

@@ -146,7 +146,7 @@ class ConnectionProcessor {
         messageJSON["conversationID"] = conversation.getConversationID()
         messageJSON["numberToRetrieve"] = numberToRetrieve
         messageJSON["startIndex"] = startIndex
-        messageJSON["sinceWhen"] = sinceWhen
+        messageJSON["sinceWhen"] = sinceWhen.timeIntervalSince1970
         var messageData = Data()
         do {
             messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])
@@ -164,8 +164,8 @@ class ConnectionProcessor {
         var messages = [Message]()
         for messageKey in messageList.keys {
             let message = messageList[messageKey] as! [String : Any?]
-            if ((message["messageID"] as? Int) != nil) && ((message["conversationID"] as? Int) != nil) && ((message["content"] as? [UInt8]) != nil) && ((message["senderID"] as? Int) != nil) {
-                let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: message["content"] as! [UInt8], sender: User(uid: message["senderID"] as! Int))
+            if ((message["messageID"] as? Int) != nil) && ((message["conversationID"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["senderID"] as? Int) != nil) {
+                let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["senderID"] as! Int))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
