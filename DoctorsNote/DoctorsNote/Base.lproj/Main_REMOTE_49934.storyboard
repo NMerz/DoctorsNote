@@ -10,19 +10,13 @@
         <!--ChatsVC-->
         <scene sceneID="hGa-pO-7vH">
             <objects>
-                <viewController title="ChatsVC" id="by2-sr-bJ2" customClass="ConversationViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="nbe-fV-gcg">
+                <viewController title="ChatsVC" id="by2-sr-bJ2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IQ8-sm-Bi2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WMf-13-68W">
-                            <size key="itemSize" width="50" height="50"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <cells/>
-                    </collectionView>
+                        <viewLayoutGuide key="safeArea" id="SUE-fa-j8P"/>
+                    </view>
                     <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="1jf-H2-gNh"/>
                     <connections>
                         <segue destination="Wdc-ot-CDS" kind="show" identifier="toMessage" id="e65-vj-OnN"/>
@@ -30,7 +24,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wcq-WC-jTA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1091.304347826087" y="381.69642857142856"/>
+            <point key="canvasLocation" x="-1091" y="382"/>
         </scene>
         <!--SupportGroupsVC-->
         <scene sceneID="MQb-Lv-nfu">

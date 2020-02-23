@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DoA-A8-DEq">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--ChatsVC-->
+        <scene sceneID="hGa-pO-7vH">
+            <objects>
+                <viewController title="ChatsVC" id="by2-sr-bJ2" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IQ8-sm-Bi2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="SUE-fa-j8P"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="1jf-H2-gNh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wcq-WC-jTA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1091" y="382"/>
+        </scene>
+        <!--SupportGroupsVC-->
+        <scene sceneID="MQb-Lv-nfu">
+            <objects>
+                <viewController title="SupportGroupsVC" id="0bn-HO-OyB" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QV1-fE-R0h">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="VSR-KX-2cq"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Support Groups" image="person.3.fill" catalog="system" id="JoJ-gA-Jk5"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X7d-Z9-7bF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-64" y="382"/>
+        </scene>
+        <!--ProfileVC-->
+        <scene sceneID="8nC-kT-9yn">
+            <objects>
+                <viewController title="ProfileVC" id="mUm-ZQ-b5L" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HEp-jf-aJ5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Gxa-TX-UfL"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle" catalog="system" id="w52-L4-hok"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pwn-wp-ViK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2075" y="382"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="ibc-jV-CHq">
+            <objects>
+                <tabBarController id="DoA-A8-DEq" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gXb-JJ-iyu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="mUm-ZQ-b5L" kind="relationship" relationship="viewControllers" id="VuX-vi-Msc"/>
+                        <segue destination="by2-sr-bJ2" kind="relationship" relationship="viewControllers" id="iFy-Wi-UEg"/>
+                        <segue destination="0bn-HO-OyB" kind="relationship" relationship="viewControllers" id="C0U-Kg-gT9"/>
+                        <segue destination="jks-77-WlU" kind="relationship" relationship="viewControllers" id="DlP-fu-HFH"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-P5-HIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1090" y="-424"/>
+        </scene>
+        <!--MessageCollectionVC-->
+        <scene sceneID="qYO-x2-qOM">
+            <objects>
+                <collectionViewController id="jks-77-WlU" userLabel="MessageCollectionVC" customClass="MessageCollectionVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="bdE-O6-Y0p">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9YP-bJ-sNb">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="R4h-gZ-uZ3">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="RQZ-Mp-ktu">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionViewCellContentView>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="jks-77-WlU" id="vzu-nE-aD7"/>
+                            <outlet property="delegate" destination="jks-77-WlU" id="GZF-1N-AdT"/>
+                        </connections>
+                    </collectionView>
+                    <tabBarItem key="tabBarItem" title="Message" image="paperplane" catalog="system" id="qTI-Xb-b8R"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BUW-nl-QV3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="939" y="382"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="message" catalog="system" width="64" height="56"/>
+        <image name="paperplane" catalog="system" width="64" height="60"/>
+        <image name="person.3.fill" catalog="system" width="71" height="34"/>
+        <image name="person.crop.circle" catalog="system" width="64" height="60"/>
+    </resources>
+</document>
