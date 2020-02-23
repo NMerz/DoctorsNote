@@ -186,8 +186,7 @@ public class ConversationList implements RequestHandler<String, String> {
         }
     }
 
-    public static void main(String[] args) {
-        ConversationList cl = new ConversationList();
-        System.out.println(cl.handleRequest("{\"userId\":\"12345678910\"}", null));
+    public static void main(String[] args) throws IllegalStateException {
+        throw new IllegalStateException();
     }
 }
