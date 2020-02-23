@@ -89,7 +89,6 @@ public class ConversationList implements RequestHandler<String, String> {
                     dbCP.getDBUsername(),
                     dbCP.getDBPassword());
         } catch (IOException | SQLException | ClassNotFoundException e) {
-            System.out.println(e.toString());
             throw new NullPointerException("Failed to load connection in ConversationList:getConnection()");
         }
     }
