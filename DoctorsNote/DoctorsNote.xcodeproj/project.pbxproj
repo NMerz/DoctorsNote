@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		440144E72403391B00FE618A /* MessageCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440144E62403391B00FE618A /* MessageCollectionVC.swift */; };
 		440144E924037EFF00FE618A /* FriendsControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440144E824037EFF00FE618A /* FriendsControllerHelper.swift */; };
+		440144EB2403899000FE618A /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440144EA2403899000FE618A /* Friend.swift */; };
+		440144ED2403899900FE618A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440144EC2403899800FE618A /* Message.swift */; };
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
@@ -46,6 +48,8 @@
 		24F61D7A5EA743CE919A6270 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		440144E62403391B00FE618A /* MessageCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionVC.swift; sourceTree = "<group>"; };
 		440144E824037EFF00FE618A /* FriendsControllerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsControllerHelper.swift; path = "../../../../../Downloads/fbMessenger 2/fbMessenger/FriendsControllerHelper.swift"; sourceTree = "<group>"; };
+		440144EA2403899000FE618A /* Friend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Friend.swift; path = "../../../../../Downloads/fbMessenger 2/fbMessenger/Friend.swift"; sourceTree = "<group>"; };
+		440144EC2403899800FE618A /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = "../../../../../Downloads/fbMessenger 2/fbMessenger/Message.swift"; sourceTree = "<group>"; };
 		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		6740B3FFB6664955BB5D35CC /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
 		6AD397D1E99E16E4D6AE39F6 /* Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 		B52ABE6823F5B872007B3D6A /* DoctorsNote */ = {
 			isa = PBXGroup;
 			children = (
+				440144EC2403899800FE618A /* Message.swift */,
+				440144EA2403899000FE618A /* Friend.swift */,
 				440144E824037EFF00FE618A /* FriendsControllerHelper.swift */,
 				B52ABE6923F5B872007B3D6A /* AppDelegate.swift */,
 				B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */,
@@ -423,9 +429,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
+				440144EB2403899000FE618A /* Friend.swift in Sources */,
 				440144E72403391B00FE618A /* MessageCollectionVC.swift in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
+				440144ED2403899900FE618A /* Message.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 				440144E924037EFF00FE618A /* FriendsControllerHelper.swift in Sources */,
 			);
