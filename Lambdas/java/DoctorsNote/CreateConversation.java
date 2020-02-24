@@ -11,6 +11,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+/*
+ * A Lambda handler for creating a new conversation.
+ *
+ * Expects: A JSON string that maps to a POJO of type CreateConversationRequest
+ * Returns: A JSON string that maps from a POJO of type CreateConversationResponse
+ *
+ * Error Handling: Returns null if an unrecoverable error is encountered
+ */
 public class CreateConversation implements RequestHandler<String, String> {
     private final String addMessageFormatString = "INSERT INTO Conversation (conversationName, lastMessageTime) VALUES (\'%s\', \'%s\');";
 
