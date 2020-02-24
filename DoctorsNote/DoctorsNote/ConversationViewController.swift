@@ -43,7 +43,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     }
 }
 
-class FriendCell: BaseCell {
+class FriendCell: BaseCellC {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -153,7 +153,7 @@ extension UIView {
     
 }
 
-class BaseCell: UICollectionViewCell {
+class BaseCellC: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
