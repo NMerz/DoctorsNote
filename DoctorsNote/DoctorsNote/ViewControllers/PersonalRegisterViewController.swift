@@ -161,7 +161,10 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        requestButton.layer.cornerRadius = requestButton.frame.height / 2
+        
+        let requestLayer = CAShapeLayer()
+        requestLayer.path = UIBezierPath(roundedRect: requestButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        requestButton.layer.mask = requestLayer
         
         selectHospitalButton.layer.cornerRadius = DefinedValues.fieldRadius
         selectHealthcareButton.layer.cornerRadius = DefinedValues.fieldRadius
