@@ -1,1 +1,5 @@
 DoctorsNote/DoctorsNote.xcworkspace/
+.idea
+out
+*.zip
+*.xcuserdatad

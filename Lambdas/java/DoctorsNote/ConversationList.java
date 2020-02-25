@@ -4,10 +4,14 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import jdk.nashorn.internal.parser.JSONParser;
+import netscape.javascript.JSObject;
 
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 /*
  * A Lambda handler for getting all conversations the requesting user is currently a part of.
@@ -17,26 +21,46 @@ import java.util.ArrayList;
  *
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
-public class ConversationList implements RequestHandler<String, String> {
+public class ConversationList implements RequestHandler<Map<String,Object> , Object> {
     private final String getConversationFormatString = "SELECT conversationID FROM Conversation_has_User WHERE userID=%s;";
     private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID=%s;";
     private final String getNameTimeAndStatusFormatString = "SELECT conversationName, lastMessageTime, status " +
             "FROM Conversation WHERE conversationID=%s;";
 
-    @Override
-    public String handleRequest(String jsonString, Context context) {
+    public ConversationListResponse handleRequest(Map<String,Object> jsonString, Context context) {
         try {
-            // Converting the passed JSON string into a POJO
+            System.out.println(jsonString);
+            System.out.flush();
+            System.out.println(jsonString.get("userId"));
+            //System.out.flush();
+            //System.out.println(((Map<String,Object>) jsonString.get("headers")).get("Accept"));
+            //System.out.flush();
+            //System.out.println(jsonString.get("body"));
+            //System.out.flush();
+            //System.out.println(jsonString.get("body").getClass());
+            //System.out.flush();
+            //System.out.println(((Map<String,Object>) jsonString.get("body")).get("userId"));
+            //System.out.flush();
+            //String userID = (String) ((Map<String,Object>) jsonString.get("body")).get("userId");
             Gson gson = new Gson();
-            ConversationListRequest request = gson.fromJson(jsonString, ConversationListRequest.class);
+            //return gson.toJson(userID);
 
+            // Converting the passed JSON string into a POJO
+            //ConversationListRequest request = gson.fromJson(jsonString.get("body"), ConversationListRequest.class);
+
+            //ConversationListRequest request = new ConversationListRequest((String) ((Map<String,Object>) jsonString.get("body")).get("userId"));
+            //ConversationListRequest request = gson.fromJson(jsonString.get("body").toString(), ConversationListRequest.class);
+            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
             // Extracting necessary fields from POJO
             String userId = request.getUserId();
-
+            System.out.println("userID: " + userId);
             // Establish connection with MariaDB
             DBCredentialsProvider dbCP;
+            System.out.println("Pre connection");
+            System.out.flush();
             Connection connection = getConnection();
-
+            System.out.println("Connection:" + connection);
+            System.out.flush();
             // Request necessary information from MariaDB and process into Conversation objects
             Statement statement = connection.createStatement();
             ResultSet conversationRS = statement.executeQuery(String.format(getConversationFormatString, userId));
@@ -73,9 +97,13 @@ public class ConversationList implements RequestHandler<String, String> {
             // Combine Conversations into a ConversationListResponse  (tempArray resolves casting issue)
             Conversation[] tempArray = new Conversation[conversations.size()];
             ConversationListResponse conversationListResponse = new ConversationListResponse(conversations.toArray(tempArray));
-
+            System.out.println("response:" + conversationListResponse);
+            System.out.flush();
             // Serialize and return ConversationListResponse
-            return gson.toJson(conversationListResponse);
+            //String response = "{\"isBase64Encoded\":false,\"statusCode\": 200, \"headers\": {\"Content-Type\" : \"application/json\"},\"body\":" + gson.toJson(conversationListResponse) +"}";
+            //System.out.println("Response: " + response);
+            //System.out.flush();
+            return conversationListResponse;
         } catch (Exception e) {
             return null;
         }
