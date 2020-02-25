@@ -13,6 +13,7 @@ import UIKit
 class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let cellId = "cellId"
+    private var conversationList: [Conversation]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,9 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
+        let processor : ConnectionProcessor = ConnectionProcessor(connector: Connector())
+        (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationListMock")
+        //super.present(MessageCollectionVC(), animated: true)
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -29,7 +33,13 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        
+        if let l = conversationList {
+            return l.count
+        } else {
+            return 0
+        }
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -40,6 +50,10 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         //return CGSizeMake(view.frame.width, 100)
         return CGSize(width: view.frame.width, height: 100.0)
+    }
+    
+    func switchVC(ViewController: UIViewController) {
+        self.present(UIViewController(), animated: true)
     }
 }
 
@@ -108,6 +122,14 @@ class FriendCell: BaseCellC {
         
         addConstraintsWithFormat(format: "H:|-82-[v0]|", views: dividerLineView)
         addConstraintsWithFormat(format: "V:[v0(1)]|", views: dividerLineView)
+        
+    }
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if(sender.state == .ended) {
+            //print("Success!")
+            
+        }
     }
     
     private func setupContainerView() {
@@ -132,6 +154,9 @@ class FriendCell: BaseCellC {
         containerView.addConstraintsWithFormat(format: "V:|[v0(24)]", views: timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:[v0(20)]|", views: hasReadImageView)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        self.addGestureRecognizer(tapRecognizer)
+
     }
     
 }

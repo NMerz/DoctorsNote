@@ -129,6 +129,8 @@ class ConnectionProcessor {
             }
         }
         return (conversations, potentialError)
+        
+        /*return ([Conversation(conversationID: 123213, conversationPartner: User(uid: 12323), lastMessageTime:  Date(timeIntervalSince1970: TimeInterval(exactly: 32490234)!), unreadMessages: true)], nil)*/
     }
     
     func processUser(url: String, uid: Int) -> (User?, ConnectionError?) {
