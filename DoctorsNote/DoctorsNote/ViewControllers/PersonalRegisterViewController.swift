@@ -9,6 +9,7 @@
 import UIKit
 import AWSCognito
 import AWSMobileClient
+import PopupKit
 
 //
 //
@@ -143,11 +144,20 @@ class PersonalRegisterViewController: UIViewController {
 //
 //
 //
-class HealthRegisterViewController: UIViewController {
+class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     @IBOutlet weak var requestButton: UIButton!
     @IBOutlet weak var selectHospitalButton: UIButton!
     @IBOutlet weak var selectHealthcareButton: UIButton!
+
+    var p: PopupView?
+    var picker: UIPickerView?
+    // To be gathered later from the database
+    let hospitals = ["IU Health Arnett Hospital", "Franciscan Health Lafayette East"]
+    var hospital: String?
+    
+    let providers = ["Humana", "Aetna", "Other"]
+    var provider: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -163,42 +173,149 @@ class HealthRegisterViewController: UIViewController {
         
     }
     
+    @IBAction func requestAccount(_ sender: Any) {
+        
+        let hospitalSelected = (hospital != nil)
+        let providerSelected = (provider != nil)
+        
+        if (hospitalSelected) {
+            selectHospitalButton.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            selectHospitalButton.layer.borderColor = UIColor.systemRed.cgColor
+        }
+        
+        if (providerSelected) {
+            selectHealthcareButton.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            selectHealthcareButton.layer.borderColor = UIColor.systemRed.cgColor
+        }
+        
+        if (!hospitalSelected || !providerSelected) {
+            return
+        }
+        
+    //        AWSMobileClient.default().signOut()
+    //        AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
+    //            if let err = err as? AWSMobileClientError {
+    //                print("\(err.message)")
+    //            } else {
+    //                print("user signed in ")
+    //            }
+    //        }
+            
+            let main = UIStoryboard(name: "Main", bundle: nil)
+            let mainVC = main.instantiateInitialViewController()!
+            let presentationStyle : UIModalPresentationStyle = .overCurrentContext
+            self.modalPresentationStyle = presentationStyle
+    //        AWSMobileClient.default().confirmSignIn(challengeResponse: "809614") { (signInResult, error) in
+    //            if let error = error as? AWSMobileClientError {
+    //                print("\(error.message)")
+    //            } else if let signInResult = signInResult {
+    //                switch (signInResult.signInState) {
+    //                case .signedIn:
+    //                    print("User is signed in.")
+    //
+    //                default:
+    //                    print("\(signInResult.signInState.rawValue)")
+    //                }
+    //            }
+    //        }
+        
+        }
+    
+    @IBAction func selectHospital(_ sender: Any) {
+        pressButton(tag: 1)
+    }
+    
+    @IBAction func selectProvider(_ sender: Any) {
+        pressButton(tag: 2)
+    }
+    
+    func pressButton(tag: Int) {
+        let color = UIColor.lightGray
+        let width : Int = Int(self.view.frame.width - 20)
+        let height = 280
+        let distance = 20
+        let buttonWidth = width - (distance * 2)
+        let borderWidth : CGFloat = 2
+        
+        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        contentView.backgroundColor = UIColor.white
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
+        contentView.layer.mask = maskLayer
+        
+        p = PopupView.init(contentView: contentView)
+        p?.maskType = .dimmed
+        
+        picker = UIPickerView(frame: CGRect(x: 5, y: 5, width: contentView.frame.width - 10, height: 200))
+        picker?.tag = tag
+        picker?.dataSource = self
+        picker?.delegate = self
+        
+        
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 50))
+        closeButton.layer.cornerRadius = 25
+        closeButton.setTitle("Done", for: .normal)
+        closeButton.backgroundColor = color
+        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
+        
+        contentView.addSubview(closeButton)
+        contentView.addSubview(picker!)
+        
+        let xPos = self.view.frame.width / 2
+        let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
+        let location = CGPoint.init(x: xPos, y: yPos)
+        p?.showType = .slideInFromBottom
+        p?.maskType = .dimmed
+        p?.dismissType = .slideOutToBottom
+        p?.show(at: location, in: (self.view)!)
+    }
+    
     @IBAction func goBack(_ sender: Any) {
         //navigationController?.popViewController(animated: true)
         performSegue(withIdentifier: "unwindto2", sender: self)
     }
     
-    @IBAction func requestAccount(_ sender: Any) {
-        
-//        AWSMobileClient.default().signOut()
-//        AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
-//            if let err = err as? AWSMobileClientError {
-//                print("\(err.message)")
-//            } else {
-//                print("user signed in ")
-//            }
-//        }
-        
-        let main = UIStoryboard(name: "Main", bundle: nil)
-        let mainVC = main.instantiateInitialViewController()!
-        let presentationStyle : UIModalPresentationStyle = .overCurrentContext
-        self.modalPresentationStyle = presentationStyle
-//        AWSMobileClient.default().confirmSignIn(challengeResponse: "809614") { (signInResult, error) in
-//            if let error = error as? AWSMobileClientError {
-//                print("\(error.message)")
-//            } else if let signInResult = signInResult {
-//                switch (signInResult.signInState) {
-//                case .signedIn:
-//                    print("User is signed in.")
-//
-//                default:
-//                    print("\(signInResult.signInState.rawValue)")
-//                }
-//            }
-//        }
-    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if (pickerView.tag == 1) {
+            return hospitals.count
+        }
+        else if (pickerView.tag == 2) {
+            return providers.count
+        }
+        return 0
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if (pickerView.tag == 1) {
+            let row = hospitals[row]
+            return row
+        }
+        else if (pickerView.tag == 2) {
+            let row = providers[row]
+            return row
+        }
+        return ""
     }
     
+    @objc func dismissPopup(sender: UIButton!) {
+        if (picker?.tag == 1) {
+            hospital = hospitals[(picker?.selectedRow(inComponent: 0))!]
+            selectHospitalButton.titleLabel!.text = hospital
+            p?.dismissType = .slideOutToBottom
+            p?.dismiss(animated: true)
+        }
+        else if (picker?.tag == 2) {
+            provider = providers[(picker?.selectedRow(inComponent: 0))!]
+            selectHealthcareButton.titleLabel!.text = provider
+            p?.dismissType = .slideOutToBottom
+            p?.dismiss(animated: true)
+        }
+    }
+
 }
 
 
