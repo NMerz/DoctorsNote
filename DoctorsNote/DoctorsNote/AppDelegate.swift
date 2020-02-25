@@ -3,7 +3,7 @@
 //  DoctorsNote
 //
 //  Created by Benjamin Hardin on 2/13/20.
-//  Copyright © 2020 Benjamin Hardin. All rights reserved.
+//  Copyright © 2020 Benjamin Hardin and Nathan Merz. All rights reserved.
 //
 
 import UIKit
