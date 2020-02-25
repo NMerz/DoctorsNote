@@ -16,7 +16,6 @@
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
 		AD4567D3634346E5B3E37C80 /* Pods_DoctorsNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */; };
 		B2E92EDF0D4EB4D291081AEE /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */; };
-=======
 		9D90C38923F9C5FB006FD4C6 /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */; };
 		9D90C38E23FE1BA8006FD4C6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38D23FE1BA8006FD4C6 /* User.swift */; };
 		9D90C39023FE1D6F006FD4C6 /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */; };
@@ -28,7 +27,6 @@
 		9D90C39824005718006FD4C6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39724005718006FD4C6 /* Message.swift */; };
 		9D90C39A24006587006FD4C6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39724005718006FD4C6 /* Message.swift */; };
 		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
->>>>>>> ClientREST
 		B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6923F5B872007B3D6A /* AppDelegate.swift */; };
 		B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */; };
 		B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6D23F5B872007B3D6A /* ConversationViewController */; };
@@ -57,7 +55,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-<<<<<<< HEAD
 		088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F61D7A5EA743CE919A6270 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		440144E62403391B00FE618A /* MessageCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionVC.swift; sourceTree = "<group>"; };
@@ -171,16 +168,13 @@
 				B52ABE7223F5B874007B3D6A /* Assets.xcassets */,
 				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
-<<<<<<< HEAD
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				440144E62403391B00FE618A /* MessageCollectionVC.swift */,
-=======
 				9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */,
 				9D90C38D23FE1BA8006FD4C6 /* User.swift */,
 				9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */,
 				9D90C39123FE21FA006FD4C6 /* Conversation.swift */,
 				9D90C39724005718006FD4C6 /* Message.swift */,
->>>>>>> ClientREST
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -457,14 +451,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-<<<<<<< HEAD
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				440144EB2403899000FE618A /* Friend.swift in Sources */,
 				440144E72403391B00FE618A /* MessageCollectionVC.swift in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				440144ED2403899900FE618A /* Message.swift in Sources */,
-=======
 				9D90C39023FE1D6F006FD4C6 /* HealthSystem.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ViewController.swift in Sources */,
 				9D90C38923F9C5FB006FD4C6 /* ConnectionProcessor.swift in Sources */,
@@ -472,7 +464,6 @@
 				9D90C39223FE21FA006FD4C6 /* Conversation.swift in Sources */,
 				9D90C39824005718006FD4C6 /* Message.swift in Sources */,
 				9D90C38E23FE1BA8006FD4C6 /* User.swift in Sources */,
->>>>>>> ClientREST
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 				440144E924037EFF00FE618A /* FriendsControllerHelper.swift in Sources */,
 			);
