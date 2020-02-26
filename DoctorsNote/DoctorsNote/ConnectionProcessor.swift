@@ -119,8 +119,15 @@ class ConnectionProcessor {
         }
         let conversationList = potentialData!
         var conversations = [Conversation]()
-        for conversationKey in conversationList.keys {
-            let conversation = conversationList[conversationKey] as! [String : Any?]
+        if (conversationList.first?.value as? NSArray == nil) {
+            return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
+        }
+        for conversationDict in (conversationList.first?.value as! NSArray) {
+            if (conversationDict as? [String : Any?] == nil) {
+                return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
+            }
+            let conversation = conversationDict as! [String : Any?]
+           // let conversation = conversationList[conversationKey] as! [String : Any?]
             if ((conversation["conversationID"] as? Int) != nil) && ((conversation["conversationPartner"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["unreadMessages"] as? String) != nil) {
                 let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["conversationPartner"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["unreadMessages"] as! String == "true")
                 conversations.append(newConversation)
@@ -164,8 +171,15 @@ class ConnectionProcessor {
         }
         let messageList = potentialData!
         var messages = [Message]()
-        for messageKey in messageList.keys {
-            let message = messageList[messageKey] as! [String : Any?]
+        if (messageList.first?.value as? NSArray == nil) {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        
+        for messageDict in (messageList.first?.value as! NSArray) {
+            if (messageDict as? [String : Any?] == nil) {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+            let message = messageDict as! [String : Any?]
             if ((message["messageID"] as? Int) != nil) && ((message["conversationID"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["senderID"] as? Int) != nil) {
                 let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["senderID"] as! Int))
                 messages.append(newMessage)
