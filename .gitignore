@@ -3,3 +3,5 @@ DoctorsNote/DoctorsNote.xcworkspace/
 out
 *.zip
 *.xcuserdatad
+.DS_Store
+xcuserdata

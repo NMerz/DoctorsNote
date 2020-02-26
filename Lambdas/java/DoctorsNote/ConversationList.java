@@ -64,30 +64,69 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
             // Request necessary information from MariaDB and process into Conversation objects
             Statement statement = connection.createStatement();
             ResultSet conversationRS = statement.executeQuery(String.format(getConversationFormatString, userId));
-
+            ArrayList<String> conversationIds = new ArrayList<>();
+            while (conversationRS.next()) { //Must finish reading all results of one query before executing another over the same connection
+                conversationIds.add(conversationRS.getString(1));
+            }
             ArrayList<Conversation> conversations = new ArrayList<>();
-            while (conversationRS.next()) {
-                String conversationId = conversationRS.getString(1);
+            for (String conversationId : conversationIds) {
+                System.out.println("conversationId:" + conversationId);
+                System.out.flush();
                 ResultSet userRS = statement.executeQuery(String.format(getUserFormatString, conversationId));
 
                 ArrayList<String> converserIds = new ArrayList<>();
                 String converserId;
                 while (userRS.next()) {
                     converserId = userRS.getString(1);
+                    System.out.println("converserId:" + converserId);
+                    System.out.flush();
                     if (!converserId.equals(userId)) {
                         converserIds.add(converserId);
                     }
                 }
-
+                if (converserIds.size() == 0) {
+                    System.out.println("continuing");
+                    System.out.flush();
+                    continue;
+                }
+                if (converserIds.size() > 1) {
+                    throw (new NoSuchMethodException());
+                }
                 ResultSet nameAndTimeRS = statement.executeQuery(String.format(getNameTimeAndStatusFormatString, conversationId));
                 nameAndTimeRS.next();
                 String conversationName = nameAndTimeRS.getString(1);
+                System.out.println("conversationName:" + conversationName);
+                System.out.flush();
                 long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
                 int status = nameAndTimeRS.getInt(3);
+                System.out.println("status:" + status);
+                System.out.flush();
+//                System.out.println("converserIds:" + converserIds.toArray().getClass().toString());
+//                System.out.println("converserIds size:" + converserIds.size());
+//                String[] converserIdsArray = new String[converserIds.size()];
+//                System.out.println("converserIds:" + converserIds.toArray(converserIdsArray));
+//                System.out.flush();
+//                System.out.println("converserIds:" + converserIds.toArray().toString());
+//                System.out.flush();
 
-                conversations.add(new Conversation(conversationName, conversationId, (String[])converserIds.toArray(), status, lastMessageTime));
+                if (converserIds.size() == 0) {
+                    continue;
+                }
+                System.out.println(conversationName);
+                System.out.println(conversationId);
+                String[] converserIdsArray = new String[converserIds.size()];
+                converserIds.toArray(converserIdsArray);
+                System.out.println(converserIdsArray);
+                System.out.println(status);
+                System.out.println(lastMessageTime);
+                conversations.add(new Conversation(conversationName, conversationId, converserIdsArray, status, lastMessageTime));
+                System.out.println("conversations:" + conversations);
+                System.out.flush();
             }
-
+            System.out.println("conversations done");
+            System.out.flush();
+            System.out.println("conversations:" + conversations);
+            System.out.flush();
             // Disconnect connection with shortest lifespan possible
             connection.close();
 
@@ -107,6 +146,12 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private int printMe(String toPrint) {
+        System.out.println(toPrint);
+        System.out.flush();
+        return 1;
     }
 
     private Connection getConnection() {
@@ -144,14 +189,15 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
     private class Conversation {
         private String conversationName;
         private String conversationId;
-        private String[] converserIds;
+        private String converserId;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
 
         public Conversation(String conversationName, String conversationId, String[] converserIds, int status, long lastMessageTime) {
             this.conversationName = conversationName;
             this.conversationId = conversationId;
-            this.converserIds = converserIds;
+            //TODO: generalize this to multiple conversers if needed for Support Groups
+            this.converserId = converserIds[0];
             this.status = status;
             this.lastMessageTime = lastMessageTime;
         }
@@ -172,12 +218,12 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
             this.conversationId = conversationId;
         }
 
-        public String[] getConverserIds() {
-            return converserIds;
+        public String getConverserId() {
+            return converserId;
         }
 
-        public void setConverserIds(String[] converserIds) {
-            this.converserIds = converserIds;
+        public void setConverserId(String[] converserIds) {
+            this.converserId = converserIds[0];
         }
 
         public int getStatus() {

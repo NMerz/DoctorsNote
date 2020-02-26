@@ -11,6 +11,17 @@
 		AD4567D3634346E5B3E37C80 /* Pods_DoctorsNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */; };
 		B2E92EDF0D4EB4D291081AEE /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */; };
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
+		9D90C38923F9C5FB006FD4C6 /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */; };
+		9D90C38E23FE1BA8006FD4C6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38D23FE1BA8006FD4C6 /* User.swift */; };
+		9D90C39023FE1D6F006FD4C6 /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */; };
+		9D90C39223FE21FA006FD4C6 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39123FE21FA006FD4C6 /* Conversation.swift */; };
+		9D90C39323FE2233006FD4C6 /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */; };
+		9D90C39423FE2244006FD4C6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38D23FE1BA8006FD4C6 /* User.swift */; };
+		9D90C39523FE2248006FD4C6 /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */; };
+		9D90C39623FE224B006FD4C6 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39123FE21FA006FD4C6 /* Conversation.swift */; };
+		9D90C39824005718006FD4C6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39724005718006FD4C6 /* Message.swift */; };
+		9D90C39A24006587006FD4C6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39724005718006FD4C6 /* Message.swift */; };
+		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
 		B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6923F5B872007B3D6A /* AppDelegate.swift */; };
 		B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */; };
 		B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6D23F5B872007B3D6A /* ConversationViewController */; };
@@ -46,6 +57,12 @@
 		897DD7D27778B748CB4A2FBF /* Pods-DoctorsNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.release.xcconfig"; sourceTree = "<group>"; };
 		A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionProcessor.swift; sourceTree = "<group>"; };
+		9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionProcessorTests.swift; sourceTree = "<group>"; };
+		9D90C38D23FE1BA8006FD4C6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
+		9D90C39123FE21FA006FD4C6 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		9D90C39724005718006FD4C6 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B52ABE6623F5B872007B3D6A /* DoctorsNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorsNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE6923F5B872007B3D6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -141,6 +158,11 @@
 				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
+				9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */,
+				9D90C38D23FE1BA8006FD4C6 /* User.swift */,
+				9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */,
+				9D90C39123FE21FA006FD4C6 /* Conversation.swift */,
+				9D90C39724005718006FD4C6 /* Message.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -150,6 +172,7 @@
 			children = (
 				B52ABE8023F5B874007B3D6A /* DoctorsNoteTests.swift */,
 				B52ABE8223F5B874007B3D6A /* Info.plist */,
+				9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */,
 			);
 			path = DoctorsNoteTests;
 			sourceTree = "<group>";
@@ -418,7 +441,13 @@
 			files = (
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
+				9D90C39023FE1D6F006FD4C6 /* HealthSystem.swift in Sources */,
+				B52ABE6E23F5B872007B3D6A /* ViewController.swift in Sources */,
+				9D90C38923F9C5FB006FD4C6 /* ConnectionProcessor.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
+				9D90C39223FE21FA006FD4C6 /* Conversation.swift in Sources */,
+				9D90C39824005718006FD4C6 /* Message.swift in Sources */,
+				9D90C38E23FE1BA8006FD4C6 /* User.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,7 +456,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D90C39623FE224B006FD4C6 /* Conversation.swift in Sources */,
+				9D90C39523FE2248006FD4C6 /* HealthSystem.swift in Sources */,
+				9D90C39423FE2244006FD4C6 /* User.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
+				9D90C39323FE2233006FD4C6 /* ConnectionProcessor.swift in Sources */,
+				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
+				9D90C39A24006587006FD4C6 /* Message.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
