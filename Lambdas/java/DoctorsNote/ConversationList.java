@@ -4,9 +4,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import jdk.nashorn.internal.parser.JSONParser;
-import netscape.javascript.JSObject;
 
 import java.io.IOException;
 import java.sql.*;
@@ -29,9 +26,10 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
 
     public ConversationListResponse handleRequest(Map<String,Object> jsonString, Context context) {
         try {
-            System.out.println(jsonString);
-            System.out.flush();
-            System.out.println(jsonString.get("userId"));
+
+//            System.out.println(jsonString);
+//            System.out.flush();
+//            System.out.println(jsonString.get("userId"));
             //System.out.flush();
             //System.out.println(((Map<String,Object>) jsonString.get("headers")).get("Accept"));
             //System.out.flush();
@@ -50,7 +48,15 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
 
             //ConversationListRequest request = new ConversationListRequest((String) ((Map<String,Object>) jsonString.get("body")).get("userId"));
             //ConversationListRequest request = gson.fromJson(jsonString.get("body").toString(), ConversationListRequest.class);
-            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
+            System.out.println(context.getIdentity().getIdentityPoolId());
+            System.out.println(context.getIdentity().getIdentityId());
+            for (String key : ((Map<String,Object>)jsonString.get("context")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
+            }
+//            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
+            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("user").toString());
+
             // Extracting necessary fields from POJO
             String userId = request.getUserId();
             System.out.println("userID: " + userId);
@@ -70,7 +76,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
             }
             ArrayList<Conversation> conversations = new ArrayList<>();
             for (String conversationId : conversationIds) {
-                System.out.println("conversationId:" + conversationId);
+                System.out.println("conversationID:" + conversationId);
                 System.out.flush();
                 ResultSet userRS = statement.executeQuery(String.format(getUserFormatString, conversationId));
 
@@ -78,7 +84,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
                 String converserId;
                 while (userRS.next()) {
                     converserId = userRS.getString(1);
-                    System.out.println("converserId:" + converserId);
+                    System.out.println("converserID:" + converserId);
                     System.out.flush();
                     if (!converserId.equals(userId)) {
                         converserIds.add(converserId);
@@ -188,16 +194,16 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
 
     private class Conversation {
         private String conversationName;
-        private String conversationId;
-        private String converserId;
+        private int conversationID;
+        private int converserID;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
 
-        public Conversation(String conversationName, String conversationId, String[] converserIds, int status, long lastMessageTime) {
+        public Conversation(String conversationName, String conversationID, String[] converserIds, int status, long lastMessageTime) {
             this.conversationName = conversationName;
-            this.conversationId = conversationId;
+            this.conversationID = Integer.parseInt(conversationID);
             //TODO: generalize this to multiple conversers if needed for Support Groups
-            this.converserId = converserIds[0];
+            this.converserID = Integer.parseInt(converserIds[0]);
             this.status = status;
             this.lastMessageTime = lastMessageTime;
         }
@@ -210,20 +216,20 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
             this.conversationName = conversationName;
         }
 
-        public String getConversationId() {
-            return conversationId;
+        public int getConversationID() {
+            return conversationID;
         }
 
-        public void setConversationId(String conversationId) {
-            this.conversationId = conversationId;
+        public void setConversationID(String conversationID) {
+            this.conversationID = Integer.parseInt(conversationID);
         }
 
-        public String getConverserId() {
-            return converserId;
+        public int getConverserID() {
+            return converserID;
         }
 
-        public void setConverserId(String[] converserIds) {
-            this.converserId = converserIds[0];
+        public void setConverserID(String[] converserIds) {
+            this.converserID = Integer.parseInt(converserIds[0]);
         }
 
         public int getStatus() {

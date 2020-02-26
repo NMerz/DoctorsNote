@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AWSMobileClient
 
 class ConnectionProcessor {
     static private let standardURL = "https://2wahxpoqf9.execute-api.us-east-2.amazonaws.com/default/PythonAPITest"
@@ -19,6 +20,12 @@ class ConnectionProcessor {
         self.connector = connector
     }
     
+    func reportMissingAuthToken() {
+        connectionError = ConnectionError(message: "Missing authentication token")
+        signalWaiter.signal()
+        return
+    }
+
     static func standardUrl() -> String {
         return standardURL
     }
@@ -50,18 +57,21 @@ class ConnectionProcessor {
             return (nil, returnError);
         }
         connectionError = nil
-        var jsonData: [String: Any]
+        var jsonData: [String: Any]?
         print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
         do {
-            jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String: Any]
+            jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
+            if jsonData == nil {
+                throw ConnectionError(message: "Malformed response body")
+            }
         }
         catch {
             return (nil, ConnectionError(message: "Malformed response body"))
             
         }
-        print(type(of: jsonData))
-        print(jsonData)
-        return (jsonData, nil)
+        print(type(of: jsonData!))
+        print(jsonData!)
+        return (jsonData!, nil)
     }
     
     private func retrieveJSONData(urlString: String) {
@@ -130,8 +140,8 @@ class ConnectionProcessor {
             let conversation = conversationDict as! [String : Any?]
             print(conversation)
            // let conversation = conversationList[conversationKey] as! [String : Any?]
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["unreadMessages"] as? String) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["unreadMessages"] as! String == "true")
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["Status"] as? Int) != nil) {
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["status"] as! Int != 0)
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -215,15 +225,45 @@ class ConnectionProcessor {
 }
 
 class Connector {
+    let signalWaiter = DispatchSemaphore(value: 0)
+    var authToken: SessionToken? = nil
+
+    func setToken(potentialTokens: Tokens?, potentialError: Error?) {
+        if (potentialError != nil || potentialTokens == nil || potentialTokens!.accessToken == nil) {
+            return
+        }
+        authToken = potentialTokens!.idToken!
+        print(authToken!.tokenString)
+        signalWaiter.signal()
+    }
+    
+    
     func conductGetTask(manager: ConnectionProcessor, url: URL) {
-        let retrievalTask = URLSession.shared.dataTask(with: url) {returnData, responseHeader, potentialError in
+        signalWaiter.wait()
+        signalWaiter.signal()
+        if (authToken == nil) {
+            manager.reportMissingAuthToken()
+            return
+        }
+        var request = URLRequest(url: url)
+        request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let retrievalTask = URLSession.shared.dataTask(with: request) {returnData, responseHeader, potentialError in
             manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
         }
         retrievalTask.resume()
     }
     
     func conductPostTask(manager: ConnectionProcessor, url: URL, data: Data) {
-        let postSession = URLSession.shared.uploadTask(with: URLRequest(url: url), from: data, completionHandler: manager.processConnection(returnData:response:potentialError:))
+        signalWaiter.wait()
+        signalWaiter.signal()
+        if (authToken == nil) {
+            manager.reportMissingAuthToken()
+            return
+        }
+        var request = URLRequest(url: url)
+        request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
+        let postSession = URLSession.shared.uploadTask(with: request, from: data, completionHandler: manager.processConnection(returnData:response:potentialError:))
         postSession.resume()
     }
 }

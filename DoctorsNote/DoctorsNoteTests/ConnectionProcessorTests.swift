@@ -86,7 +86,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testConversationListInvalidDataType() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"conversationID\":1,\"converserID\":\"0\",\"lastMessageTime\":0,\"unreadMessages\":\"false\"}}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"conversationID\":1,\"converserID\":\"0\",\"lastMessageTime\":0,\"status\":0}}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         var (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError != nil)
@@ -105,7 +105,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testValidConversationList() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":0,\"lastMessageTime\":0,\"unreadMessages\":\"false\"}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":0,\"lastMessageTime\":0,\"status\":\"0\"}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError == nil)
@@ -153,7 +153,7 @@ class ConnectionProcessorTests: XCTestCase {
     //This test is testMessagePostBadStatus preceeding testValidConversationList without the ConnectionProcessor being reinititalized. This should provide some confidence that it is relatively stateless
     func testConsecutiveExecutions() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":0,\"lastMessageTime\":0,\"unreadMessages\":\"false\"}]}".utf8), responseHeader: response, potentialError: ConnectionError(message: "Test error")) //NOTE: The error would not be of this type but I do not knwo what type it would be
+        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":0,\"lastMessageTime\":0,\"status\":\"0\"}]}".utf8), responseHeader: response, potentialError: ConnectionError(message: "Test error")) //NOTE: The error would not be of this type but I do not knwo what type it would be
         let processor = ConnectionProcessor(connector: connector)
         let (potentialData, potentialError) = processor.retrieveData(urlString: "url")
         XCTAssert(potentialError != nil)

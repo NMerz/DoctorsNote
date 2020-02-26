@@ -72,6 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
         
 //        let credentialsProvider = AWSCognitoCredentialsProvider(
@@ -114,10 +115,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     default:
                         print("Sign In needs info which is not yet supported.")
                     }
+                    print(signInResult.codeDetails!)
                 }
             }
         }
             
+        let authorizedConnector = Connector()
+        AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: authorizedConnector)
+        let (data, error) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest")
+        print(error!.getMessage())
+        print(data!)
         
 //        AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
 //            switch (userState) {
