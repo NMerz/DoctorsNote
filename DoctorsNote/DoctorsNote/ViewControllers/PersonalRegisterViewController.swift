@@ -22,34 +22,6 @@ class AccountRegisterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        emailField.layer.cornerRadius = DefinedValues.fieldRadius
-        passwordField.layer.cornerRadius = DefinedValues.fieldRadius
-        confirmField.layer.cornerRadius = DefinedValues.fieldRadius
-        
-        let emailPadding = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: emailField.frame.height))
-        let passwordPadding = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: passwordField.frame.height))
-        let confirmPadding = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: confirmField.frame.height))
-        
-        emailField.leftView = emailPadding
-        emailField.rightView = emailPadding
-        passwordField.leftView = passwordPadding
-        passwordField.rightView = passwordPadding
-        confirmField.leftView = confirmPadding
-        confirmField.rightView = confirmPadding
-
-        emailField.leftViewMode = .always
-        emailField.rightViewMode = .always
-        passwordField.leftViewMode = .always
-        passwordField.rightViewMode = .always
-        confirmField.leftViewMode = .always
-        confirmField.rightViewMode = .always
-       
-        emailField.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
-        emailField.layer.borderWidth = 2
-        passwordField.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
-        passwordField.layer.borderWidth = 2
-        confirmField.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
-        confirmField.layer.borderWidth = 2
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -57,8 +29,8 @@ class AccountRegisterViewController: UIViewController {
     }
     
     @IBAction func goForward(_ sender: Any) {
-        let email = emailField.text
-        let password = passwordField.text
+        //let email = emailField.text
+        //let password = passwordField.text
         if (fieldsCorrect()) {
             return
         }
@@ -102,14 +74,40 @@ class AccountRegisterViewController: UIViewController {
 //
 //
 //
-class PersonalRegisterViewController: UIViewController {
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var insideView: UIView!
+class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+
+    @IBOutlet weak var firstNameField: CustomTextField!
+    @IBOutlet weak var middleNameField: CustomTextField!
+    @IBOutlet weak var lastNameField: CustomTextField!
+    @IBOutlet weak var DOBButton: UIButton!
+    @IBOutlet weak var sexButton: UIButton!
+    @IBOutlet weak var phoneField: CustomTextField!
+    @IBOutlet weak var streetField: CustomTextField!
+    @IBOutlet weak var cityField: CustomTextField!
+    @IBOutlet weak var stateField: CustomTextField!
+    @IBOutlet weak var zipField: CustomTextField!
+    
+    var p: PopupView?
+    var DOBPicker: UIDatePicker?
+    var sexPicker: UIPickerView?
+    
+    var DOB: String = ""
+    var sex: String = ""
+    
+    let sexes = ["Male", "Female"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // The height element of this will need to be changed
-        scrollView.isScrollEnabled = true
+        
+        DOBButton.layer.borderColor = UIColor.systemBlue.cgColor
+        sexButton.layer.borderColor = UIColor.systemBlue.cgColor
+        
+        DOBButton.layer.borderWidth = 2
+        sexButton.layer.borderWidth = 2
+        
+        DOBButton.layer.cornerRadius = DefinedValues.fieldRadius
+        sexButton.layer.cornerRadius = DefinedValues.fieldRadius
+        
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -118,24 +116,143 @@ class PersonalRegisterViewController: UIViewController {
     
     @IBAction func unwindToVC(segue:UIStoryboardSegue) { }
     
-    @IBAction func showDOB(_ sender: Any) {
-//        let height: CGFloat = 290
-//        let width = self.view.frame.width - 20
-//        let x = (self.view.frame.width / 2) - (width / 2)
-//        let y = (self.view.frame.height / 2) - (height / 2)
-//        
-//        //FIXME: The storyboard name will need to be changed
-//        let dobViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DOBView")
-//        
-//        present(dobViewController, animated: <#T##Bool#>, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
-//        
-//        let dateView = DOBView(frame: CGRect(x: x, y: y, width: width, height: height))
-//        dateView.layer.shadowColor = UIColor.black.cgColor
-//        dateView.layer.shadowRadius = 50
-//        dateView.layer.shadowOpacity = 1.0
-//        self.view.addSubview(dateView)
-//    
+    @IBAction func goForward(_ sender: Any) {
+        // FIX THIS !!!!!
+        if (!checkFields()) {
+            self.performSegue(withIdentifier: "show_third", sender: self)
+        }
     }
+    
+    func checkFields() -> Bool {
+        let first = firstNameField.isNotEmpty()
+        let middle = middleNameField.isNotEmpty()
+        let last = lastNameField.isNotEmpty()
+        let phone = phoneField.isNotEmpty()
+        let street = streetField.isNotEmpty()
+        let city = cityField.isNotEmpty()
+        let state = stateField.isNotEmpty()
+        let zip = zipField.isNotEmpty()
+        
+        var DOBFilled = false
+        if (DOB == "") {
+            DOBButton.layer.borderColor = UIColor.systemRed.cgColor
+            DOBFilled = true
+        } else {
+            DOBButton.layer.borderColor = UIColor.systemBlue.cgColor
+        }
+        
+        var sexFilled = false
+        if (sex == "") {
+            sexButton.layer.borderColor = UIColor.systemRed.cgColor
+            sexFilled = true
+        } else {
+            sexButton.layer.borderColor = UIColor.systemBlue.cgColor
+        }
+        
+        // False if fields filled
+        return (
+            first
+            && middle
+            && last
+            && DOBFilled
+            && sexFilled
+            && phone
+            && street
+            && city
+            && state
+            && zip
+        )
+    }
+    
+    @IBAction func showDOB(_ sender: Any) {
+        pressButton(tag: DOBButton.tag)
+    }
+    
+    @IBAction func showSex(_ sender: Any) {
+        pressButton(tag: sexButton.tag)
+    }
+    
+    func pressButton(tag: Int) {
+        let width : Int = Int(self.view.frame.width - 20)
+        let height = 280
+        
+        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        contentView.backgroundColor = UIColor.white
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
+        contentView.layer.mask = maskLayer
+        
+        p = PopupView.init(contentView: contentView)
+        p?.maskType = .dimmed
+        
+        if (tag == 1) {
+            DOBPicker = UIDatePicker(frame: CGRect(x: 5, y: 5, width: contentView.frame.width - 10, height: 200))
+            DOBPicker?.datePickerMode = .date
+            DOBPicker?.maximumDate = Date()
+        }
+        else if (tag == 2) {
+            sexPicker = UIPickerView(frame: CGRect(x: 5, y: 5, width: contentView.frame.width - 10, height: 200))
+            sexPicker?.dataSource = self
+            sexPicker?.delegate = self
+        }
+        
+        
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 50))
+        closeButton.setTitle("Done", for: .normal)
+        closeButton.backgroundColor = UIColor.systemBlue
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        closeButton.layer.mask = layer
+        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
+        closeButton.tag = tag
+        
+        contentView.addSubview(closeButton)
+        if (tag == 1) {
+            contentView.addSubview(DOBPicker!)
+        }
+        else if (tag == 2) {
+            contentView.addSubview(sexPicker!)
+        }
+        
+        let xPos = self.view.frame.width / 2
+        let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
+        let location = CGPoint.init(x: xPos, y: yPos)
+        p?.showType = .slideInFromBottom
+        p?.maskType = .dimmed
+        p?.dismissType = .slideOutToBottom
+        p?.show(at: location, in: self.navigationController!.view)
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 2
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let row = sexes[row]
+        return row
+    }
+    
+    @objc func dismissPopup(sender: UIButton!) {
+        if (sender.tag == 1) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yyyy"
+            DOB = dateFormatter.string(from: DOBPicker!.date)
+            
+            // TODO: ADD DATE FORMATTER
+            DOBButton.setTitle(DOB, for: .normal)
+            p?.dismissType = .slideOutToBottom
+            p?.dismiss(animated: true)
+        }
+        else if (sender.tag == 2) {
+            sex = sexes[(sexPicker?.selectedRow(inComponent: 0))!]
+            sexButton.setTitle(sex, for: .normal)
+            p?.dismissType = .slideOutToBottom
+            p?.dismiss(animated: true)
+        }
+    }
+
     
 }
 
@@ -206,10 +323,10 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     //            }
     //        }
             
-            let main = UIStoryboard(name: "Main", bundle: nil)
-            let mainVC = main.instantiateInitialViewController()!
-            let presentationStyle : UIModalPresentationStyle = .overCurrentContext
-            self.modalPresentationStyle = presentationStyle
+            //let main = UIStoryboard(name: "Main", bundle: nil)
+            //let mainVC = main.instantiateInitialViewController()!
+            //let presentationStyle : UIModalPresentationStyle = .overCurrentContext
+            //self.modalPresentationStyle = presentationStyle
     //        AWSMobileClient.default().confirmSignIn(challengeResponse: "809614") { (signInResult, error) in
     //            if let error = error as? AWSMobileClientError {
     //                print("\(error.message)")
@@ -235,12 +352,8 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     }
     
     func pressButton(tag: Int) {
-        let color = UIColor.lightGray
         let width : Int = Int(self.view.frame.width - 20)
         let height = 280
-        let distance = 20
-        let buttonWidth = width - (distance * 2)
-        let borderWidth : CGFloat = 2
         
         let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
         contentView.backgroundColor = UIColor.white
@@ -258,9 +371,11 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         
         
         let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 50))
-        closeButton.layer.cornerRadius = 25
         closeButton.setTitle("Done", for: .normal)
-        closeButton.backgroundColor = color
+        closeButton.backgroundColor = UIColor.systemBlue
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        closeButton.layer.mask = layer
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         
         contentView.addSubview(closeButton)
@@ -307,13 +422,14 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     @objc func dismissPopup(sender: UIButton!) {
         if (picker?.tag == 1) {
             hospital = hospitals[(picker?.selectedRow(inComponent: 0))!]
-            selectHospitalButton.titleLabel!.text = hospital
+            
+            selectHospitalButton.setTitle(hospital, for: .normal)
             p?.dismissType = .slideOutToBottom
             p?.dismiss(animated: true)
         }
         else if (picker?.tag == 2) {
             provider = providers[(picker?.selectedRow(inComponent: 0))!]
-            selectHealthcareButton.titleLabel!.text = provider
+            selectHealthcareButton.setTitle(provider, for: .normal)
             p?.dismissType = .slideOutToBottom
             p?.dismiss(animated: true)
         }
@@ -354,6 +470,55 @@ class SegueFromRight: UIStoryboardSegue
         transition.subtype = CATransitionSubtype.fromLeft
         src.navigationController!.view.layer.add(transition, forKey: kCATransition)
         src.navigationController!.pushViewController(dst, animated: false)
+    }
+}
+
+/*
+ Adds padding to text fields
+ Original source before modifications: https://stackoverflow.com/questions/3727068/set-padding-for-uitextfield-with-uitextborderstylenone
+ */
+
+class CustomTextField: UITextField {
+    struct Constants {
+        static let sidePadding: CGFloat = 15
+        static let topPadding: CGFloat = 0
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.layer.borderColor = UIColor.systemBlue.cgColor
+        self.layer.borderWidth = 2
+        self.layer.cornerRadius = DefinedValues.fieldRadius
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.layer.borderColor = UIColor.systemBlue.cgColor
+        self.layer.borderWidth = 2
+        self.layer.cornerRadius = DefinedValues.fieldRadius
+    }
+    
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return CGRect(
+            x: bounds.origin.x + Constants.sidePadding,
+            y: bounds.origin.y,
+            width: bounds.size.width - Constants.sidePadding * 2,
+            height: bounds.size.height
+        )
+    }
+
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return self.textRect(forBounds: bounds)
+    }
+    
+    func isNotEmpty() -> Bool {
+        if (self.text == "") {
+            self.layer.borderColor = UIColor.systemRed.cgColor
+            return false
+        } else {
+            self.layer.borderColor = UIColor.systemBlue.cgColor
+            return false
+        }
     }
 }
 

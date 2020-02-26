@@ -28,6 +28,7 @@
 		B5854F282401F2210003E5E8 /* PersonalRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54CF9C92401EE87005FA9CE /* PersonalRegisterViewController.swift */; };
 		B5854F292401F2230003E5E8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54CF9CA2401EE87005FA9CE /* LoginViewController.swift */; };
 		B5854F2B2401F4D20003E5E8 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5854F2A2401F4D20003E5E8 /* LoginNavigationController.swift */; };
+		B5A31ADC2406B25E0026D7B0 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A31ADB2406B25E0026D7B0 /* ForgotPasswordViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		B5854F242401F0C50003E5E8 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		B5854F252401F0C50003E5E8 /* DefinedValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinedValues.swift; sourceTree = "<group>"; };
 		B5854F2A2401F4D20003E5E8 /* LoginNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
+		B5A31ADB2406B25E0026D7B0 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote_DoctorsNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6ADBC30FAE0BA411483A71E /* Pods-DoctorsNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				B54CF9C92401EE87005FA9CE /* PersonalRegisterViewController.swift */,
 				B54CF9CA2401EE87005FA9CE /* LoginViewController.swift */,
 				B5854F2A2401F4D20003E5E8 /* LoginNavigationController.swift */,
+				B5A31ADB2406B25E0026D7B0 /* ForgotPasswordViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 			files = (
 				B5854F292401F2230003E5E8 /* LoginViewController.swift in Sources */,
 				B5854F2B2401F4D20003E5E8 /* LoginNavigationController.swift in Sources */,
+				B5A31ADC2406B25E0026D7B0 /* ForgotPasswordViewController.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
 				B5854F1F2401F0BB0003E5E8 /* DOBView.swift in Sources */,
