@@ -126,10 +126,12 @@ class ConnectionProcessor {
             if (conversationDict as? [String : Any?] == nil) {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
             }
+            print(conversationDict)
             let conversation = conversationDict as! [String : Any?]
+            print(conversation)
            // let conversation = conversationList[conversationKey] as! [String : Any?]
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["conversationPartner"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["unreadMessages"] as? String) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["conversationPartner"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["unreadMessages"] as! String == "true")
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["unreadMessages"] as? String) != nil) {
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["unreadMessages"] as! String == "true")
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
