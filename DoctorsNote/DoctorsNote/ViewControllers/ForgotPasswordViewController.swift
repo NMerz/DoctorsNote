@@ -29,9 +29,7 @@ class ForgotPasswordViewController: UIViewController {
     
     @IBAction func recover(_ sender: Any) {
         
-        if (emailField.text == "") {
-            emailField.layer.borderColor = UIColor.systemRed.cgColor
-            return
+        if (emailField.isEmpty()) {            return
         }
         
         let width : Int = Int(self.view.frame.width - 20)
@@ -77,14 +75,100 @@ class ForgotPasswordViewController: UIViewController {
             }
         }
         
-        //AWSMobileClient.default().confirmForgotPassword(username: <#T##String#>, newPassword: <#T##String#>, confirmationCode: <#T##String#>, completionHandler: <#T##((ForgotPasswordResult?, Error?) -> Void)##((ForgotPasswordResult?, Error?) -> Void)##(ForgotPasswordResult?, Error?) -> Void#>)
-        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextVC = segue.destination as! PasswordCodeViewController
+        nextVC.email = emailField.text!
+    }
+    
+    @IBAction func hasCode(_ sender: Any) {
+        self.performSegue(withIdentifier: "input_code", sender: self)
     }
     
     @objc func dismissPopup() {
         p?.dismissType = .slideOutToBottom
         p?.dismiss(animated: true)
-        navigationController?.popViewController(animated: true)
+        self.performSegue(withIdentifier: "input_code", sender: self)
+    }
+    
+}
+
+
+
+
+
+
+
+
+class PasswordCodeViewController: UIViewController {
+    
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var emailField: CustomTextField!
+    @IBOutlet weak var codeField: CustomTextField!
+    @IBOutlet weak var newPasswordField: CustomTextField!
+    @IBOutlet weak var confirmField: CustomTextField!
+    
+    var email: String?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.navigationItem.hidesBackButton = true
+        
+        if (email != "") {
+            emailField.isHidden = true
+            emailLabel.isHidden = true
+            
+            emailField.isEnabled = false
+            emailLabel.isEnabled = false
+        }
+        
+        let mask = CAShapeLayer()
+        mask.path = UIBezierPath(roundedRect: resetButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        resetButton.layer.mask = mask
+        
+    }
+    
+    @IBAction func resetPassword(_ sender: Any) {
+        
+        var emailEmpty = true
+        var emailValid = false
+        if (email == "") {
+            // Email has not been passed to this controller
+            email = emailField.text!
+            emailEmpty = emailField.isEmpty()
+            emailValid = emailField.isValidEmail()
+        } else {
+            emailEmpty = false
+            emailValid = true
+        }
+        
+        let codeEmpty = codeField.isEmpty()
+        let passwordEmpty = newPasswordField.isEmpty()
+        let confirmEmpty = confirmField.isEmpty()
+        let passwordsEqual = (self.newPasswordField.text! == self.confirmField.text!)
+        
+        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid) {
+            return
+        }
+        
+        AWSMobileClient.default().confirmForgotPassword(username: email!, newPassword: newPasswordField.text!, confirmationCode: codeField.text!) { (res, err) in
+            if let err = err as? AWSMobileClientError {
+                self.errorLabel.textColor = UIColor.systemRed
+                self.errorLabel.text = err.message
+            } else {
+                DispatchQueue.main.async {
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+        }
+    }
+    
+    @IBAction func goBack(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
     
 }

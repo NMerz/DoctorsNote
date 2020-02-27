@@ -25,6 +25,7 @@ class AccountRegisterViewController: UIViewController {
     var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
+        self.navigationItem.hidesBackButton = true
         super.viewDidLoad()
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
@@ -137,6 +138,11 @@ class AccountRegisterViewController: UIViewController {
 
 
 
+
+
+
+
+
 class ConfirmAccountViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
@@ -150,6 +156,8 @@ class ConfirmAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.hidesBackButton = true
         
         if (email != "") {
             emailLabel.isHidden = true
@@ -245,6 +253,9 @@ class ConfirmAccountViewController: UIViewController {
         self.navigationController?.popToRootViewController(animated: true)
     }
     
+    @IBAction func goBack(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     
 }
@@ -279,6 +290,8 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.hidesBackButton = true
+        
         DOBButton.layer.borderColor = UIColor.systemBlue.cgColor
         sexButton.layer.borderColor = UIColor.systemBlue.cgColor
         
@@ -291,10 +304,8 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     }
     
     @IBAction func goBack(_ sender: Any) {
-        //self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
-    
-    @IBAction func unwindToVC(segue:UIStoryboardSegue) { }
     
     @IBAction func goForward(_ sender: Any) {
         if (fieldsCorrect()) {
@@ -466,6 +477,8 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.hidesBackButton = true
+        
         let requestLayer = CAShapeLayer()
         requestLayer.path = UIBezierPath(roundedRect: requestButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         requestButton.layer.mask = requestLayer
@@ -594,8 +607,7 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     }
     
     @IBAction func goBack(_ sender: Any) {
-        //navigationController?.popViewController(animated: true)
-        performSegue(withIdentifier: "unwindto2", sender: self)
+        navigationController?.popViewController(animated: true)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -638,6 +650,15 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     }
 
 }
+
+
+
+
+
+
+
+
+
 
 
 //
