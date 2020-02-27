@@ -1017,7 +1017,7 @@
                                     <constraint firstAttribute="height" constant="55" id="nnb-Az-VBn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kx9-Jr-b3P">
                                 <rect key="frame" x="35" y="436" width="135" height="24"/>
@@ -1035,7 +1035,7 @@
                                     <constraint firstAttribute="height" constant="55" id="k83-CF-LaF"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm New Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhU-W7-KBZ">
                                 <rect key="frame" x="35" y="523" width="210" height="24"/>
@@ -1119,6 +1119,6 @@
         <image name="doc.plaintext" catalog="system" width="56" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="JDB-Jh-d9i"/>
+        <segue reference="bIQ-PC-edH"/>
     </inferredMetricsTieBreakers>
 </document>
