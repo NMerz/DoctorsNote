@@ -55,21 +55,21 @@ class Conversation {
     var lastMessageTime: Date?
 }
 
-class Message {
-    
-    enum MessageStatus {
-        case read
-        case delivered
-        case sent
-    }
-    
-    // User is sender
-    // Time sent
-    // Message read enum
-    // MessageID
-    var sender: User?
-    var timeSent: Date?
-    var status: MessageStatus?
-    var messageID: String?
-    
-}
+//class Message {
+//    
+//    enum MessageStatus {
+//        case read
+//        case delivered
+//        case sent
+//    }
+//    
+//    // User is sender
+//    // Time sent
+//    // Message read enum
+//    // MessageID
+//    var sender: User?
+//    var timeSent: Date?
+//    var status: MessageStatus?
+//    var messageID: String?
+//    
+//}
