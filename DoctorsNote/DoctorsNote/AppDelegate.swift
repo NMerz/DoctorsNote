@@ -130,12 +130,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 print(attribute)
             }
         }
-        let authorizedConnector = Connector()
-        AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
-        let processor = ConnectionProcessor(connector: authorizedConnector)
-        let (data, error) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest")
-        //print(error!.getMessage())
-        print(data!)
+//        let authorizedConnector = Connector()
+//        AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+//        let processor = ConnectionProcessor(connector: authorizedConnector)
+//        let (data, error) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest")
+//        //print(error!.getMessage())
+//        print(data!)
         
 //        AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
 //            switch (userState) {
