@@ -205,12 +205,12 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">&quot;{\&quot;userId\&quot;: \&quot;12345678910\&quot;}&quot;</stringProp>
+                <stringProp name="Argument.value">{&quot;userId&quot;: &quot;123456789&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList</stringProp>
+          <stringProp name="HTTPSampler.domain">ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
@@ -299,9 +299,9 @@
             <boolProp name="ISREGEX">true</boolProp>
           </JSONPathAssertion>
           <hashTree/>
-          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert unreadMessages is a boolean as a string" enabled="true">
-            <stringProp name="JSON_PATH">$.conversationList.[0].unreadMessages</stringProp>
-            <stringProp name="EXPECTED_VALUE">true|false</stringProp>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert status is an int" enabled="true">
+            <stringProp name="JSON_PATH">$.conversationList.[0].status</stringProp>
+            <stringProp name="EXPECTED_VALUE">[0-9]+</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
             <boolProp name="INVERT">false</boolProp>
@@ -318,6 +318,19 @@
           </JSONPathAssertion>
           <hashTree/>
         </hashTree>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Authorization</stringProp>
+              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWRkcmVzcyI6eyJmb3JtYXR0ZWQiOiJncmFoYW1yZCJ9LCJnZW5kZXIiOiJNYWxlIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfQ29icmcxa0JuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiMzdkNmE3NTgtZTc5Zi00NDJmLWFmNDktNmJmZjc4YzhhZDEwIiwibWlkZGxlX25hbWUiOiJCdXJrIiwiY3VzdG9tOnVzZXJJRCI6IjEyMzQ1Njc4OSIsImF1ZCI6IjRvZHU4bzRmbmVmNGV2N2Jvb2htYzFkOHRvIiwiZXZlbnRfaWQiOiJmOGQ5NWRmMC1mNDY1LTQwOWUtOWI4MS1kOTBjMDIzY2NmMmUiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU4MjgzNDg2MiwibmFtZSI6IkJlbiIsInBob25lX251bWJlciI6IisxODEyODAxNzY5OCIsImV4cCI6MTU4MjgzODQ2MiwiaWF0IjoxNTgyODM0ODYyLCJmYW1pbHlfbmFtZSI6IkhhcmRpbiIsImVtYWlsIjoiaGFyZGluMzBAcHVyZHVlLmVkdSJ9.ZmzHbitR5hIt3QStrxfgxXC7tYxjKKul3WbkXaLiJu61FYvPRT8tad66sc9apqcT3zrVXDSQkIr2tep-D4OL65HlJ9C61iKoFfehE9R-Gz--3PoO0Omdw7eXT9PDW4juvCFUQGHRDr111G5PU8-TUec-LBhD65D4ChfLvQNM59ZZQmzKGv5X8qJ6pdb8Fjp_y92QgP3WENq7QtRRqAxOUwtXI3iRSLPgvGAAJVfSvmoE98HJAZP5qBxiwPOo_GP3Mi_xN_HehebH-dO-W0yjRaAEH2143kxpERC9pSTxYbsNrY5pvy_2-HFpBmiYV2bkzDnzO7n1gbxdWR68sACBbw</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
       </hashTree>
     </hashTree>
   </hashTree>
