@@ -25,6 +25,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
         let processor : ConnectionProcessor = ConnectionProcessor(connector: Connector())
         (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationListMock")
+        print(conversationList)
+        print(conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
     }
     
@@ -33,17 +35,20 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+        print(conversationList?.count)
         if let l = conversationList {
+            print(l.count)
             return l.count
         } else {
+            print("NO ELEMENTS!")
             return 0
         }
         
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
+        cell.delegate = self
         return cell
     }
     
@@ -58,6 +63,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
 }
 
 class FriendCell: BaseCellC {
+    
+    var delegate: ConversationViewController?
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -128,7 +135,7 @@ class FriendCell: BaseCellC {
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if(sender.state == .ended) {
             //print("Success!")
-            
+            self.delegate?.performSegue(withIdentifier: "show_chat", sender: self.delegate!)
         }
     }
     
