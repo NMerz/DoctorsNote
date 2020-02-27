@@ -102,6 +102,13 @@ class SearchGroupCell: UITableViewCell {
 //        closeButton.layer.mask = layer
 //        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
 //
+        
+//        let joinButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
+//        let joinLayer = CAShapeLayer()
+//        joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath)
+//        joinButton.layer.mask = joinLayer
+//
+//        contentView.addSubview(joinButton)
 //        contentView.addSubview(closeButton)
 //        contentView.addSubview(nameLabel)
 //          contentView.addSubview(membersLabel)
