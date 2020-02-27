@@ -157,7 +157,7 @@ class MessagesCell: UITableViewCell {
 //        if message.sender == currentUser {
         if currentUser {
             sentMessageView.isHidden = false
-            sentMessageLabel.text = message.message
+            sentMessageLabel.text = String(bytes: message.getContent(), encoding: .utf8)
             receivedMessageView.isHidden = true
             receivedMessageLabel.text = ""
         }
@@ -165,7 +165,7 @@ class MessagesCell: UITableViewCell {
             sentMessageView.isHidden = true
             sentMessageLabel.text = ""
             receivedMessageView.isHidden = false
-            receivedMessageLabel.text = message.message
+            receivedMessageLabel.text = String(bytes: message.getContent(), encoding: .utf8)
         }
         
         
