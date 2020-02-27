@@ -16,12 +16,22 @@ import PopupKit
 //
 class AccountRegisterViewController: UIViewController {
     
-    @IBOutlet weak var emailField: UITextField!
-    @IBOutlet weak var passwordField: UITextField!
-    @IBOutlet weak var confirmField: UITextField!
+    @IBOutlet weak var emailField: CustomTextField!
+    @IBOutlet weak var passwordField: CustomTextField!
+    @IBOutlet weak var confirmField: CustomTextField!
+    @IBOutlet weak var errorLabel: UILabel!
+    
+    var p: PopupView?
+    var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .gray
+        view.addSubview(activityIndicator)
+        // TODO: REMOVE LATER
+        AWSMobileClient.default().signOut()
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -29,43 +39,157 @@ class AccountRegisterViewController: UIViewController {
     }
     
     @IBAction func goForward(_ sender: Any) {
-        //let email = emailField.text
-        //let password = passwordField.text
         if (fieldsCorrect()) {
-            return
+            self.activityIndicator.startAnimating()
+            // Sign up user with attributes to be added in the next controller
+            AWSMobileClient.default().signUp(username: emailField.text!, password: passwordField.text!, userAttributes: ["name":"", "middle_name":"", "family_name":"", "gender":"", "birthdate":"", "address":"", "phone_number":""]) { (res, err) in
+                if let err = err as? AWSMobileClientError {
+                    switch err {
+                    case .usernameExists, .invalidPassword:
+                        DispatchQueue.main.async {
+                            self.activityIndicator.stopAnimating()
+                            self.errorLabel.text = "Error: " + err.message
+                        }
+                        return
+                    default:
+                        print("\(err.message)")
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.errorLabel.text = ""
+                    self.activityIndicator.stopAnimating()
+                    self.performSegue(withIdentifier: "show_verification", sender: self)
+                    return
+                }
+            }
         }
-        performSegue(withIdentifier: "show_profile", sender: self)
-//        AWSMobileClient.default().signUp(username: email, password: password, userAttributes: ["name":"Ben", "middle_name":"Burk", "family_name":"Hardin", "gender":"Male", "birthdate":"06/19/2001", "address":"3980 N Graham Rd Madison IN 47250", "phone_number":"+18128017698"]) { (result, err) in
-//            if let err = err as? AWSMobileClientError {
-//                print("\(err.message)")
-//            } else {
-//                print("User signed up successfully.")
-//            }
-//        }
+    }
+    
+    func showPopup(_ message: String) {
+        let width : Int = Int(self.view.frame.width - 20)
+        let height = 200
+
+        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        contentView.backgroundColor = UIColor.white
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
+        contentView.layer.mask = maskLayer
+
+        p = PopupView.init(contentView: contentView)
+        p?.maskType = .dimmed
+
+        let label = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
+        label.text = message
+        label.numberOfLines = 5
+
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
+        closeButton.setTitle("Done", for: .normal)
+        closeButton.backgroundColor = UIColor.systemBlue
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        closeButton.layer.mask = layer
+        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
+
+        contentView.addSubview(closeButton)
+        contentView.addSubview(label)
+
+        let xPos = self.view.frame.width / 2
+        let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
+        let location = CGPoint.init(x: xPos, y: yPos)
+        p?.showType = .slideInFromBottom
+        p?.maskType = .dimmed
+        p?.dismissType = .slideOutToBottom
+        p?.show(at: location, in: self.navigationController!.view)
     }
         
     func fieldsCorrect() -> Bool {
-        let emailEmpty = emailField.text == ""
-        let passwordEmpty = passwordField.text == ""
-        let confirmEmpty = confirmField.text == ""
-        if (emailEmpty) {
-            emailField.layer.borderColor = UIColor.systemRed.cgColor
-        } else {
-            emailField.layer.borderColor = UIColor.systemBlue.cgColor
-        }
-        if (passwordEmpty) {
-            passwordField.layer.borderColor = UIColor.systemRed.cgColor
-        } else {
-            passwordField.layer.borderColor = UIColor.systemBlue.cgColor
-        }
-        if (confirmEmpty) {
-            confirmField.layer.borderColor = UIColor.systemRed.cgColor
-        } else {
-            confirmField.layer.borderColor = UIColor.systemBlue.cgColor
+        let emailEmpty = emailField.isEmpty()
+        let emailValid = emailField.isValidEmail()
+        let passwordEmpty = passwordField.isEmpty()
+        let confirmEmpty = confirmField.isEmpty()
+        
+        return (!emailEmpty && !passwordEmpty && !confirmEmpty && emailValid)
+    }
+    
+    @objc func dismissPopup(sender: UIButton!) {
+        p?.dismissType = .slideOutToBottom
+        p?.dismiss(animated: true)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextVC = segue.destination as! ConfirmAccountViewController
+        nextVC.email = emailField.text!
+    }
+    
+    @IBAction func hasCode(_ sender: Any) {
+        self.performSegue(withIdentifier: "show_verification", sender: self)
+    }
+    
+
+}
+
+
+
+
+class ConfirmAccountViewController: UIViewController {
+    
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var emailField: CustomTextField!
+    @IBOutlet weak var codeField: CustomTextField!
+    var email: String?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if (email != "") {
+            emailLabel.isHidden = true
+            emailField.isHidden = true
+            
+            emailLabel.isEnabled = false
+            emailField.isEnabled = false
         }
         
-        return (emailEmpty || passwordEmpty || confirmEmpty)
     }
+    
+    @IBAction func goForward(_ sender: Any) {
+        // Verify code
+        
+        var emailEmpty = true
+        var emailValid = false
+        if (email == "") {
+            // Email has not been passed to this controller
+            email = emailField.text!
+            emailEmpty = emailField.isEmpty()
+            emailValid = emailField.isValidEmail()
+        } else {
+            emailEmpty = false
+            emailValid = true
+        }
+        
+        let codeEmpty = codeField.isEmpty()
+        
+        if (!emailValid || emailEmpty || codeEmpty) {
+            self.errorLabel.textColor = UIColor.black
+            self.errorLabel.text = "Enter the verification code emailed to you below."
+            return
+        }
+        
+        AWSMobileClient.default().confirmSignUp(username: email!, confirmationCode: codeField.text!) { (res, err) in
+            if let err = err as? AWSMobileClientError {
+                DispatchQueue.main.async {
+                    self.errorLabel.textColor = UIColor.systemRed
+                    self.errorLabel.text = err.message
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "show_profile", sender: self)
+                }
+            }
+        }
+    }
+    
+    
     
 }
 
@@ -124,14 +248,14 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     }
     
     func checkFields() -> Bool {
-        let first = firstNameField.isNotEmpty()
-        let middle = middleNameField.isNotEmpty()
-        let last = lastNameField.isNotEmpty()
-        let phone = phoneField.isNotEmpty()
-        let street = streetField.isNotEmpty()
-        let city = cityField.isNotEmpty()
-        let state = stateField.isNotEmpty()
-        let zip = zipField.isNotEmpty()
+        let first = firstNameField.isEmpty()
+        let middle = middleNameField.isEmpty()
+        let last = lastNameField.isEmpty()
+        let phone = phoneField.isEmpty()
+        let street = streetField.isEmpty()
+        let city = cityField.isEmpty()
+        let state = stateField.isEmpty()
+        let zip = zipField.isEmpty()
         
         var DOBFilled = false
         if (DOB == "") {
@@ -313,6 +437,14 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         if (!hospitalSelected || !providerSelected) {
             return
         }
+        
+        //AWSMobileClient.default().signUp(username: emailField.text!, password: passwordField.text!, userAttributes: ["name":"", "middle_name":"", "family_name":"", "gender":"", "birthdate":"06/19/2001", "address":"3980 N Graham Rd Madison IN 47250", "phone_number":"+18128017698"]) { (result, err) in
+        //            if let err = err as? AWSMobileClientError {
+        //                print("\(err.message)")
+        //            } else {
+        //                print("User signed up successfully.")
+        //            }
+        //        }
         
     //        AWSMobileClient.default().signOut()
     //        AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
@@ -511,14 +643,31 @@ class CustomTextField: UITextField {
         return self.textRect(forBounds: bounds)
     }
     
-    func isNotEmpty() -> Bool {
+    func isEmpty() -> Bool {
         if (self.text == "") {
             self.layer.borderColor = UIColor.systemRed.cgColor
-            return false
+            return true
         } else {
             self.layer.borderColor = UIColor.systemBlue.cgColor
             return false
         }
+    }
+    
+    /*
+     Source:
+     https://stackoverflow.com/questions/25471114/how-to-validate-an-e-mail-address-in-swift
+     */
+    func isValidEmail() -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        let valid = emailPred.evaluate(with: self.text)
+        if (valid) {
+            self.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            self.layer.borderColor = UIColor.systemRed.cgColor
+        }
+        return valid
     }
 }
 

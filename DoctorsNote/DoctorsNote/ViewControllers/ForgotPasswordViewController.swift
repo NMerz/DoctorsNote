@@ -8,6 +8,8 @@
 
 import UIKit
 import PopupKit
+import AWSCognito
+import AWSMobileClient
 
 class ForgotPasswordViewController: UIViewController {
 
@@ -26,6 +28,11 @@ class ForgotPasswordViewController: UIViewController {
     }
     
     @IBAction func recover(_ sender: Any) {
+        
+        if (emailField.text == "") {
+            emailField.layer.borderColor = UIColor.systemRed.cgColor
+            return
+        }
         
         let width : Int = Int(self.view.frame.width - 20)
         let height = 200
@@ -61,6 +68,14 @@ class ForgotPasswordViewController: UIViewController {
         p?.maskType = .dimmed
         p?.dismissType = .slideOutToBottom
         p?.show(at: location, in: self.navigationController!.view)
+        
+        AWSMobileClient.default().forgotPassword(username: emailField!.text!) { (res, err) in
+            if let err = err as? AWSMobileClientError {
+                print("\(err.message)")
+            } else {
+                print("Password reset sent")
+            }
+        }
         
     }
     

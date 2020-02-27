@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AWSCognito
+import AWSMobileClient
 
 class LoginViewController: UIViewController {
     
@@ -24,6 +26,31 @@ class LoginViewController: UIViewController {
         mask.path = UIBezierPath(roundedRect: loginButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         loginButton.layer.mask = mask
 
+    }
+    
+    @IBAction func login(_ sender: Any) {
+        let emailEmpty = emailField.isEmpty()
+        let emailValid = emailField.isValidEmail()
+        let passwordEmpty = passwordField.isEmpty()
+        
+        if (emailEmpty || passwordEmpty || !emailValid) {
+            return
+        }
+        
+        if (!AWSMobileClient.default().isSignedIn) {
+            AWSMobileClient.default().signIn(username: emailField.text!, password: passwordField.text!) { (result, err) in
+                if let err = err as? AWSMobileClientError {
+                    print("\(err.message)")
+                    return
+                } else {
+                    print("user signed in ")
+                }
+            
+            }
+        }
+        
+        self.performSegue(withIdentifier: "go_to_main", sender: self)
+    
     }
     
 
