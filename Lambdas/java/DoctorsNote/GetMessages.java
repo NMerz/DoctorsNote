@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 /*
  * A Lambda handler for getting the most recent N messages in a given conversation.
@@ -16,18 +17,20 @@ import java.util.ArrayList;
  *
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
-public class GetMessages implements RequestHandler<String, String> {
+public class GetMessages implements RequestHandler<Map<String,Object>, Object> {
     private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender FROM Message" +
             " WHERE conversationID=\"%s\" ORDER BY timeCreated DESC LIMIT %d;";
 
-    public String handleRequest(String jsonString, Context context) {
+    public GetMessagesResponse handleRequest(Map<String,Object> jsonString, Context context) {
         try {
-            // Converting the passed JSON string into a POJO
-            Gson gson = new Gson();
-            GetMessagesRequest request = gson.fromJson(jsonString, GetMessagesRequest.class);
+            Map<String, Object> body = (Map<String,Object>)jsonString.get("body");
+            String conversationId = (body).get("conversationId").toString();
+            int nMessages = Integer.parseInt((body).get("nMessages").toString());
+            int startIndex = Integer.parseInt((body).get("startIndex").toString());
+            long sinceWhen = Long.parseLong((body).get("sinceWhen").toString());
+            GetMessagesRequest request = new GetMessagesRequest(conversationId, nMessages, startIndex, sinceWhen);
 
             // Establish connection with MariaDB
-            DBCredentialsProvider dbCP;
             Connection connection = getConnection();
 
             // Reading from database
@@ -53,10 +56,9 @@ public class GetMessages implements RequestHandler<String, String> {
             connection.close();
 
             Message[] tempArray = new Message[messages.size()];
-            GetMessagesResponse response = new GetMessagesResponse(messages.toArray(tempArray));
-
-            return gson.toJson(response);
+            return new GetMessagesResponse(messages.toArray(tempArray));
         } catch (Exception e) {
+            System.out.println(e.toString());
             return null;
         }
     }
@@ -78,6 +80,13 @@ public class GetMessages implements RequestHandler<String, String> {
         private int nMessages;
         private int startIndex;
         private long sinceWhen;
+
+        public GetMessagesRequest(String conversationId, int nMessages, int startIndex, long sinceWhen) {
+            this.conversationId = conversationId;
+            this.nMessages = nMessages;
+            this.startIndex = startIndex;
+            this.sinceWhen = sinceWhen;
+        }
 
         public String getConversationId() {
             return conversationId;

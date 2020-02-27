@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Date;
 import java.sql.*;
+import java.util.Map;
 
 /*
  * A Lambda handler for adding messages to a conversation on behalf of a user.
@@ -18,18 +19,19 @@ import java.sql.*;
  *
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
-public class AddMessage implements RequestHandler<String, String> {
+public class AddMessage implements RequestHandler<Map<String,Object>, Object> {
     private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID, recipient) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', '000000000');";
 
     @Override
-    public String handleRequest(String jsonString, Context context) {
+    public Object handleRequest(Map<String,Object> jsonString, Context context) {
         try {
-            // Converting the passed JSON string into a POJO
-            Gson gson = new Gson();
-            AddMessageRequest request = gson.fromJson(jsonString, AddMessage.AddMessageRequest.class);
+            Map<String, Object> body = (Map<String,Object>)jsonString.get("body");
+            String conversationId = (body).get("conversationId").toString();
+            String content = (body).get("content").toString();
+            String senderId = (body).get("senderId").toString();
+            AddMessageRequest request = new AddMessageRequest(conversationId, content, senderId);
 
             // Establish connection with MariaDB
-            DBCredentialsProvider dbCP;
             Connection connection = getConnection();
 
             // Write to database (note: recipientId is intentionally omitted since it is unnecessary for future ops)
@@ -45,7 +47,7 @@ public class AddMessage implements RequestHandler<String, String> {
             connection.close();
 
             // Serialize and return an empty response object
-            return gson.toJson(new AddMessageResponse());
+            return new AddMessageResponse();
         } catch (Exception e) {
             return null;
         }
@@ -67,6 +69,12 @@ public class AddMessage implements RequestHandler<String, String> {
         private String conversationId;
         private String content;
         private String senderId;
+
+        public AddMessageRequest(String conversationId, String content, String senderId) {
+            this.conversationId = conversationId;
+            this.content = content;
+            this.senderId = senderId;
+        }
 
         public String getConversationId() {
             return conversationId;
