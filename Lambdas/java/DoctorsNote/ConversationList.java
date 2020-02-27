@@ -55,7 +55,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
                 System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
             }
 //            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
-            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("user").toString());
+            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("dn-user-id").toString());
 
             // Extracting necessary fields from POJO
             String userId = request.getUserId();

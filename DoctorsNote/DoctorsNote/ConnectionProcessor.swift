@@ -140,7 +140,11 @@ class ConnectionProcessor {
             let conversation = conversationDict as! [String : Any?]
             print(conversation)
            // let conversation = conversationList[conversationKey] as! [String : Any?]
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["Status"] as? Int) != nil) {
+            print(conversation["conversationID"] as? Int)
+            print(conversation["converserID"] as? Int)
+            print(conversation["lastMessageTime"] as? TimeInterval)
+            print(conversation["status"] as? Int)
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
                 let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["status"] as! Int != 0)
                 conversations.append(newConversation)
             } else {
