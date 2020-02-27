@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
+import java.util.Map;
 
 /*
  * A Lambda handler for creating a new conversation.
@@ -19,17 +20,18 @@ import java.util.Date;
  *
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
-public class CreateConversation implements RequestHandler<String, String> {
+public class CreateConversation implements RequestHandler<Map<String,Object>, Object> {
     private final String addMessageFormatString = "INSERT INTO Conversation (conversationName, lastMessageTime) VALUES (\'%s\', \'%s\');";
 
-    public String handleRequest(String jsonString, Context context) {
+    public CreateConversationResponse handleRequest(Map<String,Object> jsonString, Context context) {
         try {
-            // Converting the passed JSON string into a POJO
-            Gson gson = new Gson();
-            CreateConversationRequest request = gson.fromJson(jsonString, CreateConversationRequest.class);
+            // NEEDS TO ADD TO THE CONVERSATION_HAS_USER TABLE TOO.
+            // KIND OF USELESS RN.
+            // TODO: ^^^^^^^^
+
+            CreateConversationRequest request = new CreateConversationRequest(((Map<String,Object>)jsonString.get("body")).get("conversationName").toString());
 
             // Establish connection with MariaDB
-            DBCredentialsProvider dbCP;
             Connection connection = getConnection();
 
             // Write to database
@@ -42,7 +44,7 @@ public class CreateConversation implements RequestHandler<String, String> {
             // Disconnect connection with shortest lifespan possible
             connection.close();
 
-            return gson.toJson(new CreateConversationResponse());
+            return new CreateConversationResponse();
         } catch (Exception e) {
             return null;
         }
@@ -62,6 +64,10 @@ public class CreateConversation implements RequestHandler<String, String> {
 
     private class CreateConversationRequest {
         private String conversationName;
+
+        public CreateConversationRequest(String conversationName) {
+            this.conversationName = conversationName;
+        }
 
         public String getConversationName() {
             return conversationName;
