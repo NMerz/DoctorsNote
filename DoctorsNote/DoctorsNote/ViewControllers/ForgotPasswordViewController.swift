@@ -77,6 +77,8 @@ class ForgotPasswordViewController: UIViewController {
             }
         }
         
+        //AWSMobileClient.default().confirmForgotPassword(username: <#T##String#>, newPassword: <#T##String#>, confirmationCode: <#T##String#>, completionHandler: <#T##((ForgotPasswordResult?, Error?) -> Void)##((ForgotPasswordResult?, Error?) -> Void)##(ForgotPasswordResult?, Error?) -> Void#>)
+        
     }
     
     @objc func dismissPopup() {

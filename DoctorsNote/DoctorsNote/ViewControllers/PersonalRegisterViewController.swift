@@ -107,8 +107,14 @@ class AccountRegisterViewController: UIViewController {
         let emailValid = emailField.isValidEmail()
         let passwordEmpty = passwordField.isEmpty()
         let confirmEmpty = confirmField.isEmpty()
+        let passwordsEqual = (passwordField.text! == confirmField.text!)
+        if (passwordsEqual) {
+            errorLabel.text = ""
+        } else {
+            errorLabel.text = "Error: Password entries do not match."
+        }
         
-        return (!emailEmpty && !passwordEmpty && !confirmEmpty && emailValid)
+        return (!emailEmpty && !passwordEmpty && !confirmEmpty && emailValid && passwordsEqual)
     }
     
     @objc func dismissPopup(sender: UIButton!) {
@@ -137,7 +143,10 @@ class ConfirmAccountViewController: UIViewController {
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var emailField: CustomTextField!
     @IBOutlet weak var codeField: CustomTextField!
+    @IBOutlet weak var createButton: UIButton!
+    
     var email: String?
+    var p: PopupView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,11 +159,15 @@ class ConfirmAccountViewController: UIViewController {
             emailField.isEnabled = false
         }
         
+        let requestLayer = CAShapeLayer()
+        requestLayer.path = UIBezierPath(roundedRect: createButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        createButton.layer.mask = requestLayer
+        
     }
     
-    @IBAction func goForward(_ sender: Any) {
+    @IBAction func createUser(_ sender: Any) {
         // Verify code
-        
+            
         var emailEmpty = true
         var emailValid = false
         if (email == "") {
@@ -183,10 +196,53 @@ class ConfirmAccountViewController: UIViewController {
                 }
             } else {
                 DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "show_profile", sender: self)
+                    self.showPopup()
                 }
             }
         }
+    }
+    
+    func showPopup() {
+        let width : Int = Int(self.view.frame.width - 20)
+        let height = 200
+
+        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        contentView.backgroundColor = UIColor.white
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
+        contentView.layer.mask = maskLayer
+
+        p = PopupView.init(contentView: contentView)
+        p?.maskType = .dimmed
+
+        let label = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
+        label.text = "Account has been created! Sign in to finish setting up your profile."
+        label.numberOfLines = 5
+
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
+        closeButton.setTitle("Done", for: .normal)
+        closeButton.backgroundColor = UIColor.systemBlue
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        closeButton.layer.mask = layer
+        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
+
+        contentView.addSubview(closeButton)
+        contentView.addSubview(label)
+
+        let xPos = self.view.frame.width / 2
+        let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
+        let location = CGPoint.init(x: xPos, y: yPos)
+        p?.showType = .slideInFromBottom
+        p?.maskType = .dimmed
+        p?.dismissType = .slideOutToBottom
+        p?.show(at: location, in: self.navigationController!.view)
+    }
+        
+    @objc func dismissPopup(sender: UIButton!) {
+        p?.dismissType = .slideOutToBottom
+        p?.dismiss(animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     
@@ -241,13 +297,26 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBAction func unwindToVC(segue:UIStoryboardSegue) { }
     
     @IBAction func goForward(_ sender: Any) {
-        // FIX THIS !!!!!
-        if (!checkFields()) {
+        if (fieldsCorrect()) {
+            // TODO ADD PHONE NUMBER VALIDATION
+            let address = streetField.text! + " " + cityField.text! + " " + stateField.text! + " " + zipField.text!
+            let phone = "+1" + phoneField.text!
+            AWSMobileClient.default().updateUserAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleNameField.text!, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
+                if let err = err as? AWSMobileClientError {
+                    print("\(err.message)")
+                } else {
+                    print("Info updated correctly!")
+                }
+            }
+            
+            
+            
+            
             self.performSegue(withIdentifier: "show_third", sender: self)
         }
     }
     
-    func checkFields() -> Bool {
+    func fieldsCorrect() ->Bool {
         let first = firstNameField.isEmpty()
         let middle = middleNameField.isEmpty()
         let last = lastNameField.isEmpty()
@@ -257,35 +326,26 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let state = stateField.isEmpty()
         let zip = zipField.isEmpty()
         
-        var DOBFilled = false
+        var DOBFilled = true
         if (DOB == "") {
             DOBButton.layer.borderColor = UIColor.systemRed.cgColor
-            DOBFilled = true
+            DOBFilled = false
         } else {
             DOBButton.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
-        var sexFilled = false
+        var sexFilled = true
         if (sex == "") {
             sexButton.layer.borderColor = UIColor.systemRed.cgColor
-            sexFilled = true
+            sexFilled = false
         } else {
             sexButton.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
-        // False if fields filled
-        return (
-            first
-            && middle
-            && last
-            && DOBFilled
-            && sexFilled
-            && phone
-            && street
-            && city
-            && state
-            && zip
-        )
+        if (first || middle || last || phone || street || city || state || zip || !DOBFilled || !sexFilled) {
+            return false
+        }
+        return true
     }
     
     @IBAction func showDOB(_ sender: Any) {
@@ -312,6 +372,9 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         if (tag == 1) {
             DOBPicker = UIDatePicker(frame: CGRect(x: 5, y: 5, width: contentView.frame.width - 10, height: 200))
             DOBPicker?.datePickerMode = .date
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy/MM/dd HH:mm"
+            DOBPicker?.minimumDate = formatter.date(from: "1900/01/01 00:00")
             DOBPicker?.maximumDate = Date()
         }
         else if (tag == 2) {
@@ -438,6 +501,8 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             return
         }
         
+        self.performSegue(withIdentifier: "finish", sender: self)
+        
         //AWSMobileClient.default().signUp(username: emailField.text!, password: passwordField.text!, userAttributes: ["name":"", "middle_name":"", "family_name":"", "gender":"", "birthdate":"06/19/2001", "address":"3980 N Graham Rd Madison IN 47250", "phone_number":"+18128017698"]) { (result, err) in
         //            if let err = err as? AWSMobileClientError {
         //                print("\(err.message)")
@@ -496,10 +561,17 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         p = PopupView.init(contentView: contentView)
         p?.maskType = .dimmed
         
-        picker = UIPickerView(frame: CGRect(x: 5, y: 5, width: contentView.frame.width - 10, height: 200))
-        picker?.tag = tag
-        picker?.dataSource = self
-        picker?.delegate = self
+//        if (tag == 3) {
+//            let label = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
+//            label.text = "Account has been requested! You will receive an email when you have been approved."
+//            label.numberOfLines = 5
+//        } else {
+            picker = UIPickerView(frame: CGRect(x: 5, y: 5, width: contentView.frame.width - 10, height: 200))
+            picker?.tag = tag
+            picker?.dataSource = self
+            picker?.delegate = self
+            contentView.addSubview(picker!)
+//        }
         
         
         let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 50))
@@ -511,7 +583,6 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         
         contentView.addSubview(closeButton)
-        contentView.addSubview(picker!)
         
         let xPos = self.view.frame.width / 2
         let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
@@ -556,15 +627,14 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             hospital = hospitals[(picker?.selectedRow(inComponent: 0))!]
             
             selectHospitalButton.setTitle(hospital, for: .normal)
-            p?.dismissType = .slideOutToBottom
-            p?.dismiss(animated: true)
         }
         else if (picker?.tag == 2) {
             provider = providers[(picker?.selectedRow(inComponent: 0))!]
             selectHealthcareButton.setTitle(provider, for: .normal)
-            p?.dismissType = .slideOutToBottom
-            p?.dismiss(animated: true)
         }
+        p?.dismissType = .slideOutToBottom
+        p?.dismiss(animated: true)
+            
     }
 
 }

@@ -28,6 +28,11 @@ class LoginViewController: UIViewController {
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        // TODO: REMOVE LATER
+        AWSMobileClient.default().signOut()
+    }
+    
     @IBAction func login(_ sender: Any) {
         let emailEmpty = emailField.isEmpty()
         let emailValid = emailField.isValidEmail()
@@ -37,19 +42,34 @@ class LoginViewController: UIViewController {
             return
         }
         
-        if (!AWSMobileClient.default().isSignedIn) {
+        // TODO: Remove this signed in check
+        //if (!AWSMobileClient.default().isSignedIn) {
             AWSMobileClient.default().signIn(username: emailField.text!, password: passwordField.text!) { (result, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")
                     return
                 } else {
-                    print("user signed in ")
+                    AWSMobileClient.default().getUserAttributes { (dict, err) in
+                        if let err = err{
+                            
+                        }
+                        // Means the user hasn't udpate info yet. This is probably not the best way to do this...
+                        let name = dict!["name"]
+                        if (name == nil) {
+                            DispatchQueue.main.async {
+                                self.performSegue(withIdentifier: "show_profile_setup", sender: self)
+                            }
+                        } else {
+                            DispatchQueue.main.async {
+                                self.performSegue(withIdentifier: "go_to_main", sender: self)
+                            }
+                        }
+                    }
+                    
                 }
             
             }
-        }
-        
-        self.performSegue(withIdentifier: "go_to_main", sender: self)
+        //}
     
     }
     
