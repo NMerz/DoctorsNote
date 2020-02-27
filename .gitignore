@@ -1,2 +1,9 @@
 DoctorsNote/DoctorsNote.xcworkspace/
+.idea
+out
+*.zip
+*.xcuserdatad
+.DS_Store
 xcuserdata
+*.iml
+xcshareddata
