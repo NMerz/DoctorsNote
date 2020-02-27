@@ -160,10 +160,10 @@
                                     <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="30"/>
                                 </state>
+                                <connections>
+                                    <segue destination="YQO-5g-p9B" kind="show" id="wQ6-6f-7Kn"/>
+                                </connections>
                             </button>
-                            <connections>
-                                <segue destination="YQO-5g-p9B" kind="show" id="mLm-g6-Clp"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
@@ -171,30 +171,30 @@
             </objects>
             <point key="canvasLocation" x="113" y="1126"/>
         </scene>
-        <!--Search Groups Table View Controller-->
+        <!--Search Groups-->
         <scene sceneID="VEe-R6-4x1">
             <objects>
                 <tableViewController id="YQO-5g-p9B" customClass="SearchGroupsTableViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zAb-r7-4oM">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zAb-r7-4oM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="search_cell" rowHeight="115" id="UYi-56-7hV" customClass="SearchGroupCell" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="115"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="search_cell" rowHeight="100" id="UYi-56-7hV" customClass="SearchGroupCell" customModule="DoctorsNote" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UYi-56-7hV" id="OJZ-LI-MSK">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="115"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support Group Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="meO-JV-JIy">
-                                            <rect key="frame" x="30" y="47" width="163" height="21"/>
+                                            <rect key="frame" x="30" y="39.5" width="163" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojV-4R-tep">
-                                            <rect key="frame" x="359" y="45.5" width="25" height="24"/>
+                                            <rect key="frame" x="359" y="38" width="25" height="24"/>
                                             <connections>
                                                 <action selector="showInfo:" destination="UYi-56-7hV" eventType="touchUpInside" id="DBQ-Nq-pe9"/>
                                             </connections>
@@ -208,7 +208,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="nameLabel" destination="Zqi-AX-saP" id="LxB-iZ-byD"/>
+                                    <outlet property="nameLabel" destination="meO-JV-JIy" id="FcR-Yp-44L"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -217,7 +217,7 @@
                             <outlet property="delegate" destination="YQO-5g-p9B" id="v6z-Vk-PnK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="lmN-fq-ff5"/>
+                    <navigationItem key="navigationItem" title="Search Groups" id="lmN-fq-ff5"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ljS-lC-AKk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
