@@ -152,7 +152,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="JbX-VW-IcF">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="DP8-Qs-tqJ">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TOa-vY-LKx">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TOa-vY-LKx">
                                 <rect key="frame" x="320" y="6" width="74" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <inset key="imageEdgeInsets" minX="35" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -171,16 +171,16 @@
             </objects>
             <point key="canvasLocation" x="113" y="1126"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Search Groups Table View Controller-->
         <scene sceneID="VEe-R6-4x1">
             <objects>
-                <tableViewController id="YQO-5g-p9B" sceneMemberID="viewController">
+                <tableViewController id="YQO-5g-p9B" customClass="SearchGroupsTableViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zAb-r7-4oM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="115" id="UYi-56-7hV">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="search_cell" rowHeight="115" id="UYi-56-7hV" customClass="SearchGroupCell" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="115"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UYi-56-7hV" id="OJZ-LI-MSK">
@@ -195,6 +195,9 @@
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ojV-4R-tep">
                                             <rect key="frame" x="359" y="45.5" width="25" height="24"/>
+                                            <connections>
+                                                <action selector="showInfo:" destination="UYi-56-7hV" eventType="touchUpInside" id="DBQ-Nq-pe9"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -204,6 +207,9 @@
                                         <constraint firstItem="meO-JV-JIy" firstAttribute="leading" secondItem="OJZ-LI-MSK" secondAttribute="leadingMargin" constant="10" id="xLo-HZ-uFM"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="nameLabel" destination="Zqi-AX-saP" id="LxB-iZ-byD"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
