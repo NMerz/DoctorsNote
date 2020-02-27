@@ -21,6 +21,8 @@ class ForgotPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.hidesBackButton = true
+        
         let mask = CAShapeLayer()
         mask.path = UIBezierPath(roundedRect: recoverButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         recoverButton.layer.mask = mask
@@ -90,6 +92,10 @@ class ForgotPasswordViewController: UIViewController {
         p?.dismissType = .slideOutToBottom
         p?.dismiss(animated: true)
         self.performSegue(withIdentifier: "input_code", sender: self)
+    }
+    
+    @IBAction func goBack(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
     }
     
 }
