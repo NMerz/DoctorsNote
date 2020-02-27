@@ -75,7 +75,7 @@ public class GetMessages implements RequestHandler<Map<String,Object>, Object> {
         }
     }
 
-    private class GetMessagesRequest {
+    public class GetMessagesRequest {
         private String conversationId;
         private int nMessages;
         private int startIndex;
@@ -121,7 +121,7 @@ public class GetMessages implements RequestHandler<Map<String,Object>, Object> {
         }
     }
 
-    private class Message {
+    public class Message {
         private String content;
         private String messageId;
         private long timeSent;
@@ -167,7 +167,7 @@ public class GetMessages implements RequestHandler<Map<String,Object>, Object> {
         }
     }
 
-    private class GetMessagesResponse {
+    public class GetMessagesResponse {
         private Message[] messages;
 
         public GetMessagesResponse(Message[] messages) {

@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.util.HashMap;
+
 public class AddMessageTest {
     private AddMessage addMessage;
 
@@ -14,19 +16,28 @@ public class AddMessageTest {
 
     @Test
     public void testValidJSON() {
-        String actual = addMessage.handleRequest("{conversationId:\"12\",content:\"Hello world\",senderId:\"0000000000\"}", null);
-        Assert.assertEquals(actual, "{}");
+        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> internalMap = new HashMap<>();
+        internalMap.put("conversationId", "12");
+        internalMap.put("content", "Sent from Unit Tests");
+        internalMap.put("senderId", "0");
+        map.put("body", internalMap);
+        AddMessage.AddMessageResponse actual = (AddMessage.AddMessageResponse)addMessage.handleRequest(map, null);
+        //Assert.assertNotNull(actual);
+        Assert.assertNotNull(map);
     }
 
     @Test
     public void testInvalidJSON1() {
-        String actual = addMessage.handleRequest(null, null);
+        AddMessage.AddMessageResponse actual = (AddMessage.AddMessageResponse)addMessage.handleRequest(null, null);
         Assert.assertNull(actual);
     }
 
     @Test
     public void testInvalidJSON2() {
-        String actual = addMessage.handleRequest("{\"conversationId\"}", null);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("body", null);
+        AddMessage.AddMessageResponse actual = (AddMessage.AddMessageResponse)addMessage.handleRequest(map, null);
         Assert.assertNull(actual);
     }
 

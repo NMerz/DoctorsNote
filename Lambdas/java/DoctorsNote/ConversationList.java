@@ -100,7 +100,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
         }
     }
 
-    private class ConversationListRequest {
+    public class ConversationListRequest {
         private String userId;
 
         public ConversationListRequest() {
@@ -120,7 +120,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
         }
     }
 
-    private class Conversation {
+    public class Conversation {
         private String conversationName;
         private int conversationID;
         private int converserID;
@@ -177,7 +177,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
         }
     }
 
-    private class ConversationListResponse {
+    public class ConversationListResponse {
         private Conversation[] conversationList;
 
         public ConversationListResponse(Conversation[] conversationList) {

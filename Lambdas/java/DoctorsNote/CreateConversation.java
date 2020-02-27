@@ -62,7 +62,7 @@ public class CreateConversation implements RequestHandler<Map<String,Object>, Ob
         }
     }
 
-    private class CreateConversationRequest {
+    public class CreateConversationRequest {
         private String conversationName;
 
         public CreateConversationRequest(String conversationName) {
@@ -78,7 +78,7 @@ public class CreateConversation implements RequestHandler<Map<String,Object>, Ob
         }
     }
 
-    private class CreateConversationResponse {
+    public class CreateConversationResponse {
         // No payload necessary
     }
 

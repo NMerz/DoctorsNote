@@ -2,7 +2,6 @@ package DoctorsNote;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.Date;
@@ -65,7 +64,7 @@ public class AddMessage implements RequestHandler<Map<String,Object>, Object> {
         }
     }
 
-    private class AddMessageRequest {
+    public class AddMessageRequest {
         private String conversationId;
         private String content;
         private String senderId;
@@ -101,7 +100,7 @@ public class AddMessage implements RequestHandler<Map<String,Object>, Object> {
         }
     }
 
-    private class AddMessageResponse {
+    public class AddMessageResponse {
         // No payload necessary
     }
 
