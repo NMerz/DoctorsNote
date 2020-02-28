@@ -29,22 +29,6 @@
             </objects>
             <point key="canvasLocation" x="-1091.304347826087" y="381.69642857142856"/>
         </scene>
-        <!--ProfileVC-->
-        <scene sceneID="8nC-kT-9yn">
-            <objects>
-                <viewController title="ProfileVC" id="mUm-ZQ-b5L" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="HEp-jf-aJ5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="Gxa-TX-UfL"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle" catalog="system" id="w52-L4-hok"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pwn-wp-ViK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2075" y="382"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ibc-jV-CHq">
             <objects>
@@ -55,7 +39,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="mUm-ZQ-b5L" kind="relationship" relationship="viewControllers" id="VuX-vi-Msc"/>
+                        <segue destination="XEr-Ex-JO7" kind="relationship" relationship="viewControllers" id="no5-aq-aeR"/>
                         <segue destination="by2-sr-bJ2" kind="relationship" relationship="viewControllers" id="iFy-Wi-UEg"/>
                         <segue destination="Ml0-kQ-FII" kind="relationship" relationship="viewControllers" id="Idp-DO-wYC"/>
                     </connections>
@@ -63,6 +47,127 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-P5-HIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1090" y="-424"/>
+        </scene>
+        <!--ProfileVC-->
+        <scene sceneID="bl0-pt-0Wn">
+            <objects>
+                <viewController title="ProfileVC" id="on2-3t-fWa" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KHq-gX-5s0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv0-xE-D1Q">
+                                <rect key="frame" x="168" y="296" width="79" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Calendar"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VJ-be-CxQ">
+                                <rect key="frame" x="161" y="430" width="93" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Reminders"/>
+                                <connections>
+                                    <segue destination="dL1-jY-wCS" kind="show" identifier="toReminders" id="VbK-ty-blY"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="iHi-vc-bhP"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Lc4-3k-ZyS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M82-w5-fEh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2107" y="1140"/>
+        </scene>
+        <!--RemindersVC-->
+        <scene sceneID="hH5-yg-d2e">
+            <objects>
+                <viewController title="RemindersVC" id="dL1-jY-wCS" customClass="RemindersVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="e3l-xi-5bL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9eb-sB-320">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="reminderCell" id="mZo-L1-XoP">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mZo-L1-XoP" id="Of1-XL-sa3">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="dL1-jY-wCS" id="BfK-Wy-C8q"/>
+                                    <outlet property="delegate" destination="dL1-jY-wCS" id="nl0-lg-ApW"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="9eb-sB-320" firstAttribute="top" secondItem="PEJ-W1-Ubj" secondAttribute="top" id="O3V-N5-nVx"/>
+                            <constraint firstItem="9eb-sB-320" firstAttribute="bottom" secondItem="PEJ-W1-Ubj" secondAttribute="bottom" id="W6o-zm-GqC"/>
+                            <constraint firstItem="9eb-sB-320" firstAttribute="trailing" secondItem="PEJ-W1-Ubj" secondAttribute="trailing" id="miq-Xm-ZR1"/>
+                            <constraint firstItem="9eb-sB-320" firstAttribute="leading" secondItem="PEJ-W1-Ubj" secondAttribute="leading" id="yud-U3-Xhd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PEJ-W1-Ubj"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="j1A-A7-Aal">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Z5i-5V-Y40">
+                            <connections>
+                                <segue destination="RXi-Bb-4K3" kind="show" id="eiL-2X-LzH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="remindersTableView" destination="9eb-sB-320" id="iWC-d8-HTf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0cd-zm-MKK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1778.2608695652175" y="1838.8392857142856"/>
+        </scene>
+        <!--Add ReminderVC-->
+        <scene sceneID="VYU-UK-zHe">
+            <objects>
+                <viewController id="RXi-Bb-4K3" customClass="AddReminderVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0xg-lI-1zQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter reminder here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6lN-tr-Q2v">
+                                <rect key="frame" x="35" y="280" width="328" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MMA-Tr-0gL">
+                                <rect key="frame" x="138" y="330" width="124" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Add Reminder"/>
+                                <connections>
+                                    <action selector="addReminderButtonAction:" destination="RXi-Bb-4K3" eventType="touchUpInside" id="uJh-ON-4s7"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="W5E-zh-Zmg"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="zOW-vT-N2X"/>
+                    <connections>
+                        <outlet property="addReminderButton" destination="MMA-Tr-0gL" id="o0f-Oa-K12"/>
+                        <outlet property="newReminderField" destination="6lN-tr-Q2v" id="XXn-oE-ZrA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ciS-Rz-2ye" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1778.2608695652175" y="2501.7857142857142"/>
         </scene>
         <!--MessageVC-->
         <scene sceneID="orL-i7-zni">
@@ -128,7 +233,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qmJ-sZ-GrZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1091.304347826087" y="1125.6696428571429"/>
+            <point key="canvasLocation" x="-181.15942028985509" y="1125.6696428571429"/>
         </scene>
         <!--SupportGroupConversationsVC-->
         <scene sceneID="cUj-DJ-cOk">
@@ -175,7 +280,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BFq-XH-YRt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="113" y="1126"/>
+            <point key="canvasLocation" x="1021.7391304347827" y="1125.6696428571429"/>
         </scene>
         <!--Search Groups-->
         <scene sceneID="VEe-R6-4x1">
@@ -229,7 +334,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ljS-lC-AKk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="898.55072463768124" y="1125"/>
+            <point key="canvasLocation" x="1808.6956521739132" y="1125"/>
         </scene>
         <!--SupportGroupMessageVC-->
         <scene sceneID="p3z-Ar-qZ7">
@@ -529,11 +634,30 @@
             </objects>
             <point key="canvasLocation" x="114" y="382"/>
         </scene>
+        <!--ProfileNavigationVC-->
+        <scene sceneID="JmD-YT-Mtc">
+            <objects>
+                <navigationController title="ProfileNavigationVC" automaticallyAdjustsScrollViewInsets="NO" id="XEr-Ex-JO7" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="nxc-L4-vCV"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zfa-U6-I7d">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="on2-3t-fWa" kind="relationship" relationship="rootViewController" id="4wz-MS-Kni"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yVQ-aK-cCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2107" y="382"/>
+        </scene>
     </scenes>
     <resources>
         <image name="magnifyingglass" catalog="system" width="64" height="56"/>
         <image name="message" catalog="system" width="64" height="56"/>
         <image name="person.3.fill" catalog="system" width="71" height="34"/>
-        <image name="person.crop.circle" catalog="system" width="64" height="60"/>
+        <image name="person.fill" catalog="system" width="64" height="60"/>
     </resources>
 </document>

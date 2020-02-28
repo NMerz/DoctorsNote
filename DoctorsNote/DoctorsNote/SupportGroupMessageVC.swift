@@ -22,6 +22,7 @@ class SupportGroupMessageVC: UIViewController, UITableViewDelegate, UITableViewD
     var recipient: String!
 
     override func viewDidLoad() {
+        navigationItem.title = recipient
         super.viewDidLoad()
 //        tableView.delegate = self
 //        tableView.dataSource = self
