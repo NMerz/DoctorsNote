@@ -342,7 +342,7 @@
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -465,12 +465,12 @@
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist</stringProp>
+          <stringProp name="HTTPSampler.domain">o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -548,12 +548,12 @@
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">2wahxpoqf9.execute-api.us-east-2.amazonaws.com/default/PythonAPITest</stringProp>
+          <stringProp name="HTTPSampler.domain">o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
           <stringProp name="HTTPSampler.path"></stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
@@ -661,7 +661,7 @@
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Authorization</stringProp>
-              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWRkcmVzcyI6eyJmb3JtYXR0ZWQiOiJncmFoYW1yZCJ9LCJnZW5kZXIiOiJNYWxlIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfQ29icmcxa0JuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiMzdkNmE3NTgtZTc5Zi00NDJmLWFmNDktNmJmZjc4YzhhZDEwIiwibWlkZGxlX25hbWUiOiJCdXJrIiwiY3VzdG9tOnVzZXJJRCI6IjEyMzQ1Njc4OSIsImF1ZCI6IjRvZHU4bzRmbmVmNGV2N2Jvb2htYzFkOHRvIiwiZXZlbnRfaWQiOiI2YmRkNTA4Ny0yYzg1LTQyNjktODhiYS1kYjdlYjBlZDFhMDkiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU4MjkxNDE1MywibmFtZSI6IkJlbiIsInBob25lX251bWJlciI6IisxODEyODAxNzY5OCIsImV4cCI6MTU4MjkxNzc1MywiaWF0IjoxNTgyOTE0MTU0LCJmYW1pbHlfbmFtZSI6IkhhcmRpbiIsImVtYWlsIjoiaGFyZGluMzBAcHVyZHVlLmVkdSJ9.KdaNgn8q_bvH8fx8TzQLFG3_XaodyWKt90wLh46Qu2KEePP8sM09U2dxaP7UmfFKvgpM8jbekMlQJIko5m5pJ6qdIhlDvF9DwT5kkOKMxDvUrrd3pf7IdN8oioNOS_dr0SnQR-wPE5ab2DVl4Mr6iSEi-JWhPr2DrY6HUN0vJzhzPtBj24nYHrZueqlHizbVvWwAG9lTalgKXTzENnmhhifpNarypJL8pB3O0pKo2rUVGDuPfwkRjiygDVMftn4Gb1hvBWf_mQcB9B72kz13palqJBM2ccS_5kj4mJRlGFgigadtKdsaOd7zfT571gfn-FJ1Qn7UYBgXbe18t4Hw5A</stringProp>
+              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWRkcmVzcyI6eyJmb3JtYXR0ZWQiOiJncmFoYW1yZCJ9LCJnZW5kZXIiOiJNYWxlIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfQ29icmcxa0JuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiMzdkNmE3NTgtZTc5Zi00NDJmLWFmNDktNmJmZjc4YzhhZDEwIiwibWlkZGxlX25hbWUiOiJCdXJrIiwiY3VzdG9tOnVzZXJJRCI6IjEyMzQ1Njc4OSIsImF1ZCI6IjRvZHU4bzRmbmVmNGV2N2Jvb2htYzFkOHRvIiwiZXZlbnRfaWQiOiJlYzk1MWI2OC1iMGMzLTQ2ZTQtYThkZS1hMWI2ZDQ5MDU4ZjAiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU4MjkyMzAyOSwibmFtZSI6IkJlbiIsInBob25lX251bWJlciI6IisxODEyODAxNzY5OCIsImV4cCI6MTU4MjkzMjMzMiwiaWF0IjoxNTgyOTI4NzMyLCJmYW1pbHlfbmFtZSI6IkhhcmRpbiIsImVtYWlsIjoiaGFyZGluMzBAcHVyZHVlLmVkdSJ9.XeXvgbCHX3XUzEeQQi8yXkBvySeCPvwHhQhhS8plvq_5M7wJsCDT6zdw5t6dPfC8lcuVklVEnv4jRUA92op3pQdN2GtROr20Q20s-ZoicOFtzpz6HiOXcsjJ8o3F5PRK4Ih-rdW7VWBPeGZDHAxJUt_qGCba-gPRFwSuw9o3I3FeUUxNuXYhdh2drgYmMlfIdj2ToxQvsNud2ScMhdpY3mVCTFgOg5QfVDkmDVVLA5Qs4QQVgEDTf3txsPbNvln7vHqiXLwJNgWEHtcF0AK53OBeMz6EbOvYLUvlUaPUEMYq1Xe_89go1Qiyc-IpB632RfrinF2Phh3aNTuM51V2fw</stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>
