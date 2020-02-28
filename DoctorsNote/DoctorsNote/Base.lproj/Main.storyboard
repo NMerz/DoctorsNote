@@ -140,7 +140,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="t27-19-jx8" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
-                                <rect key="frame" x="20" y="168" width="374" height="400"/>
+                                <rect key="frame" x="20" y="220" width="374" height="400"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="374" id="O0h-uU-NHX"/>
@@ -572,7 +572,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dhO-Og-etF">
                                 <rect key="frame" x="0.0" y="763" width="414" height="50"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gdB-B8-s8Y">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gdB-B8-s8Y">
                                         <rect key="frame" x="8" y="5" width="340" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -810,7 +810,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVQ-aK-cCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2107" y="382"/>
-            <point key="canvasLocation" x="-1349" y="1136"/>
         </scene>
         <!--Chat Log Controller-->
         <scene sceneID="d7C-ca-aj3">
