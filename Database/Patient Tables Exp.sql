@@ -20,14 +20,14 @@ USE `DoctorsNote` ;
 -- Table `DoctorsNote`.`Address`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Address` (
-  `idAddress` INT NOT NULL,
+  `addressID` INT NOT NULL,
   `Street1` VARCHAR(45) NULL,
   `Street2` VARCHAR(45) NULL,
   `City` VARCHAR(45) NULL,
   `State` VARCHAR(2) NULL COMMENT 'State code of two letters e.g. OH\n\nMight need to change this for foreign countries.',
   `Country` VARCHAR(45) NULL,
   `PostalCode` INT NULL,
-  PRIMARY KEY (`idAddress`))
+  PRIMARY KEY (`addressID`))
 ENGINE = InnoDB;
 
 
@@ -35,16 +35,16 @@ ENGINE = InnoDB;
 -- Table `DoctorsNote`.`Personal Information`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Personal Information` (
-  `idPersonal Information` INT NOT NULL,
+  `personalInformationID` INT NOT NULL,
   `Name` VARCHAR(45) NOT NULL,
   `Birth Date` DATE NULL,
   `Sex` VARCHAR(10) NULL,
   `Phone Number` INT(11) NULL,
-  `Address_idAddress` INT NOT NULL,
-  PRIMARY KEY (`idPersonal Information`, `Address_idAddress`),
+  `addressID` INT NOT NULL,
+  PRIMARY KEY (`personalInformationID`, `addressID`),
   CONSTRAINT `fk_Personal Information_Address1`
-    FOREIGN KEY (`Address_idAddress`)
-    REFERENCES `DoctorsNote`.`Address` (`idAddress`)
+    FOREIGN KEY (`addressID`)
+    REFERENCES `DoctorsNote`.`Address` (`addressID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -54,17 +54,17 @@ ENGINE = InnoDB;
 -- Table `DoctorsNote`.`Patient`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Patient` (
-  `idPatient` INT NOT NULL,
+  `patientID` INT NOT NULL,
   `Nickname` VARCHAR(45) NULL,
   `Public Key` INT NOT NULL,
   `Failed Logins` INT NULL,
   `Username` VARCHAR(45) NULL,
-  `Personal Information_idPersonal Information` INT NOT NULL,
-  `Personal Information_Address_idAddress` INT NOT NULL,
-  PRIMARY KEY (`idPatient`, `Personal Information_idPersonal Information`, `Personal Information_Address_idAddress`),
+  `personalInfromationID` INT NOT NULL,
+  `addressID` INT NOT NULL,
+  PRIMARY KEY (`patientID`, `personalInfromationID`, `addressID`),
   CONSTRAINT `fk_Patient_Personal Information1`
-    FOREIGN KEY (`Personal Information_idPersonal Information` , `Personal Information_Address_idAddress`)
-    REFERENCES `DoctorsNote`.`Personal Information` (`idPersonal Information` , `Address_idAddress`)
+    FOREIGN KEY (`personalInfromationID` , `addressID`)
+    REFERENCES `DoctorsNote`.`Personal Information` (`personalInfromationID` , `addressID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
