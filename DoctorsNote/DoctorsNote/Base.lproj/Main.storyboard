@@ -57,12 +57,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv0-xE-D1Q">
-                                <rect key="frame" x="168" y="491" width="79" height="36"/>
+                                <rect key="frame" x="150" y="491" width="114" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Calendar"/>
+                                <connections>
+                                    <segue destination="ot2-vW-eD3" kind="show" id="bCO-5L-Sym"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VJ-be-CxQ">
-                                <rect key="frame" x="161" y="606" width="93" height="36"/>
+                                <rect key="frame" x="150" y="606" width="114" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Reminders"/>
                                 <connections>
@@ -78,9 +81,13 @@
                         <constraints>
                             <constraint firstItem="jv0-xE-D1Q" firstAttribute="top" secondItem="V1e-MI-kWw" secondAttribute="bottom" constant="20" id="gAz-X0-Q4d"/>
                             <constraint firstItem="2VJ-be-CxQ" firstAttribute="top" secondItem="jv0-xE-D1Q" secondAttribute="bottom" constant="10" id="iFB-lv-WLD"/>
+                            <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="2VJ-be-CxQ" secondAttribute="trailing" constant="150" id="jSp-ru-6YC"/>
                             <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="V1e-MI-kWw" secondAttribute="trailing" constant="20" id="mEo-PJ-3j1"/>
                             <constraint firstItem="V1e-MI-kWw" firstAttribute="top" secondItem="iHi-vc-bhP" secondAttribute="top" constant="20" id="oRw-pX-ptM"/>
+                            <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="jv0-xE-D1Q" secondAttribute="trailing" constant="150" id="pdy-qm-Km1"/>
                             <constraint firstItem="V1e-MI-kWw" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="20" id="qLi-ML-DWg"/>
+                            <constraint firstItem="2VJ-be-CxQ" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="150" id="xaC-sR-lcx"/>
+                            <constraint firstItem="jv0-xE-D1Q" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="150" id="xk7-2u-0p1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iHi-vc-bhP"/>
                     </view>
@@ -92,6 +99,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M82-w5-fEh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2107" y="1140"/>
+        </scene>
+        <!--CalendarVC-->
+        <scene sceneID="YdV-5z-1vE">
+            <objects>
+                <viewController title="CalendarVC" id="ot2-vW-eD3" customClass="CalendarVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Jdr-8Z-YvF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="rlw-Pu-7d6"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="RnN-Ad-nak"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ik4-HT-eLQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2771" y="1839"/>
         </scene>
         <!--RemindersVC-->
         <scene sceneID="hH5-yg-d2e">
