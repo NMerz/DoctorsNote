@@ -55,11 +55,12 @@ try {
   throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-$result = $pdo->query("USE DoctorsNote; SELECT Patient.patientID, `Personal Information`.Name, `Personal Information`.`Birth Date` FROM Patient JOIN `Personal Information` ON Patient.personalInformationID = `Personal Information`.personalInformationID;");
+$result = $pdo->query("SELECT patientID, Name, `Birth Date`
+FROM Patient
+JOIN `Personal Information` ON Patient.personalInformationID = `Personal Information`.personalInformationID;");
 
   while ($row = $result-> fetch()) {
-    echo "<tr><td>". $row["patientID"] ."</td><td>". 
-      $row["Name"] ."</td><td>". $row["`Birth Date`"] ."</td></tr>";
+    echo "<tr><td>". $row["patientID"] ."</td><td>". $row["Name"] ."</td><td>". $row["Birth Date"] ."</td></tr>";
   }
   echo "</table>";
 

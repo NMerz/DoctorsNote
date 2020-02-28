@@ -52,6 +52,7 @@ p {margin: 0px;}
 ul, li {
 	margin: 0px;
 	list-style-type: none;
+
 }
 
 
@@ -66,9 +67,17 @@ form.formNice {
 
 input {
   display: block;
-	outline: solid 1px lightgray;
+	outline: solid 1px gray;
 	border: none !important;
         margin: 10px auto;
+        margin-top: 0px;
+        padding: 0px 3px;
+}
+
+label.labelNice {
+    width: 100%;
+    text-align: center;
+    margin: 0px;
 }
 
 textarea {

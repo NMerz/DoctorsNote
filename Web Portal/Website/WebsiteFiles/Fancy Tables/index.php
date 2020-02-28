@@ -55,8 +55,8 @@ else
 							<thead>
 								<tr class="row100 head">
 									<th class="cell100 column1">UserID</th>
-									<th class="cell100 column2">Username</th>
-									<th class="cell100 column3">Name</th>
+									<th class="cell100 column2">Name</th>
+									<th class="cell100 column3">Username</th>
 									<th class="cell100 column4">Birth Date</th>
 									<th class="cell100 column5">Sex</th>
 								</tr>
@@ -93,13 +93,14 @@ try {
 
 $resultPatient = $pdo->query("SELECT patientID, Username, Name, `Birth Date`, Sex 
 FROM Patient
-JOIN `Personal Information` ON Patient.personalInformationID = `Personal Information`.personalInformationID;");
+JOIN `Personal Information` ON Patient.personalInformationID = `Personal Information`.personalInformationID
+ORDER BY Name;");
 
   while ($row = $resultPatient-> fetch()) {
     echo "<tr class=\"row100 head\">
             <td class=\"cell100 column1\">". $row["patientID"] ."</td>
-            <td class=\"cell100 column2\">". $row["Username"] ."</td>
-            <td class=\"cell100 column3\">". $row["Name"] ."</td>
+            <td class=\"cell100 column2\">". $row["Name"] ."</td>
+            <td class=\"cell100 column3\">". $row["Username"] ."</td>
             <td class=\"cell100 column4\">". $row["Birth Date"] ."</td>
             <td class=\"cell100 column5\">". $row["Sex"] ."</td>
           </tr>";
@@ -142,7 +143,8 @@ JOIN `Personal Information` ON Patient.personalInformationID = `Personal Informa
 <?php
 
 $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
-                             FROM Doctor");
+                             FROM Doctor
+                             ORDER BY Name;");
 
   while ($row = $resultDoctor-> fetch()) {
     echo "<tr class=\"row100 head\">
@@ -166,12 +168,14 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
 
 
 <?php
-  echo "<h2>Insert Doctor ID to see paired Patients</h2>";
+  echo "<h2>Insert Doctor ID to see pairings</h2>";
+  echo "<br>";
   echo "<form class='form' method='post'>";
-  echo "<input class='input' type='number' name='doctorIDinput' />";
-  echo "<br />";
+  echo "<label for='doctorIDinput' class='labelNice'>Doctor ID:</label>
+        <input class='input' type='number' name='doctorIDinput' />";
+  //echo "<br />";
   echo "<input class='submit' type='submit' name='submit' value='update' />";
-  echo "</form>";
+  echo "</form> <br>";
 
   if (isset($_POST['submit'])) {
 
@@ -186,9 +190,11 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
                                JOIN Doctor ON Doctor.doctorID = Doctor_has_Patient.doctorID
                                JOIN Patient ON Doctor_has_Patient.patientID = Patient.patientID
                                JOIN `Personal Information` ON `Personal Information`.personalInformationID = Patient.personalInformationID
-                               WHERE Doctor_has_Patient.doctorID = $doctorIDinput;");
+                               WHERE Doctor_has_Patient.doctorID = $doctorIDinput
+                               ORDER BY pat_name;");
     
-    echo "<h2>List of Doctors</h2>";
+    echo "<h2>List of Doctor-Patient Pairing</h2>";
+
 
     echo "<div class=\"limiter\">
 		<div class=\"container-table100\">
@@ -229,6 +235,7 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
   } //end if
 
 ?>
+
 								</tr>
 							</tbody>
 						</table>
@@ -237,6 +244,78 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
 			</div>
 		</div>
 	</div>
+
+<?php
+  echo "<h2>Insert Doctor ID and Patient ID for Pairing</h2>";
+  echo "<br>";
+  echo "<form class='form' method='post'>";
+  echo "<label for='doctorIDinputPair' class='labelNice'>Doctor ID:</label>
+        <input class='input' type='number' name='doctorIDinputPair'/>";
+  echo "<label for='patientIDinputPair' class = 'labelNice'>Patient ID:</label>
+        <input class='input' type='number' name='patientIDinputPair'/>";
+  //echo "<br />";
+  echo "<input class='submit' type='submit' name='submitPair' value='update' />";
+  echo "</form> <br>";
+
+  if (isset($_POST['submitPair'])) {
+    $doctorIDinputPair = $_POST['doctorIDinputPair'];
+    $patientIDinputPair = $_POST['patientIDinputPair'];
+
+
+    try {
+      if (isset($doctorIDinputPair) && trim($doctorIDinputPair) != ''
+          && isset($patientIDinputPair) && trim($patientIDinputPair) != '') {
+        $pdo->query("INSERT INTO Doctor_has_Patient (doctorID, patientID)
+                     VALUES ($doctorIDinputPair, $patientIDinputPair);");
+        echo "<h4>Successfully Updated!</h4>";
+      }
+    }
+    catch (PDOException $e) {
+      if ($e->errorInfo[1] == 1062) {
+        echo "<h4>Pairing already exists!</h4>";
+      } else {
+        echo "<h4>Something went wrong, make sure both the doctor and patient exist.</h4>";
+      }
+    }
+  }
+?>
+
+<br />
+
+<?php
+  echo "<h2>Insert Doctor ID and Patient ID for Un-Pairing</h2>";
+  echo "<br>";
+  echo "<form class='form' method='post'>";
+  echo "<label for='doctorIDinputUnpair' class='labelNice'>Doctor ID:</label>
+        <input class='input' type='number' name='doctorIDinputUnpair'/>";
+  echo "<label for='patientIDinputUnpair' class = 'labelNice'>Patient ID:</label>
+        <input class='input' type='number' name='patientIDinputUnpair'/>";
+  //echo "<br />";
+  echo "<input class='submit' type='submit' name='submitUnpair' value='update' />";
+  echo "</form> <br>";
+
+  if (isset($_POST['submitUnpair'])) {
+    $doctorIDinputUnpair = $_POST['doctorIDinputUnpair'];
+    $patientIDinputUnpair = $_POST['patientIDinputUnpair'];
+
+
+    try {
+      if (isset($doctorIDinputUnpair) && trim($doctorIDinputUnpair) != ''
+          && isset($patientIDinputUnpair) && trim($patientIDinputUnpair) != '') {
+        $pdo->query("DELETE FROM Doctor_has_Patient WHERE doctorID = $doctorIDinputUnpair AND patientID = $patientIDinputUnpair;");
+        echo "<h4>Success!</h4>";
+      }
+    }
+    catch (PDOException $e) {
+      if ($e->errorInfo[1] == 1062) {
+        echo "<h4>Oops! Something went wrong, please try again.</h4>";
+      } else {
+        echo "<h4>Something went wrong, make sure both the doctor and patient exist.</h4>";
+      }
+    }
+  }
+?>
+<br>
 
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
