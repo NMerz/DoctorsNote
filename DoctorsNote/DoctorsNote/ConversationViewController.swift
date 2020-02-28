@@ -10,15 +10,23 @@ import UIKit
 
 //private let reuseIdentifier = "Cell"
 
-class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+    
     
     private let cellId = "cellId"
     private var conversationList: [Conversation]?
+    private var filteredConversationList: [Conversation]?
+    let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Recent"
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Points"
+        navigationItem.searchController = searchController
         
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
@@ -30,18 +38,41 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         //super.present(MessageCollectionVC(), animated: true)
     }
     
+    func updateSearchResults(for searchController: UISearchController) {
+        filteredConversationList = conversationList!.filter({( conversation : Conversation) -> Bool in
+            let searched = searchController.searchBar.text!.lowercased()
+            let inFirstName = conversation.getConversationPartner().getFirstName().contains(searched)
+            let inLastName = conversation.getConversationPartner().getLastName().contains(searched)
+            return (inFirstName || inLastName)
+        })
+        collectionView.reloadData()
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
-        if let l = conversationList {
-            //print(l.count)
-            return l.count
+        if (isFiltering()) {
+            return filteredConversationList!.count
         } else {
-            //print("NO ELEMENTS!")
-            return 0
+            if let l = conversationList {
+                //print(l.count)
+                return l.count
+            } else {
+                //print("NO ELEMENTS!")
+                return 0
+            }
         }
         
     }
