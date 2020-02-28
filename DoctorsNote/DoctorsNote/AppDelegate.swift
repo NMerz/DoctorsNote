@@ -69,7 +69,7 @@ extension AWSMobileClientError {
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -99,6 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ////        }
 //
 //
+<<<<<<< HEAD
         AWSMobileClient.default().signOut()
         var signInWaiter = DispatchSemaphore(value: 0)
         if (!AWSMobileClient.default().isSignedIn) {
@@ -134,9 +135,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
 //        let processor = ConnectionProcessor(connector: authorizedConnector)
 //        let (data, error) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest")
+        
+        
+        
 //        //print(error!.getMessage())
 //        print(data!)
         
+=======
+        
+//        if (!AWSMobileClient.default().isSignedIn) {
+//            AWSMobileClient.default().signIn(username: "hardin30@purdue.edu", password: "DoctorsNote1@") { (signInResult, error) in
+//                if let error = error as? AWSMobileClientError {
+//                    print("\(error.message)")
+//                } else if let signInResult = signInResult {
+//                    switch (signInResult.signInState) {
+//                    case .signedIn:
+//                        print("User is signed in.")
+//                    case .smsMFA:
+//                        print("SMS message sent to \(signInResult.codeDetails!.destination!)")
+//                    case .newPasswordRequired:
+//                        print("New password required")
+//                    default:
+//                        print("Sign In needs info which is not yet supported.")
+//                    }
+//                }
+//            }
+//        } else {
+//            AWSMobileClient.default().signOut()
+//            
+//        }
+//            
+//        
+>>>>>>> origin/dev
 //        AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
 //            switch (userState) {
 //            case .guest:
