@@ -158,7 +158,7 @@ class MessagesCell: UITableViewCell {
 //        if message.sender == currentUser {
         if currentUser {
             sentMessageView.isHidden = false
-            sentMessageLabel.text = message.message
+            //sentMessageLabel.text = message.message
             receivedMessageView.isHidden = true
             receivedMessageLabel.text = ""
         }
@@ -166,7 +166,7 @@ class MessagesCell: UITableViewCell {
             sentMessageView.isHidden = true
             sentMessageLabel.text = ""
             receivedMessageView.isHidden = false
-            receivedMessageLabel.text = message.message
+            //receivedMessageLabel.text = message.message
         }
         
         
