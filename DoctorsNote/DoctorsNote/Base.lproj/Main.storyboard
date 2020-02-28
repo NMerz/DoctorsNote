@@ -25,14 +25,31 @@
                         <cells/>
                     </collectionView>
                     <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="1jf-H2-gNh"/>
+                    <navigationItem key="navigationItem" id="BIr-l7-1TX"/>
                     <connections>
                         <segue destination="Wdc-ot-CDS" kind="show" identifier="show_chat" id="x1J-F9-w9L"/>
-                        <segue destination="qrY-CR-dFM" kind="presentation" identifier="open_chat" modalPresentationStyle="overFullScreen" id="cbR-Dz-3zz"/>
+                        <segue destination="qrY-CR-dFM" kind="show" identifier="open_chat" id="cbR-Dz-3zz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wcq-WC-jTA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1091.304347826087" y="381.69642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Wu9-Cf-QZV">
+            <objects>
+                <navigationController id="PZA-wq-2AD" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PTK-Yp-Zr9">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="by2-sr-bJ2" kind="relationship" relationship="rootViewController" id="7Ub-Gu-Gh9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YuV-z5-j02" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2831" y="-375"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ibc-jV-CHq">
@@ -330,7 +347,7 @@
             <objects>
                 <viewController title="MessageVC" id="Wdc-ot-CDS" customClass="MessageCollectionVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TDd-jW-Elo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="uVB-tL-4d1">
@@ -346,7 +363,7 @@
                                 <cells/>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qn4-SY-qnD">
-                                <rect key="frame" x="0.0" y="764" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-y5-wVJ">
                                         <rect key="frame" x="8" y="5" width="340" height="34"/>
@@ -391,7 +408,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qmJ-sZ-GrZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-181.15942028985509" y="1125.6696428571429"/>
+            <point key="canvasLocation" x="-893" y="1140"/>
         </scene>
         <!--SupportGroupConversationsVC-->
         <scene sceneID="cUj-DJ-cOk">
@@ -809,7 +826,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVQ-aK-cCh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2107" y="382"/>
+            <point key="canvasLocation" x="-2593" y="352"/>
         </scene>
         <!--Chat Log Controller-->
         <scene sceneID="d7C-ca-aj3">
@@ -825,13 +842,39 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="20" minY="20" maxX="20" maxY="20"/>
                         </collectionViewFlowLayout>
+                        <view key="backgroundView" contentMode="scaleToFill" id="TdV-lU-OC3">
+                            <rect key="frame" x="0.0" y="-88" width="414" height="896"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfI-FG-NCz">
+                                    <rect key="frame" x="344" y="816" width="50" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="50" id="DmY-qN-HVd"/>
+                                    </constraints>
+                                    <state key="normal" title="Send"/>
+                                </button>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-Pw-VPi">
+                                    <rect key="frame" x="10" y="812" width="324" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="yfI-FG-NCz" secondAttribute="trailing" constant="20" id="8lI-w2-SjS"/>
+                                <constraint firstItem="yfI-FG-NCz" firstAttribute="leading" secondItem="VaR-Pw-VPi" secondAttribute="trailing" constant="10" id="dxH-IL-QMK"/>
+                                <constraint firstAttribute="bottom" secondItem="VaR-Pw-VPi" secondAttribute="bottom" constant="50" id="e8V-nu-fqk"/>
+                                <constraint firstItem="VaR-Pw-VPi" firstAttribute="leading" secondItem="TdV-lU-OC3" secondAttribute="leading" constant="10" id="llg-ei-sSh"/>
+                                <constraint firstItem="VaR-Pw-VPi" firstAttribute="bottom" secondItem="yfI-FG-NCz" secondAttribute="bottom" id="xU7-61-TXl"/>
+                            </constraints>
+                        </view>
                         <cells/>
                     </collectionView>
                     <navigationItem key="navigationItem" id="Ntu-NM-gzM"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YEM-Ro-IEG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-138" y="1137"/>
+            <point key="canvasLocation" x="-139.13043478260872" y="1135.0446428571429"/>
         </scene>
     </scenes>
     <resources>
@@ -841,4 +884,7 @@
         <image name="person.3.fill" catalog="system" width="71" height="34"/>
         <image name="person.fill" catalog="system" width="64" height="60"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="7Ub-Gu-Gh9"/>
+    </inferredMetricsTieBreakers>
 </document>
