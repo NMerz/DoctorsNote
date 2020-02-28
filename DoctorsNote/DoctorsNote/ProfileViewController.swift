@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AWSCognito
+import AWSMobileClient
 
 class ProfileViewController: UIViewController {
    
@@ -21,6 +23,17 @@ class ProfileViewController: UIViewController {
         personalInfoView.layer.shadowOffset = CGSize.zero
         let mask = CAShapeLayer()
         mask.path = UIBezierPath(roundedRect: personalInfoView.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        
+        AWSMobileClient.default().getUserAttributes { (attr, err) in
+            if let err = err as? AWSMobileClientError {
+                print("\(err.message)")
+            }
+            else if (attr != nil) {
+                DispatchQueue.main.async {
+                    self.navigationItem.title = attr!["name"]! + " " + attr!["family_name"]!
+                }
+            }
+        }
         //personalInfoView.layer.mask = mask
         
     }
