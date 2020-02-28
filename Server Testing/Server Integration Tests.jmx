@@ -402,7 +402,7 @@
           </JSONPathAssertion>
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert messageID is a number" enabled="true">
-            <stringProp name="JSON_PATH">$.messages.[0].messageID</stringProp>
+            <stringProp name="JSON_PATH">$.messages.[0].messageId</stringProp>
             <stringProp name="EXPECTED_VALUE">[0-9][0-9]*</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
@@ -410,17 +410,8 @@
             <boolProp name="ISREGEX">true</boolProp>
           </JSONPathAssertion>
           <hashTree/>
-          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert conversationID matches sent" enabled="true">
-            <stringProp name="JSON_PATH">$.messages.[0].conversationID</stringProp>
-            <stringProp name="EXPECTED_VALUE">10</stringProp>
-            <boolProp name="JSONVALIDATION">true</boolProp>
-            <boolProp name="EXPECT_NULL">false</boolProp>
-            <boolProp name="INVERT">false</boolProp>
-            <boolProp name="ISREGEX">true</boolProp>
-          </JSONPathAssertion>
-          <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert senderID is a number" enabled="true">
-            <stringProp name="JSON_PATH">$.messages.[0].senderID</stringProp>
+            <stringProp name="JSON_PATH">$.messages.[0].sender</stringProp>
             <stringProp name="EXPECTED_VALUE">[0-9]+</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
@@ -614,7 +605,7 @@
           </JSONPathAssertion>
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert messageID is a number" enabled="true">
-            <stringProp name="JSON_PATH">$.messages.[0].messageID</stringProp>
+            <stringProp name="JSON_PATH">$.messages.[0].messageId</stringProp>
             <stringProp name="EXPECTED_VALUE">[0-9][0-9]*</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
@@ -622,17 +613,8 @@
             <boolProp name="ISREGEX">true</boolProp>
           </JSONPathAssertion>
           <hashTree/>
-          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert conversationID matches sent" enabled="true">
-            <stringProp name="JSON_PATH">$.messages.[0].conversationID</stringProp>
-            <stringProp name="EXPECTED_VALUE">10</stringProp>
-            <boolProp name="JSONVALIDATION">true</boolProp>
-            <boolProp name="EXPECT_NULL">false</boolProp>
-            <boolProp name="INVERT">false</boolProp>
-            <boolProp name="ISREGEX">false</boolProp>
-          </JSONPathAssertion>
-          <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert senderID matches sent" enabled="true">
-            <stringProp name="JSON_PATH">$.messages.[0].senderID</stringProp>
+            <stringProp name="JSON_PATH">$.messages.[0].sender</stringProp>
             <stringProp name="EXPECTED_VALUE">123456789</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
