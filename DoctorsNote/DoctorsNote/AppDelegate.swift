@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ////        }
 //
 //
-<<<<<<< HEAD
+/*<<<<<<< HEAD
         AWSMobileClient.default().signOut()
         var signInWaiter = DispatchSemaphore(value: 0)
         if (!AWSMobileClient.default().isSignedIn) {
@@ -202,7 +202,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
 //
 //        print(AWSMobileClient.default().currentUserState)
-        
+        */
         return true
     }
 
