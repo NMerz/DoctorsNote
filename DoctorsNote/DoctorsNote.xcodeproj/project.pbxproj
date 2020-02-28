@@ -37,6 +37,8 @@
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
 		B82083D324039A2100CF41D0 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D224039A2100CF41D0 /* Form.swift */; };
 		B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */; };
+		B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49032408F462000E6ABC /* RemindersVC.swift */; };
+		B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49052408F80E000E6ABC /* AddReminderVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +98,8 @@
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
 		B82083D224039A2100CF41D0 /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGroupConfirmationVC.swift; sourceTree = "<group>"; };
+		B87E49032408F462000E6ABC /* RemindersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersVC.swift; sourceTree = "<group>"; };
+		B87E49052408F80E000E6ABC /* AddReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderVC.swift; sourceTree = "<group>"; };
 		D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote_DoctorsNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6ADBC30FAE0BA411483A71E /* Pods-DoctorsNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 		B52ABE6823F5B872007B3D6A /* DoctorsNote */ = {
 			isa = PBXGroup;
 			children = (
+				B87E49022408F422000E6ABC /* Profile */,
 				B54E4F272408EDA200349316 /* ViewControllers */,
 				B54E4F2F2408EDA200349316 /* Views */,
 				B54E4F2C2408EDA200349316 /* ViewXIB */,
@@ -252,6 +257,15 @@
 				B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */,
 			);
 			path = SupportGroup;
+			sourceTree = "<group>";
+		};
+		B87E49022408F422000E6ABC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B87E49032408F462000E6ABC /* RemindersVC.swift */,
+				B87E49052408F80E000E6ABC /* AddReminderVC.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		C6A1F618B19D1798082BEE97 /* Pods */ = {
@@ -518,6 +532,7 @@
 				B54E4F322408EDA200349316 /* PersonalRegisterViewController.swift in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
 				B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */,
+				B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B54E4F252408ED8300349316 /* DataModel.swift in Sources */,
 				B82083CD24036C0200CF41D0 /* Message.swift in Sources */,
@@ -527,6 +542,7 @@
 				B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */,
 				B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */,
 				B54E4F342408EDA200349316 /* LoginNavigationController.swift in Sources */,
+				B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */,
 				B54E4F392408EDA200349316 /* DOBView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

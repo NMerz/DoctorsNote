@@ -1,24 +1,27 @@
 //
-//  RequestGroupConfirmationVC.swift
+//  AddReminderVC.swift
 //  DoctorsNote
 //
-//  Created by Ariana Zhu on 2/27/20.
+//  Created by Ariana Zhu on 2/28/20.
 //  Copyright © 2020 Team7. All rights reserved.
 //
 
 import UIKit
 
-class RequestGroupConfirmationVC: UIViewController {
+class AddReminderVC: UIViewController {
+    @IBOutlet weak var newReminderField: UITextField!
+    @IBOutlet weak var addReminderButton: UIButton!
     
-    var form: Form?
-    @IBOutlet weak var requestConfirmationLabel: UILabel!
+    @IBAction func addReminderButtonAction(_ sender: Any) {
+        if newReminderField.text != "" {
+            remindersList.append(newReminderField.text!)
+            newReminderField.text = ""
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Request Confirmation"
-        self.requestConfirmationLabel.text = "Your request to create \(form!.groupName!) has been confirmed. If approved, an administrator at \(form!.hospital!) will reach out to you shortly."
-        self.requestConfirmationLabel.sizeToFit()
-        self.requestConfirmationLabel.layoutIfNeeded()
+
         // Do any additional setup after loading the view.
     }
     
