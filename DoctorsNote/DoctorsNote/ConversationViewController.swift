@@ -49,6 +49,18 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
+        cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()
+        
+        let df = DateFormatter()
+        let calendar = Calendar.current
+        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
+            df.dateFormat = "hh:mm"
+        }
+        else {
+            df.dateFormat = "MM-dd-YYYY"
+        }
+        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
+        
         return cell
     }
     
@@ -89,7 +101,7 @@ class FriendCell: BaseCellC {
     
     let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Your doctor's message and something else..."
+        label.text = "       "
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemFont(ofSize: 14)
         return label
@@ -153,7 +165,7 @@ class FriendCell: BaseCellC {
         containerView.addSubview(timeLabel)
         containerView.addSubview(hasReadImageView)
         
-        containerView.addConstraintsWithFormat(format: "H:|[v0][v1(80)]-12-|", views: nameLabel, timeLabel)
+        containerView.addConstraintsWithFormat(format: "H:|[v0][v1(180)]-12-|", views: nameLabel, timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:|[v0][v1(24)]|", views: nameLabel, messageLabel)
         
