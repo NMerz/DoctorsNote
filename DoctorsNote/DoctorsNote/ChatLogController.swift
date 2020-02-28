@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout{
+class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     private let cellId = "cellId"
     
@@ -64,6 +64,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         cellM.delegate = self
         cellM.setupViews()
         cellM.showOutgoingMessage(text: "TEST")
+        
         return cellM
         // Configure the cell
     
@@ -71,41 +72,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 100)
-        //return CGSize(width: 250.0, height: 200.0)
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
 
 }
+
+
 
 class FriendCellM: BaseCellM {
     
@@ -114,25 +85,16 @@ class FriendCellM: BaseCellM {
     
     override func setupViews() {
         
-        //addSubview(profileImageView)
-        //addSubview(dividerLineView)
-        addSubview(message)
-        setupContainerView()
-        
-       // hasReadImageView.image = UIImage(named: "doctor")
-        
-        
-    }
-    
-    
-    private func setupContainerView() {
         let containerView = UIView()
         addSubview(containerView)
-        addSubview(message)
+        containerView.addSubview(message)
         
-        //containerView.addConstraintsWithFormat(format: "V:|[v0][v1(24)]|", views: message)
-        //showOutgoingMessage(text: "adjslfsdgkdkg")
-        //showOutgoingMessage(text: "TEST")
+        addConstraintsWithFormat(format: "H:|-90-[v0]|", views: containerView)
+        addConstraintsWithFormat(format: "V:[v0(50)]", views: containerView)
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .width, relatedBy: .equal, toItem: .none, attribute: .notAnAttribute, multiplier: 1, constant: 300))
+        
+        addConstraint(NSLayoutConstraint(item: message, attribute: .centerX, relatedBy: .equal, toItem: containerView, attribute: .centerX, multiplier: 1, constant: 10))
+        
     }
     
     let message: UIView = {
@@ -144,56 +106,56 @@ class FriendCellM: BaseCellM {
         return view
     }()
         
-        func showOutgoingMessage(text: String) {
-            let label =  UILabel()
-            label.numberOfLines = 0
-            label.font = UIFont.systemFont(ofSize: 18)
-            label.textColor = .white
-            label.text = text
-            
-            let constraintRect = CGSize(width: 0.66 * message.frame.width,
-                                        height: .greatestFiniteMagnitude)
-            let boundingBox = text.boundingRect(with: constraintRect,
-                                                options: .usesLineFragmentOrigin,
-                                                attributes: [.font: label.font],
-                                                context: nil)
-            label.frame.size = CGSize(width: ceil(boundingBox.width),
-                                      height: ceil(boundingBox.height))
-            
-            let bubbleSize = CGSize(width: label.frame.width + 28,
-                                         height: label.frame.height + 20)
-            
-            let width = bubbleSize.width
-            let height = bubbleSize.height
-            
-            let bezierPath = UIBezierPath()
-            bezierPath.move(to: CGPoint(x: width - 22, y: height))
-            bezierPath.addLine(to: CGPoint(x: 17, y: height))
-            bezierPath.addCurve(to: CGPoint(x: 0, y: height - 17), controlPoint1: CGPoint(x: 7.61, y: height), controlPoint2: CGPoint(x: 0, y: height - 7.61))
-            bezierPath.addLine(to: CGPoint(x: 0, y: 17))
-            bezierPath.addCurve(to: CGPoint(x: 17, y: 0), controlPoint1: CGPoint(x: 0, y: 7.61), controlPoint2: CGPoint(x: 7.61, y: 0))
-            bezierPath.addLine(to: CGPoint(x: width - 21, y: 0))
-            bezierPath.addCurve(to: CGPoint(x: width - 4, y: 17), controlPoint1: CGPoint(x: width - 11.61, y: 0), controlPoint2: CGPoint(x: width - 4, y: 7.61))
-            bezierPath.addLine(to: CGPoint(x: width - 4, y: height - 11))
-            bezierPath.addCurve(to: CGPoint(x: width, y: height), controlPoint1: CGPoint(x: width - 4, y: height - 1), controlPoint2: CGPoint(x: width, y: height))
-            bezierPath.addLine(to: CGPoint(x: width + 0.05, y: height - 0.01))
-            bezierPath.addCurve(to: CGPoint(x: width - 11.04, y: height - 4.04), controlPoint1: CGPoint(x: width - 4.07, y: height + 0.43), controlPoint2: CGPoint(x: width - 8.16, y: height - 1.06))
-            bezierPath.addCurve(to: CGPoint(x: width - 22, y: height), controlPoint1: CGPoint(x: width - 16, y: height), controlPoint2: CGPoint(x: width - 19, y: height))
-            bezierPath.close()
-            
-            let outgoingMessageLayer = CAShapeLayer()
-            outgoingMessageLayer.path = bezierPath.cgPath
-            outgoingMessageLayer.frame = CGRect(x: message.frame.width/2 - width/2,
-                                                y: message.frame.height/2 - height/2,
-                                                width: width,
-                                                height: height)
-            outgoingMessageLayer.fillColor = UIColor(red: 0.09, green: 0.54, blue: 1, alpha: 1).cgColor
-            
-            message.layer.addSublayer(outgoingMessageLayer)
-            
-            label.center = message.center
-            message.addSubview(label)
-        }
+    func showOutgoingMessage(text: String) {
+        let label =  UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .white
+        label.text = text
+        
+        let constraintRect = CGSize(width: 0.66 * message.frame.width,
+                                    height: .greatestFiniteMagnitude)
+        let boundingBox = text.boundingRect(with: constraintRect,
+                                            options: .usesLineFragmentOrigin,
+                                            attributes: [.font: label.font],
+                                            context: nil)
+        label.frame.size = CGSize(width: ceil(boundingBox.width),
+                                  height: ceil(boundingBox.height))
+        
+        let bubbleSize = CGSize(width: label.frame.width + 28,
+                                     height: label.frame.height + 20)
+        
+        let width = bubbleSize.width
+        let height = bubbleSize.height
+        
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: width - 22, y: height))
+        bezierPath.addLine(to: CGPoint(x: 17, y: height))
+        bezierPath.addCurve(to: CGPoint(x: 0, y: height - 17), controlPoint1: CGPoint(x: 7.61, y: height), controlPoint2: CGPoint(x: 0, y: height - 7.61))
+        bezierPath.addLine(to: CGPoint(x: 0, y: 17))
+        bezierPath.addCurve(to: CGPoint(x: 17, y: 0), controlPoint1: CGPoint(x: 0, y: 7.61), controlPoint2: CGPoint(x: 7.61, y: 0))
+        bezierPath.addLine(to: CGPoint(x: width - 21, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: width - 4, y: 17), controlPoint1: CGPoint(x: width - 11.61, y: 0), controlPoint2: CGPoint(x: width - 4, y: 7.61))
+        bezierPath.addLine(to: CGPoint(x: width - 4, y: height - 11))
+        bezierPath.addCurve(to: CGPoint(x: width, y: height), controlPoint1: CGPoint(x: width - 4, y: height - 1), controlPoint2: CGPoint(x: width, y: height))
+        bezierPath.addLine(to: CGPoint(x: width + 0.05, y: height - 0.01))
+        bezierPath.addCurve(to: CGPoint(x: width - 11.04, y: height - 4.04), controlPoint1: CGPoint(x: width - 4.07, y: height + 0.43), controlPoint2: CGPoint(x: width - 8.16, y: height - 1.06))
+        bezierPath.addCurve(to: CGPoint(x: width - 22, y: height), controlPoint1: CGPoint(x: width - 16, y: height), controlPoint2: CGPoint(x: width - 19, y: height))
+        bezierPath.close()
+        
+        let outgoingMessageLayer = CAShapeLayer()
+        outgoingMessageLayer.path = bezierPath.cgPath
+        outgoingMessageLayer.frame = CGRect(x: message.frame.width/2 - width/2,
+                                            y: message.frame.height/2 - height/2,
+                                            width: width,
+                                            height: height)
+        outgoingMessageLayer.fillColor = UIColor(red: 0.09, green: 0.54, blue: 1, alpha: 1).cgColor
+        
+        message.layer.addSublayer(outgoingMessageLayer)
+        
+        label.center = message.center
+        message.addSubview(label)
+    }
     
 }
 

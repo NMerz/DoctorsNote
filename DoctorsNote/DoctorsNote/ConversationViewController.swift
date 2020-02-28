@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 //private let reuseIdentifier = "Cell"
 
@@ -21,6 +22,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let convo1 = Conversation(conversationID: 5, conversationPartner: User(uid: 4, firstName: "your mom", lastName: "", dateOfBirth: "", address: "", healthSystems: nil), lastMessageTime: Date(), unreadMessages: false)
+//        let convo2 = Conversation(conversationID: 5, conversationPartner: "Your Other Mom", lastMessageTime: Date(), unreadMessages: false)
         navigationItem.title = "Recent"
         
         searchController.searchResultsUpdater = self
@@ -31,8 +34,12 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
-        let processor : ConnectionProcessor = ConnectionProcessor(connector: Connector())
-        (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationListMock")
+        
+         let authorizedConnector = Connector()
+         AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+        let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+        (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationListMock") //{
+        //}
         //print(conversationList)
         //print(conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
@@ -52,7 +59,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
-    
+
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
@@ -63,17 +70,18 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
-        if (isFiltering()) {
-            return filteredConversationList!.count
-        } else {
-            if let l = conversationList {
-                //print(l.count)
-                return l.count
-            } else {
-                //print("NO ELEMENTS!")
-                return 0
-            }
-        }
+//        if (isFiltering()) {
+//            return filteredConversationList!.count
+//        } else {
+//            if let l = conversationList {
+//                //print(l.count)
+//                return l.count
+//            } else {
+//                //print("NO ELEMENTS!")
+//                return 0
+//            }
+//        }
+        return 5
         
     }
 
@@ -82,15 +90,15 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         cell.delegate = self
         cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()
         
-        let df = DateFormatter()
-        let calendar = Calendar.current
-        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
-            df.dateFormat = "hh:mm"
-        }
-        else {
-            df.dateFormat = "MM-dd-YYYY"
-        }
-        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
+//        let df = DateFormatter()
+//        let calendar = Calendar.current
+//        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
+//            df.dateFormat = "hh:mm"
+//        }
+//        else {
+//            df.dateFormat = "MM-dd-YYYY"
+//        }
+//        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
         
         return cell
     }

@@ -78,6 +78,7 @@ class ConnectionProcessor {
     private func retrieveJSONData(urlString: String) {
         let url = URL(string: urlString)!
         print(url)
+        
         connector.conductGetTask(manager: self, url: url)
         signalWaiter.wait()
         //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
