@@ -1,8 +1,11 @@
+import DoctorsNote.AddMessage;
 import DoctorsNote.CreateConversation;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
+
+import java.util.HashMap;
 
 public class CreateConversationTest {
     private CreateConversation createConversation;
@@ -14,19 +17,25 @@ public class CreateConversationTest {
 
     @Test
     public void testValidJSON() {
-        String actual = createConversation.handleRequest("{\"conversationName\":\"Test conversation\"}", null);
-        Assert.assertEquals(actual, "{}");
+        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> internalMap = new HashMap<>();
+        internalMap.put("conversationName", "Test Conversation");
+        map.put("body", internalMap);
+        CreateConversation.CreateConversationResponse actual = createConversation.handleRequest(map, null);
+        Assert.assertNotNull(map);
     }
 
     @Test
     public void testInvalidJSON1() {
-        String actual = createConversation.handleRequest(null, null);
+        CreateConversation.CreateConversationResponse actual = createConversation.handleRequest(null, null);
         Assert.assertNull(actual);
     }
 
     @Test
     public void testInvalidJSON2() {
-        String actual = createConversation.handleRequest("{\"conversationName\"}", null);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("body", null);
+        CreateConversation.CreateConversationResponse actual = createConversation.handleRequest(map, null);
         Assert.assertNull(actual);
     }
 

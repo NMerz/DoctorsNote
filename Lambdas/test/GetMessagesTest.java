@@ -1,8 +1,11 @@
+import DoctorsNote.CreateConversation;
 import DoctorsNote.GetMessages;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
+
+import java.util.HashMap;
 
 public class GetMessagesTest {
     private GetMessages getMessages;
@@ -14,19 +17,28 @@ public class GetMessagesTest {
 
     @Test
     public void testValidJSON() {
-        String actual = getMessages.handleRequest("{conversationId:\"12\",nMessages:\"20\",startIndex:\"0\",sinceWhen:\"0\"}", null);
-        Assert.assertNotNull(actual);
+        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> internalMap = new HashMap<>();
+        internalMap.put("conversationId", "Test Conversation");
+        internalMap.put("nMessages", "50");
+        internalMap.put("startIndex", "0");
+        internalMap.put("sinceWhen", "0");
+        map.put("body", internalMap);
+        GetMessages.GetMessagesResponse actual = getMessages.handleRequest(map, null);
+        Assert.assertNotNull(map);
     }
 
     @Test
     public void testInvalidJSON1() {
-        String actual = getMessages.handleRequest(null, null);
+        GetMessages.GetMessagesResponse actual = getMessages.handleRequest(null, null);
         Assert.assertNull(actual);
     }
 
     @Test
     public void testInvalidJSON2() {
-        String actual = getMessages.handleRequest("{\"content\"}", null);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("body", null);
+        GetMessages.GetMessagesResponse actual = getMessages.handleRequest(map, null);
         Assert.assertNull(actual);
     }
 

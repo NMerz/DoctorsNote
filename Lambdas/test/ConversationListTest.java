@@ -1,21 +1,28 @@
+import DoctorsNote.AddMessage;
 import DoctorsNote.ConversationList;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.util.HashMap;
+
 public class ConversationListTest {
     private ConversationList conversationList = new ConversationList();
 
     @Before
     public void before() {
-        ConversationList cl = new ConversationList();
+        conversationList = new ConversationList();
     }
 
     @Test
     public void testValidJSON() {
-        //String actual = conversationList.handleRequest("{\"userId\":\"12345678910\"}", null);
-        //Assert.assertTrue(actual.matches("\\{\"conversationList\":\\[.*\\]\\}"));
+        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> internalMap = new HashMap<>();
+        internalMap.put("dn-user-id", "12");
+        map.put("body", internalMap);
+        ConversationList.ConversationListResponse actual = conversationList.handleRequest(map, null);
+        Assert.assertNotNull(map);
     }
 
     @Test

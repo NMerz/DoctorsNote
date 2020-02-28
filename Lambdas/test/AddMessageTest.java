@@ -23,8 +23,7 @@ public class AddMessageTest {
         internalMap.put("senderId", "0");
         map.put("body", internalMap);
         AddMessage.AddMessageResponse actual = (AddMessage.AddMessageResponse)addMessage.handleRequest(map, null);
-        //Assert.assertNotNull(actual);
-        Assert.assertNotNull(map);
+        Assert.assertNotNull(actual);
     }
 
     @Test
