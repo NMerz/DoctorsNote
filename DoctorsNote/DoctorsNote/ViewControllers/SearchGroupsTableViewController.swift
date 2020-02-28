@@ -7,7 +7,7 @@
 //
 
 import UIKit
-//import PopupKit
+import PopupKit
 
 class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpdating {
     
@@ -50,6 +50,7 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
         } else {
             cell.nameLabel.text = groups[indexPath.row]
         }
+        cell.delegate = self
         
         return cell
     }
@@ -68,65 +69,66 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
 class SearchGroupCell: UITableViewCell {
     
     @IBOutlet weak var nameLabel: UILabel!
-    //var p: PopupView?
+    var p: PopupView?
+    var delegate: SearchGroupsTableViewController?
     
     @IBAction func showInfo(_ sender: Any) {
     
-//        let width : Int = Int(self.view.frame.width - 20)
-//        let height = 500
-//
-//        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
-//        contentView.backgroundColor = UIColor.white
-//        let maskLayer = CAShapeLayer()
-//        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
-//        contentView.layer.mask = maskLayer
-//
-//        p = PopupView.init(contentView: contentView)
-//        p?.maskType = .dimmed
-//
-//        let nameLabel = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
-//        nameLabel.text = "Group Name\n\nGroup Description"
-//        nameLabel.numberOfLines = 5
-//        
-//        let descriptionLabel = UILabel(frame: CGRect(x: 20, y: 20+nameLabel.frame.height+20, width: width - 20, height: 200))
-//        
-//        let messageLabel = UILabel(frame: CGRect(x: 20, y: 20+nameLabel.frame.height+20+descriptionLabel.height+20, width: width - 40, height: 25))
-//        nameLabel.text = "## Members"
+        let width : Int = Int(self.contentView.frame.width - 20)
+        let height = 500
+
+        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        contentView.backgroundColor = UIColor.white
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
+        contentView.layer.mask = maskLayer
+
+        p = PopupView.init(contentView: contentView)
+        p?.maskType = .dimmed
+
+        let nameLabel = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
+        nameLabel.text = "Group Name\n\nGroup Description"
+        nameLabel.numberOfLines = 5
         
-//  // rename to cancel button
-//        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
-//        closeButton.setTitle("Done", for: .normal)
-//        closeButton.backgroundColor = UIColor.systemBlue
-//        let layer = CAShapeLayer()
-//        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
-//        closeButton.layer.mask = layer
-//        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
-//
+        let descriptionOffset = Int(nameLabel.frame.height) + 40
+        let descriptionLabel = UILabel(frame: CGRect(x: 20, y: descriptionOffset, width: width - 20, height: 200))
         
-//        let joinButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
-//        let joinLayer = CAShapeLayer()
-//        joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath)
-//        joinButton.layer.mask = joinLayer
-//
-//        contentView.addSubview(joinButton)
-//        contentView.addSubview(closeButton)
-//        contentView.addSubview(nameLabel)
-//          contentView.addSubview(membersLabel)
-//
-//        let xPos = self.view.frame.width / 2
-//        let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
-//        let location = CGPoint.init(x: xPos, y: yPos)
-//        p?.showType = .slideInFromBottom
-//        p?.maskType = .dimmed
-//        p?.dismissType = .slideOutToBottom
-//        p?.show(at: location, in: self.navigationController!.view)
+        let messageOffset = 60 + Int(nameLabel.frame.height) + Int(descriptionLabel.frame.height)
+        let messageLabel = UILabel(frame: CGRect(x: 20, y: messageOffset, width: width - 40, height: 25))
+        nameLabel.text = "## Members"
+    
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
+        closeButton.setTitle("Done", for: .normal)
+        closeButton.backgroundColor = UIColor.systemBlue
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        closeButton.layer.mask = layer
+        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
+
+        
+        let joinButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
+        let joinLayer = CAShapeLayer()
+        joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        joinButton.layer.mask = joinLayer
+
+        contentView.addSubview(joinButton)
+        contentView.addSubview(closeButton)
+        contentView.addSubview(nameLabel)
+
+        let xPos = self.delegate!.view.frame.width / 2
+        let yPos = self.delegate!.view.frame.height / 2 
+        let location = CGPoint.init(x: xPos, y: yPos)
+        p?.showType = .slideInFromBottom
+        p?.maskType = .dimmed
+        p?.dismissType = .slideOutToBottom
+        p?.show(at: location, in: self.delegate!.view)
         
     }
     
-//    @objc func dismissPopup(sender: UIButton!) {
-//        p?.dismissType = .slideOutToBottom
-//        p?.dismiss(animated: true)
-//    }
-//
+    @objc func dismissPopup(sender: UIButton!) {
+        p?.dismissType = .slideOutToBottom
+        p?.dismiss(animated: true)
+    }
+
     
 }
