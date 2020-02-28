@@ -40,6 +40,7 @@
 		B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */; };
 		B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49032408F462000E6ABC /* RemindersVC.swift */; };
 		B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49052408F80E000E6ABC /* AddReminderVC.swift */; };
+		B8866F002409796800C6149F /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8866EFF2409796800C6149F /* CalendarVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGroupConfirmationVC.swift; sourceTree = "<group>"; };
 		B87E49032408F462000E6ABC /* RemindersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersVC.swift; sourceTree = "<group>"; };
 		B87E49052408F80E000E6ABC /* AddReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderVC.swift; sourceTree = "<group>"; };
+		B8866EFF2409796800C6149F /* CalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
 		D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote_DoctorsNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6ADBC30FAE0BA411483A71E /* Pods-DoctorsNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 			children = (
 				B87E49032408F462000E6ABC /* RemindersVC.swift */,
 				B87E49052408F80E000E6ABC /* AddReminderVC.swift */,
+				B8866EFF2409796800C6149F /* CalendarVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 			files = (
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				B82083D324039A2100CF41D0 /* Form.swift in Sources */,
+				B8866F002409796800C6149F /* CalendarVC.swift in Sources */,
 				B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */,
 				B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */,
 				B54E4F352408EDA200349316 /* LoginViewController.swift in Sources */,
