@@ -24,7 +24,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
 
     public ConversationListResponse handleRequest(Map<String,Object> jsonString, Context context) {
         try {
-            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("user").toString());
+            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("dn-user-id").toString());
 
             // Extracting necessary fields from POJO
             String userId = request.getUserId();
@@ -61,7 +61,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
                 ResultSet nameAndTimeRS = statement.executeQuery(String.format(getNameTimeAndStatusFormatString, conversationId));
                 nameAndTimeRS.next();
                 String conversationName = nameAndTimeRS.getString(1);
-                long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
+                long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond() * 1000;
                 int status = nameAndTimeRS.getInt(3);
 
                 if (converserIds.size() == 0) {

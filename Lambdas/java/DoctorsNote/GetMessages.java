@@ -44,7 +44,7 @@ public class GetMessages implements RequestHandler<Map<String,Object>, Object> {
             while (messageResult.next()) {
                 String content = messageResult.getString(1);
                 String messageId = messageResult.getString(2);
-                long timeSent = messageResult.getTimestamp(3).toInstant().getEpochSecond();
+                long timeSent = messageResult.getTimestamp(3).toInstant().getEpochSecond() * 1000;
                 String sender = messageResult.getString(4);
 
                 if (timeSent >= request.getSinceWhen()) {
