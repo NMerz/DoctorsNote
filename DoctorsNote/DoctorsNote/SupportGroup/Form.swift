@@ -9,23 +9,8 @@
 import UIKit
 
 class Form: NSObject {
-    @IBOutlet var controls: [FormControl]?
-    subscript(_ key: String) -> String? {
-        return value(for: key)
-    }
-    func value(for key: String) -> String? {
-        return controls?.first(where: { $0.key == key })?.text
-    }
-    func clear() {
-        controls?.forEach { $0.clear() }
-    }
+    var groupName: String?
+     var hospital: String?
+    var groupDescription: String?
 }
 
-@IBDesignable class TextField: UITextField {
-    @IBInspectable var key: String?
-}
-extension TextField: FormControl {
-    func clear() {
-        text = nil
-    }
-}

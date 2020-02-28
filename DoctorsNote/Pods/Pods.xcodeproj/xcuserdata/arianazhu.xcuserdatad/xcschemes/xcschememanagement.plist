@@ -12,7 +12,7 @@
 		<key>AWSAuthCore.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>AWSAuthUI-AWSAuthUI.xcscheme</key>
 		<dict>
@@ -22,7 +22,7 @@
 		<key>AWSAuthUI-AWSAuthUI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<key>AWSAuthUI.xcscheme</key>
 		<dict>
@@ -32,7 +32,7 @@
 		<key>AWSAuthUI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>2</integer>
 		</dict>
 		<key>AWSAutoScaling.xcscheme</key>
 		<dict>
@@ -42,7 +42,7 @@
 		<key>AWSAutoScaling.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>AWSCloudWatch.xcscheme</key>
 		<dict>
@@ -52,7 +52,7 @@
 		<key>AWSCloudWatch.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>5</integer>
 		</dict>
 		<key>AWSCognito.xcscheme</key>
 		<dict>
@@ -62,7 +62,7 @@
 		<key>AWSCognito.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>6</integer>
 		</dict>
 		<key>AWSCognitoIdentityProvider.xcscheme</key>
 		<dict>
@@ -72,7 +72,7 @@
 		<key>AWSCognitoIdentityProvider.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>6</integer>
+			<integer>7</integer>
 		</dict>
 		<key>AWSCognitoIdentityProviderASF.xcscheme</key>
 		<dict>
@@ -82,7 +82,7 @@
 		<key>AWSCognitoIdentityProviderASF.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>8</integer>
 		</dict>
 		<key>AWSCore.xcscheme</key>
 		<dict>
@@ -92,7 +92,7 @@
 		<key>AWSCore.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>9</integer>
 		</dict>
 		<key>AWSDynamoDB.xcscheme</key>
 		<dict>
@@ -102,7 +102,7 @@
 		<key>AWSDynamoDB.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>10</integer>
 		</dict>
 		<key>AWSEC2.xcscheme</key>
 		<dict>
@@ -112,7 +112,7 @@
 		<key>AWSEC2.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>11</integer>
 		</dict>
 		<key>AWSElasticLoadBalancing.xcscheme</key>
 		<dict>
@@ -122,7 +122,7 @@
 		<key>AWSElasticLoadBalancing.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>11</integer>
+			<integer>12</integer>
 		</dict>
 		<key>AWSIoT.xcscheme</key>
 		<dict>
@@ -132,7 +132,7 @@
 		<key>AWSIoT.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>12</integer>
+			<integer>13</integer>
 		</dict>
 		<key>AWSKinesis.xcscheme</key>
 		<dict>
@@ -142,7 +142,7 @@
 		<key>AWSKinesis.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>13</integer>
+			<integer>14</integer>
 		</dict>
 		<key>AWSLambda.xcscheme</key>
 		<dict>
@@ -152,7 +152,7 @@
 		<key>AWSLambda.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>15</integer>
 		</dict>
 		<key>AWSMachineLearning.xcscheme</key>
 		<dict>
@@ -162,7 +162,7 @@
 		<key>AWSMachineLearning.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>16</integer>
 		</dict>
 		<key>AWSMobileAnalytics.xcscheme</key>
 		<dict>
@@ -172,7 +172,7 @@
 		<key>AWSMobileAnalytics.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>16</integer>
+			<integer>17</integer>
 		</dict>
 		<key>AWSMobileClient.xcscheme</key>
 		<dict>
@@ -182,7 +182,7 @@
 		<key>AWSMobileClient.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>17</integer>
+			<integer>18</integer>
 		</dict>
 		<key>AWSS3.xcscheme</key>
 		<dict>
@@ -192,7 +192,7 @@
 		<key>AWSS3.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>18</integer>
+			<integer>19</integer>
 		</dict>
 		<key>AWSSES.xcscheme</key>
 		<dict>
@@ -202,7 +202,7 @@
 		<key>AWSSES.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>19</integer>
+			<integer>20</integer>
 		</dict>
 		<key>AWSSNS.xcscheme</key>
 		<dict>
@@ -212,7 +212,7 @@
 		<key>AWSSNS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>21</integer>
+			<integer>22</integer>
 		</dict>
 		<key>AWSSQS.xcscheme</key>
 		<dict>
@@ -222,7 +222,7 @@
 		<key>AWSSQS.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>22</integer>
+			<integer>23</integer>
 		</dict>
 		<key>AWSSimpleDB.xcscheme</key>
 		<dict>
@@ -232,7 +232,7 @@
 		<key>AWSSimpleDB.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>20</integer>
+			<integer>21</integer>
 		</dict>
 		<key>AWSUserPoolsSignIn-AWSUserPoolsSignIn.xcscheme</key>
 		<dict>
@@ -242,7 +242,7 @@
 		<key>AWSUserPoolsSignIn-AWSUserPoolsSignIn.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>24</integer>
+			<integer>25</integer>
 		</dict>
 		<key>AWSUserPoolsSignIn.xcscheme</key>
 		<dict>
@@ -252,7 +252,7 @@
 		<key>AWSUserPoolsSignIn.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>23</integer>
+			<integer>24</integer>
 		</dict>
 		<key>Pods-DoctorsNote-DoctorsNoteUITests.xcscheme</key>
 		<dict>
@@ -262,7 +262,7 @@
 		<key>Pods-DoctorsNote-DoctorsNoteUITests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>26</integer>
+			<integer>27</integer>
 		</dict>
 		<key>Pods-DoctorsNote.xcscheme</key>
 		<dict>
@@ -272,7 +272,7 @@
 		<key>Pods-DoctorsNote.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>25</integer>
+			<integer>26</integer>
 		</dict>
 		<key>Pods-DoctorsNoteTests.xcscheme</key>
 		<dict>
@@ -282,7 +282,7 @@
 		<key>Pods-DoctorsNoteTests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>27</integer>
+			<integer>28</integer>
 		</dict>
 	</dict>
 </dict>

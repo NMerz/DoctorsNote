@@ -151,9 +151,9 @@
                         <viewLayoutGuide key="safeArea" id="1xR-tQ-RQ7"/>
                     </view>
                     <navigationItem key="navigationItem" id="JbX-VW-IcF">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="PHE-Xn-cvC">
+                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="PHE-Xn-cvC">
                             <connections>
-                                <segue destination="5wB-5b-kPl" kind="show" identifier="toRequestSupportGroup" id="bCy-7Z-1ma"/>
+                                <segue destination="5wB-5b-kPl" kind="show" identifier="toRequestSupportGroup" id="mPc-KK-8rd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -301,60 +301,145 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Support Group Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aS7-r0-ogP">
-                                <rect key="frame" x="28" y="241" width="163" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Which hospital would you like as a host?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5T-fD-2Zu">
+                                <rect key="frame" x="29" y="283" width="348" height="24"/>
+                                <accessibility key="accessibilityConfiguration" label="Which hospital would you like to host your support group?"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hospital" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5T-fD-2Zu">
-                                <rect key="frame" x="28" y="352" width="63" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter a description for the group:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECu-me-iD4">
+                                <rect key="frame" x="30" y="386" width="354" height="24"/>
+                                <accessibility key="accessibilityConfiguration" label="Please enter a description for the group"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="GgZ-1f-uec"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECu-me-iD4">
-                                <rect key="frame" x="28" y="457" width="88" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s68-Vo-Hop" customClass="TextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="28" y="270" width="340" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter description here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wKX-Jg-out">
+                                <rect key="frame" x="30" y="420" width="354" height="34"/>
+                                <accessibility key="accessibilityConfiguration" label="Enter description in this text field"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="34" id="wFb-6v-WnC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bHF-Vf-XY1" customClass="TextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="28" y="381" width="340" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wKX-Jg-out" customClass="TextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="28" y="486" width="340" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wP-Hr-aGV">
-                                <rect key="frame" x="144" y="614" width="126" height="61"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wP-Hr-aGV">
+                                <rect key="frame" x="30" y="637" width="354" height="46"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
                                 <state key="normal" title="Submit"/>
+                                <connections>
+                                    <segue destination="Yyd-R9-Hc4" kind="show" identifier="toRequestGroupConfirmation" id="3Z3-hL-KrN"/>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is the name of your support group?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aS7-r0-ogP">
+                                <rect key="frame" x="30" y="188" width="354" height="24"/>
+                                <accessibility key="accessibilityConfiguration" label="What is the name of your support group"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJL-KA-HBY">
+                                <rect key="frame" x="30" y="320" width="354" height="36"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Select hospital dropdown"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <state key="normal" title="Select Hospital">
+                                    <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClickHospitalDropdown:" destination="5wB-5b-kPl" eventType="touchUpInside" id="Lip-2j-cm2"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter name here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s68-Vo-Hop">
+                                <rect key="frame" x="30" y="220" width="354" height="34"/>
+                                <accessibility key="accessibilityConfiguration" label="Enter support group name in this text field"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="fst-Pt-sH6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" textContentType="name"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="aS7-r0-ogP" firstAttribute="leading" secondItem="aWw-NI-tQI" secondAttribute="leading" constant="30" id="0Ed-4o-hzI"/>
+                            <constraint firstItem="aJL-KA-HBY" firstAttribute="leading" secondItem="aWw-NI-tQI" secondAttribute="leading" constant="30" id="5EH-2H-QDn"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="trailing" secondItem="aS7-r0-ogP" secondAttribute="trailing" constant="30" id="5Tj-zE-JcI"/>
+                            <constraint firstItem="ECu-me-iD4" firstAttribute="top" secondItem="aJL-KA-HBY" secondAttribute="bottom" constant="30" id="9DY-KD-NiU"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="trailing" secondItem="l5T-fD-2Zu" secondAttribute="trailing" constant="30" id="Dmy-Ai-t5v"/>
+                            <constraint firstItem="1wP-Hr-aGV" firstAttribute="leading" secondItem="aWw-NI-tQI" secondAttribute="leading" constant="30" id="GPB-oC-gDU"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="trailing" secondItem="1wP-Hr-aGV" secondAttribute="trailing" constant="30" id="Go8-Oi-dAh"/>
+                            <constraint firstItem="wKX-Jg-out" firstAttribute="top" secondItem="ECu-me-iD4" secondAttribute="bottom" constant="10" id="IZP-ST-DV9"/>
+                            <constraint firstItem="s68-Vo-Hop" firstAttribute="top" secondItem="aS7-r0-ogP" secondAttribute="bottom" constant="10" id="IeM-uQ-gqs"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="trailing" secondItem="s68-Vo-Hop" secondAttribute="trailing" constant="30" id="Rfz-lP-mZq"/>
+                            <constraint firstItem="l5T-fD-2Zu" firstAttribute="leading" secondItem="aWw-NI-tQI" secondAttribute="leading" constant="30" id="SsN-Kj-leT"/>
+                            <constraint firstItem="l5T-fD-2Zu" firstAttribute="top" secondItem="s68-Vo-Hop" secondAttribute="bottom" constant="30" id="WNu-P0-h4S"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="trailing" secondItem="wKX-Jg-out" secondAttribute="trailing" constant="30" id="b6n-te-lv3"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="trailing" secondItem="aJL-KA-HBY" secondAttribute="trailing" constant="30" id="e50-Ej-Bwm"/>
+                            <constraint firstItem="aJL-KA-HBY" firstAttribute="top" secondItem="l5T-fD-2Zu" secondAttribute="bottom" constant="10" id="g4H-1f-yty"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="trailing" secondItem="ECu-me-iD4" secondAttribute="trailing" constant="30" id="iIv-2Y-lJ7"/>
+                            <constraint firstItem="ECu-me-iD4" firstAttribute="leading" secondItem="aWw-NI-tQI" secondAttribute="leading" constant="30" id="if8-fu-WI1"/>
+                            <constraint firstItem="aS7-r0-ogP" firstAttribute="top" secondItem="aWw-NI-tQI" secondAttribute="top" constant="100" id="qLq-y7-4CJ"/>
+                            <constraint firstItem="aWw-NI-tQI" firstAttribute="bottom" secondItem="1wP-Hr-aGV" secondAttribute="bottom" constant="130" id="tAN-Nx-TCN"/>
+                            <constraint firstItem="wKX-Jg-out" firstAttribute="leading" secondItem="aWw-NI-tQI" secondAttribute="leading" constant="30" id="tlH-rB-xMO"/>
+                            <constraint firstItem="s68-Vo-Hop" firstAttribute="leading" secondItem="aWw-NI-tQI" secondAttribute="leading" constant="30" id="xs9-HB-2nq"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="aWw-NI-tQI"/>
                     </view>
                     <navigationItem key="navigationItem" id="BBV-CL-ZOq"/>
+                    <connections>
+                        <outlet property="descriptionFIeldLabel" destination="ECu-me-iD4" id="rpd-Qb-AYe"/>
+                        <outlet property="descriptionField" destination="wKX-Jg-out" id="cOT-vY-C71"/>
+                        <outlet property="groupNameField" destination="s68-Vo-Hop" id="XTg-7v-dbp"/>
+                        <outlet property="groupNameFieldLabel" destination="aS7-r0-ogP" id="HVC-Ga-nqs"/>
+                        <outlet property="hospitalDropdownButton" destination="aJL-KA-HBY" id="rVn-Al-G6X"/>
+                        <outlet property="hospitalNameFieldLabel" destination="l5T-fD-2Zu" id="f4F-yQ-OXs"/>
+                        <outlet property="submitButton" destination="1wP-Hr-aGV" id="dW5-Ob-UCz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="boe-io-DMs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="900.00000000000011" y="1865.625"/>
+        </scene>
+        <!--Request Group ConfirmationVC-->
+        <scene sceneID="oCa-Be-CSF">
+            <objects>
+                <viewController id="Yyd-R9-Hc4" customClass="RequestGroupConfirmationVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PaI-Ba-7gN">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QU9-lY-qHx">
+                                <rect key="frame" x="30" y="188" width="354" height="31.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="354" id="9SI-eG-w6y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="QU9-lY-qHx" firstAttribute="leading" secondItem="nAe-Vu-59K" secondAttribute="leading" constant="30" id="Bje-if-9x3"/>
+                            <constraint firstItem="nAe-Vu-59K" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QU9-lY-qHx" secondAttribute="bottom" constant="100" id="CCA-da-yce"/>
+                            <constraint firstItem="nAe-Vu-59K" firstAttribute="trailing" secondItem="QU9-lY-qHx" secondAttribute="trailing" constant="30" id="aqD-7U-qPd"/>
+                            <constraint firstItem="QU9-lY-qHx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="nAe-Vu-59K" secondAttribute="top" constant="100" id="oDq-zP-Bx8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="nAe-Vu-59K"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="81d-tQ-HJs"/>
+                    <connections>
+                        <outlet property="requestConfirmationLabel" destination="QU9-lY-qHx" id="WzX-f4-k7c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q9b-Wr-BSQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1702.8985507246377" y="1865.625"/>
         </scene>
         <!--SupportGroupNavigationController-->
         <scene sceneID="udA-Ln-3Ky">

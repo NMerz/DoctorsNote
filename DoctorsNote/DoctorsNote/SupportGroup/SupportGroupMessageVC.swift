@@ -28,6 +28,7 @@ class SupportGroupMessageVC: UIViewController, UITableViewDelegate, UITableViewD
 //        tableView.rowHeight = UITableView.automaticDimension
 //        tableView.estimatedRowHeight = 300
         navigationItem.title = "Suport Group" // set to recipient
+//        self.hideKeyboardWhenTappedAround() 
         
         // Info button for support group
         let infoButton = UIButton(type: .infoLight)
@@ -74,7 +75,7 @@ class SupportGroupMessageVC: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    @objc func dismissKeyboard() {
+    @objc override func dismissKeyboard() {
         view.endEditing(true)
     }
     
