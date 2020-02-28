@@ -20,6 +20,18 @@
 		B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */; };
 		B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8023F5B874007B3D6A /* DoctorsNoteTests.swift */; };
 		B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */; };
+		B54E4F212408ED7800349316 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54E4F202408ED7800349316 /* Login.storyboard */; };
+		B54E4F252408ED8300349316 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F232408ED8300349316 /* DataModel.swift */; };
+		B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F242408ED8300349316 /* DefinedValues.swift */; };
+		B54E4F322408EDA200349316 /* PersonalRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F282408EDA200349316 /* PersonalRegisterViewController.swift */; };
+		B54E4F332408EDA200349316 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F292408EDA200349316 /* ForgotPasswordViewController.swift */; };
+		B54E4F342408EDA200349316 /* LoginNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F2A2408EDA200349316 /* LoginNavigationController.swift */; };
+		B54E4F352408EDA200349316 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F2B2408EDA200349316 /* LoginViewController.swift */; };
+		B54E4F362408EDA200349316 /* DOBView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B54E4F2D2408EDA200349316 /* DOBView.xib */; };
+		B54E4F372408EDA200349316 /* PersonalInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B54E4F2E2408EDA200349316 /* PersonalInfoView.xib */; };
+		B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F302408EDA200349316 /* PersonalInfoView.swift */; };
+		B54E4F392408EDA200349316 /* DOBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F312408EDA200349316 /* DOBView.swift */; };
+		B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083CD24036C0200CF41D0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -53,6 +65,7 @@
 		87122CD23068385D7B24E2A2 /* Pods-DoctorsNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote/Pods-DoctorsNote.release.xcconfig"; sourceTree = "<group>"; };
 		897DD7D27778B748CB4A2FBF /* Pods-DoctorsNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.release.xcconfig"; sourceTree = "<group>"; };
 		A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupsTableViewController.swift; sourceTree = "<group>"; };
 		B52ABE6623F5B872007B3D6A /* DoctorsNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorsNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE6923F5B872007B3D6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +80,17 @@
 		B52ABE8723F5B874007B3D6A /* DoctorsNoteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoctorsNoteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsNoteUITests.swift; sourceTree = "<group>"; };
 		B52ABE8D23F5B874007B3D6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B54E4F202408ED7800349316 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		B54E4F232408ED8300349316 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		B54E4F242408ED8300349316 /* DefinedValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinedValues.swift; sourceTree = "<group>"; };
+		B54E4F282408EDA200349316 /* PersonalRegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalRegisterViewController.swift; sourceTree = "<group>"; };
+		B54E4F292408EDA200349316 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		B54E4F2A2408EDA200349316 /* LoginNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginNavigationController.swift; sourceTree = "<group>"; };
+		B54E4F2B2408EDA200349316 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B54E4F2D2408EDA200349316 /* DOBView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DOBView.xib; sourceTree = "<group>"; };
+		B54E4F2E2408EDA200349316 /* PersonalInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonalInfoView.xib; sourceTree = "<group>"; };
+		B54E4F302408EDA200349316 /* PersonalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
+		B54E4F312408EDA200349316 /* DOBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOBView.swift; sourceTree = "<group>"; };
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083CC24036C0200CF41D0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
@@ -143,15 +167,22 @@
 		B52ABE6823F5B872007B3D6A /* DoctorsNote */ = {
 			isa = PBXGroup;
 			children = (
+				B54E4F272408EDA200349316 /* ViewControllers */,
+				B54E4F2F2408EDA200349316 /* Views */,
+				B54E4F2C2408EDA200349316 /* ViewXIB */,
+				B54E4F222408ED8300349316 /* Models */,
 				B82083CE2403999300CF41D0 /* SupportGroup */,
 				B52ABE6923F5B872007B3D6A /* AppDelegate.swift */,
 				B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */,
 				B52ABE6D23F5B872007B3D6A /* ConversationViewController */,
 				B52ABE6F23F5B872007B3D6A /* Main.storyboard */,
 				B52ABE7223F5B874007B3D6A /* Assets.xcassets */,
+				B54E4F202408ED7800349316 /* Login.storyboard */,
 				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
+				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
+				B82083CC24036C0200CF41D0 /* Message.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -174,11 +205,48 @@
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
 		};
+		B54E4F222408ED8300349316 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B54E4F232408ED8300349316 /* DataModel.swift */,
+				B54E4F242408ED8300349316 /* DefinedValues.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B54E4F272408EDA200349316 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B54E4F282408EDA200349316 /* PersonalRegisterViewController.swift */,
+				B54E4F292408EDA200349316 /* ForgotPasswordViewController.swift */,
+				B54E4F2A2408EDA200349316 /* LoginNavigationController.swift */,
+				B54E4F2B2408EDA200349316 /* LoginViewController.swift */,
+				B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B54E4F2C2408EDA200349316 /* ViewXIB */ = {
+			isa = PBXGroup;
+			children = (
+				B54E4F2D2408EDA200349316 /* DOBView.xib */,
+				B54E4F2E2408EDA200349316 /* PersonalInfoView.xib */,
+			);
+			path = ViewXIB;
+			sourceTree = "<group>";
+		};
+		B54E4F2F2408EDA200349316 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B54E4F302408EDA200349316 /* PersonalInfoView.swift */,
+				B54E4F312408EDA200349316 /* DOBView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		B82083CE2403999300CF41D0 /* SupportGroup */ = {
 			isa = PBXGroup;
 			children = (
-				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
-				B82083CC24036C0200CF41D0 /* Message.swift */,
 				B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */,
 				B82083D224039A2100CF41D0 /* Form.swift */,
 				B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */,
@@ -310,8 +378,11 @@
 			files = (
 				B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */,
 				B52ABE7323F5B874007B3D6A /* Assets.xcassets in Resources */,
+				B54E4F362408EDA200349316 /* DOBView.xib in Resources */,
 				B52ABE7123F5B872007B3D6A /* Main.storyboard in Resources */,
+				B54E4F212408ED7800349316 /* Login.storyboard in Resources */,
 				6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */,
+				B54E4F372408EDA200349316 /* PersonalInfoView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,13 +512,22 @@
 			files = (
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				B82083D324039A2100CF41D0 /* Form.swift in Sources */,
+				B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */,
+				B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */,
+				B54E4F352408EDA200349316 /* LoginViewController.swift in Sources */,
+				B54E4F322408EDA200349316 /* PersonalRegisterViewController.swift in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
 				B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
+				B54E4F252408ED8300349316 /* DataModel.swift in Sources */,
 				B82083CD24036C0200CF41D0 /* Message.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
+				B54E4F332408EDA200349316 /* ForgotPasswordViewController.swift in Sources */,
+				B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */,
 				B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */,
 				B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */,
+				B54E4F342408EDA200349316 /* LoginNavigationController.swift in Sources */,
+				B54E4F392408EDA200349316 /* DOBView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
