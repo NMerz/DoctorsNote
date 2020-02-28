@@ -38,7 +38,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
          let authorizedConnector = Connector()
          AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
         let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
-        (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList") //{
+        (conversationList, _) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest") //{
         //}
         //print(conversationList)
         //print(conversationList?.count)
@@ -70,25 +70,24 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
-//        if (isFiltering()) {
-//            return filteredConversationList!.count
-//        } else {
-//            if let l = conversationList {
-//                //print(l.count)
-//                return l.count
-//            } else {
-//                //print("NO ELEMENTS!")
-//                return 0
-//            }
-//        }
-        return 5
+        if (isFiltering()) {
+            return filteredConversationList!.count
+        } else {
+            if let l = conversationList {
+                //print(l.count)
+                return l.count
+            } else {
+                //print("NO ELEMENTS!")
+                return 0
+            }
+        }
         
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
-//        cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()
+        cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()
         
 //        let df = DateFormatter()
 //        let calendar = Calendar.current
