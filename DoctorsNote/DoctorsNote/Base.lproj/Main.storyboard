@@ -51,31 +51,43 @@
         <!--ProfileVC-->
         <scene sceneID="bl0-pt-0Wn">
             <objects>
-                <viewController title="ProfileVC" id="on2-3t-fWa" sceneMemberID="viewController">
+                <viewController title="ProfileVC" id="on2-3t-fWa" customClass="ProfileViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KHq-gX-5s0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv0-xE-D1Q">
-                                <rect key="frame" x="168" y="296" width="79" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv0-xE-D1Q">
+                                <rect key="frame" x="168" y="491" width="79" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Calendar"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VJ-be-CxQ">
-                                <rect key="frame" x="161" y="430" width="93" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VJ-be-CxQ">
+                                <rect key="frame" x="161" y="606" width="93" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Reminders"/>
                                 <connections>
                                     <segue destination="dL1-jY-wCS" kind="show" identifier="toReminders" id="VbK-ty-blY"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V1e-MI-kWw" customClass="PersonalInfoView" customModule="DoctorsNote" customModuleProvider="target">
+                                <rect key="frame" x="20" y="98" width="374" height="300"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="jv0-xE-D1Q" firstAttribute="top" secondItem="V1e-MI-kWw" secondAttribute="bottom" constant="20" id="gAz-X0-Q4d"/>
+                            <constraint firstItem="2VJ-be-CxQ" firstAttribute="top" secondItem="jv0-xE-D1Q" secondAttribute="bottom" constant="10" id="iFB-lv-WLD"/>
+                            <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="V1e-MI-kWw" secondAttribute="trailing" constant="20" id="mEo-PJ-3j1"/>
+                            <constraint firstItem="V1e-MI-kWw" firstAttribute="top" secondItem="iHi-vc-bhP" secondAttribute="top" constant="20" id="oRw-pX-ptM"/>
+                            <constraint firstItem="V1e-MI-kWw" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="20" id="qLi-ML-DWg"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="iHi-vc-bhP"/>
                     </view>
                     <navigationItem key="navigationItem" id="Lc4-3k-ZyS"/>
+                    <connections>
+                        <outlet property="personalInfoView" destination="V1e-MI-kWw" id="XAI-hb-6gk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M82-w5-fEh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

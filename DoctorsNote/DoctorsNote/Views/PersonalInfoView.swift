@@ -19,6 +19,7 @@ class PersonalInfoView: UIView {
     @IBOutlet weak var sexLabel: UILabel!
     @IBOutlet weak var hospitalLabel: UILabel!
     @IBOutlet weak var providerLabel: UILabel!
+    @IBOutlet var backgroundView: UIView!
     
     
     override init(frame: CGRect) {
@@ -32,12 +33,17 @@ class PersonalInfoView: UIView {
     }
     
     func commonInit() {
+        Bundle.main.loadNibNamed("PersonalInfoView", owner: self, options: nil)
+        addSubview(backgroundView)
+        backgroundView.frame = self.bounds
+        backgroundView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        backgroundView.backgroundColor = UIColor.white
         AWSMobileClient.default().getUserAttributes { (attr, err) in
             if let err = err as? AWSMobileClientError {
                 
             } else if (attr != nil) {
                 DispatchQueue.main.async {
-                    self.emailLabel.text = attr!["name"]
+                    self.emailLabel.text = attr!["email"]
                     self.phoneLabel.text = attr!["phone_number"]
                     self.DOBLabel.text = attr!["birthdate"]
                     self.addressLabel.text = attr!["address"]

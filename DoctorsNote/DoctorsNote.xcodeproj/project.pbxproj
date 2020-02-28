@@ -20,6 +20,7 @@
 		B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */; };
 		B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8023F5B874007B3D6A /* DoctorsNoteTests.swift */; };
 		B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */; };
+		B52F16A7240954760083C2EA /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52F16A6240954760083C2EA /* ProfileViewController.swift */; };
 		B54E4F212408ED7800349316 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54E4F202408ED7800349316 /* Login.storyboard */; };
 		B54E4F252408ED8300349316 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F232408ED8300349316 /* DataModel.swift */; };
 		B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F242408ED8300349316 /* DefinedValues.swift */; };
@@ -82,6 +83,7 @@
 		B52ABE8723F5B874007B3D6A /* DoctorsNoteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoctorsNoteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorsNoteUITests.swift; sourceTree = "<group>"; };
 		B52ABE8D23F5B874007B3D6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B52F16A6240954760083C2EA /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B54E4F202408ED7800349316 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		B54E4F232408ED8300349316 /* DataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 		B54E4F242408ED8300349316 /* DefinedValues.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefinedValues.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
 				B82083CC24036C0200CF41D0 /* Message.swift */,
+				B52F16A6240954760083C2EA /* ProfileViewController.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 				B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */,
 				B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */,
 				B54E4F342408EDA200349316 /* LoginNavigationController.swift in Sources */,
+				B52F16A7240954760083C2EA /* ProfileViewController.swift in Sources */,
 				B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */,
 				B54E4F392408EDA200349316 /* DOBView.swift in Sources */,
 			);

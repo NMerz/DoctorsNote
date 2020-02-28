@@ -30,10 +30,16 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         // TODO: REMOVE LATER
-        AWSMobileClient.default().signOut()
+        //AWSMobileClient.default().signOut()
     }
     
     @IBAction func login(_ sender: Any) {
+        
+        // TODO REMOVE LATER
+        if (AWSMobileClient.default().isSignedIn) {
+                self.performSegue(withIdentifier: "go_to_main", sender: self)
+        }
+        
         let emailEmpty = emailField.isEmpty()
         let emailValid = emailField.isValidEmail()
         let passwordEmpty = passwordField.isEmpty()
