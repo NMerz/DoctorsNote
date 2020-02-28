@@ -25,8 +25,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
         let processor : ConnectionProcessor = ConnectionProcessor(connector: Connector())
         (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationListMock")
-        print(conversationList)
-        print(conversationList?.count)
+        //print(conversationList)
+        //print(conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
     }
     
@@ -35,12 +35,12 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(conversationList?.count)
+        //print(conversationList?.count)
         if let l = conversationList {
-            print(l.count)
+            //print(l.count)
             return l.count
         } else {
-            print("NO ELEMENTS!")
+            //print("NO ELEMENTS!")
             return 0
         }
         
@@ -57,9 +57,9 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         return CGSize(width: view.frame.width, height: 100.0)
     }
     
-    func switchVC(ViewController: UIViewController) {
-        self.present(UIViewController(), animated: true)
-    }
+//    func switchVC(ViewController: UIViewController) {
+//        self.present(UIViewController(), animated: true)
+//    }
 }
 
 class FriendCell: BaseCellC {
@@ -135,7 +135,8 @@ class FriendCell: BaseCellC {
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if(sender.state == .ended) {
             //print("Success!")
-            self.delegate?.performSegue(withIdentifier: "show_chat", sender: self.delegate!)
+            //self.delegate!.performSegue(withIdentifier: "show_chat", sender: self.delegate!)
+            self.delegate!.performSegue(withIdentifier: "open_chat", sender: self.delegate!)
         }
     }
     

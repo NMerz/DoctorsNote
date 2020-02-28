@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		440144E72403391B00FE618A /* MessageCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 440144E62403391B00FE618A /* MessageCollectionVC.swift */; };
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
+		449D9480240952F70001BF23 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 449D947F240952F70001BF23 /* ChatLogController.swift */; };
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
 		9D90C38923F9C5FB006FD4C6 /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */; };
@@ -56,6 +57,7 @@
 		24F61D7A5EA743CE919A6270 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		440144E62403391B00FE618A /* MessageCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCollectionVC.swift; sourceTree = "<group>"; };
 		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		449D947F240952F70001BF23 /* ChatLogController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		6740B3FFB6664955BB5D35CC /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
 		6AD397D1E99E16E4D6AE39F6 /* Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		87122CD23068385D7B24E2A2 /* Pods-DoctorsNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote/Pods-DoctorsNote.release.xcconfig"; sourceTree = "<group>"; };
@@ -155,9 +157,9 @@
 				B52ABE6923F5B872007B3D6A /* AppDelegate.swift */,
 				B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */,
 				B52ABE6D23F5B872007B3D6A /* ConversationViewController */,
+				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B52ABE6F23F5B872007B3D6A /* Main.storyboard */,
 				B52ABE7223F5B874007B3D6A /* Assets.xcassets */,
-				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				440144E62403391B00FE618A /* MessageCollectionVC.swift */,
@@ -166,6 +168,7 @@
 				9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */,
 				9D90C39123FE21FA006FD4C6 /* Conversation.swift */,
 				9D90C39724005718006FD4C6 /* Message.swift */,
+				449D947F240952F70001BF23 /* ChatLogController.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				9D90C39223FE21FA006FD4C6 /* Conversation.swift in Sources */,
 				9D90C39824005718006FD4C6 /* Message.swift in Sources */,
 				9D90C38E23FE1BA8006FD4C6 /* User.swift in Sources */,
+				449D9480240952F70001BF23 /* ChatLogController.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
