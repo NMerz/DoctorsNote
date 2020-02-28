@@ -329,7 +329,6 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     
     func fieldsCorrect() ->Bool {
         let first = firstNameField.isEmpty()
-        let middle = middleNameField.isEmpty()
         let last = lastNameField.isEmpty()
         let phone = phoneField.isEmpty()
         let street = streetField.isEmpty()
@@ -353,7 +352,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             sexButton.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
-        if (first || middle || last || phone || street || city || state || zip || !DOBFilled || !sexFilled) {
+        if (first || last || phone || street || city || state || zip || !DOBFilled || !sexFilled) {
             return false
         }
         return true

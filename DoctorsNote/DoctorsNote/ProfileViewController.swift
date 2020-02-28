@@ -12,11 +12,15 @@ import AWSMobileClient
 
 class ProfileViewController: UIViewController {
    
+    @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var personalInfoView: PersonalInfoView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        logOutButton.semanticContentAttribute = UIApplication.shared
+        .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        
         personalInfoView.layer.shadowColor = UIColor.darkGray.cgColor
         personalInfoView.layer.shadowRadius = 5
         personalInfoView.layer.shadowOpacity = 0.5
@@ -38,5 +42,10 @@ class ProfileViewController: UIViewController {
         
     }
 
-
+    @IBAction func logOut(_ sender: Any) {
+        
+        AWSMobileClient.default().signOut()
+    
+    }
+    
 }
