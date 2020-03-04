@@ -2,38 +2,38 @@
 //  Message.swift
 //  DoctorsNote
 //
-//  Created by Ariana Zhu on 2/23/20.
-//  Copyright © 2020 Team7. All rights reserved.
+//  Created by Nathan Merz on 2/21/20.
+//  Copyright © 2020 Nathan Merz. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class Message {
-    private var _message: String!
-    private var _sender: String!
-    private var _messageKey: String!
-//    private var _messageRef               // ref for database
-//    var currentUser                       // database stuff
+    private let messageID: Int
+    private let conversation: Conversation
+    private var content: [UInt8]
+    private var sender: User
     
-    var message: String {
-        return _message
+    init(messageID: Int, conversation: Conversation, content: [UInt8], sender: User) {
+        self.messageID = messageID
+        self.conversation = conversation
+        self.content = content
+        self.sender = sender
     }
     
-    var sender: String {
-        return _sender
+    func getMessageID() -> Int {
+        return messageID
     }
     
-    var messageKey: String {
-        return _messageKey
+    func getConversation() -> Conversation {
+        return conversation
     }
     
-    init(message: String, sender: String) {
-        _message = message
-        _sender = sender
+    func getContent() -> [UInt8] {
+        return content
     }
     
-//    set up initializer for database
-//    init(messageKey: String) {
-//        _messageKey = messageKey
-//    }
+    func getSender() -> User {
+        return sender
+    }
 }

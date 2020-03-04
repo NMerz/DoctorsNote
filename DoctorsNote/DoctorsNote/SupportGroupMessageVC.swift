@@ -22,6 +22,7 @@ class SupportGroupMessageVC: UIViewController, UITableViewDelegate, UITableViewD
     var recipient: String!
 
     override func viewDidLoad() {
+        navigationItem.title = recipient
         super.viewDidLoad()
 //        tableView.delegate = self
 //        tableView.dataSource = self
@@ -66,7 +67,7 @@ class SupportGroupMessageVC: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    @objc func dismissKeyboard() {
+    @objc override func dismissKeyboard() {
         view.endEditing(true)
     }
     
@@ -157,7 +158,7 @@ class MessagesCell: UITableViewCell {
 //        if message.sender == currentUser {
         if currentUser {
             sentMessageView.isHidden = false
-            sentMessageLabel.text = message.message
+            sentMessageLabel.text = String(bytes: message.getContent(), encoding: .utf8)
             receivedMessageView.isHidden = true
             receivedMessageLabel.text = ""
         }
@@ -165,7 +166,7 @@ class MessagesCell: UITableViewCell {
             sentMessageView.isHidden = true
             sentMessageLabel.text = ""
             receivedMessageView.isHidden = false
-            receivedMessageLabel.text = message.message
+            receivedMessageLabel.text = String(bytes: message.getContent(), encoding: .utf8)
         }
         
         

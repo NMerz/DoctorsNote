@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 /*
  * A Lambda handler for getting the most recent N messages in a given conversation.
@@ -16,15 +17,16 @@ import java.util.ArrayList;
  *
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
-public class GetMessages implements RequestHandler<String, String> {
+public class GetMessages implements RequestHandler<Map<String,Object>, GetMessages.GetMessagesResponse> {
     private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender FROM Message" +
             " WHERE conversationID=\"%s\" ORDER BY timeCreated DESC LIMIT %d;";
 
-    public String handleRequest(String jsonString, Context context) {
+    public GetMessagesResponse handleRequest(Map<String,Object> inputMap, Context context) {
         try {
+            System.out.println("Getting messages");
             // Converting the passed JSON string into a POJO
             Gson gson = new Gson();
-            GetMessagesRequest request = gson.fromJson(jsonString, GetMessagesRequest.class);
+            //GetMessagesRequest request = gson.fromJson(jsonString, GetMessagesRequest.class);
 
             // Establish connection with MariaDB
             DBCredentialsProvider dbCP;
@@ -33,8 +35,8 @@ public class GetMessages implements RequestHandler<String, String> {
             // Reading from database
             Statement statement = connection.createStatement();
             ResultSet messageResult = statement.executeQuery(String.format(getMessagesFormatString,
-                    request.getConversationId(),
-                    request.getnMessages()));
+                    ((Map<String,Object>) inputMap.get("body-json")).get("conversationID"),
+                    ((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve")));
 
             // Processing results
             ArrayList<Message> messages = new ArrayList<>();
@@ -44,7 +46,7 @@ public class GetMessages implements RequestHandler<String, String> {
                 long timeSent = messageResult.getTimestamp(3).toInstant().getEpochSecond();
                 String sender = messageResult.getString(4);
 
-                if (timeSent >= request.getSinceWhen()) {
+                if (timeSent >= 0) {
                     messages.add(new Message(content, messageId, timeSent, sender));
                 }
             }
@@ -55,7 +57,7 @@ public class GetMessages implements RequestHandler<String, String> {
             Message[] tempArray = new Message[messages.size()];
             GetMessagesResponse response = new GetMessagesResponse(messages.toArray(tempArray));
 
-            return gson.toJson(response);
+            return response;
         } catch (Exception e) {
             return null;
         }
@@ -114,13 +116,13 @@ public class GetMessages implements RequestHandler<String, String> {
 
     private class Message {
         private String content;
-        private String messageId;
+        private String messageID;
         private long timeSent;
         private String sender;
 
         public Message(String content, String messageId, long timeSent, String sender) {
             this.content = content;
-            this.messageId = messageId;
+            this.messageID = messageId;
             this.timeSent = timeSent;
             this.sender = sender;
         }
@@ -134,11 +136,11 @@ public class GetMessages implements RequestHandler<String, String> {
         }
 
         public String getMessageId() {
-            return messageId;
+            return messageID;
         }
 
         public void setMessageId(String messageId) {
-            this.messageId = messageId;
+            this.messageID = messageId;
         }
 
         public long getTimeSent() {
@@ -158,19 +160,19 @@ public class GetMessages implements RequestHandler<String, String> {
         }
     }
 
-    private class GetMessagesResponse {
-        private Message[] messages;
+    public class GetMessagesResponse {
+        private Message[] messageList;
 
-        public GetMessagesResponse(Message[] messages) {
-            this.messages = messages;
+        public GetMessagesResponse(Message[] messageList) {
+            this.messageList = messageList;
         }
 
         public Message[] getMessages() {
-            return messages;
+            return messageList;
         }
 
-        public void setMessages(Message[] messages) {
-            this.messages = messages;
+        public void setMessages(Message[] messageList) {
+            this.messageList = messageList;
         }
     }
 

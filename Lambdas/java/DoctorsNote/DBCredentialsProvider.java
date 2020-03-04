@@ -13,7 +13,7 @@ import java.io.IOException;
  * and adds unnecessary overhead)
  */
 public class DBCredentialsProvider {
-    private final String tsvFilePath = "Lambdas/res/DBCredentials.tsv";
+    private final String tsvFilePath = "DBCredentials.tsv";
     private final String delimeter = ";;;;";
 
     private final String DBProvider;
