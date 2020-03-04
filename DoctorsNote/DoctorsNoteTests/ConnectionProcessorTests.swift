@@ -137,7 +137,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testValidMessageRetrieval() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageID\":1,\"conversationID\":0,\"content\":\"123\",\"senderID\":2}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":1,\"content\":\"123\",\"sender\":2}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
