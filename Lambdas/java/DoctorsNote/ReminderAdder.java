@@ -14,7 +14,7 @@ public class ReminderAdder {
     private final String addReminderFormatString = "INSERT INTO Reminder (content, remindedID, creatorID, timeCreated, alertTime) VALUES (?, ?, ?, ?, ?);";
     Connection dbConnection;
 
-    ReminderAdder(Connection dbConnection) {
+    public ReminderAdder(Connection dbConnection) {
         this.dbConnection = dbConnection;
     }
 
