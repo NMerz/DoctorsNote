@@ -7,33 +7,98 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 //private let reuseIdentifier = "Cell"
 
-class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+    
     
     private let cellId = "cellId"
+    private var conversationList: [Conversation]?
+    private var filteredConversationList: [Conversation]?
+    let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let convo1 = Conversation(conversationID: 5, conversationPartner: User(uid: 4, firstName: "your mom", lastName: "", dateOfBirth: "", address: "", healthSystems: nil), lastMessageTime: Date(), unreadMessages: false)
+//        let convo2 = Conversation(conversationID: 5, conversationPartner: "Your Other Mom", lastMessageTime: Date(), unreadMessages: false)
         navigationItem.title = "Recent"
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Points"
+        navigationItem.searchController = searchController
         
         collectionView.backgroundColor = UIColor.white
         collectionView.alwaysBounceVertical = true
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
+        
+         let authorizedConnector = Connector()
+         AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+        let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+        (conversationList, _) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest") //{
+        //}
+        //print(conversationList)
+        //print(conversationList?.count)
+        //super.present(MessageCollectionVC(), animated: true)
     }
     
+    func updateSearchResults(for searchController: UISearchController) {
+        filteredConversationList = conversationList!.filter({( conversation : Conversation) -> Bool in
+            let searched = searchController.searchBar.text!.lowercased()
+            let inFirstName = conversation.getConversationPartner().getFirstName().contains(searched)
+            let inLastName = conversation.getConversationPartner().getLastName().contains(searched)
+            return (inFirstName || inLastName)
+        })
+        collectionView.reloadData()
+    }
+    
+    func searchBarIsEmpty() -> Bool {
+        // Returns true if the text is empty or nil
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        //print(conversationList?.count)
+        if (isFiltering()) {
+            return filteredConversationList!.count
+        } else {
+            if let l = conversationList {
+                //print(l.count)
+                return l.count
+            } else {
+                //print("NO ELEMENTS!")
+                return 0
+            }
+        }
+        
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
+        cell.delegate = self
+        cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()
+        
+//        let df = DateFormatter()
+//        let calendar = Calendar.current
+//        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
+//            df.dateFormat = "hh:mm"
+//        }
+//        else {
+//            df.dateFormat = "MM-dd-YYYY"
+//        }
+//        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
+        
         return cell
     }
     
@@ -41,9 +106,15 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         //return CGSizeMake(view.frame.width, 100)
         return CGSize(width: view.frame.width, height: 100.0)
     }
+    
+//    func switchVC(ViewController: UIViewController) {
+//        self.present(UIViewController(), animated: true)
+//    }
 }
 
-class FriendCell: BaseCell {
+class FriendCell: BaseCellC {
+    
+    var delegate: ConversationViewController?
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -68,7 +139,7 @@ class FriendCell: BaseCell {
     
     let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Your doctor's message and something else..."
+        label.text = "       "
         label.textColor = UIColor.darkGray
         label.font = UIFont.systemFont(ofSize: 14)
         return label
@@ -108,6 +179,15 @@ class FriendCell: BaseCell {
         
         addConstraintsWithFormat(format: "H:|-82-[v0]|", views: dividerLineView)
         addConstraintsWithFormat(format: "V:[v0(1)]|", views: dividerLineView)
+        
+    }
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if(sender.state == .ended) {
+            //print("Success!")
+            //self.delegate!.performSegue(withIdentifier: "show_chat", sender: self.delegate!)
+            self.delegate!.performSegue(withIdentifier: "open_chat", sender: self.delegate!)
+        }
     }
     
     private func setupContainerView() {
@@ -123,7 +203,7 @@ class FriendCell: BaseCell {
         containerView.addSubview(timeLabel)
         containerView.addSubview(hasReadImageView)
         
-        containerView.addConstraintsWithFormat(format: "H:|[v0][v1(80)]-12-|", views: nameLabel, timeLabel)
+        containerView.addConstraintsWithFormat(format: "H:|[v0][v1(180)]-12-|", views: nameLabel, timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:|[v0][v1(24)]|", views: nameLabel, messageLabel)
         
@@ -132,6 +212,9 @@ class FriendCell: BaseCell {
         containerView.addConstraintsWithFormat(format: "V:|[v0(24)]", views: timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:[v0(20)]|", views: hasReadImageView)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        self.addGestureRecognizer(tapRecognizer)
+
     }
     
 }
@@ -153,7 +236,7 @@ extension UIView {
     
 }
 
-class BaseCell: UICollectionViewCell {
+class BaseCellC: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()

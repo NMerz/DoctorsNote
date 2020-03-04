@@ -47,6 +47,7 @@ PODS:
   - AWSUserPoolsSignIn (2.12.7):
     - AWSAuthCore (= 2.12.7)
     - AWSCognitoIdentityProvider (= 2.12.7)
+  - JTAppleCalendar (7.1.8)
   - PopupKit (3.1.1)
 
 DEPENDENCIES:
@@ -70,6 +71,7 @@ DEPENDENCIES:
   - AWSSNS
   - AWSSQS
   - AWSUserPoolsSignIn (~> 2.12.1)
+  - JTAppleCalendar (~> 7.1)
   - PopupKit
 
 SPEC REPOS:
@@ -97,6 +99,7 @@ SPEC REPOS:
     - AWSSNS
     - AWSSQS
     - AWSUserPoolsSignIn
+    - JTAppleCalendar
     - PopupKit
 
 SPEC CHECKSUMS:
@@ -123,8 +126,9 @@ SPEC CHECKSUMS:
   AWSSNS: ec093ba2aeea026c744ea372bc5f055b106b38c6
   AWSSQS: 542392beb66b4f0a5272f20b9201489cd977113e
   AWSUserPoolsSignIn: fffc46e512e326783585e53639e58c355aae320f
+  JTAppleCalendar: b7fb40852f5f319fe55c8ec3861f1de0edc99cc8
   PopupKit: e362ed92148d831a9c38a2bc7a25893e46d64c54
 
-PODFILE CHECKSUM: a380238f230aef8f1befd5bdecde50d5f1e433e8
+PODFILE CHECKSUM: 592acddfb141b1218185171a1f03e7baed4be835
 
 COCOAPODS: 1.8.4

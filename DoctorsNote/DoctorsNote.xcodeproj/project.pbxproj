@@ -18,7 +18,6 @@
 		9D90C39423FE2244006FD4C6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38D23FE1BA8006FD4C6 /* User.swift */; };
 		9D90C39523FE2248006FD4C6 /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */; };
 		9D90C39623FE224B006FD4C6 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39123FE21FA006FD4C6 /* Conversation.swift */; };
-		9D90C39824005718006FD4C6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39724005718006FD4C6 /* Message.swift */; };
 		9D90C39A24006587006FD4C6 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C39724005718006FD4C6 /* Message.swift */; };
 		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
 		AD4567D3634346E5B3E37C80 /* Pods_DoctorsNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */; };
@@ -43,13 +42,18 @@
 		B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F302408EDA200349316 /* PersonalInfoView.swift */; };
 		B54E4F392408EDA200349316 /* DOBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F312408EDA200349316 /* DOBView.swift */; };
 		B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */; };
+		B5AC8B2D2409CE21002E070D /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */; };
+		B5AC8B2F2409CE36002E070D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2E2409CE35002E070D /* Conversation.swift */; };
+		B5AC8B312409CE6E002E070D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
+		B5AC8B332409CE85002E070D /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
+		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
-		B82083CD24036C0200CF41D0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
 		B82083D324039A2100CF41D0 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D224039A2100CF41D0 /* Form.swift */; };
 		B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */; };
 		B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49032408F462000E6ABC /* RemindersVC.swift */; };
 		B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49052408F80E000E6ABC /* AddReminderVC.swift */; };
+		B8866F002409796800C6149F /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8866EFF2409796800C6149F /* CalendarVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,13 +114,18 @@
 		B54E4F2E2408EDA200349316 /* PersonalInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonalInfoView.xib; sourceTree = "<group>"; };
 		B54E4F302408EDA200349316 /* PersonalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
 		B54E4F312408EDA200349316 /* DOBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOBView.swift; sourceTree = "<group>"; };
+		B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionProcessor.swift; sourceTree = "<group>"; };
+		B5AC8B2E2409CE35002E070D /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		B5AC8B302409CE6E002E070D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		B5AC8B322409CE85002E070D /* HealthSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
+		B5AC8B342409CF13002E070D /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
-		B82083CC24036C0200CF41D0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
 		B82083D224039A2100CF41D0 /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGroupConfirmationVC.swift; sourceTree = "<group>"; };
 		B87E49032408F462000E6ABC /* RemindersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersVC.swift; sourceTree = "<group>"; };
 		B87E49052408F80E000E6ABC /* AddReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderVC.swift; sourceTree = "<group>"; };
+		B8866EFF2409796800C6149F /* CalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
 		D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote_DoctorsNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6ADBC30FAE0BA411483A71E /* Pods-DoctorsNoteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +181,7 @@
 				9FB76464F40DF359B6007C74 /* Frameworks */,
 				24F61D7A5EA743CE919A6270 /* amplifyxc.config */,
 				6740B3FFB6664955BB5D35CC /* awsconfiguration.json */,
+				B5AC8B2B2409CDAF002E070D /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,8 +209,12 @@
 				B52ABE6D23F5B872007B3D6A /* ConversationViewController */,
 				B52ABE6F23F5B872007B3D6A /* Main.storyboard */,
 				B52ABE7223F5B874007B3D6A /* Assets.xcassets */,
+				B5AC8B322409CE85002E070D /* HealthSystem.swift */,
+				B5AC8B2E2409CE35002E070D /* Conversation.swift */,
 				B54E4F202408ED7800349316 /* Login.storyboard */,
 				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
+				B5AC8B342409CF13002E070D /* ChatLogController.swift */,
+				B5AC8B302409CE6E002E070D /* User.swift */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
@@ -209,7 +223,9 @@
 				9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */,
 				9D90C39123FE21FA006FD4C6 /* Conversation.swift */,
 				9D90C39724005718006FD4C6 /* Message.swift */,
-				B82083CC24036C0200CF41D0 /* Message.swift */,
+				B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */,
+				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
+				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
 				B52F16A6240954760083C2EA /* ProfileViewController.swift */,
 			);
 			path = DoctorsNote;
@@ -272,6 +288,18 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		B5AC8B2B2409CDAF002E070D /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				9D90C39123FE21FA006FD4C6 /* Conversation.swift */,
+				9D90C38F23FE1D6F006FD4C6 /* HealthSystem.swift */,
+				9D90C38D23FE1BA8006FD4C6 /* User.swift */,
+				9D90C38823F9C5FB006FD4C6 /* ConnectionProcessor.swift */,
+				9D90C39724005718006FD4C6 /* Message.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		B82083CE2403999300CF41D0 /* SupportGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -287,6 +315,7 @@
 			children = (
 				B87E49032408F462000E6ABC /* RemindersVC.swift */,
 				B87E49052408F80E000E6ABC /* AddReminderVC.swift */,
+				B8866EFF2409796800C6149F /* CalendarVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -547,8 +576,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */,
+				B5AC8B2F2409CE36002E070D /* Conversation.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				B82083D324039A2100CF41D0 /* Form.swift in Sources */,
+				B5AC8B312409CE6E002E070D /* User.swift in Sources */,
+				B8866F002409796800C6149F /* CalendarVC.swift in Sources */,
 				B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */,
 				B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */,
 				B54E4F352408EDA200349316 /* LoginViewController.swift in Sources */,
@@ -562,9 +595,11 @@
 				9D90C39824005718006FD4C6 /* Message.swift in Sources */,
 				9D90C38E23FE1BA8006FD4C6 /* User.swift in Sources */,
 				B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */,
+				B5AC8B2D2409CE21002E070D /* ConnectionProcessor.swift in Sources */,
 				B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
-				B82083CD24036C0200CF41D0 /* Message.swift in Sources */,
+				B5AC8B332409CE85002E070D /* HealthSystem.swift in Sources */,
+				B54E4F252408ED8300349316 /* DataModel.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 				B54E4F332408EDA200349316 /* ForgotPasswordViewController.swift in Sources */,
 				B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */,
