@@ -2,8 +2,7 @@ package DoctorsNote;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Map;
 
 /*
@@ -12,7 +11,7 @@ import java.util.Map;
  */
 
 public class ReminderAdder {
-    private final String addReminderFormatString = "INSERT INTO Reminder (content, remindee, creator, timeCreated, alertTime) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', \'%s\');";
+    private final String addReminderFormatString = "INSERT INTO Reminder (content, remindedID, creatorID, timeCreated, alertTime) VALUES (?, ?, ?, ?, ?);";
     Connection dbConnection;
 
     ReminderAdder(Connection dbConnection) {
@@ -21,13 +20,15 @@ public class ReminderAdder {
 
     public ReminderAdder.AddReminderResponse add(Map<String, Object> inputMap, Context context) {
         try {
-            Statement statement = dbConnection.createStatement();
-            String args[] = {(String)((Map<String,Object>) inputMap.get("body-json")).get("content"),
-                    (String)((Map<String,Object>) inputMap.get("body-json")).get("remindee"),
-                    (String)((Map<String,Object>) inputMap.get("context")).get("sub"),
-                    ((Integer) ((Map<String,Object>) inputMap.get("body-json")).get("timeCreated")).toString(),
-                    ((Integer) ((Map<String,Object>) inputMap.get("body-json")).get("alertTime")).toString()};
-            statement.execute(addReminderFormatString, args);
+            PreparedStatement statement = dbConnection.prepareStatement(addReminderFormatString);
+            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
+            statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("remindee"));
+            statement.setString(3, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
+            statement.setTimestamp(4, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("timeCreated").toString())));
+            statement.setTimestamp(5, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("alertTime").toString())));
+            System.out.println(statement);
+            statement.executeUpdate();
+            //statement.execute(addReminderFormatString);
             //statement.executeUpdate(writeRowString);
 
             // Disconnect connection with shortest lifespan possible
