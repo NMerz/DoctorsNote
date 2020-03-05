@@ -212,7 +212,7 @@ class ConnectionProcessor {
         var messageJSON = [String: Any]()
         messageJSON["senderID"] = message.getSender().getUID()
         messageJSON["conversationID"] = message.getConversation().getConversationID()
-        messageJSON["content"] = message.getContent()
+        messageJSON["content"] = String(bytes: message.getContent(), encoding: .utf8)
         var messageData = Data()
         do {
             messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])
@@ -233,7 +233,7 @@ class ConnectionProcessor {
     //  - Need to discuss this with team
     func processNewReminder(url: String, reminder: Reminder) throws {
         var reminderJSON = [String: Any]()
-        reminderJSON["content"] = reminder.getContent()
+        reminderJSON["content"] = String(bytes: reminder.getContent(), encoding: .utf8)
         reminderJSON["remindee"] = reminder.getRemindeeID()
         reminderJSON["timeCreated"] = reminder.getTimeCreated().timeIntervalSince1970
         reminderJSON["alertTime"] = reminder.getAlertTime().timeIntervalSince1970
@@ -293,7 +293,9 @@ class Connector {
             return
         }
         var request = URLRequest(url: url)
+        request.httpMethod = "POST"
         request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let postSession = URLSession.shared.uploadTask(with: request, from: data, completionHandler: manager.processConnection(returnData:response:potentialError:))
         postSession.resume()
     }
