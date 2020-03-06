@@ -253,6 +253,35 @@ class ConnectionProcessor {
         }
         //Should have returned a blank 200 if successful, if so, no need to do anything
     }
+    
+    //TODO: Finer processing/passing of any errors returned by server to UI
+    //  - Need to discuss this with team
+    func processDeleteReminder(url: String, reminder: Reminder) throws {
+        var reminderJSON = [String: Any]()
+        reminderJSON["reminderID"] = reminder.getReminderID()
+
+        var reminderData = Data()
+        do {
+            reminderData = try JSONSerialization.data(withJSONObject: reminderJSON, options: [])
+        } catch {
+            throw ConnectionError(message: "Failed to extract data from reminder")
+        }
+        let (potentialData, potentialError) = postData(urlString: url, data: reminderData)
+        if potentialError != nil {
+            throw potentialError!
+        }
+        if (potentialData == nil) { //Should never happen if potentialError is nil
+            throw ConnectionError(message: "Data nil with no error")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
+    }
+    
+    //TODO: Finer processing/passing of any errors returned by server to UI
+    //  - Need to discuss this with team
+    func processEditReminder(url: String, reminder: Reminder) throws {
+        try processDeleteReminder(url: url, reminder: reminder);
+        try processNewReminder(url: url, reminder: reminder);
+    }
 }
 
 class Connector {
