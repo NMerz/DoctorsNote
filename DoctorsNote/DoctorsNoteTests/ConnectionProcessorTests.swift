@@ -76,7 +76,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{\"key1\":\"val1\",\"key2\":\"val2\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        var (potentialData, potentialError) = processor.retrieveData(urlString: "url")
+        let (potentialData, potentialError) = processor.retrieveData(urlString: "url")
         XCTAssert(potentialError == nil)
         XCTAssert(potentialData != nil)
         XCTAssert(potentialData!.count == 2)
@@ -89,7 +89,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"conversationID\":\"1\",\"converserID\":\"0\",\"lastMessageTime\":0,\"status\":0}}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        var (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
+        let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "At least one JSON field was an incorrect format")
         XCTAssert(potentialConversationList == nil)
@@ -99,7 +99,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{\"conversationList\": [\"bad\", {\"conversationID\":\"1\",\"converserID\":\"0\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        var (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
+        let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "At least one JSON field was an incorrect format")
         XCTAssert(potentialConversationList == nil)
@@ -109,7 +109,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{\"conversationList\": [{\"conversationID\":1,\"converserID\":\"0\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        var (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
+        let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "At least one JSON field was an incorrect format")
         XCTAssert(potentialConversationList == nil)
@@ -121,7 +121,6 @@ class ConnectionProcessorTests: XCTestCase {
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
-            XCTAssert(potentialMessageList == nil)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -135,7 +134,6 @@ class ConnectionProcessorTests: XCTestCase {
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
-            XCTAssert(potentialMessageList == nil)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -149,7 +147,45 @@ class ConnectionProcessorTests: XCTestCase {
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
-            XCTAssert(potentialMessageList == nil)
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "At least one JSON field was an incorrect format")
+        }
+    }
+    
+    func testReminderListReminderInvalidJSONArray() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"reminderID\":11,\"remindee\":\"123id\",\"creatorID\":231,\"timeCreated\":123,\"alertTime\":1583692386455,\"content\":\"This is content\"}}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let _ = try processor.processReminders(url: "url", numberToRetrieve: 2)
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "At least one JSON field was an incorrect format")
+        }
+    }
+    
+    func testReminderListReminderJSONArray() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"reminderList\":[\"bad\",{\"reminderID\":11,\"remindee\":\"123id\",\"creatorID\":231,\"timeCreated\":123,\"alertTime\":1583692386455,\"content\":\"This is content\"}]}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let _ = try processor.processReminders(url: "url", numberToRetrieve: 2)
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "At least one JSON field was an incorrect format")
+        }
+    }
+    
+    func testReminderListReminderFieldType() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"reminderList\":[{\"reminderID\":11,\"remindee\":\"123id\",\"creatorID\":231,\"timeCreated\":123,\"alertTime\":1583692386455,\"content\":\"This is content\"}]}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let _ = try processor.processReminders(url: "url", numberToRetrieve: 2)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -211,12 +247,27 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":1,\"content\":\"123\",\"sender\":2}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
-            XCTAssert(potentialMessageList != nil)
-            let messageList = potentialMessageList!
+            let messageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
             XCTAssert(messageList[0].getConversation().getConversationID() == 0)
             XCTAssert(messageList[0].getContent() == [UInt8]("123".utf8))
             XCTAssert(messageList[0].getSender().getUID() == 2)
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
+    func testValidReminderRetrieval() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"reminderList\":[{\"reminderID\":11,\"remindee\":\"123id\",\"creatorID\":\"231id\",\"timeCreated\":123,\"alertTime\":1583692386455,\"content\":\"This is content\"}]}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let reminderList = try processor.processReminders(url: "url", numberToRetrieve: 1)
+            let reminder = reminderList[0]
+            XCTAssert(reminder.getReminderID() == 11)
+            XCTAssert(reminder.getRemindeeID() == "123id")
+            XCTAssert(reminder.getCreatorID() == "231id")
+            XCTAssert(reminder.getTimeCreated() == Date(timeIntervalSince1970: 123))
+            XCTAssert(reminder.getAlertTime() == Date(timeIntervalSince1970: 1583692386455))
         } catch {
             XCTAssert(false)
         }

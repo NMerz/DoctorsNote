@@ -184,7 +184,7 @@ class ConnectionProcessor {
         return (Conversation(conversationID: -1, conversationPartner: User(uid: -1)!, lastMessageTime: Date(), unreadMessages: false), nil)
     }
     
-    func processMessages(url: String, conversation: Conversation, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message]? {
+    func processMessages(url: String, conversation: Conversation, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
         var messageJSON = [String : Any]()
         messageJSON["conversationID"] = conversation.getConversationID()
         messageJSON["numberToRetrieve"] = numberToRetrieve
@@ -228,6 +228,33 @@ class ConnectionProcessor {
             return error as? ConnectionError
         }
         return nil //Should have returned a blank 200 if successful, if so, no need to return an error
+    }
+    
+    func processReminders(url: String, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Reminder] {
+        var reminderJSON = [String : Any]()
+        reminderJSON["numberToRetrieve"] = numberToRetrieve
+        reminderJSON["startIndex"] = startIndex
+        reminderJSON["sinceWhen"] = sinceWhen.timeIntervalSince1970
+        
+        let reminderList = try postData(urlString: url, dataJSON: reminderJSON)
+        var reminders = [Reminder]()
+        if (reminderList.first?.value as? NSArray == nil) {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        
+        for reminderDict in (reminderList.first?.value as! NSArray) {
+            if (reminderDict as? [String : Any?] == nil) {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+            let reminder = reminderDict as! [String : Any?]
+            if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["alertTime"] as? Int) != nil) && ((reminder["content"] as? String) != nil) {
+                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: [UInt8]((reminder["content"] as! String).utf8), creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: TimeInterval(reminder["timeCreated"] as! Int)), alertTime: Date(timeIntervalSince1970: TimeInterval(reminder["alertTime"] as! Int)))
+                reminders.append(newReminder)
+            } else {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+        }
+        return reminders
     }
     
     //TODO: Finer processing/passing of any errors returned by server to UI
