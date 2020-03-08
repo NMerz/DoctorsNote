@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import AWSMobileClient
+import AWSCognito
 
 class User {
     private let uid: Int

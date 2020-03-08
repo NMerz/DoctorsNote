@@ -44,6 +44,7 @@
 		B5AC8B312409CE6E002E070D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
 		B5AC8B332409CE85002E070D /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
+		B5AE7347241563C600A9CDAE /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083CD24036C0200CF41D0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -118,6 +119,7 @@
 		B5AC8B302409CE6E002E070D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B5AC8B322409CE85002E070D /* HealthSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
 		B5AC8B342409CF13002E070D /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		B5AE7346241563C600A9CDAE /* CognitoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CognitoHelper.swift; sourceTree = "<group>"; };
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083CC24036C0200CF41D0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
 				B5AC8B342409CF13002E070D /* ChatLogController.swift */,
 				B5AC8B302409CE6E002E070D /* User.swift */,
+				B5AE7346241563C600A9CDAE /* CognitoHelper.swift */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */,
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
@@ -596,6 +599,7 @@
 				B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */,
 				B54E4F342408EDA200349316 /* LoginNavigationController.swift in Sources */,
 				B52F16A7240954760083C2EA /* ProfileViewController.swift in Sources */,
+				B5AE7347241563C600A9CDAE /* CognitoHelper.swift in Sources */,
 				B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */,
 				B54E4F392408EDA200349316 /* DOBView.swift in Sources */,
 			);
