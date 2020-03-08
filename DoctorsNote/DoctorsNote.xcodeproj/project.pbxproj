@@ -40,7 +40,7 @@
 		B5AC8B332409CE85002E070D /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
 		B5AE7347241563C600A9CDAE /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
-		B5AE73492415698600A9CDAE /* TestUserSignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE73482415698600A9CDAE /* TestUserSignUp.swift */; };
+		B5AE73492415698600A9CDAE /* TestUserSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE73482415698600A9CDAE /* TestUserSignIn.swift */; };
 		B5AE734A24156C4900A9CDAE /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */; };
 		B5AE734B24156C5B00A9CDAE /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
 		B5AE734C24156C5B00A9CDAE /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2E2409CE35002E070D /* Conversation.swift */; };
@@ -122,7 +122,7 @@
 		B5AC8B322409CE85002E070D /* HealthSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
 		B5AC8B342409CF13002E070D /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		B5AE7346241563C600A9CDAE /* CognitoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CognitoHelper.swift; sourceTree = "<group>"; };
-		B5AE73482415698600A9CDAE /* TestUserSignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserSignUp.swift; sourceTree = "<group>"; };
+		B5AE73482415698600A9CDAE /* TestUserSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserSignIn.swift; sourceTree = "<group>"; };
 		B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRegisterViewController.swift; sourceTree = "<group>"; };
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083CC24036C0200CF41D0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 			children = (
 				B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */,
 				B52ABE8D23F5B874007B3D6A /* Info.plist */,
-				B5AE73482415698600A9CDAE /* TestUserSignUp.swift */,
+				B5AE73482415698600A9CDAE /* TestUserSignIn.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -630,7 +630,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5AE73492415698600A9CDAE /* TestUserSignUp.swift in Sources */,
+				B5AE73492415698600A9CDAE /* TestUserSignIn.swift in Sources */,
 				B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
