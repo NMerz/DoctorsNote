@@ -75,7 +75,7 @@ class ConnectionProcessor {
         print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
         do {
             jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
-            if jsonData == nil {
+            if jsonData == nil { //I cannot remember any case where this would happen instead of throwing
                 throw ConnectionError(message: "Malformed response body")
             }
         }
@@ -293,9 +293,7 @@ class Connector {
 //            return
 //        }
         request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
-        let retrievalTask = session.dataTask(with: request) {returnData, responseHeader, potentialError in
-            manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
-        }
+        let retrievalTask = session.dataTask(with: request, completionHandler: manager.processConnection(returnData:response:potentialError:))
         retrievalTask.resume()
     }
     
