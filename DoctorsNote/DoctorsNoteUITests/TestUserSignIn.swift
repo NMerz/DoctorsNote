@@ -49,8 +49,10 @@ class TestUserSignIn: XCTestCase {
         emailField.tap()
         emailField.typeText("test@email.com")
         app?.buttons["Log In"].tap()
-        // Instead of the below line, test to make sure the app goes on to the next view.
-        //XCTAssertEqual(app!.staticTexts.element(matching:.any, identifier: "Error Label").label, "")
+        
+        sleep(2)
+        // Make sure that the app has changed views
+        XCTAssert(!app!.staticTexts["Error Label"].exists)
         
         
     }
