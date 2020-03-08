@@ -21,11 +21,11 @@ class ConnectionProcessor {
         
     }
     
-    func reportMissingAuthToken() {
-        connectionError = ConnectionError(message: "Missing authentication token")
-        signalWaiter.signal()
-        return
-    }
+//    func reportMissingAuthToken() {
+//        connectionError = ConnectionError(message: "Missing authentication token")
+//        signalWaiter.signal()
+//        return
+//    }
 
     static func standardUrl() -> String {
         return standardURL
@@ -36,9 +36,22 @@ class ConnectionProcessor {
         return processData()
     }
     
-    func postData(urlString: String, data: Data) -> ([String : Any]?, ConnectionError?) {
-        postJSONData(urlString: urlString, data: data)
-        return processData()
+    private func postData(urlString: String, dataJSON: [String : Any]) throws -> ([String : Any]) {
+        var postData = Data()
+        do {
+            postData = try JSONSerialization.data(withJSONObject: dataJSON, options: [])
+        } catch {
+            throw ConnectionError(message: "Failed to extract data from dictionary")
+        }
+        postJSONData(urlString: urlString, data: postData)
+        let (potentialData, potentialError) = processData()
+        if potentialError != nil {
+            throw potentialError!
+        }
+        if (potentialData == nil) { //Should never happen if potentialError is nil
+            throw ConnectionError(message: "Data nil with no error")
+        }
+        return potentialData!
     }
     
     private func processData() -> ([String : Any]?, ConnectionError?) {
@@ -78,8 +91,9 @@ class ConnectionProcessor {
     private func retrieveJSONData(urlString: String) {
         let url = URL(string: urlString)!
         print(url)
-        
-        connector.conductGetTask(manager: self, url: url)
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        connector.conductGetTask(manager: self, request: &request)
         signalWaiter.wait()
         //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
     }
@@ -87,7 +101,11 @@ class ConnectionProcessor {
     private func postJSONData(urlString: String, data: Data) {
         let url = URL(string: urlString)!
         print(url)
-        connector.conductPostTask(manager: self, url: url, data: data)
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        //request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        connector.conductPostTask(manager: self, request: &request, data: data)
         signalWaiter.wait()
         //TODO: This waiter should be replaced: A session/task other than the singleton can be used and then set to call a completion handler https://developer.apple.com/documentation/foundation/urlsessiondatadelegate/1410027-urlsession
     }
@@ -172,20 +190,8 @@ class ConnectionProcessor {
         messageJSON["numberToRetrieve"] = numberToRetrieve
         messageJSON["startIndex"] = startIndex
         messageJSON["sinceWhen"] = sinceWhen.timeIntervalSince1970
-        var messageData = Data()
-        do {
-            messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])
-        } catch {
-            throw ConnectionError(message: "Failed to extract data from message")
-        }
-        let (potentialData, potentialError) = postData(urlString: url, data: messageData)
-        if potentialError != nil {
-            throw potentialError!
-        }
-        if (potentialData == nil) { //Should never happen if potentialError is nil
-            throw ConnectionError(message: "Data nil with no error")
-        }
-        let messageList = potentialData!
+        
+        let messageList = try postData(urlString: url, dataJSON: messageJSON)
         var messages = [Message]()
         if (messageList.first?.value as? NSArray == nil) {
             throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -213,18 +219,13 @@ class ConnectionProcessor {
         messageJSON["senderID"] = message.getSender().getUID()
         messageJSON["conversationID"] = message.getConversation().getConversationID()
         messageJSON["content"] = String(bytes: message.getContent(), encoding: .utf8)
-        var messageData = Data()
         do {
-            messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])
-        } catch {
-            return ConnectionError(message: "Failed to extract data from message")
-        }
-        let (potentialData, potentialError) = postData(urlString: url, data: messageData)
-        if potentialError != nil {
-            return potentialError
-        }
-        if (potentialData == nil) { //Should never happen if potentialError is nil
-            return ConnectionError(message: "Data nil with no error")
+            let data = try postData(urlString: url, dataJSON: messageJSON)
+            if data.count != 0 {
+                return ConnectionError(message: "Non-blank return")
+            }
+        } catch let error {
+            return error as? ConnectionError
         }
         return nil //Should have returned a blank 200 if successful, if so, no need to return an error
     }
@@ -237,19 +238,9 @@ class ConnectionProcessor {
         reminderJSON["remindee"] = reminder.getRemindeeID()
         reminderJSON["timeCreated"] = reminder.getTimeCreated().timeIntervalSince1970
         reminderJSON["alertTime"] = reminder.getAlertTime().timeIntervalSince1970
-
-        var reminderData = Data()
-        do {
-            reminderData = try JSONSerialization.data(withJSONObject: reminderJSON, options: [])
-        } catch {
-            throw ConnectionError(message: "Failed to extract data from reminder")
-        }
-        let (potentialData, potentialError) = postData(urlString: url, data: reminderData)
-        if potentialError != nil {
-            throw potentialError!
-        }
-        if (potentialData == nil) { //Should never happen if potentialError is nil
-            throw ConnectionError(message: "Data nil with no error")
+        let data = try postData(urlString: url, dataJSON: reminderJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
         }
         //Should have returned a blank 200 if successful, if so, no need to do anything
     }
@@ -260,18 +251,9 @@ class ConnectionProcessor {
         var reminderJSON = [String: Any]()
         reminderJSON["reminderID"] = reminder.getReminderID()
 
-        var reminderData = Data()
-        do {
-            reminderData = try JSONSerialization.data(withJSONObject: reminderJSON, options: [])
-        } catch {
-            throw ConnectionError(message: "Failed to extract data from reminder")
-        }
-        let (potentialData, potentialError) = postData(urlString: url, data: reminderData)
-        if potentialError != nil {
-            throw potentialError!
-        }
-        if (potentialData == nil) { //Should never happen if potentialError is nil
-            throw ConnectionError(message: "Data nil with no error")
+        let data = try postData(urlString: url, dataJSON: reminderJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
         }
         //Should have returned a blank 200 if successful, if so, no need to do anything
     }
@@ -285,8 +267,14 @@ class ConnectionProcessor {
 }
 
 class Connector {
-    let signalWaiter = DispatchSemaphore(value: 0)
     var authToken: SessionToken? = nil
+    let tokenGuard: TokenGuard
+    let session: URLSession
+    
+    init (tokenGuard: TokenGuard = TokenGuard(), session: URLSession = URLSession.shared) {
+        self.tokenGuard = tokenGuard
+        self.session = session
+    }
 
     func setToken(potentialTokens: Tokens?, potentialError: Error?) {
         if (potentialError != nil || potentialTokens == nil || potentialTokens!.accessToken == nil) {
@@ -294,38 +282,31 @@ class Connector {
         }
         authToken = potentialTokens!.idToken!
         print(authToken!.tokenString)
-        signalWaiter.signal()
+        tokenGuard.release()
     }
     
     
-    func conductGetTask(manager: ConnectionProcessor, url: URL) {
-        signalWaiter.wait()
-        signalWaiter.signal()
-        if (authToken == nil) {
-            manager.reportMissingAuthToken()
-            return
-        }
-        var request = URLRequest(url: url)
+    func conductGetTask(manager: ConnectionProcessor, request: inout URLRequest) {
+        tokenGuard.pass()
+//        if (authToken == nil) {
+//            manager.reportMissingAuthToken()
+//            return
+//        }
         request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let retrievalTask = URLSession.shared.dataTask(with: request) {returnData, responseHeader, potentialError in
+        let retrievalTask = session.dataTask(with: request) {returnData, responseHeader, potentialError in
             manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
         }
         retrievalTask.resume()
     }
     
-    func conductPostTask(manager: ConnectionProcessor, url: URL, data: Data) {
-        signalWaiter.wait()
-        signalWaiter.signal()
-        if (authToken == nil) {
-            manager.reportMissingAuthToken()
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+    func conductPostTask(manager: ConnectionProcessor, request: inout URLRequest, data: Data) {
+        tokenGuard.pass()
+//        if (authToken == nil) {
+//            manager.reportMissingAuthToken()
+//            return
+//        }
         request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let postSession = URLSession.shared.uploadTask(with: request, from: data, completionHandler: manager.processConnection(returnData:response:potentialError:))
+        let postSession = session.uploadTask(with: request, from: data, completionHandler: manager.processConnection(returnData:response:potentialError:))
         postSession.resume()
     }
 }
@@ -337,5 +318,18 @@ class ConnectionError : Error {
     }
     func getMessage() -> String {
         return message
+    }
+}
+
+class TokenGuard {
+    let signalWaiter = DispatchSemaphore(value: 0)
+
+    func release() {
+        signalWaiter.signal()
+    }
+    
+    func pass() {
+        signalWaiter.wait()
+        signalWaiter.signal()
     }
 }

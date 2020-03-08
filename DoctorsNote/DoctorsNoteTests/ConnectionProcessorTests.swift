@@ -254,7 +254,8 @@ class ConnectorMock: Connector {
     var responseHeader = URLResponse?(nil)
     var potentialError = Error?(nil)
     
-    override init() {
+    init() {
+        
     }
     
     init(returnData: Data?, responseHeader: URLResponse?, potentialError: Error?) {
@@ -263,13 +264,13 @@ class ConnectorMock: Connector {
         self.potentialError = potentialError
     }
     
-    override func conductGetTask(manager: ConnectionProcessor, url: URL) {
+    override func conductGetTask(manager: ConnectionProcessor, request: inout URLRequest) {
         conductRetrievalTaskCalls += 1
         
         manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
     }
     
-    override func conductPostTask(manager: ConnectionProcessor, url: URL, data: Data) {
+    override func conductPostTask(manager: ConnectionProcessor, request: inout URLRequest, data: Data) {
         conductPostTaskCalls += 1
         
         manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
