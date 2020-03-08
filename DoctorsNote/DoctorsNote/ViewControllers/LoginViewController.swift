@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var thisView: UIView!
     @IBOutlet weak var emailField: CustomTextField!
     @IBOutlet weak var passwordField: CustomTextField!
+    @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +44,21 @@ class LoginViewController: UIViewController {
         let emailValid = emailField.isValidEmail()
         let passwordEmpty = passwordField.isEmpty()
         
-        if (emailEmpty || passwordEmpty || !emailValid) {
+        if (emailEmpty) {
+            errorLabel.text = "Error: Please enter an email."
             return
         }
+        else if (!emailValid) {
+            errorLabel.text = "Error: Please enter email in the correct format."
+            return
+        }
+        else if (passwordEmpty) {
+            errorLabel.text = "Error: Please enter a password."
+            return
+        }
+        errorLabel.text = ""
         
+        // FIXME: Incorrect error handling....
         CognitoHelper.sharedHelper.login(email: emailField.text!, password: passwordField.text!) { (user) -> (Void) in
             if (user == nil) {
                 

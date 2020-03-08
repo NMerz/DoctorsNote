@@ -98,6 +98,13 @@
                                     <action selector="login:" destination="liH-Cw-Cs9" eventType="touchUpInside" id="ZmL-4K-bAW"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ql-jN-m5S">
+                                <rect key="frame" x="25" y="355.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Error Label"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -106,6 +113,8 @@
                             <constraint firstItem="25Z-O4-583" firstAttribute="trailing" secondItem="1Dn-C0-pE7" secondAttribute="trailing" constant="25" id="2dC-6a-PP3"/>
                             <constraint firstItem="g5d-gX-faI" firstAttribute="height" secondItem="1Dn-C0-pE7" secondAttribute="height" id="4PK-r6-BZ5"/>
                             <constraint firstItem="g5d-gX-faI" firstAttribute="top" secondItem="1Dn-C0-pE7" secondAttribute="bottom" constant="15" id="7bo-Ap-yNX"/>
+                            <constraint firstItem="1Dn-C0-pE7" firstAttribute="trailing" secondItem="5Ql-jN-m5S" secondAttribute="trailing" id="BBB-pE-d92"/>
+                            <constraint firstItem="1Dn-C0-pE7" firstAttribute="top" secondItem="5Ql-jN-m5S" secondAttribute="bottom" constant="10" id="Bgj-JM-TTI"/>
                             <constraint firstItem="1Dn-C0-pE7" firstAttribute="top" secondItem="5cJ-SM-70O" secondAttribute="bottom" constant="75" id="C5E-A6-b5G"/>
                             <constraint firstItem="Kst-sh-c5u" firstAttribute="centerX" secondItem="AOK-ai-NaH" secondAttribute="centerX" id="CDB-vD-xWH"/>
                             <constraint firstItem="fSo-5U-VMF" firstAttribute="top" secondItem="Kst-sh-c5u" secondAttribute="bottom" constant="10" id="CT0-60-HQf"/>
@@ -114,9 +123,11 @@
                             <constraint firstItem="1Dn-C0-pE7" firstAttribute="centerX" secondItem="AOK-ai-NaH" secondAttribute="centerX" id="KTg-lf-IJD"/>
                             <constraint firstItem="5cJ-SM-70O" firstAttribute="centerX" secondItem="AOK-ai-NaH" secondAttribute="centerX" id="c1o-b9-yTj"/>
                             <constraint firstItem="5NC-P6-WVA" firstAttribute="trailing" secondItem="g5d-gX-faI" secondAttribute="trailing" id="efM-tJ-KiZ"/>
+                            <constraint firstItem="1Dn-C0-pE7" firstAttribute="height" secondItem="5Ql-jN-m5S" secondAttribute="height" id="j3i-gI-PK3"/>
                             <constraint firstItem="1Dn-C0-pE7" firstAttribute="centerY" secondItem="AOK-ai-NaH" secondAttribute="centerY" id="kkD-5E-I1M"/>
                             <constraint firstItem="5NC-P6-WVA" firstAttribute="top" secondItem="g5d-gX-faI" secondAttribute="bottom" constant="5" id="pwd-RR-hSe"/>
                             <constraint firstItem="vnd-qm-QB0" firstAttribute="top" secondItem="5NC-P6-WVA" secondAttribute="bottom" constant="25" id="s7t-JV-6Ri"/>
+                            <constraint firstItem="1Dn-C0-pE7" firstAttribute="leading" secondItem="5Ql-jN-m5S" secondAttribute="leading" id="sPl-kf-b3O"/>
                             <constraint firstItem="1Dn-C0-pE7" firstAttribute="leading" secondItem="25Z-O4-583" secondAttribute="leading" constant="25" id="xPY-Ia-xcy"/>
                             <constraint firstItem="25Z-O4-583" firstAttribute="bottom" secondItem="fSo-5U-VMF" secondAttribute="bottom" constant="30" id="yzA-oF-1vB"/>
                         </constraints>
@@ -126,6 +137,7 @@
                     <connections>
                         <outlet property="createButton" destination="fSo-5U-VMF" id="Pef-Bm-hGX"/>
                         <outlet property="emailField" destination="1Dn-C0-pE7" id="99g-G8-ORf"/>
+                        <outlet property="errorLabel" destination="5Ql-jN-m5S" id="xio-Nl-w8b"/>
                         <outlet property="forgotButton" destination="5NC-P6-WVA" id="ubN-3O-i7z"/>
                         <outlet property="loginButton" destination="vnd-qm-QB0" id="LQc-8n-VsE"/>
                         <outlet property="passwordField" destination="g5d-gX-faI" id="DnX-mf-N15"/>
@@ -137,7 +149,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3Z-kz-1rq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-107" y="57"/>
+            <point key="canvasLocation" x="-107.24637681159422" y="56.919642857142854"/>
         </scene>
         <!--Recover Password-->
         <scene sceneID="I4w-ry-rQH">
@@ -546,6 +558,7 @@
                                         <subviews>
                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xNd-W7-ZOg">
                                                 <rect key="frame" x="25" y="291" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="DOB Button"/>
                                                 <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="Date of Birth"/>
                                                 <connections>
@@ -554,6 +567,7 @@
                                             </button>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2E9-3Q-mIC" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="39" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="First Name Field"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="ilk-up-swF"/>
                                                 </constraints>
@@ -562,31 +576,37 @@
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nGi-YV-c4g" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="711" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="State Field"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="address-level1"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Street Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cfu-tU-ihU" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="543" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="Street Field"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="address-line1"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="ZIP" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LzI-yU-42I" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="795" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="ZIP Field"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="postal-code"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CvY-jQ-o0o" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="627" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="City Field"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="address-level2"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ybw-Dy-eZ5" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="207" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="Last Name Field"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Middle Name (Optional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UsH-AU-kKA" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="123" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="Middle Name Field"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                             </textField>
@@ -612,6 +632,7 @@
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BIV-Ih-dVR" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="459" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="Phone Field"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                             </textField>
@@ -637,6 +658,7 @@
                                             </label>
                                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2M-IN-0z6">
                                                 <rect key="frame" x="25" y="375" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="Sex Button"/>
                                                 <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 <state key="normal" title="Sex"/>
                                                 <connections>
@@ -794,6 +816,7 @@
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LC7-U1-ojD">
                                 <rect key="frame" x="329" y="1361.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Forward"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="cbT-8f-WSg"/>
                                     <constraint firstAttribute="width" secondItem="LC7-U1-ojD" secondAttribute="height" multiplier="1:1" id="dnT-0t-dpj"/>
@@ -805,6 +828,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BeS-MX-tGa">
                                 <rect key="frame" x="10" y="1361.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="BeS-MX-tGa" secondAttribute="height" multiplier="1:1" id="0CT-bA-zfz"/>
                                     <constraint firstAttribute="height" constant="75" id="YPp-UM-DlP"/>
@@ -867,6 +891,7 @@
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eKu-rX-XZH">
                                 <rect key="frame" x="10" y="740.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="UqI-G1-j2a"/>
                                     <constraint firstAttribute="width" secondItem="eKu-rX-XZH" secondAttribute="height" multiplier="1:1" id="jX5-yg-QXa"/>
@@ -880,6 +905,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JhQ-wb-a1I">
                                 <rect key="frame" x="107" y="515.5" width="200" height="40"/>
                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Request Button"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="HV6-tJ-z5Y"/>
                                     <constraint firstAttribute="width" constant="200" id="hXk-fy-zVB"/>
@@ -894,6 +920,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ifv-9f-lBF">
                                 <rect key="frame" x="25" y="420.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Select Healthcare Provider"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="erZ-74-KQs"/>
                                 </constraints>
@@ -905,6 +932,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="v3E-Eq-vLa">
                                 <rect key="frame" x="25" y="337" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Select Hospital"/>
                                 <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Select Hospital"/>
                                 <connections>
@@ -1144,6 +1172,6 @@
         <image name="doc.plaintext" catalog="system" width="56" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="JDB-Jh-d9i"/>
+        <segue reference="bIQ-PC-edH"/>
     </inferredMetricsTieBreakers>
 </document>
