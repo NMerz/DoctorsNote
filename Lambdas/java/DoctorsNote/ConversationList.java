@@ -150,7 +150,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
             //System.out.flush();
             return conversationListResponse;
         } catch (Exception e) {
-            return null;
+            throw new RuntimeException("Server experienced: " + e.getMessage());
         }
     }
 

@@ -29,7 +29,8 @@ target 'DoctorsNote' do
   pod 'AWSUserPoolsSignIn', '~> 2.12.1'   # Optional dependency required to use drop-in UI
   pod 'PopupKit'
 
-
+  # Library for calendar
+  pod 'JTAppleCalendar', '~> 7.1'
 
   target 'DoctorsNoteTests' do
     inherit! :search_paths

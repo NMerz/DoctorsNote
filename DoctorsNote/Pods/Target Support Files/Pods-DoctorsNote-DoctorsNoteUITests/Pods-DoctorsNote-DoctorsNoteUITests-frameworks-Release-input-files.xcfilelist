@@ -22,4 +22,5 @@ ${BUILT_PRODUCTS_DIR}/AWSSNS/AWSSNS.framework
 ${BUILT_PRODUCTS_DIR}/AWSSQS/AWSSQS.framework
 ${BUILT_PRODUCTS_DIR}/AWSSimpleDB/AWSSimpleDB.framework
 ${BUILT_PRODUCTS_DIR}/AWSUserPoolsSignIn/AWSUserPoolsSignIn.framework
+${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework
 ${BUILT_PRODUCTS_DIR}/PopupKit/PopupKit.framework

@@ -37,7 +37,7 @@ class LoginViewController: UIViewController {
         
         // TODO REMOVE LATER
         if (AWSMobileClient.default().isSignedIn) {
-                self.performSegue(withIdentifier: "go_to_main", sender: self)
+            AWSMobileClient.default().signOut()
         }
         
         let emailEmpty = emailField.isEmpty()
