@@ -40,11 +40,13 @@
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g5d-gX-faI" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="490.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Password Field"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" textContentType="password"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1Dn-C0-pE7" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="420.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Email Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="FrM-yQ-Zyr"/>
                                 </constraints>
@@ -53,6 +55,7 @@
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fSo-5U-VMF">
                                 <rect key="frame" x="132" y="798" width="150" height="34"/>
+                                <accessibility key="accessibilityConfiguration" label="Request Button"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="hcb-zz-bSs"/>
                                 </constraints>
@@ -64,6 +67,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5NC-P6-WVA">
                                 <rect key="frame" x="264" y="550.5" width="125" height="30"/>
+                                <accessibility key="accessibilityConfiguration" label="Forgot Button"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="125" id="uqA-CO-eSD"/>
                                 </constraints>
@@ -81,6 +85,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vnd-qm-QB0">
                                 <rect key="frame" x="107" y="605.5" width="200" height="40"/>
                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Log In"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="IXM-rO-dxc"/>
                                     <constraint firstAttribute="height" constant="40" id="fnU-Aw-Sb5"/>
@@ -150,6 +155,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ogq-Se-60o" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="420.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Email Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="1jv-Zy-kHX"/>
                                 </constraints>
@@ -169,6 +175,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e3Y-ON-v7D">
                                 <rect key="frame" x="107" y="525.5" width="200" height="40"/>
                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Recover Button"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="4Ug-xh-CNO"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Yim-ak-QvS"/>
@@ -184,6 +191,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLF-7l-Ken">
                                 <rect key="frame" x="10" y="777.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="qLL-Nf-MvL"/>
                                 </constraints>
@@ -194,6 +202,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4b9-eV-abM">
                                 <rect key="frame" x="243" y="480.5" width="146" height="30"/>
+                                <accessibility key="accessibilityConfiguration" label="Has Code Button"/>
                                 <state key="normal" title="Already have a code?"/>
                                 <connections>
                                     <action selector="hasCode:" destination="lYU-Iz-wH8" eventType="touchUpInside" id="dfm-kY-MSx"/>
@@ -252,6 +261,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4xG-e8-vbu" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="333.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Email Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="55" id="ard-4x-9gF"/>
                                     <constraint firstAttribute="height" constant="55" id="xys-p4-GlO"/>
@@ -259,13 +269,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="QkU-VL-5Sl">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="QkU-VL-5Sl">
                                 <rect key="frame" x="0.0" y="825" width="414" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AcA-rF-8Ri">
                                 <rect key="frame" x="319" y="740.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Forward"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="JpC-41-5q3"/>
                                     <constraint firstAttribute="width" secondItem="AcA-rF-8Ri" secondAttribute="height" multiplier="1:1" id="bLo-7j-mWC"/>
@@ -277,6 +288,7 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpZ-eB-nki">
                                 <rect key="frame" x="20" y="740.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="9pd-gK-f8g"/>
                                     <constraint firstAttribute="width" secondItem="FpZ-eB-nki" secondAttribute="height" multiplier="1:1" id="hkw-ke-y1A"/>
@@ -289,6 +301,7 @@
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tz2-Yv-1Xq" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="420.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Password Field"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="password"/>
                             </textField>
@@ -314,6 +327,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iCi-Uw-qwx" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="507.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Confirm Field"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="password"/>
                             </textField>
@@ -335,6 +349,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L4E-fe-jQ8">
                                 <rect key="frame" x="243" y="567.5" width="146" height="30"/>
+                                <accessibility key="accessibilityConfiguration" label="Has Code Button"/>
                                 <state key="normal" title="Already have a code?"/>
                                 <connections>
                                     <action selector="hasCode:" destination="etQ-qk-GXB" eventType="touchUpInside" id="OOh-mN-y7T"/>
@@ -399,6 +414,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f8N-2k-rSD" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="420.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Verification Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="4xp-Ab-VRc"/>
                                 </constraints>
@@ -422,13 +438,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="ezN-7K-EJd">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="ezN-7K-EJd">
                                 <rect key="frame" x="5" y="825" width="404" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LfC-b0-z9s">
                                 <rect key="frame" x="10" y="740.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="wcy-FL-fpv"/>
                                 </constraints>
@@ -439,6 +456,7 @@
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LLg-T1-ggb" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="333.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Email Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="p5M-9K-XwH"/>
                                 </constraints>
@@ -458,6 +476,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2y-mW-nMn">
                                 <rect key="frame" x="107" y="515.5" width="200" height="40"/>
                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Create Account"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="Ul7-bB-Yko"/>
                                     <constraint firstAttribute="height" constant="40" id="W5v-on-E8H"/>
@@ -764,7 +783,7 @@
                                     <constraint firstItem="xtU-ML-a1V" firstAttribute="width" secondItem="fWj-IO-wah" secondAttribute="width" id="xFC-7d-0tX"/>
                                 </constraints>
                             </scrollView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" currentPage="2" translatesAutoresizingMaskIntoConstraints="NO" id="MnP-e8-rF1">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="MnP-e8-rF1">
                                 <rect key="frame" x="0.0" y="1446" width="414" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -831,7 +850,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J2f-iB-dnC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2309" y="57"/>
+            <point key="canvasLocation" x="2308.695652173913" y="56.919642857142854"/>
         </scene>
         <!--Healthcare Information-->
         <scene sceneID="TrS-in-a6P">
@@ -841,7 +860,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" currentPage="3" translatesAutoresizingMaskIntoConstraints="NO" id="4PA-b9-EyP">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="4PA-b9-EyP">
                                 <rect key="frame" x="0.0" y="825" width="414" height="37"/>
                                 <color key="pageIndicatorTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -960,6 +979,7 @@
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kOf-f9-Y5d" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="366" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Verification Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="XHZ-NY-Vs3"/>
                                 </constraints>
@@ -985,6 +1005,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fAR-0d-xEw">
                                 <rect key="frame" x="10" y="777.5" width="75" height="74"/>
+                                <accessibility key="accessibilityConfiguration" label="Back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="qaL-tg-LIM"/>
                                 </constraints>
@@ -995,6 +1016,7 @@
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PYp-zK-PqW" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="279" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Email Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="e9M-Cl-n8b"/>
                                 </constraints>
@@ -1013,6 +1035,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9LF-Er-Ega" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="453" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="New Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="nnb-Az-VBn"/>
                                 </constraints>
@@ -1031,6 +1054,7 @@
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm New Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ngC-yl-WEO" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                 <rect key="frame" x="25" y="540" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Confirm New Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="k83-CF-LaF"/>
                                 </constraints>
@@ -1050,6 +1074,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="euT-4G-Yt7">
                                 <rect key="frame" x="107" y="610" width="200" height="40"/>
                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" label="Reset Button"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="hka-D1-Oga"/>
                                     <constraint firstAttribute="height" constant="40" id="mG4-Tk-TC7"/>
@@ -1119,6 +1144,6 @@
         <image name="doc.plaintext" catalog="system" width="56" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bIQ-PC-edH"/>
+        <segue reference="JDB-Jh-d9i"/>
     </inferredMetricsTieBreakers>
 </document>

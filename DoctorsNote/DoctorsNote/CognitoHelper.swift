@@ -65,4 +65,8 @@ class CognitoHelper {
         return AWSMobileClient.default().isSignedIn
     }
     
+    func resetPassword() {
+        
+    }
+    
 }
