@@ -107,7 +107,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testConversationListConversationFieldType() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"conversationList\": [{\"conversationID\":1,\"converserID\":\"0\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"conversationList\": [{\"conversationID\":1,\"converserID\":0,\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError != nil)
@@ -117,7 +117,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testMessageListMessageInvalidJSONArray() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"messageId\":\"1\",\"content\":\"123\",\"sender\":2}}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"messageId\":\"1\",\"content\":\"123\",\"sender\":\"2id\"}}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
@@ -130,7 +130,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testMessageListMessageJSONArray() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"messageList\":[\"bad\", {\"messageId\":\"1\",\"content\":\"123\",\"sender\":2}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"messageList\":[\"bad\", {\"messageId\":\"1\",\"content\":\"123\",\"sender\":\"2id\"}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
@@ -143,7 +143,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testMessageListMessageFieldType() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":\"1\",\"content\":\"123\",\"sender\":2}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":\"1\",\"content\":\"123\",\"sender\":\"2id\"}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
@@ -204,13 +204,13 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testValidConversationList() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":0,\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":\"0id\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError == nil)
         XCTAssert(potentialConversationList != nil)
         let conversationList = potentialConversationList!
-        XCTAssert(conversationList[0].getConversationPartner().getUID() == 0)
+        XCTAssert(conversationList[0].getConversationPartner().getUID() == "0id")
         XCTAssert(conversationList[0].getLastMessageTime() == Date(timeIntervalSince1970: 0))
         XCTAssert(conversationList[0].getUnreadMessages() == false)
     }
@@ -219,7 +219,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: 1)!))
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: "1id")!))
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "Error connecting on server with return code: 500")
     }
@@ -228,7 +228,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"body\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: 1)!))
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: "1id")!))
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "Non-blank return")
     }
@@ -237,20 +237,20 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: 1)!))
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: "id1")!))
         XCTAssert(connector.getConductPostTaskCalls() == 1)
         XCTAssert(potentialError == nil)
     }
     
     func testValidMessageRetrieval() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":1,\"content\":\"123\",\"sender\":2}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":1,\"content\":\"123\",\"sender\":\"2id\"}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
             let messageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
             XCTAssert(messageList[0].getConversation().getConversationID() == 0)
             XCTAssert(messageList[0].getContent() == [UInt8]("123".utf8))
-            XCTAssert(messageList[0].getSender().getUID() == 2)
+            XCTAssert(messageList[0].getSender().getUID() == "2id")
         } catch {
             XCTAssert(false)
         }
@@ -394,7 +394,7 @@ class ConnectionProcessorTests: XCTestCase {
     //This test is testMessagePostBadStatus preceeding testValidConversationList without the ConnectionProcessor being reinititalized. This should provide some confidence that it is relatively stateless
     func testConsecutiveExecutions() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":0,\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: ConnectionError(message: "Test error")) //NOTE: The error would not be of this type but I do not knwo what type it would be
+        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":\"0id\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: ConnectionError(message: "Test error")) //NOTE: The error would not be of this type but I do not knwo what type it would be
         //connector.setToken(potentialTokens: Tokens(idToken: SessionToken(tokenString: "a"), accessToken: nil, refreshToken: nil, expiration: nil), potentialError: nil)
             //(idToken: SessionToken(tokenString: "token")), potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
@@ -408,7 +408,7 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(potentialError2 == nil)
         XCTAssert(potentialConversationList != nil)
         let conversationList = potentialConversationList!
-        XCTAssert(conversationList[0].getConversationPartner().getUID() == 0)
+        XCTAssert(conversationList[0].getConversationPartner().getUID() == "0id")
         XCTAssert(conversationList[0].getLastMessageTime() == Date(timeIntervalSince1970: 0))
         XCTAssert(conversationList[0].getUnreadMessages() == false)
         
