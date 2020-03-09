@@ -245,7 +245,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rlw-Pu-7d6"/>
                     </view>
-                    <navigationItem key="navigationItem" id="RnN-Ad-nak"/>
+                    <navigationItem key="navigationItem" id="RnN-Ad-nak">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="zjm-Ro-Fbq">
+                            <connections>
+                                <segue destination="Z5t-nS-y85" kind="show" id="6z0-1l-oU6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="t27-19-jx8" id="7L7-Sc-fu4"/>
                     </connections>
@@ -304,6 +310,139 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0cd-zm-MKK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1778.2608695652175" y="1838.8392857142856"/>
+        </scene>
+        <!--RequestAppointmentVC-->
+        <scene sceneID="2an-s1-g7N">
+            <objects>
+                <viewController title="RequestAppointmentVC" id="Z5t-nS-y85" customClass="RequestAppointmentVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qms-Ao-FL3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="When would you like to meet?" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t9R-MW-9HN">
+                                <rect key="frame" x="30" y="264" width="354" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="With which doctor would you like to request an appointment?" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hFk-Dw-tu3">
+                                <rect key="frame" x="30" y="130" width="354" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3kK-Ko-hNi">
+                                <rect key="frame" x="30" y="188" width="354" height="36"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Select Doctor">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClickDoctorDropdown:" destination="Z5t-nS-y85" eventType="touchUpInside" id="q67-XZ-EHQ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please provide any details for your doctor to review before the appointment." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TV-CB-qoz">
+                                <rect key="frame" x="30" y="362" width="354" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select date and time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEJ-n9-eFO">
+                                <rect key="frame" x="30" y="298" width="354" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter details here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wrA-ug-xQZ">
+                                <rect key="frame" x="150" y="442" width="97" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDQ-Kn-gXd">
+                                <rect key="frame" x="30" y="484" width="354" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Submit Appointment Request"/>
+                                <connections>
+                                    <segue destination="9i8-HL-cfa" kind="show" id="NsK-58-q40"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="trailing" secondItem="9TV-CB-qoz" secondAttribute="trailing" constant="30" id="00n-ii-brp"/>
+                            <constraint firstItem="3kK-Ko-hNi" firstAttribute="leading" secondItem="6T6-cR-Nvj" secondAttribute="leading" constant="30" id="591-ZL-d1G"/>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="trailing" secondItem="t9R-MW-9HN" secondAttribute="trailing" constant="30" id="7P7-iq-uIQ"/>
+                            <constraint firstItem="hEJ-n9-eFO" firstAttribute="leading" secondItem="6T6-cR-Nvj" secondAttribute="leading" constant="30" id="9hw-KK-VWd"/>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="trailing" secondItem="DDQ-Kn-gXd" secondAttribute="trailing" constant="30" id="Ct4-sX-Za0"/>
+                            <constraint firstItem="hFk-Dw-tu3" firstAttribute="leading" secondItem="6T6-cR-Nvj" secondAttribute="leading" constant="30" id="DDo-nb-eJF"/>
+                            <constraint firstItem="wrA-ug-xQZ" firstAttribute="leading" secondItem="6T6-cR-Nvj" secondAttribute="leading" constant="30" id="Nt7-2P-w5s"/>
+                            <constraint firstItem="3kK-Ko-hNi" firstAttribute="top" secondItem="hFk-Dw-tu3" secondAttribute="bottom" constant="10" id="OXf-o1-yqS"/>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="trailing" secondItem="hFk-Dw-tu3" secondAttribute="trailing" constant="30" id="SQU-uZ-q4L"/>
+                            <constraint firstItem="9TV-CB-qoz" firstAttribute="leading" secondItem="6T6-cR-Nvj" secondAttribute="leading" constant="30" id="T2P-6I-hkj"/>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="trailing" secondItem="3kK-Ko-hNi" secondAttribute="trailing" constant="30" id="Y9J-zS-IGy"/>
+                            <constraint firstItem="DDQ-Kn-gXd" firstAttribute="leading" secondItem="6T6-cR-Nvj" secondAttribute="leading" constant="30" id="f3x-rT-aEE"/>
+                            <constraint firstItem="hEJ-n9-eFO" firstAttribute="top" secondItem="t9R-MW-9HN" secondAttribute="bottom" constant="10" id="f66-vF-NB4"/>
+                            <constraint firstItem="t9R-MW-9HN" firstAttribute="leading" secondItem="6T6-cR-Nvj" secondAttribute="leading" constant="30" id="g6D-Qq-nxG"/>
+                            <constraint firstItem="9TV-CB-qoz" firstAttribute="top" secondItem="hEJ-n9-eFO" secondAttribute="bottom" constant="30" id="jDD-Ej-boB"/>
+                            <constraint firstItem="t9R-MW-9HN" firstAttribute="top" secondItem="3kK-Ko-hNi" secondAttribute="bottom" constant="40" id="lgg-4P-Zv9"/>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="trailing" secondItem="hEJ-n9-eFO" secondAttribute="trailing" constant="30" id="lsJ-fp-O9b"/>
+                            <constraint firstItem="wrA-ug-xQZ" firstAttribute="top" secondItem="9TV-CB-qoz" secondAttribute="bottom" constant="10" id="pkM-UR-foY"/>
+                            <constraint firstItem="DDQ-Kn-gXd" firstAttribute="top" secondItem="wrA-ug-xQZ" secondAttribute="bottom" constant="30" id="saX-sJ-ueD"/>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="top" secondItem="hFk-Dw-tu3" secondAttribute="top" constant="10" id="ycn-Tr-czO"/>
+                            <constraint firstItem="6T6-cR-Nvj" firstAttribute="trailing" secondItem="wrA-ug-xQZ" secondAttribute="trailing" constant="30" id="yhK-1T-yWJ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6T6-cR-Nvj"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="cFX-Px-P0B"/>
+                    <connections>
+                        <outlet property="dateAndTimeField" destination="hEJ-n9-eFO" id="tX0-az-VlW"/>
+                        <outlet property="dateLabel" destination="t9R-MW-9HN" id="DOr-V8-LzE"/>
+                        <outlet property="detailField" destination="wrA-ug-xQZ" id="3Sj-US-O0k"/>
+                        <outlet property="detailLabel" destination="9TV-CB-qoz" id="DWG-EJ-Nvz"/>
+                        <outlet property="doctorDropdownButton" destination="3kK-Ko-hNi" id="GA5-1b-2nn"/>
+                        <outlet property="doctorLabel" destination="hFk-Dw-tu3" id="JM6-Zs-48i"/>
+                        <outlet property="submitAppointmentRequestButton" destination="DDQ-Kn-gXd" id="Ygn-nH-G9W"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lb6-sn-j64" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2766.666666666667" y="2506.4732142857142"/>
+        </scene>
+        <!--Request Appointment ConfirmationVC-->
+        <scene sceneID="86L-fu-uH0">
+            <objects>
+                <viewController id="9i8-HL-cfa" customClass="RequestAppointmentConfirmationVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7bA-wC-51l">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Is-aA-XRQ">
+                                <rect key="frame" x="30" y="191" width="354" height="31.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="354" id="wbd-vi-xJW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="3Is-aA-XRQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="xuQ-B3-iu1" secondAttribute="top" constant="100" id="44z-dy-t5a"/>
+                            <constraint firstItem="xuQ-B3-iu1" firstAttribute="trailing" secondItem="3Is-aA-XRQ" secondAttribute="trailing" constant="30" id="KkA-9u-8V6"/>
+                            <constraint firstItem="3Is-aA-XRQ" firstAttribute="leading" secondItem="xuQ-B3-iu1" secondAttribute="leading" constant="30" id="gCf-On-Wyx"/>
+                            <constraint firstItem="xuQ-B3-iu1" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3Is-aA-XRQ" secondAttribute="bottom" constant="100" id="loe-GP-mey"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="xuQ-B3-iu1"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="gHe-EX-Ddk"/>
+                    <connections>
+                        <outlet property="appointmentConfirmationLabel" destination="3Is-aA-XRQ" id="1Iq-Xh-ygA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lbx-jJ-PWp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2767" y="3185"/>
         </scene>
         <!--Add ReminderVC-->
         <scene sceneID="VYU-UK-zHe">
@@ -667,7 +806,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter description here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wKX-Jg-out">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wKX-Jg-out">
                                 <rect key="frame" x="30" y="420" width="354" height="34"/>
                                 <accessibility key="accessibilityConfiguration" label="Enter description in this text field"/>
                                 <constraints>
@@ -703,7 +842,7 @@
                                     <action selector="onClickHospitalDropdown:" destination="5wB-5b-kPl" eventType="touchUpInside" id="Lip-2j-cm2"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter name here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s68-Vo-Hop">
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Group Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s68-Vo-Hop">
                                 <rect key="frame" x="30" y="220" width="354" height="34"/>
                                 <accessibility key="accessibilityConfiguration" label="Enter support group name in this text field"/>
                                 <constraints>

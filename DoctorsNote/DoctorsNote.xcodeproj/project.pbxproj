@@ -47,10 +47,12 @@
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083CD24036C0200CF41D0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
-		B82083D324039A2100CF41D0 /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D224039A2100CF41D0 /* Form.swift */; };
+		B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D224039A2100CF41D0 /* SupportGroupForm.swift */; };
 		B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */; };
 		B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49032408F462000E6ABC /* RemindersVC.swift */; };
 		B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49052408F80E000E6ABC /* AddReminderVC.swift */; };
+		B885DAD72415801D00DF5D29 /* RequestAppointmentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B885DAD62415801D00DF5D29 /* RequestAppointmentVC.swift */; };
+		B885DAD92415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B885DAD82415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift */; };
 		B8866F002409796800C6149F /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8866EFF2409796800C6149F /* CalendarVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -121,10 +123,12 @@
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083CC24036C0200CF41D0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
-		B82083D224039A2100CF41D0 /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
+		B82083D224039A2100CF41D0 /* SupportGroupForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupForm.swift; sourceTree = "<group>"; };
 		B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGroupConfirmationVC.swift; sourceTree = "<group>"; };
 		B87E49032408F462000E6ABC /* RemindersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersVC.swift; sourceTree = "<group>"; };
 		B87E49052408F80E000E6ABC /* AddReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderVC.swift; sourceTree = "<group>"; };
+		B885DAD62415801D00DF5D29 /* RequestAppointmentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAppointmentVC.swift; sourceTree = "<group>"; };
+		B885DAD82415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAppointmentConfirmationVC.swift; sourceTree = "<group>"; };
 		B8866EFF2409796800C6149F /* CalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
 		D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote_DoctorsNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -299,7 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */,
-				B82083D224039A2100CF41D0 /* Form.swift */,
+				B82083D224039A2100CF41D0 /* SupportGroupForm.swift */,
 				B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */,
 			);
 			path = SupportGroup;
@@ -311,6 +315,8 @@
 				B87E49032408F462000E6ABC /* RemindersVC.swift */,
 				B87E49052408F80E000E6ABC /* AddReminderVC.swift */,
 				B8866EFF2409796800C6149F /* CalendarVC.swift */,
+				B885DAD62415801D00DF5D29 /* RequestAppointmentVC.swift */,
+				B885DAD82415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -574,13 +580,14 @@
 				B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */,
 				B5AC8B2F2409CE36002E070D /* Conversation.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
-				B82083D324039A2100CF41D0 /* Form.swift in Sources */,
+				B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */,
 				B5AC8B312409CE6E002E070D /* User.swift in Sources */,
 				B8866F002409796800C6149F /* CalendarVC.swift in Sources */,
 				B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */,
 				B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */,
 				B54E4F352408EDA200349316 /* LoginViewController.swift in Sources */,
 				B54E4F322408EDA200349316 /* PersonalRegisterViewController.swift in Sources */,
+				B885DAD92415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
 				B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */,
 				B5AC8B2D2409CE21002E070D /* ConnectionProcessor.swift in Sources */,
@@ -593,6 +600,7 @@
 				B54E4F332408EDA200349316 /* ForgotPasswordViewController.swift in Sources */,
 				B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */,
 				B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */,
+				B885DAD72415801D00DF5D29 /* RequestAppointmentVC.swift in Sources */,
 				B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */,
 				B54E4F342408EDA200349316 /* LoginNavigationController.swift in Sources */,
 				B52F16A7240954760083C2EA /* ProfileViewController.swift in Sources */,
