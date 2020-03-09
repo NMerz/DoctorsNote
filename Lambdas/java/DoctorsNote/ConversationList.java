@@ -17,10 +17,10 @@ import java.util.Map;
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
 public class ConversationList implements RequestHandler<Map<String,Object> , Object> {
-    private final String getConversationFormatString = "SELECT conversationID FROM Conversation_has_User WHERE userID=%s;";
-    private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID=%s;";
+    private final String getConversationFormatString = "SELECT conversationID FROM Conversation_has_User WHERE userID = ? ;";
+    private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID = ? ;";
     private final String getNameTimeAndStatusFormatString = "SELECT conversationName, lastMessageTime, status " +
-            "FROM Conversation WHERE conversationID=%s;";
+            "FROM Conversation WHERE conversationID = ?;";
 
     public ConversationListResponse handleRequest(Map<String,Object> jsonString, Context context) {
         try {
@@ -44,18 +44,22 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
             Connection connection = getConnection();
             System.out.println("Connection:" + connection);
             System.out.flush();
+
             // Request necessary information from MariaDB and process into Conversation objects
-            Statement statement = connection.createStatement();
-            ResultSet conversationRS = statement.executeQuery(String.format(getConversationFormatString, userId));
+            PreparedStatement statement = connection.prepareStatement(getConversationFormatString);
+            statement.setString(1, userId);
+            ResultSet conversationRS = statement.executeQuery();
             ArrayList<String> conversationIds = new ArrayList<>();
-            while (conversationRS.next()) { //Must finish reading all results of one query before executing another over the same connection
+            while (conversationRS.next()) { // Must finish reading all results of one query before executing another over the same connection
                 conversationIds.add(conversationRS.getString(1));
             }
             ArrayList<Conversation> conversations = new ArrayList<>();
             for (String conversationId : conversationIds) {
                 System.out.println("conversationID:" + conversationId);
                 System.out.flush();
-                ResultSet userRS = statement.executeQuery(String.format(getUserFormatString, conversationId));
+                PreparedStatement statement1 = connection.prepareStatement(getUserFormatString);
+                statement1.setString(1, conversationId);
+                ResultSet userRS = statement.executeQuery();
 
                 ArrayList<String> converserIds = new ArrayList<>();
                 String converserId;
@@ -75,7 +79,10 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
                 if (converserIds.size() > 1) {
                     throw (new NoSuchMethodException());
                 }
-                ResultSet nameAndTimeRS = statement.executeQuery(String.format(getNameTimeAndStatusFormatString, conversationId));
+
+                PreparedStatement statement2 = connection.prepareStatement(getNameTimeAndStatusFormatString);
+                statement2.setString(1, conversationId);
+                ResultSet nameAndTimeRS = statement2.executeQuery();
                 nameAndTimeRS.next();
                 String conversationName = nameAndTimeRS.getString(1);
                 System.out.println("conversationName:" + conversationName);

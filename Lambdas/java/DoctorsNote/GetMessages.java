@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class GetMessages implements RequestHandler<Map<String,Object>, GetMessages.GetMessagesResponse> {
     private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender FROM Message" +
-            " WHERE conversationID=\"%s\" ORDER BY timeCreated DESC LIMIT %d;";
+            " WHERE conversationID = ? ORDER BY timeCreated DESC LIMIT ?;";
 
     public GetMessagesResponse handleRequest(Map<String,Object> inputMap, Context context) {
         try {
@@ -33,10 +33,10 @@ public class GetMessages implements RequestHandler<Map<String,Object>, GetMessag
             Connection connection = getConnection();
 
             // Reading from database
-            Statement statement = connection.createStatement();
-            ResultSet messageResult = statement.executeQuery(String.format(getMessagesFormatString,
-                    ((Map<String,Object>) inputMap.get("body-json")).get("conversationID"),
-                    ((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve")));
+            PreparedStatement statement = connection.prepareStatement(getMessagesFormatString);
+            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationID"));
+            statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve"));
+            ResultSet messageResult = statement.executeQuery();
 
             // Processing results
             ArrayList<Message> messages = new ArrayList<>();
