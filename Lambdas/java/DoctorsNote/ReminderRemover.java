@@ -18,7 +18,7 @@ public class ReminderRemover {
         this.dbConnection = dbConnection;
     }
 
-    public RemoveReminderResponse add(Map<String, Object> inputMap, Context context) {
+    public RemoveReminderResponse remove(Map<String, Object> inputMap, Context context) {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(removeReminderFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("reminderID"));
