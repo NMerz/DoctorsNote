@@ -3,8 +3,6 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
-import com.google.gson.Gson;
-
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -26,28 +24,6 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
 
     public ConversationListResponse handleRequest(Map<String,Object> jsonString, Context context) {
         try {
-
-//            System.out.println(jsonString);
-//            System.out.flush();
-//            System.out.println(jsonString.get("userId"));
-            //System.out.flush();
-            //System.out.println(((Map<String,Object>) jsonString.get("headers")).get("Accept"));
-            //System.out.flush();
-            //System.out.println(jsonString.get("body"));
-            //System.out.flush();
-            //System.out.println(jsonString.get("body").getClass());
-            //System.out.flush();
-            //System.out.println(((Map<String,Object>) jsonString.get("body")).get("userId"));
-            //System.out.flush();
-            //String userID = (String) ((Map<String,Object>) jsonString.get("body")).get("userId");
-            Gson gson = new Gson();
-            //return gson.toJson(userID);
-
-            // Converting the passed JSON string into a POJO
-            //ConversationListRequest request = gson.fromJson(jsonString.get("body"), ConversationListRequest.class);
-
-            //ConversationListRequest request = new ConversationListRequest((String) ((Map<String,Object>) jsonString.get("body")).get("userId"));
-            //ConversationListRequest request = gson.fromJson(jsonString.get("body").toString(), ConversationListRequest.class);
             System.out.println(context.getIdentity().getIdentityPoolId());
             System.out.println(context.getIdentity().getIdentityId());
             for (String key : ((Map<String,Object>)jsonString.get("context")).keySet()) {
@@ -60,6 +36,7 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
             // Extracting necessary fields from POJO
             String userId = request.getUserId();
             System.out.println("userID: " + userId);
+
             // Establish connection with MariaDB
             DBCredentialsProvider dbCP;
             System.out.println("Pre connection");
@@ -107,13 +84,6 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
                 int status = nameAndTimeRS.getInt(3);
                 System.out.println("status:" + status);
                 System.out.flush();
-//                System.out.println("converserIds:" + converserIds.toArray().getClass().toString());
-//                System.out.println("converserIds size:" + converserIds.size());
-//                String[] converserIdsArray = new String[converserIds.size()];
-//                System.out.println("converserIds:" + converserIds.toArray(converserIdsArray));
-//                System.out.flush();
-//                System.out.println("converserIds:" + converserIds.toArray().toString());
-//                System.out.flush();
 
                 if (converserIds.size() == 0) {
                     continue;
