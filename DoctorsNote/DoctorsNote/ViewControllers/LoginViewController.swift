@@ -61,13 +61,15 @@ class LoginViewController: UIViewController {
         }
         errorLabel.text = ""
         
-        // FIXME: Incorrect error handling....
-        CognitoHelper.sharedHelper.login(email: emailField.text!, password: passwordField.text!) { (user) -> (Void) in
-            if (user == nil) {
-                
-            } else {
+        CognitoHelper.sharedHelper.login(email: emailField.text!, password: passwordField.text!) { (success, err) -> (Void) in
+            if (success) {
                 self.decideNextController()
+            } else {
+                DispatchQueue.main.async {
+                    self.errorLabel.text = err.message
+                }
             }
+            
         }
         
     

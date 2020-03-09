@@ -41,20 +41,47 @@ class TestUserSignIn: XCTestCase {
         app?.buttons["Log In"].tap()
         XCTAssertNotEqual(app!.staticTexts.element(matching:.any, identifier: "Error Label").label, "")
         
-        passwordField.tap()
+        passwordField.press(forDuration: 1.1)
         passwordField.typeText("testpassword")
         app?.buttons["Log In"].tap()
         XCTAssertNotEqual(app!.staticTexts.element(matching:.any, identifier: "Error Label").label, "")
         
         emailField.tap()
-        emailField.typeText("test@email.com")
+        emailField.clearAndEnterText(text: "test@email.com")
         app?.buttons["Log In"].tap()
         
+        XCTAssertNotEqual(app!.staticTexts.element(matching:.any, identifier: "Error Label").label, "Incorrect username or password.")
+        
+        // FIXME: Remove and create real test account
+        emailField.tap()
+        emailField.clearAndEnterText(text: "hardin30@purdue.edu")
+        passwordField.tap()
+        passwordField.typeText("DoctorsNote1@")
+        app?.buttons["Log In"].tap()
         sleep(2)
-        // Make sure that the app has changed views
-        XCTAssert(!app!.staticTexts["Error Label"].exists)
+        XCTAssertFalse(app!.buttons["Log In"].isHittable)
         
         
     }
 
+}
+
+extension XCUIElement {
+    /**
+     Removes any current text in the field before typing in the new value
+     - Parameter text: the text to enter into the field
+     */
+    func clearAndEnterText(text: String) {
+        guard let stringValue = self.value as? String else {
+            XCTFail("Tried to clear and enter text into a non string value")
+            return
+        }
+
+        self.tap()
+
+        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: stringValue.count)
+
+        self.typeText(deleteString)
+        self.typeText(text)
+    }
 }
