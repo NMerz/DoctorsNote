@@ -14,6 +14,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 
     private let cellId = "cellId"
     
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var messageText: UITextField!
+    
     /*override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
@@ -23,7 +26,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }*/
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //sendButton.delegate = self
+        messageText.delegate = self as! UITextFieldDelegate
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -74,6 +78,13 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         return CGSize(width: view.frame.width, height: 100)
     }
 
+}
+
+extension ViewController = UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 
