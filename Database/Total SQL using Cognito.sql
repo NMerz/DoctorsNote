@@ -61,7 +61,6 @@ CREATE TABLE IF NOT EXISTS `DoctorsNote`.`Message` (
   `messageID` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `content` LONGTEXT NULL DEFAULT NULL,
   `sender` VARCHAR(36) NOT NULL,
-  `recipient` VARCHAR(36) NOT NULL,
   `timeCreated` DATETIME(3) NULL DEFAULT CURRENT_TIMESTAMP(),
   `conversationID` INT(11) NOT NULL,
   PRIMARY KEY (`messageID`, `conversationID`),
