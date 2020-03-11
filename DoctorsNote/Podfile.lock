@@ -1,0 +1,134 @@
+PODS:
+  - AWSAuthCore (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSAuthUI (2.12.7):
+    - AWSAuthCore (= 2.12.7)
+    - AWSCore (= 2.12.7)
+  - AWSAutoScaling (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSCloudWatch (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSCognito (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSCognitoIdentityProvider (2.12.7):
+    - AWSCognitoIdentityProviderASF (= 1.0.1)
+    - AWSCore (= 2.12.7)
+  - AWSCognitoIdentityProviderASF (1.0.1)
+  - AWSCore (2.12.7)
+  - AWSDynamoDB (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSEC2 (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSElasticLoadBalancing (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSIoT (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSKinesis (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSLambda (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSMachineLearning (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSMobileAnalytics (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSMobileClient (2.12.7):
+    - AWSAuthCore (= 2.12.7)
+    - AWSCognitoIdentityProvider (= 2.12.7)
+  - AWSS3 (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSSES (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSSimpleDB (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSSNS (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSSQS (2.12.7):
+    - AWSCore (= 2.12.7)
+  - AWSUserPoolsSignIn (2.12.7):
+    - AWSAuthCore (= 2.12.7)
+    - AWSCognitoIdentityProvider (= 2.12.7)
+  - JTAppleCalendar (7.1.8)
+  - PopupKit (3.1.1)
+
+DEPENDENCIES:
+  - AWSAuthUI (~> 2.12.1)
+  - AWSAutoScaling
+  - AWSCloudWatch
+  - AWSCognito
+  - AWSCognitoIdentityProvider
+  - AWSDynamoDB
+  - AWSEC2
+  - AWSElasticLoadBalancing
+  - AWSIoT
+  - AWSKinesis
+  - AWSLambda
+  - AWSMachineLearning
+  - AWSMobileAnalytics
+  - AWSMobileClient (~> 2.12.1)
+  - AWSS3
+  - AWSSES
+  - AWSSimpleDB
+  - AWSSNS
+  - AWSSQS
+  - AWSUserPoolsSignIn (~> 2.12.1)
+  - JTAppleCalendar (~> 7.1)
+  - PopupKit
+
+SPEC REPOS:
+  trunk:
+    - AWSAuthCore
+    - AWSAuthUI
+    - AWSAutoScaling
+    - AWSCloudWatch
+    - AWSCognito
+    - AWSCognitoIdentityProvider
+    - AWSCognitoIdentityProviderASF
+    - AWSCore
+    - AWSDynamoDB
+    - AWSEC2
+    - AWSElasticLoadBalancing
+    - AWSIoT
+    - AWSKinesis
+    - AWSLambda
+    - AWSMachineLearning
+    - AWSMobileAnalytics
+    - AWSMobileClient
+    - AWSS3
+    - AWSSES
+    - AWSSimpleDB
+    - AWSSNS
+    - AWSSQS
+    - AWSUserPoolsSignIn
+    - JTAppleCalendar
+    - PopupKit
+
+SPEC CHECKSUMS:
+  AWSAuthCore: 288cb737a35ff031fbf42edaa8d0062328791d4e
+  AWSAuthUI: 464fbab1841f8878e6370ec76581f9bea67e6252
+  AWSAutoScaling: e2e8ce852065dfd84bb3a1c5f7bb38c457904b84
+  AWSCloudWatch: eb3f241cde197ff25cab6bef2f402bd6196b8f49
+  AWSCognito: 6d49ab5351072db2463c8c586ba89d3d07a48272
+  AWSCognitoIdentityProvider: 4998bdbfbafe5038dae0237a598580e102e7b6b5
+  AWSCognitoIdentityProviderASF: f94f1a502e72ef3d0a1de93e10bf7a79c8698118
+  AWSCore: 2f0f88ae94a63a198274d683c7d0e18709d7090b
+  AWSDynamoDB: 9db6819e9bc3744314c8cf87522ec9af5f7c661d
+  AWSEC2: 4e37b45db13c4cb829f1bf29fd71050ec3c3e88f
+  AWSElasticLoadBalancing: c32c7a340e20dd02b5e30788d99e56284f2ff872
+  AWSIoT: 7e6bc2899c38ef93d7a2f7db933fef26d74d8c8e
+  AWSKinesis: f7feac48f16499aee2191e9a4d805f8d30dcbbb1
+  AWSLambda: 46b763172227d6e74f54f0fbad34cf67dd74ce4f
+  AWSMachineLearning: 90d59533ec4c31417255e649f7698e97249f4c2b
+  AWSMobileAnalytics: 241dae54da3a9c1fa881ebfb740a08b932f3b586
+  AWSMobileClient: bf1fb0868f9187141ca7b69220383c14878c0a29
+  AWSS3: 40d2f99d91e34999789a534d95c80cc7c1135c6d
+  AWSSES: 6dbeaa21c65b001eb7ead23b70beebc1c38086d3
+  AWSSimpleDB: c7933a6707c467b51a422b1ad4fe8ab74a18d595
+  AWSSNS: ec093ba2aeea026c744ea372bc5f055b106b38c6
+  AWSSQS: 542392beb66b4f0a5272f20b9201489cd977113e
+  AWSUserPoolsSignIn: fffc46e512e326783585e53639e58c355aae320f
+  JTAppleCalendar: b7fb40852f5f319fe55c8ec3861f1de0edc99cc8
+  PopupKit: e362ed92148d831a9c38a2bc7a25893e46d64c54
+
+PODFILE CHECKSUM: 592acddfb141b1218185171a1f03e7baed4be835
+
+COCOAPODS: 1.8.4

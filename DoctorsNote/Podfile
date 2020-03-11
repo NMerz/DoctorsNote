@@ -1,0 +1,44 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'DoctorsNote' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for DoctorsNote
+
+  pod 'AWSAutoScaling'
+  pod 'AWSCloudWatch'
+  pod 'AWSCognito'
+  pod 'AWSCognitoIdentityProvider'
+  pod 'AWSDynamoDB'
+  pod 'AWSEC2'
+  pod 'AWSElasticLoadBalancing'
+  pod 'AWSIoT'
+  pod 'AWSKinesis'
+  pod 'AWSLambda'
+  pod 'AWSMachineLearning'
+  pod 'AWSMobileAnalytics'
+  pod 'AWSS3'
+  pod 'AWSSES'
+  pod 'AWSSimpleDB'
+  pod 'AWSSNS'
+  pod 'AWSSQS'
+  pod 'AWSMobileClient', '~> 2.12.1'      # Required dependency
+  pod 'AWSAuthUI', '~> 2.12.1'            # Optional dependency required to use drop-in UI
+  pod 'AWSUserPoolsSignIn', '~> 2.12.1'   # Optional dependency required to use drop-in UI
+  pod 'PopupKit'
+
+  # Library for calendar
+  pod 'JTAppleCalendar', '~> 7.1'
+
+  target 'DoctorsNoteTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'DoctorsNoteUITests' do
+    # Pods for testing
+  end
+
+end
