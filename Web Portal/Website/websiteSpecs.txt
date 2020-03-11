@@ -1,0 +1,9 @@
+Dynamic website specs
+
+URL: DoctorsnoteWebPortal.z2mdmxtykm.us-east-2.elasticbeanstalk.com
+   : http://doctorsnote.ddns.net/
+
+URL for Cognito Login (testing): https://doctorsnote.auth.us-east-2.amazoncognito.com/login?client_id=6ofohd4u4ba408d7ivl3a9ia5h&response_type=code&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http://localhost/WebPortal/homepage/index.php
+
+Environment ID: e-xbn2rysn5x
+
