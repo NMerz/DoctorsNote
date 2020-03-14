@@ -104,10 +104,8 @@
                             <constraint firstItem="jv0-xE-D1Q" firstAttribute="top" secondItem="V1e-MI-kWw" secondAttribute="bottom" constant="20" id="gAz-X0-Q4d"/>
                             <constraint firstItem="2VJ-be-CxQ" firstAttribute="top" secondItem="jv0-xE-D1Q" secondAttribute="bottom" constant="10" id="iFB-lv-WLD"/>
                             <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="2VJ-be-CxQ" secondAttribute="trailing" constant="150" id="jSp-ru-6YC"/>
-                            <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="V1e-MI-kWw" secondAttribute="trailing" constant="20" id="mEo-PJ-3j1"/>
                             <constraint firstItem="V1e-MI-kWw" firstAttribute="top" secondItem="iHi-vc-bhP" secondAttribute="top" constant="20" id="oRw-pX-ptM"/>
                             <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="jv0-xE-D1Q" secondAttribute="trailing" constant="150" id="pdy-qm-Km1"/>
-                            <constraint firstItem="V1e-MI-kWw" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="20" id="qLi-ML-DWg"/>
                             <constraint firstItem="2VJ-be-CxQ" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="150" id="xaC-sR-lcx"/>
                             <constraint firstItem="jv0-xE-D1Q" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="150" id="xk7-2u-0p1"/>
                         </constraints>

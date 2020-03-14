@@ -57,4 +57,12 @@ class PersonalInfoView: UIView {
         }
     }
     
+    @IBAction func goToHealthcareWebsite(_ sender: Any) {
+        // TODO: UPDATE LATER WITH CORRECT FUNCTIONALITY
+        if let url = URL(string: "https://www.humana.com") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    
+    }
+    
 }
