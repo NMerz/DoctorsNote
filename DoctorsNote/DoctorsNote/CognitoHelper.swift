@@ -67,4 +67,28 @@ class CognitoHelper {
         
     }
     
+    func getWorkHours(doctor: User, onDone: @escaping (String, Error)->Void) {
+        // Check if user is doctor
+        //onDone("", NSError(domain: "Error: Requested user is not a doctor.", code: 1, userInfo: [:]))
+        // Get doctor's work hours
+        AWSMobileClient.default().getUserAttributes { (attr, err) in
+            if let err = err {
+                onDone((err as? AWSMobileClientError)!.message, err)
+            } else {
+                if let hours = attr!["custom:work_hours"] {
+                    onDone(hours, NSError(domain: "", code: 0, userInfo: [:]))
+                } else {
+                    onDone("Error: Cannot get work hours attribute.", NSError(domain: "", code: 1, userInfo: [:]))
+                }
+            }
+        }
+    }
+    
+    func updateWorkHours(doctor: User, onDone: @escaping (Bool)->Void) {
+        // Check if user is a doctor
+        
+        // Set work hours
+        AWSMobileClient.default().updateUserAttributes(attributeMap: <#T##[String : String]#>, completionHandler: <#T##(([UserCodeDeliveryDetails]?, Error?) -> Void)##(([UserCodeDeliveryDetails]?, Error?) -> Void)##([UserCodeDeliveryDetails]?, Error?) -> Void#>)
+    }
+    
 }

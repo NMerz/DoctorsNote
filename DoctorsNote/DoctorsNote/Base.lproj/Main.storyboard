@@ -511,6 +511,42 @@
             </objects>
             <point key="canvasLocation" x="1808.6956521739132" y="1125"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="X8T-vl-8sN">
+            <objects>
+                <viewController id="bLo-c2-Fla" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5VP-pI-ISv">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NORMAL WORK HOURS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em5-A9-hg6">
+                                <rect key="frame" x="25" y="69" width="193" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PB-8b-HPz">
+                                <rect key="frame" x="40" y="100" width="364" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6PB-8b-HPz" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="40" id="3TB-fS-64Y"/>
+                            <constraint firstItem="Em5-A9-hg6" firstAttribute="top" secondItem="Nrx-Ek-xhV" secondAttribute="top" constant="25" id="Hog-OX-OqU"/>
+                            <constraint firstItem="Em5-A9-hg6" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="25" id="aPF-th-R96"/>
+                            <constraint firstItem="6PB-8b-HPz" firstAttribute="top" secondItem="Em5-A9-hg6" secondAttribute="bottom" constant="10" id="h4x-kg-nVI"/>
+                            <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="6PB-8b-HPz" secondAttribute="trailing" constant="10" id="qT1-ps-xjB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Nrx-Ek-xhV"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mj0-aK-wat" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-803" y="1901"/>
+        </scene>
         <!--SupportGroupMessageVC-->
         <scene sceneID="p3z-Ar-qZ7">
             <objects>
