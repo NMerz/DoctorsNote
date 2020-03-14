@@ -121,7 +121,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: 1)!))
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, sender: User(uid: 1)!))
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "Error connecting on server with return code: 500")
     }
@@ -130,21 +130,21 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: 1)!))
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, sender: User(uid: 1)!))
         XCTAssert(connector.getConductPostTaskCalls() == 1)
         XCTAssert(potentialError == nil)
     }
     
     func testValidMessageRetrieval() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":1,\"content\":\"123\",\"sender\":2}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data(("{\"messageList\":[{\"messageId\":1,\"content\":\"" + ("123".data(using: .utf8)!.base64EncodedString()) + "\",\"sender\":2}]}").data(using: .utf8)!), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
             let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
             XCTAssert(potentialMessageList != nil)
             let messageList = potentialMessageList!
-            XCTAssert(messageList[0].getConversation().getConversationID() == 0)
-            XCTAssert(messageList[0].getContent() == [UInt8]("123".utf8))
+            XCTAssert(messageList[0].getConversationID() == 0)
+            XCTAssert(String(bytes:messageList[0].getRawContent(), encoding: .utf8) == "123")
             XCTAssert(messageList[0].getSender().getUID() == 2)
         } catch {
             XCTAssert(false)

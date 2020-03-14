@@ -850,10 +850,13 @@
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRU-TH-d9z">
-                                    <rect key="frame" x="8" y="786" width="37" height="37"/>
+                                    <rect key="frame" x="21" y="745" width="37" height="37"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <state key="normal" title="Button" image="camera.fill" catalog="system"/>
+                                    <connections>
+                                        <action selector="imageSend" destination="qrY-CR-dFM" eventType="primaryActionTriggered" id="I9k-mc-8Ob"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

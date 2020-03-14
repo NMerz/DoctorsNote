@@ -111,7 +111,7 @@ class ConnectionProcessor {
         if (urlResponse.statusCode != 200) {
             //print("Error on server")
             connectionError = ConnectionError(message: "Error connecting on server with return code: " + String(urlResponse.statusCode))
-            //print(response ?? "nil")
+            print(response ?? "nil")
             signalWaiter.signal()
             return
         }
@@ -196,8 +196,12 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let message = messageDict as! [String : Any?]
-            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["sender"] as? Int) != nil) {
-                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversation.getConversationID(), content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["sender"] as! Int))
+            print((message["messageId"] as? Int) != nil)
+            print((message["content"] as? String) != nil)
+            print(Data(base64Encoded: (message["content"] as! String)) != nil)
+            print((message["sender"] as? Int) != nil)
+            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["sender"] as? Int) != nil) {
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversation.getConversationID(), content: Data(base64Encoded: (message["content"] as! String))!, sender: User(uid: message["sender"] as! Int))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -212,7 +216,7 @@ class ConnectionProcessor {
         var messageJSON = [String: Any]()
         messageJSON["senderID"] = message.getSender().getUID()
         messageJSON["conversationID"] = message.getConversationID()
-        messageJSON["content"] = String(bytes: message.getContent(), encoding: .utf8)
+        messageJSON["content"] = message.getBase64Content()
         var messageData = Data()
         do {
             messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])

@@ -6,12 +6,13 @@
 //  Copyright © 2020 Team7. All rights reserved.
 //
 
+
 import UIKit
 import AWSMobileClient
 
 private let reuseIdentifier = "Cell"
 
-class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     private let cellId = "cellId"
     private var connectionProcessor = ConnectionProcessor(connector: Connector())
@@ -24,14 +25,50 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     func ourSendButtonClick() {
         print("Pressed1")
         print (messageText.text!)
-        if messageText.text == nil || messageText.text!.isEmpty {
+        if messageText.text == nil || messageText.text!.isEmpty || (messageText!.text?.data(using: .utf8)) == nil {
             return
         }
-        let newMessage = Message(messageID: -1, conversationID: 15, content: Array(messageText.text!.utf8)) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
-        print(newMessage.getContent())
+        let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        print(newMessage.getBase64Content())
         connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
         
         print("Pressed2")
+    }
+    
+    //Credit for how to set up the ImagePickerDelagate goes to: https://www.youtube.com/watch?v=v8r_wD_P3B8
+    @IBAction
+    func imageSend() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        self.present(imagePicker, animated: false) {
+            print("done picking")
+        }
+    }
+    
+    //Credit for how to set up the ImagePickerDelagate goes to: https://www.youtube.com/watch?v=v8r_wD_P3B8
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("Controller")
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            dismiss(animated: false)
+            return
+        }
+        print("pass guard")
+        var quality = 1.0
+        var content = image.jpegData(compressionQuality: 1)!
+        print(content.base64EncodedString().count)
+        while content.base64EncodedString().count > 6000000 { //AWS Gateway maxes out at 10 MB, ensure this is smaller. I was having issues with one of the stock simulator images at 8138448 bytes encoded, but had one working at 6.x MB and everything seems to work under 6MB.
+            quality *= 0.5
+            print("Shrinking to:" + String(quality))
+            content = image.jpegData(compressionQuality: CGFloat(quality))!
+        }
+        let newMessage = Message(messageID: -1, conversationID: 15, content: content) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
+
+        //print(newMessage.getContent())
+        let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        if (potentialError != nil) {
+            print(potentialError?.getMessage())
+        }
+        dismiss(animated: false)
     }
     
     /*override func viewWillAppear(_ animated: Bool) {

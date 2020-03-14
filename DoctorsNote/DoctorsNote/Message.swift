@@ -10,12 +10,13 @@ import Foundation
 class Message {
     private let messageID: Int
     private let conversationID: Int
-    private var content: [UInt8]
+    private var content: Data
     private var sender: User
 
-    init(messageID: Int, conversationID: Int, content: [UInt8], sender: User = User(uid: -1)) {//TODO: This is a place holder. User 1 needs to be replace with the current user's own.
+    init(messageID: Int, conversationID: Int, content: Data, sender: User = User(uid: -1)) {//TODO: This is a place holder. User -1 needs to be replace with the current user's own.
         self.messageID = messageID
         self.conversationID = conversationID
+        print(content.base64EncodedString().count)
         self.content = content
         self.sender = sender
     }
@@ -28,7 +29,11 @@ class Message {
         return conversationID
     }
 
-    func getContent() -> [UInt8] {
+    func getBase64Content() -> String {
+        return content.base64EncodedString()
+    }
+    
+    func getRawContent() -> Data {
         return content
     }
 
