@@ -1,4 +1,12 @@
 DoctorsNote/DoctorsNote.xcworkspace/
+.idea
+out
+*.zip
+*.xcuserdatad
+.DS_Store
+xcuserdata
+*.iml
+xcshareddata
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore

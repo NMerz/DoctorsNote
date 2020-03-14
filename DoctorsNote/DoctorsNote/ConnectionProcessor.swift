@@ -196,8 +196,8 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let message = messageDict as! [String : Any?]
-            if ((message["messageID"] as? Int) != nil) && ((message["conversationID"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["senderID"] as? Int) != nil) {
-                let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["senderID"] as! Int))
+            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["sender"] as? Int) != nil) {
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversation: Conversation(conversationID: 0)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["sender"] as! Int))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -212,7 +212,7 @@ class ConnectionProcessor {
         var messageJSON = [String: Any]()
         messageJSON["senderID"] = message.getSender().getUID()
         messageJSON["conversationID"] = message.getConversation().getConversationID()
-        messageJSON["content"] = message.getContent()
+        messageJSON["content"] = String(bytes: message.getContent(), encoding: .utf8)
         var messageData = Data()
         do {
             messageData = try JSONSerialization.data(withJSONObject: messageJSON, options: [])
@@ -227,6 +227,31 @@ class ConnectionProcessor {
             return ConnectionError(message: "Data nil with no error")
         }
         return nil //Should have returned a blank 200 if successful, if so, no need to return an error
+    }
+    
+    //TODO: Finer processing/passing of any errors returned by server to UI
+    //  - Need to discuss this with team
+    func processNewReminder(url: String, reminder: Reminder) throws {
+        var reminderJSON = [String: Any]()
+        reminderJSON["content"] = String(bytes: reminder.getContent(), encoding: .utf8)
+        reminderJSON["remindee"] = reminder.getRemindeeID()
+        reminderJSON["timeCreated"] = reminder.getTimeCreated().timeIntervalSince1970
+        reminderJSON["alertTime"] = reminder.getAlertTime().timeIntervalSince1970
+
+        var reminderData = Data()
+        do {
+            reminderData = try JSONSerialization.data(withJSONObject: reminderJSON, options: [])
+        } catch {
+            throw ConnectionError(message: "Failed to extract data from reminder")
+        }
+        let (potentialData, potentialError) = postData(urlString: url, data: reminderData)
+        if potentialError != nil {
+            throw potentialError!
+        }
+        if (potentialData == nil) { //Should never happen if potentialError is nil
+            throw ConnectionError(message: "Data nil with no error")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
     }
 }
 
@@ -268,7 +293,9 @@ class Connector {
             return
         }
         var request = URLRequest(url: url)
+        request.httpMethod = "POST"
         request.setValue(authToken!.tokenString, forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let postSession = URLSession.shared.uploadTask(with: request, from: data, completionHandler: manager.processConnection(returnData:response:potentialError:))
         postSession.resume()
     }
