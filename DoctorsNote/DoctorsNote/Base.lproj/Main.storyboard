@@ -114,6 +114,16 @@
                         <viewLayoutGuide key="safeArea" id="iHi-vc-bhP"/>
                     </view>
                     <navigationItem key="navigationItem" id="Lc4-3k-ZyS">
+                        <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="sbs-YE-Lbr">
+                            <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="64B-vX-woW">
+                                <rect key="frame" x="20" y="7" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" backgroundImage="gear" catalog="system"/>
+                                <connections>
+                                    <action selector="showSettings:" destination="on2-3t-fWa" eventType="touchUpInside" id="HDS-aA-weT"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="hp3-y3-qpv">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" id="ttd-mx-Pnp">
                                 <rect key="frame" x="309" y="11" width="85" height="22"/>
@@ -132,6 +142,7 @@
                     <connections>
                         <outlet property="logOutButton" destination="ttd-mx-Pnp" id="gMy-pH-EAn"/>
                         <outlet property="personalInfoView" destination="V1e-MI-kWw" id="XAI-hb-6gk"/>
+                        <outlet property="settingsButton" destination="64B-vX-woW" id="6Pv-ag-Vss"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M82-w5-fEh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -879,6 +890,7 @@
     </scenes>
     <resources>
         <image name="chevron.left.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="gear" catalog="system" width="64" height="58"/>
         <image name="magnifyingglass" catalog="system" width="64" height="56"/>
         <image name="message" catalog="system" width="64" height="56"/>
         <image name="person.3.fill" catalog="system" width="71" height="34"/>
