@@ -67,4 +67,15 @@ class CognitoHelper {
         
     }
     
+    func setDisplayName(displayName: String, onDone: @escaping (Bool)->Void) {
+        AWSMobileClient.default().updateUserAttributes(attributeMap: ["custom:display_name":displayName]) { (details, err) in
+            if let err = err as? AWSMobileClientError {
+                print(err.message)
+                onDone(false)
+            } else {
+                onDone(true)
+            }
+        }
+    }
+    
 }
