@@ -197,7 +197,7 @@ class ConnectionProcessor {
             }
             let message = messageDict as! [String : Any?]
             if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["sender"] as? Int) != nil) {
-                let newMessage = Message(messageID: message["messageId"] as! Int, conversation: Conversation(conversationID: 0)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["sender"] as! Int))
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversation.getConversationID(), content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["sender"] as! Int))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -211,7 +211,7 @@ class ConnectionProcessor {
     func processNewMessage(url: String, message: Message) -> ConnectionError? {
         var messageJSON = [String: Any]()
         messageJSON["senderID"] = message.getSender().getUID()
-        messageJSON["conversationID"] = message.getConversation().getConversationID()
+        messageJSON["conversationID"] = message.getConversationID()
         messageJSON["content"] = String(bytes: message.getContent(), encoding: .utf8)
         var messageData = Data()
         do {

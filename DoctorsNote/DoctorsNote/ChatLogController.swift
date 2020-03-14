@@ -7,15 +7,32 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 private let reuseIdentifier = "Cell"
 
 class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     private let cellId = "cellId"
+    private var connectionProcessor = ConnectionProcessor(connector: Connector())
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageText: UITextField!
+    
+    
+    @IBAction
+    func ourSendButtonClick() {
+        print("Pressed1")
+        print (messageText.text!)
+        if messageText.text == nil || messageText.text!.isEmpty {
+            return
+        }
+        let newMessage = Message(messageID: -1, conversationID: 15, content: Array(messageText.text!.utf8)) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        print(newMessage.getContent())
+        connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        
+        print("Pressed2")
+    }
     
     /*override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,8 +43,12 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }*/
     override func viewDidLoad() {
         super.viewDidLoad()
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        connectionProcessor = ConnectionProcessor(connector: connector)
+        
         //sendButton.delegate = self
-        messageText.delegate = self as! UITextFieldDelegate
+        //messageText.delegate = self as! UITextFieldDelegate
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -80,12 +101,12 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 
 }
 
-extension ViewController = UITextFieldDelegate {
+/*extension ViewController = UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-}
+}*/
 
 
 

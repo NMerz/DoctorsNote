@@ -20,11 +20,20 @@ import java.util.Map;
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
 public class AddMessage implements RequestHandler<Map<String,Object>, AddMessage.AddMessageResponse> {
-    private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID, recipient) VALUES (\'%s\', \'%s\', \'%s\', \'%s\', '000000000');";
+    private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID) VALUES (?, ?, ?, ?);";
 
     @Override
     public AddMessageResponse handleRequest(Map<String,Object> inputMap, Context context) {
         try {
+            for (String key : ((Map<String,Object>)inputMap.get("context")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)inputMap.get("context")).get(key));
+            }
+            System.out.println("Body:\n\n");
+            for (String key : ((Map<String,Object>)inputMap.get("body-json")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)inputMap.get("body-json")).get(key));
+            }
             // Converting the passed JSON string into a POJO
             Gson gson = new Gson();
             //AddMessageRequest request = gson.fromJson(jsonString, AddMessage.AddMessageRequest.class);
@@ -33,13 +42,12 @@ public class AddMessage implements RequestHandler<Map<String,Object>, AddMessage
             Connection connection = getConnection();
 
             // Write to database (note: recipientId is intentionally omitted since it is unnecessary for future ops)
-            Statement statement = connection.createStatement();
-            String writeRowString = String.format(addMessageFormatString,
-                    ((Map<String,Object>) inputMap.get("body-json")).get("content"),
-                    ((Map<String,Object>) inputMap.get("body-json")).get("senderID"),
-                    (new java.sql.Timestamp((new Date()).getTime())).toString(),
-                    ((Map<String,Object>) inputMap.get("body-json")).get("conversationID"));
-            statement.executeUpdate(writeRowString);
+            PreparedStatement statement = connection.prepareStatement(addMessageFormatString);
+            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
+            statement.setString(2, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
+            statement.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis()));
+            statement.setString(4, ((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString());
+            statement.executeUpdate();
 
             // Disconnect connection with shortest lifespan possible
             connection.close();
@@ -47,6 +55,8 @@ public class AddMessage implements RequestHandler<Map<String,Object>, AddMessage
             // Serialize and return an empty response object
             return new AddMessageResponse();
         } catch (Exception e) {
+            System.out.println("Error:");
+            System.out.println(e.getMessage());
             return null;
         }
     }
