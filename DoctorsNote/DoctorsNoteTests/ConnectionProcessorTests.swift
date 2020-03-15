@@ -140,7 +140,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data(("{\"messageList\":[{\"messageId\":1,\"content\":\"" + ("123".data(using: .utf8)!.base64EncodedString()) + "\",\"sender\":2}]}").data(using: .utf8)!), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
+            let potentialMessageList = try processor.processMessages(url: "url", conversationID: 0, numberToRetrieve: 1)
             XCTAssert(potentialMessageList != nil)
             let messageList = potentialMessageList!
             XCTAssert(messageList[0].getConversationID() == 0)
