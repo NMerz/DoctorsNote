@@ -16,6 +16,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 
     private let cellId = "cellId"
     private var connectionProcessor = ConnectionProcessor(connector: Connector())
+    private var messages = [Message]()
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageText: UITextField!
@@ -25,6 +26,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     func ourSendButtonClick() {
         print("Pressed1")
         print (messageText.text!)
+        //messages.append(messageText.text!)
         if messageText.text == nil || messageText.text!.isEmpty || (messageText!.text?.data(using: .utf8)) == nil {
             return
         }
@@ -123,9 +125,20 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         let cellM = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellM
+        //let convo = Conversation(conversationID: 15)
         cellM.delegate = self
         cellM.setupViews()
-        cellM.showOutgoingMessage(text: "TEST")
+        do {
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversation: Conversation(conversationID: 15)!, numberToRetrieve: 2) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversation: Conversation(conversationID: 15)!, numberToRetrieve: 2))
+        } catch let error {
+            print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        }
+        for message in messages {
+            print(message.getBase64Content())
+            cellM.showOutgoingMessage(text: message.getBase64Content())
+        }
         
         return cellM
         // Configure the cell
