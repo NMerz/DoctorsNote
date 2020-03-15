@@ -13,7 +13,7 @@ class Message {
     private var content: Data
     private var sender: User
 
-    init(messageID: Int, conversationID: Int, content: Data, sender: User = User(uid: -1)) {//TODO: This is a place holder. User -1 needs to be replace with the current user's own.
+    init(messageID: Int, conversationID: Int, content: Data, sender: User = User(uid: "-1")) {//TODO: This is a place holder. User -1 needs to be replace with the current user's own.
         self.messageID = messageID
         self.conversationID = conversationID
         print(content.base64EncodedString().count)
