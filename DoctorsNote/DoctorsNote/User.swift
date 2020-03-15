@@ -9,14 +9,14 @@
 import Foundation
 
 class User {
-    private let uid: Int
+    private let uid: String
     private var firstName: String
     private var lastName: String
     private var dateOfBirth: Date
     private var address: String
     private var healthSystems: [HealthSystem]
     
-    init (uid: Int, firstName: String, lastName: String, dateOfBirth: Date, address: String, healthSystems: [HealthSystem]) {
+    init (uid: String, firstName: String, lastName: String, dateOfBirth: Date, address: String, healthSystems: [HealthSystem]) {
         self.uid = uid
         self.firstName = firstName
         self.lastName = lastName
@@ -25,7 +25,7 @@ class User {
         self.healthSystems = healthSystems
     }
     
-    convenience init! (uid: Int) {
+    convenience init! (uid: String) {
         let connector = Connector()
         let connectionProcessor = ConnectionProcessor(connector: connector)
         let (potentialUser, potentialError) = connectionProcessor.processUser(url: ConnectionProcessor.standardUrl(), uid: uid)
@@ -39,7 +39,7 @@ class User {
 //        return nil
     }
     
-    func getUID() -> Int {
+    func getUID() -> String {
         return uid
     }
     
