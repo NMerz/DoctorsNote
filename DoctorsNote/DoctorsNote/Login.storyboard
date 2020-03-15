@@ -959,6 +959,31 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="GSs-ai-loK">
+                                <rect key="frame" x="25" y="253.5" width="364" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Select Hospital"/>
+                                <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="Select Role"/>
+                                <connections>
+                                    <action selector="selectRole:" destination="3bd-aR-UMf" eventType="touchUpInside" id="s6n-JE-LwH"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Role" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yOA-Ia-jfd">
+                                <rect key="frame" x="35" y="239.5" width="41" height="21"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="41" id="Xub-Ys-UhW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXv-JR-Rr9">
+                                <rect key="frame" x="20" y="140" width="374" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -966,18 +991,27 @@
                             <constraint firstItem="ifv-9f-lBF" firstAttribute="centerX" secondItem="zbi-dz-juT" secondAttribute="centerX" id="6sl-Do-6Yu"/>
                             <constraint firstItem="cW5-d1-dle" firstAttribute="trailing" secondItem="ifv-9f-lBF" secondAttribute="trailing" constant="25" id="6x5-yE-Q12"/>
                             <constraint firstItem="ifv-9f-lBF" firstAttribute="leading" secondItem="v3E-Eq-vLa" secondAttribute="leading" id="9hK-wI-u24"/>
+                            <constraint firstItem="v3E-Eq-vLa" firstAttribute="leading" secondItem="GSs-ai-loK" secondAttribute="leading" id="BYv-fh-Ppt"/>
                             <constraint firstItem="eKu-rX-XZH" firstAttribute="leading" secondItem="cW5-d1-dle" secondAttribute="leading" constant="10" id="LeR-1d-jLq"/>
+                            <constraint firstItem="GSs-ai-loK" firstAttribute="top" secondItem="yOA-Ia-jfd" secondAttribute="bottom" constant="-7" id="OLl-az-Tuf"/>
+                            <constraint firstItem="v3E-Eq-vLa" firstAttribute="height" secondItem="GSs-ai-loK" secondAttribute="height" id="TQY-sX-5Co"/>
                             <constraint firstItem="ifv-9f-lBF" firstAttribute="height" secondItem="v3E-Eq-vLa" secondAttribute="height" id="ViH-Pd-ed4"/>
                             <constraint firstItem="ifv-9f-lBF" firstAttribute="centerY" secondItem="zbi-dz-juT" secondAttribute="centerY" id="W7Z-NP-Hm7"/>
                             <constraint firstItem="v3E-Eq-vLa" firstAttribute="top" secondItem="He4-Tc-a2S" secondAttribute="bottom" constant="-7" id="X5d-yd-oR6"/>
+                            <constraint firstItem="He4-Tc-a2S" firstAttribute="top" secondItem="GSs-ai-loK" secondAttribute="bottom" constant="15" id="YLS-wT-S5N"/>
                             <constraint firstItem="JhQ-wb-a1I" firstAttribute="centerX" secondItem="zbi-dz-juT" secondAttribute="centerX" id="YQW-Zc-Bdw"/>
+                            <constraint firstItem="GSs-ai-loK" firstAttribute="leading" secondItem="yOA-Ia-jfd" secondAttribute="leading" constant="-10" id="Zgl-gG-SF6"/>
                             <constraint firstItem="cW5-d1-dle" firstAttribute="trailing" secondItem="4PA-b9-EyP" secondAttribute="trailing" id="a5T-TT-0Kf"/>
                             <constraint firstItem="Evt-Ne-lTi" firstAttribute="top" secondItem="v3E-Eq-vLa" secondAttribute="bottom" constant="15" id="cYh-mQ-xXb"/>
                             <constraint firstItem="ifv-9f-lBF" firstAttribute="trailing" secondItem="v3E-Eq-vLa" secondAttribute="trailing" id="cb8-Kf-Vfo"/>
+                            <constraint firstItem="yXv-JR-Rr9" firstAttribute="leading" secondItem="cW5-d1-dle" secondAttribute="leading" constant="20" id="gVk-vV-172"/>
                             <constraint firstItem="JhQ-wb-a1I" firstAttribute="top" secondItem="ifv-9f-lBF" secondAttribute="bottom" constant="40" id="jLS-pf-jaH"/>
                             <constraint firstItem="4PA-b9-EyP" firstAttribute="leading" secondItem="cW5-d1-dle" secondAttribute="leading" id="jLg-d8-pZ3"/>
+                            <constraint firstItem="v3E-Eq-vLa" firstAttribute="trailing" secondItem="GSs-ai-loK" secondAttribute="trailing" id="lIb-9Q-R50"/>
+                            <constraint firstItem="cW5-d1-dle" firstAttribute="trailing" secondItem="yXv-JR-Rr9" secondAttribute="trailing" constant="20" id="mAn-zh-58R"/>
                             <constraint firstItem="ifv-9f-lBF" firstAttribute="leading" secondItem="cW5-d1-dle" secondAttribute="leading" constant="25" id="mEk-oQ-wA1"/>
                             <constraint firstItem="ifv-9f-lBF" firstAttribute="leading" secondItem="Evt-Ne-lTi" secondAttribute="leading" constant="-10" id="q4t-qk-f70"/>
+                            <constraint firstItem="yXv-JR-Rr9" firstAttribute="top" secondItem="cW5-d1-dle" secondAttribute="top" id="weH-dL-gEM"/>
                             <constraint firstItem="4PA-b9-EyP" firstAttribute="bottom" secondItem="cW5-d1-dle" secondAttribute="bottom" id="woN-rB-7gT"/>
                             <constraint firstItem="4PA-b9-EyP" firstAttribute="top" secondItem="eKu-rX-XZH" secondAttribute="bottom" constant="10" id="x5K-fu-BHn"/>
                             <constraint firstItem="v3E-Eq-vLa" firstAttribute="leading" secondItem="He4-Tc-a2S" secondAttribute="leading" constant="-10" id="ySr-HZ-VM3"/>
@@ -986,9 +1020,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Healthcare Information" largeTitleDisplayMode="always" id="4fp-Db-kHM"/>
                     <connections>
+                        <outlet property="errorLabel" destination="yXv-JR-Rr9" id="81x-KK-Q4f"/>
                         <outlet property="requestButton" destination="JhQ-wb-a1I" id="tqK-ke-ffl"/>
-                        <outlet property="selectHealthcareButton" destination="ifv-9f-lBF" id="XoT-oY-hCY"/>
+                        <outlet property="selectHealthcareButton" destination="ifv-9f-lBF" id="zig-oR-7ag"/>
                         <outlet property="selectHospitalButton" destination="v3E-Eq-vLa" id="SMw-vb-h72"/>
+                        <outlet property="selectRoleButton" destination="GSs-ai-loK" id="Da6-3V-BsR"/>
                         <segue destination="x1W-gb-Cct" kind="presentation" identifier="finish" modalPresentationStyle="overFullScreen" id="JDB-Jh-d9i"/>
                     </connections>
                 </viewController>
@@ -1172,6 +1208,6 @@
         <image name="doc.plaintext" catalog="system" width="56" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bIQ-PC-edH"/>
+        <segue reference="JDB-Jh-d9i"/>
     </inferredMetricsTieBreakers>
 </document>

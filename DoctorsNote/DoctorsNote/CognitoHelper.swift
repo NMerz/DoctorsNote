@@ -12,6 +12,7 @@ import AWSMobileClient
 class CognitoHelper {
 
     public static let sharedHelper = CognitoHelper()
+    public static var user: User?
     
     func login(email: String, password: String, onDone: @escaping (_ success: Bool, _ err: AWSMobileClientError)->()) {
         AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
@@ -33,6 +34,7 @@ class CognitoHelper {
                         onDone(false, AWSMobileClientError.invalidParameter(message: "Need to set up profile"))
                     } else {
                         onDone(true, AWSMobileClientError.aliasExists(message: "The user exists!"))
+                        CognitoHelper.user = User(uid: Int(dict!["custom:userID"]!)!, dict: dict!)
                     }
                 }
             }
@@ -52,11 +54,10 @@ class CognitoHelper {
                 // Needs to set up profile. Should to go create profile screen
                 onDone(false)
             } else {
-                // TODO: Create new user object/initialize fields?
+                CognitoHelper.user = User(uid: Int(dict!["custom:userID"]!)!, dict: dict!)
                 onDone(true)
             }
         }
-        onDone(true)
     }
     
     func isLoggedIn() -> Bool {
@@ -67,28 +68,47 @@ class CognitoHelper {
         
     }
     
-    func getWorkHours(doctor: User, onDone: @escaping (String, Error)->Void) {
+    func getWorkHours(doctor: User, onDone: @escaping (_ success: Bool, _ message: String)->Void) {
         // Check if user is doctor
         //onDone("", NSError(domain: "Error: Requested user is not a doctor.", code: 1, userInfo: [:]))
         // Get doctor's work hours
         AWSMobileClient.default().getUserAttributes { (attr, err) in
-            if let err = err {
-                onDone((err as? AWSMobileClientError)!.message, err)
+            if let err = err as? AWSMobileClientError {
+                onDone(false, err.message)
             } else {
                 if let hours = attr!["custom:work_hours"] {
-                    onDone(hours, NSError(domain: "", code: 0, userInfo: [:]))
+                    onDone(true, hours)
                 } else {
-                    onDone("Error: Cannot get work hours attribute.", NSError(domain: "", code: 1, userInfo: [:]))
+                    onDone(false, "Error: Cannot get work hours attribute.")
                 }
             }
         }
     }
     
-    func updateWorkHours(doctor: User, onDone: @escaping (Bool)->Void) {
+    func updateWorkHours(doctor: User, workHours: String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
         // Check if user is a doctor
         
         // Set work hours
-        AWSMobileClient.default().updateUserAttributes(attributeMap: <#T##[String : String]#>, completionHandler: <#T##(([UserCodeDeliveryDetails]?, Error?) -> Void)##(([UserCodeDeliveryDetails]?, Error?) -> Void)##([UserCodeDeliveryDetails]?, Error?) -> Void#>)
+        AWSMobileClient.default().updateUserAttributes(attributeMap: ["custom:work_hours" : workHours]) { (details, err) in
+            if let err = err as? AWSMobileClientError {
+                onDone(false, err.message)
+            } else {
+                onDone(true, "")
+            }
+        }
+    }
+    
+    func setUserRole(role:String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
+        // Check if user is valid
+        
+        // Set user role
+        AWSMobileClient.default().updateUserAttributes(attributeMap: ["custom:role":role]) { (details, err) in
+            if let err = err as? AWSMobileClientError {
+                onDone(false, err.message)
+            } else {
+                onDone(true, "")
+            }
+        }
     }
     
 }

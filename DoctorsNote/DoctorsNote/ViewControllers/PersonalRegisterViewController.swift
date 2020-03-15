@@ -209,10 +209,12 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
 //
 class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
-    @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var selectRoleButton: UIButton!
     @IBOutlet weak var selectHospitalButton: UIButton!
     @IBOutlet weak var selectHealthcareButton: UIButton!
-
+    @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
+    
     var p: PopupView?
     var picker: UIPickerView?
     // To be gathered later from the database
@@ -221,6 +223,9 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     
     let providers = ["Humana", "Aetna", "Other"]
     var provider: String?
+    
+    let roles = ["Doctor", "Patient"]
+    var role: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -243,8 +248,15 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     
     @IBAction func requestAccount(_ sender: Any) {
         
+        let roleSelected = (role != nil)
         let hospitalSelected = (hospital != nil)
         let providerSelected = (provider != nil)
+        
+        if (roleSelected) {
+            selectRoleButton.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            selectRoleButton.layer.borderColor = UIColor.systemRed.cgColor
+        }
         
         if (hospitalSelected) {
             selectHospitalButton.layer.borderColor = UIColor.systemBlue.cgColor
@@ -258,48 +270,18 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             selectHealthcareButton.layer.borderColor = UIColor.systemRed.cgColor
         }
         
-        if (!hospitalSelected || !providerSelected) {
+        if (!roleSelected || !hospitalSelected || !providerSelected) {
             return
         }
         
-        self.performSegue(withIdentifier: "finish", sender: self)
-        
-        //AWSMobileClient.default().signUp(username: emailField.text!, password: passwordField.text!, userAttributes: ["name":"", "middle_name":"", "family_name":"", "gender":"", "birthdate":"06/19/2001", "address":"3980 N Graham Rd Madison IN 47250", "phone_number":"+18128017698"]) { (result, err) in
-        //            if let err = err as? AWSMobileClientError {
-        //                print("\(err.message)")
-        //            } else {
-        //                print("User signed up successfully.")
-        //            }
-        //        }
-        
-    //        AWSMobileClient.default().signOut()
-    //        AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
-    //            if let err = err as? AWSMobileClientError {
-    //                print("\(err.message)")
-    //            } else {
-    //                print("user signed in ")
-    //            }
-    //        }
-            
-            //let main = UIStoryboard(name: "Main", bundle: nil)
-            //let mainVC = main.instantiateInitialViewController()!
-            //let presentationStyle : UIModalPresentationStyle = .overCurrentContext
-            //self.modalPresentationStyle = presentationStyle
-    //        AWSMobileClient.default().confirmSignIn(challengeResponse: "809614") { (signInResult, error) in
-    //            if let error = error as? AWSMobileClientError {
-    //                print("\(error.message)")
-    //            } else if let signInResult = signInResult {
-    //                switch (signInResult.signInState) {
-    //                case .signedIn:
-    //                    print("User is signed in.")
-    //
-    //                default:
-    //                    print("\(signInResult.signInState.rawValue)")
-    //                }
-    //            }
-    //        }
-        
+        CognitoHelper.sharedHelper.setUserRole(role: role!) { (success, errMessage) in
+            self.errorLabel.text = errMessage
+            if (success) {
+                self.performSegue(withIdentifier: "finish", sender: self)
+            }
         }
+        
+    }
     
     @IBAction func selectHospital(_ sender: Any) {
         pressButton(tag: 1)
@@ -307,6 +289,10 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     
     @IBAction func selectProvider(_ sender: Any) {
         pressButton(tag: 2)
+    }
+    
+    @IBAction func selectRole(_ sender: Any) {
+        pressButton(tag: 3)
     }
     
     func pressButton(tag: Int) {
@@ -368,6 +354,9 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         else if (pickerView.tag == 2) {
             return providers.count
         }
+        else if (pickerView.tag == 3) {
+            return roles.count
+        }
         return 0
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -377,6 +366,10 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         }
         else if (pickerView.tag == 2) {
             let row = providers[row]
+            return row
+        }
+        else if (pickerView.tag == 3) {
+            let row = roles[row]
             return row
         }
         return ""
@@ -391,6 +384,10 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         else if (picker?.tag == 2) {
             provider = providers[(picker?.selectedRow(inComponent: 0))!]
             selectHealthcareButton.setTitle(provider, for: .normal)
+        }
+        else if (picker?.tag == 3) {
+            role = roles[(picker?.selectedRow(inComponent: 0))!]
+            selectRoleButton.setTitle(role, for: .normal)
         }
         p?.dismissType = .slideOutToBottom
         p?.dismiss(animated: true)
