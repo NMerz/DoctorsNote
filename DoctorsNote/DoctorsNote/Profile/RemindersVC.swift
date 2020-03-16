@@ -9,11 +9,13 @@
 import UIKit
 
 // Global list of reminders for now, should start with empty
-var remindersList = [String]()
+//var remindersList = [String]()
+var remindersList = [Reminder]()
 
 class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var remindersTableView: UITableView!
+    @IBOutlet weak var reminderInfoButton: UIButton!
     
     override func viewDidAppear(_ animated: Bool) {
         remindersTableView.reloadData()
@@ -31,9 +33,20 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "remindersCell")
-        cell.textLabel?.text = remindersList[indexPath.row]
-        return cell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "remindersCell")
+        if cell == nil {
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "remindersCell")
+        }
+        
+        cell!.textLabel?.text = remindersList[indexPath.row].reminder
+        let frequency = "\(remindersList[indexPath.row].numTimesADay ?? "nil") time(s) a day, every \(remindersList[indexPath.row].everyNumDays ?? "nil") day(s)"
+        cell!.detailTextLabel?.text = frequency
+        
+        return cell!
+        
+//        let cell = UITableViewCell(style: .default, reuseIdentifier: "remindersCell")
+//        cell.textLabel?.text = remindersList[indexPath.row].reminder
+//        return cell
     }
     
     // Delete a reminder
