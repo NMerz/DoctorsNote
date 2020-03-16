@@ -71,39 +71,9 @@ else
 
 <?php
 
-$host = 'doctorsnotedatabase.clqjrzlnojkj.us-east-2.rds.amazonaws.com';
-$db = 'DoctorsNote';
-$user = 'admin';
-$pass = 'fh85KS*(98';
-$charset = 'utf8';
-
-$options = [
-  \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-  \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-  \PDO::ATTR_EMULATE_PREPARES   => false,
-];
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-
-try {
-  $pdo = new \PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-  throw new \PDOException($e->getMessage(), (int)$e->getCode());
-}
-
-/*$resultPatient = $pdo->query("SELECT patientID, Username, Name, `Birth Date`, Sex
-FROM Patient
-JOIN `Personal Information` ON Patient.personalInformationID = `Personal Information`.personalInformationID
-ORDER BY Name;");*/
 
 require '/var/app/current/vendor/autoload.php';
 
-/*use Aws\CognitoIdentity\CognitoIdentityClient;
-
-$client = CognitoIdentityClient::factory(array(
-    'region'  => 'us-east-2',
-    'version'  => '2014-06-30'
-));*/
 
 //Call structure from: https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-cognito-idp-2016-04-18.html#listusers
 use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
@@ -120,13 +90,6 @@ $resultPatient = $client->listUsers([
     //'PaginationToken' => '<string>',
     'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
 ]);
-
-
-/*$resultPatient = $client->listIdentities([
-    'HideDisabled' => false,
-    'IdentityPoolId' => 'us-east-2:3980383c-3915-4eb1-839f-9254a7358ec6',
-    'MaxResults' => 60 // Must be <= 60
-]);*/
 
 
   foreach ($resultPatient["Users"] as $row) {
@@ -175,18 +138,24 @@ $resultPatient = $client->listUsers([
 
 <?php
 
-$resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
-                             FROM Doctor
-                             ORDER BY Name;");
+$resultDoctor = $client->listUsers([
+    'AttributesToGet' => ['name', 'family_name', 'email', 'address', 'middle_name'], //TODO: fix these attributes. In particular, middle name should be replaced by the custom role
+    'Filter' => "status = \"Enabled\"", //Can only filter on certain default attributes
+    //'Limit' => <integer>,
+    //'PaginationToken' => '<string>',
+    'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+]);
 
-  while ($row = $resultDoctor-> fetch()) {
+  if ($row["Attributes"][2]["Value"] == "Doctor") {
+  foreach ($resultDoctor["Users"] as $row) {
     echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $row["doctorID"] ."</td>
-            <td class=\"cell100 column2\">". $row["Name"] ."</td>
-            <td class=\"cell100 column3\">". $row["systemID"] ."</td>
-            <td class=\"cell100 column4\">". $row["Location"] ."</td>
+            <td class=\"cell100 column1\">". $row["Username"] ."</td>
+            <td class=\"cell100 column2\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][3]["Value"] ."</td>
+            <td class=\"cell100 column3\">". $row["Attributes"][4]["Value"] ."</td>
+            <td class=\"cell100 column4\">". $row["Attributes"][0]["Value"] ."</td>
           </tr>";
   }
+}
 
 ?>
 								</tr>
@@ -213,9 +182,8 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
 									<th class="cell100 column1">Doctor ID</th>
 									<th class="cell100 column2">Doctor Name</th>
 									<th class="cell100 column3">Patient ID</th>
-									<th class="cell100 column4">Patient Username</th>
-                                                                        <th class="cell100 column5">Patient Name</th>
-									<th class="cell100 column6">Patient Birth Date</th>
+                                                                        <th class="cell100 column4">Patient Name</th>
+									<th class="cell100 column5">Patient Birth Date</th>
 								</tr>
 							</thead>
 						</table>
@@ -228,7 +196,68 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
 
 <?php
 
-$resultPair = $pdo->query("SELECT Doctor.doctorID, Doctor.Name as doc_name, Patient.patientID, Username, `Personal Information`.Name as pat_name, `Birth Date`
+$host = 'doctorsnotedatabase.clqjrzlnojkj.us-east-2.rds.amazonaws.com';
+$db = 'DoctorsNote';
+$user = 'admin';
+$pass = 'fh85KS*(98';
+$charset = 'utf8';
+
+$options = [
+  \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+  \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+  \PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
+try {
+  $pdo = new \PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+  throw new \PDOException($e->getMessage(), (int)$e->getCode());
+}
+
+
+//TODO: finish and test below
+$resultDoctor = $client->listUsers([
+    'AttributesToGet' => ['name', 'family_name', 'email', 'address', 'middle_name'], //TODO: fix these attributes. In particular, middle name should be replaced by the custom role
+    'Filter' => "status = \"Enabled\"", //Can only filter on certain default attributes
+    //'Limit' => <integer>,
+    //'PaginationToken' => '<string>',
+    'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+]);
+  foreach ($resultDoctor["Users"] as $docrow) {
+
+    if ($docrow["Attributes"][2]["Value"] == "Doctor") {
+
+
+      $patientID = //Select from conversation has user where userid shared with doc's id ($docrow["Username"])
+      while ($patient = $resultPair-> fetch()) {
+
+        $resultPatient = $client->listUsers([
+          'AttributesToGet' => ['name', 'family_name', 'birthdate'],
+          'Filter' => "sub = \"$patientID\"",
+          //'Limit' => <integer>,
+          //'PaginationToken' => '<string>',
+          'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+        ]);
+
+
+        foreach ($resultPatient["Users"] as $row) {
+          echo "<tr class=\"row100 head\">
+            <td class=\"cell100 column1\">". $docrow["Username"] ."</td>
+            <td class=\"cell100 column2\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][3]["Value"] ."</td>
+            <td class=\"cell100 column3\"> $row["Username"] </td>
+            <td class=\"cell100 column4\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][2]["Value"] ."</td>
+            <td class=\"cell100 column5\">". $row["Attributes"][0]["Value"] ."</td>
+            </tr>";
+        }
+      }
+    }
+  }
+
+
+
+/*$resultPair = $pdo->query("SELECT Doctor.doctorID, Doctor.Name as doc_name, Patient.patientID, Username, `Personal Information`.Name as pat_name, `Birth Date`
                                FROM Doctor_has_Patient
                                JOIN Doctor ON Doctor.doctorID = Doctor_has_Patient.doctorID
                                JOIN Patient ON Doctor_has_Patient.patientID = Patient.patientID
@@ -244,7 +273,7 @@ $resultPair = $pdo->query("SELECT Doctor.doctorID, Doctor.Name as doc_name, Pati
               <td class=\"cell100 column5\">". $row["pat_name"] ."</td>
               <td class=\"cell100 column6\">". $row["Birth Date"] ."</td>
           </tr>";
-  }
+  }*/
 
 ?>
 								</tr>
