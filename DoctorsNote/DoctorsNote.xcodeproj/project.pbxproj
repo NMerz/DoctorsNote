@@ -45,6 +45,7 @@
 		B5AC8B332409CE85002E070D /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
 		B8064419241F24A200D30AA4 /* EditReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8064418241F24A200D30AA4 /* EditReminderVC.swift */; };
+		B806441B241F2EE300D30AA4 /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B806441A241F2EE300D30AA4 /* ReminderCell.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083CD24036C0200CF41D0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -120,6 +121,7 @@
 		B5AC8B322409CE85002E070D /* HealthSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
 		B5AC8B342409CF13002E070D /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		B8064418241F24A200D30AA4 /* EditReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditReminderVC.swift; sourceTree = "<group>"; };
+		B806441A241F2EE300D30AA4 /* ReminderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083CC24036C0200CF41D0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				B87E49052408F80E000E6ABC /* AddReminderVC.swift */,
 				B8866EFF2409796800C6149F /* CalendarVC.swift */,
 				B8064418241F24A200D30AA4 /* EditReminderVC.swift */,
+				B806441A241F2EE300D30AA4 /* ReminderCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				B5AC8B2F2409CE36002E070D /* Conversation.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				B82083D324039A2100CF41D0 /* Form.swift in Sources */,
+				B806441B241F2EE300D30AA4 /* ReminderCell.swift in Sources */,
 				B5AC8B312409CE6E002E070D /* User.swift in Sources */,
 				B8866F002409796800C6149F /* CalendarVC.swift in Sources */,
 				B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */,

@@ -12,10 +12,10 @@ import UIKit
 //var remindersList = [String]()
 var remindersList = [Reminder]()
 
-class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ReminderCellDelegate {
+    
     
     @IBOutlet weak var remindersTableView: UITableView!
-    @IBOutlet weak var reminderInfoButton: UIButton!
     
     override func viewDidAppear(_ animated: Bool) {
         remindersTableView.reloadData()
@@ -28,21 +28,41 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
         // Do any additional setup after loading the view.
     }
     
+    // ReminderCellDelegate protocol stub
+    func didTapReminderInfo(reminder: Reminder) {
+        // TODO: Open editing page
+        let alertTitle = "Watch Later"
+        let message = "\(reminder.reminder ?? "nil") will be edited"
+        
+        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return remindersList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "remindersCell")
-        if cell == nil {
-            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "remindersCell")
-        }
+        let reminder = remindersList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell") as! ReminderCell
+        cell.setReminder(reminder: reminder)
+        cell.delegate = self
+
+        return cell
         
-        cell!.textLabel?.text = remindersList[indexPath.row].reminder
-        let frequency = "\(remindersList[indexPath.row].numTimesADay ?? "nil") time(s) a day, every \(remindersList[indexPath.row].everyNumDays ?? "nil") day(s)"
-        cell!.detailTextLabel?.text = frequency
         
-        return cell!
+        ///
+//        var cell = tableView.dequeueReusableCell(withIdentifier: "remindersCell")
+//        if cell == nil {
+//            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "remindersCell")
+//        }
+//
+//        cell!.textLabel?.text = remindersList[indexPath.row].reminder
+//        let frequency = "\(remindersList[indexPath.row].numTimesADay ?? "nil") time(s) a day, every \(remindersList[indexPath.row].everyNumDays ?? "nil") day(s)"
+//        cell!.detailTextLabel?.text = frequency
+//
+//        return cell!
         
 //        let cell = UITableViewCell(style: .default, reuseIdentifier: "remindersCell")
 //        cell.textLabel?.text = remindersList[indexPath.row].reminder
@@ -53,6 +73,10 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         remindersList.remove(at: indexPath.row)
         remindersTableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
         
     /*
