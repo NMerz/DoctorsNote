@@ -36,11 +36,6 @@ class LoginViewController: UIViewController {
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        // TODO: REMOVE LATER
-        //AWSMobileClient.default().signOut()
-    }
-    
     @IBAction func login(_ sender: Any) {
         
         let emailEmpty = emailField.isEmpty()

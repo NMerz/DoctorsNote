@@ -14,7 +14,7 @@ import PopupKit
 //
 //
 //
-class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var firstNameField: CustomTextField!
     @IBOutlet weak var middleNameField: CustomTextField!
@@ -24,7 +24,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBOutlet weak var phoneField: CustomTextField!
     @IBOutlet weak var streetField: CustomTextField!
     @IBOutlet weak var cityField: CustomTextField!
-    @IBOutlet weak var stateField: CustomTextField!
+    @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var zipField: CustomTextField!
     
     var p: PopupView?
@@ -33,6 +33,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     
     var DOB: String = ""
     var sex: String = ""
+    var state: String = ""
     
     let sexes = ["Male", "Female"]
     
@@ -41,12 +42,15 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         
         self.navigationItem.hidesBackButton = true
         
+        stateButton.layer.borderColor = UIColor.systemBlue.cgColor
         DOBButton.layer.borderColor = UIColor.systemBlue.cgColor
         sexButton.layer.borderColor = UIColor.systemBlue.cgColor
         
+        stateButton.layer.borderWidth = 2
         DOBButton.layer.borderWidth = 2
         sexButton.layer.borderWidth = 2
         
+        stateButton.layer.cornerRadius = DefinedValues.fieldRadius
         DOBButton.layer.cornerRadius = DefinedValues.fieldRadius
         sexButton.layer.cornerRadius = DefinedValues.fieldRadius
         
@@ -59,20 +63,20 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBAction func goForward(_ sender: Any) {
         if (fieldsCorrect()) {
             // TODO ADD PHONE NUMBER VALIDATION
-            let address = streetField.text! + " " + cityField.text! + " " + stateField.text! + " " + zipField.text!
+            var address = streetField.text! + " " + cityField.text! + " " + stateButton.titleLabel!.text!
+            address += " " + zipField.text!
             let phone = "+1" + phoneField.text!
             AWSMobileClient.default().updateUserAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleNameField.text!, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")
                 } else {
                     print("Info updated correctly!")
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "show_third", sender: self)
+                    }
                 }
             }
             
-            
-            
-            
-            self.performSegue(withIdentifier: "show_third", sender: self)
         }
     }
     
@@ -82,7 +86,6 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let phone = phoneField.isEmpty()
         let street = streetField.isEmpty()
         let city = cityField.isEmpty()
-        let state = stateField.isEmpty()
         let zip = zipField.isEmpty()
         
         var DOBFilled = true
@@ -101,7 +104,15 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             sexButton.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
-        if (first || last || phone || street || city || state || zip || !DOBFilled || !sexFilled) {
+        var stateFilled = true
+        if (state == "") {
+            stateButton.layer.borderColor = UIColor.systemRed.cgColor
+            stateFilled = false
+        } else {
+            stateButton.layer.borderColor = UIColor.systemBlue.cgColor
+        }
+        
+        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled) {
             return false
         }
         return true
@@ -198,9 +209,67 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             p?.dismiss(animated: true)
         }
     }
+    
+    func checkZipFormat() -> Bool {
+        let zipRegex = "[0-9]{5}"
+        let validateZIP = NSPredicate(format: "SELF MATCHES %@", zipRegex)
+        let isValidZIP = validateZIP.evaluate(with: zipField.text!)
+        return isValidZIP
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "popover_segue" {
+                let popoverViewController = segue.destination
+                popoverViewController.modalPresentationStyle = .popover
+                popoverViewController.presentationController?.delegate = self
+         }
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
 
     
 }
+
+class StateTableViewController: UITableViewController {
+    
+    
+    let states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "state_cell")
+        cell.textLabel?.text = states[indexPath.row]
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        50
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let delegate = self.popoverPresentationController?.delegate as! PersonalRegisterViewController
+        delegate.state = (tableView.cellForRow(at: indexPath)?.textLabel?.text!)!
+        delegate.stateButton.setTitle(delegate.state, for: .normal)
+        self.dismiss(animated: true)
+    }
+    
+    
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -236,13 +305,16 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         requestLayer.path = UIBezierPath(roundedRect: requestButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         requestButton.layer.mask = requestLayer
         
+        selectRoleButton.layer.cornerRadius = DefinedValues.fieldRadius
         selectHospitalButton.layer.cornerRadius = DefinedValues.fieldRadius
         selectHealthcareButton.layer.cornerRadius = DefinedValues.fieldRadius
         
-         selectHospitalButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
-         selectHospitalButton.layer.borderWidth = 2
-         selectHealthcareButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
-         selectHealthcareButton.layer.borderWidth = 2
+        selectRoleButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
+        selectRoleButton.layer.borderWidth = 2
+        selectHospitalButton.layer.borderColor = UIColor.systemBlue.cgColor
+        selectHospitalButton.layer.borderWidth = 2
+        selectHealthcareButton.layer.borderColor = UIColor.systemBlue.cgColor
+        selectHealthcareButton.layer.borderWidth = 2
         
     }
     
@@ -275,9 +347,11 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         }
         
         CognitoHelper.sharedHelper.setUserRole(role: role!) { (success, errMessage) in
-            self.errorLabel.text = errMessage
-            if (success) {
-                self.performSegue(withIdentifier: "finish", sender: self)
+            DispatchQueue.main.async {
+                self.errorLabel.text = errMessage
+                if (success) {
+                    self.performSegue(withIdentifier: "finish", sender: self)
+                }
             }
         }
         

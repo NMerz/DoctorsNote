@@ -570,15 +570,10 @@
                                                 <accessibility key="accessibilityConfiguration" label="First Name Field"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="55" id="ilk-up-swF"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="55" id="vrR-ZX-dw9"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
-                                            </textField>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nGi-YV-c4g" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
-                                                <rect key="frame" x="25" y="711" width="364" height="55"/>
-                                                <accessibility key="accessibilityConfiguration" label="State Field"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="address-level1"/>
                                             </textField>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Street Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cfu-tU-ihU" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="543" width="364" height="55"/>
@@ -685,6 +680,20 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceg-Fb-4Ub">
+                                                <rect key="frame" x="25" y="711" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="Sex Button"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="55" id="y0b-xN-2RY"/>
+                                                </constraints>
+                                                <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                <state key="normal" title="State"/>
+                                                <connections>
+                                                    <segue destination="394-9i-ndK" kind="popoverPresentation" identifier="popover_segue" popoverAnchorView="ceg-Fb-4Ub" id="vWU-Xs-O78">
+                                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                    </segue>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kdd-C2-cIP">
                                                 <rect key="frame" x="35" y="613" width="38" height="21"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -736,8 +745,10 @@
                                             <constraint firstItem="KZv-hu-UTp" firstAttribute="top" secondItem="Y2M-IN-0z6" secondAttribute="bottom" constant="15" id="6pN-qe-7iY"/>
                                             <constraint firstItem="CvY-jQ-o0o" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="6qc-ib-CxT"/>
                                             <constraint firstItem="Ybw-Dy-eZ5" firstAttribute="trailing" secondItem="2E9-3Q-mIC" secondAttribute="trailing" id="7VJ-Th-hQ9"/>
+                                            <constraint firstItem="ceg-Fb-4Ub" firstAttribute="trailing" secondItem="2E9-3Q-mIC" secondAttribute="trailing" id="9DJ-2o-lHc"/>
                                             <constraint firstItem="LzI-yU-42I" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="9P6-fX-LQI"/>
                                             <constraint firstItem="Xf4-Kc-gsX" firstAttribute="top" secondItem="UsH-AU-kKA" secondAttribute="bottom" constant="15" id="A07-qA-LTH"/>
+                                            <constraint firstItem="ceg-Fb-4Ub" firstAttribute="leading" secondItem="KK4-gB-HlE" secondAttribute="leading" constant="-10" id="BWe-8q-w5m"/>
                                             <constraint firstItem="L5o-uo-fgT" firstAttribute="top" secondItem="2E9-3Q-mIC" secondAttribute="bottom" constant="15" id="CAs-Z2-zlF"/>
                                             <constraint firstItem="UsH-AU-kKA" firstAttribute="top" secondItem="L5o-uo-fgT" secondAttribute="bottom" constant="-7" id="CdP-Bj-d6v"/>
                                             <constraint firstItem="CvY-jQ-o0o" firstAttribute="top" secondItem="kdd-C2-cIP" secondAttribute="bottom" constant="-7" id="DdE-D3-FQb"/>
@@ -746,6 +757,7 @@
                                             <constraint firstItem="kdd-C2-cIP" firstAttribute="leading" secondItem="CvY-jQ-o0o" secondAttribute="leading" constant="10" id="G7w-3q-uB9"/>
                                             <constraint firstAttribute="trailing" secondItem="2E9-3Q-mIC" secondAttribute="trailing" constant="25" id="GLv-au-4Nh"/>
                                             <constraint firstItem="611-VX-Zz1" firstAttribute="leading" secondItem="xNd-W7-ZOg" secondAttribute="leading" constant="10" id="GyQ-8E-alz"/>
+                                            <constraint firstItem="ceg-Fb-4Ub" firstAttribute="top" secondItem="KK4-gB-HlE" secondAttribute="bottom" constant="-7" id="HOr-eU-XWG"/>
                                             <constraint firstItem="PXN-Bp-ekb" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" constant="10" id="ILh-UT-2pI"/>
                                             <constraint firstItem="D2P-ey-dmP" firstAttribute="top" secondItem="BIV-Ih-dVR" secondAttribute="bottom" constant="15" id="J8V-xC-gbV"/>
                                             <constraint firstItem="xNd-W7-ZOg" firstAttribute="trailing" secondItem="Ybw-Dy-eZ5" secondAttribute="trailing" id="J91-7j-jSG"/>
@@ -756,28 +768,23 @@
                                             <constraint firstItem="UsH-AU-kKA" firstAttribute="leading" secondItem="L5o-uo-fgT" secondAttribute="leading" constant="-10" id="Rxn-9J-muH"/>
                                             <constraint firstItem="BIV-Ih-dVR" firstAttribute="top" secondItem="KZv-hu-UTp" secondAttribute="bottom" constant="-7" id="UFG-tB-hN0"/>
                                             <constraint firstItem="Y2M-IN-0z6" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="VII-ze-cuu"/>
-                                            <constraint firstItem="nGi-YV-c4g" firstAttribute="centerX" secondItem="xtU-ML-a1V" secondAttribute="centerX" id="VeO-b5-zia"/>
                                             <constraint firstItem="PXN-Bp-ekb" firstAttribute="top" secondItem="xtU-ML-a1V" secondAttribute="top" constant="25" id="X3h-On-c9c"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="Zae-I4-yWR"/>
                                             <constraint firstAttribute="height" constant="1000" id="Zno-rS-E9O"/>
-                                            <constraint firstItem="nGi-YV-c4g" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="aQq-Oe-Bp8"/>
                                             <constraint firstItem="BIV-Ih-dVR" firstAttribute="trailing" secondItem="2E9-3Q-mIC" secondAttribute="trailing" id="aUy-6A-wB7"/>
                                             <constraint firstItem="D2P-ey-dmP" firstAttribute="leading" secondItem="cfu-tU-ihU" secondAttribute="leading" constant="10" id="aj5-VV-QHE"/>
                                             <constraint firstItem="LzI-yU-42I" firstAttribute="top" secondItem="dxg-en-OFU" secondAttribute="bottom" constant="-7" id="azd-jT-5G0"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="bTr-k6-Qeg"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="top" secondItem="D2P-ey-dmP" secondAttribute="bottom" constant="-7" id="bfT-fU-sI7"/>
+                                            <constraint firstItem="ceg-Fb-4Ub" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="br6-de-gHU"/>
                                             <constraint firstItem="Ybw-Dy-eZ5" firstAttribute="top" secondItem="Xf4-Kc-gsX" secondAttribute="bottom" constant="-7" id="cDA-VV-7T1"/>
-                                            <constraint firstItem="nGi-YV-c4g" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="dwU-2U-tkE"/>
                                             <constraint firstItem="BIV-Ih-dVR" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="dwc-fM-c1K"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="centerX" secondItem="xtU-ML-a1V" secondAttribute="centerX" id="eB3-Sp-kqW"/>
                                             <constraint firstItem="611-VX-Zz1" firstAttribute="top" secondItem="Ybw-Dy-eZ5" secondAttribute="bottom" constant="15" id="eTR-aj-reo"/>
                                             <constraint firstItem="kdd-C2-cIP" firstAttribute="top" secondItem="cfu-tU-ihU" secondAttribute="bottom" constant="15" id="emP-jF-XQE"/>
                                             <constraint firstItem="2E9-3Q-mIC" firstAttribute="centerX" secondItem="xtU-ML-a1V" secondAttribute="centerX" id="eqJ-l5-v41"/>
                                             <constraint firstItem="2E9-3Q-mIC" firstAttribute="top" secondItem="PXN-Bp-ekb" secondAttribute="bottom" constant="-7" id="fbN-Ko-5ht"/>
-                                            <constraint firstItem="nGi-YV-c4g" firstAttribute="trailing" secondItem="2E9-3Q-mIC" secondAttribute="trailing" id="hbG-M8-aFe"/>
-                                            <constraint firstItem="nGi-YV-c4g" firstAttribute="top" secondItem="KK4-gB-HlE" secondAttribute="bottom" constant="-7" id="iWW-fE-hKS"/>
                                             <constraint firstItem="Y2M-IN-0z6" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="jD1-WQ-Ch6"/>
-                                            <constraint firstItem="dxg-en-OFU" firstAttribute="top" secondItem="nGi-YV-c4g" secondAttribute="bottom" constant="15" id="jcF-c3-S7I"/>
                                             <constraint firstItem="Y2M-IN-0z6" firstAttribute="top" secondItem="Bi6-GE-jRs" secondAttribute="bottom" constant="-7" id="kvx-D9-9kq"/>
                                             <constraint firstItem="LzI-yU-42I" firstAttribute="centerX" secondItem="xtU-ML-a1V" secondAttribute="centerX" id="l63-Ai-aRr"/>
                                             <constraint firstItem="UsH-AU-kKA" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="lGZ-Ri-Clf"/>
@@ -791,8 +798,8 @@
                                             <constraint firstItem="Bi6-GE-jRs" firstAttribute="top" secondItem="xNd-W7-ZOg" secondAttribute="bottom" constant="15" id="tEE-Km-Ot7"/>
                                             <constraint firstItem="Bi6-GE-jRs" firstAttribute="leading" secondItem="Y2M-IN-0z6" secondAttribute="leading" constant="10" id="tog-7P-raG"/>
                                             <constraint firstItem="LzI-yU-42I" firstAttribute="trailing" secondItem="2E9-3Q-mIC" secondAttribute="trailing" id="uZ8-Bz-saX"/>
-                                            <constraint firstItem="KK4-gB-HlE" firstAttribute="leading" secondItem="nGi-YV-c4g" secondAttribute="leading" constant="10" id="wsg-Bp-Ut7"/>
                                             <constraint firstItem="BIV-Ih-dVR" firstAttribute="leading" secondItem="KZv-hu-UTp" secondAttribute="leading" constant="-10" id="yTY-1i-kKQ"/>
+                                            <constraint firstItem="dxg-en-OFU" firstAttribute="top" secondItem="ceg-Fb-4Ub" secondAttribute="bottom" constant="15" id="zpM-9g-6Ak"/>
                                             <constraint firstItem="Ybw-Dy-eZ5" firstAttribute="leading" secondItem="Xf4-Kc-gsX" secondAttribute="leading" constant="-10" id="zsw-S6-g2l"/>
                                         </constraints>
                                     </view>
@@ -866,7 +873,7 @@
                         <outlet property="middleNameField" destination="UsH-AU-kKA" id="kyy-Eh-sB9"/>
                         <outlet property="phoneField" destination="BIV-Ih-dVR" id="7Uq-qW-djH"/>
                         <outlet property="sexButton" destination="Y2M-IN-0z6" id="Htg-Aa-bD9"/>
-                        <outlet property="stateField" destination="nGi-YV-c4g" id="UrX-jT-vWc"/>
+                        <outlet property="stateButton" destination="ceg-Fb-4Ub" id="W2z-R7-lGu"/>
                         <outlet property="streetField" destination="cfu-tU-ihU" id="IjH-Pd-4yI"/>
                         <outlet property="zipField" destination="LzI-yU-42I" id="thG-wV-ozC"/>
                         <segue destination="3bd-aR-UMf" kind="show" identifier="show_third" id="RSq-Oq-3Yb"/>
@@ -1200,6 +1207,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GkT-7q-eRt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="670" y="877"/>
+        </scene>
+        <!--State Table View Controller-->
+        <scene sceneID="cX2-h9-M5g">
+            <objects>
+                <tableViewController modalPresentationStyle="formSheet" id="394-9i-ndK" customClass="StateTableViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="DUg-ne-S40">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="EgC-G1-rp5">
+                                <rect key="frame" x="0.0" y="28" width="150" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EgC-G1-rp5" id="bQj-Xo-j3p">
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="394-9i-ndK" id="73m-Kt-sDb"/>
+                            <outlet property="delegate" destination="394-9i-ndK" id="PcV-1j-g6h"/>
+                        </connections>
+                    </tableView>
+                    <value key="contentSizeForViewInPopover" type="size" width="150" height="150"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="150" height="150"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cV8-AV-cMc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2307" y="713"/>
         </scene>
     </scenes>
     <resources>

@@ -48,14 +48,13 @@ class CognitoHelper {
                 onDone(false)
                 return
             }
-            // Means the user hasn't udpate info yet. This is probably not the best way to do this...
-            let name = dict!["name"]
-            if (name == nil) {
+            // Checks if the user's information is initialized
+            if let _ = dict!["name"] {
                 // Needs to set up profile. Should to go create profile screen
-                onDone(false)
-            } else {
                 CognitoHelper.user = User(uid: Int(dict!["custom:userID"]!)!, dict: dict!)
                 onDone(true)
+            } else {
+                onDone(false)
             }
         }
     }
