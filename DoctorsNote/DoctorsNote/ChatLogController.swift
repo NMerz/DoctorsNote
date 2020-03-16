@@ -90,6 +90,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         //messageText.delegate = self as! UITextFieldDelegate
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
+        
 
         // Register cell classes
         collectionView.alwaysBounceVertical = true
@@ -97,6 +98,20 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+        let num = 5;
+        do {
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num))
+        } catch let error {
+            print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        }
+        
+        for message in messages {
+            print(message.getBase64Content())
+            //cellM.showOutgoingMessage(text: message.getBase64Content())
+            
+        }
     }
 
     /*
@@ -119,7 +134,12 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 4
+        if (messages.count == 0) {
+            return 5
+        }
+        else {
+            return messages.count
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -128,17 +148,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         //let convo = Conversation(conversationID: 15)
         cellM.delegate = self
         cellM.setupViews()
-        do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversation: Conversation(conversationID: 15)!, numberToRetrieve: 2) ?? messages)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversation: Conversation(conversationID: 15)!, numberToRetrieve: 2))
-        } catch let error {
-            print ((error as! ConnectionError).getMessage())
-            print("ERROR!!!!!!!!!!!!")
-        }
-        for message in messages {
-            print(message.getBase64Content())
-            cellM.showOutgoingMessage(text: message.getBase64Content())
-        }
+       
         
         return cellM
         // Configure the cell
