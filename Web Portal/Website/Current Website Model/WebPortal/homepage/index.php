@@ -2,13 +2,57 @@
 
   require '../vendor/autoload.php';
   use Aws\CognitoIdentityProvider\CognitoIdentityProviderClient;
+  use Aws\Exception\AwsException;
 
   //Instantiate the Cognito client
-  $cognitoClient = CognitoIdentityProviderClient::factory(array(
-    'credentials' => false,
+  
+  $cognitoClient = new Aws\CognitoIdentityProvider\CognitoIdentityProviderClient([
     'region' => 'us-east-2',
-    'version' => 'latest'
+    'version' => 'latest',
+    //'profile' => 'default'
+  ]);
+
+
+  /*
+  $cognitoClient = EC2Client::factory(array(
+    //'profile' => 'default',
+    'region' => 'us-east-2',
+    'version' => 'latest',
   ));
+  */
+
+
+  /* $args = [
+    'credentials' => [
+      'key' => 'AKIAVJGAVBLHFCZH6ZP7',
+      'secret' => '5LvxNU3sHi71p0jSmtZjVshlW2atPzG6+2tWknj',
+    ],
+    'region' => 'us-east-2',
+    'version' => 'latest',
+
+    'app_client_id' => '6ofohd4u4ba408d7ivl3a9ia5h',
+    'app_client_secret' => '',
+    'user_pool_id' => 'us-east-2_Cobrg1kBn',  
+  ]*/
+
+  //$client = new CognitoIdentityProviderClient($args);
+  //$client->adminInitiateAuth([
+    
+//$cognitoClient->getCommand('listUsers');
+   
+  /* 
+   $result = $cognitoClient->listUsers([
+     'AttributesToGet' => array(
+       "name"
+     ),
+     'Filter' => '',
+     'Limit' => 3,
+     'UserPoolId' => 'us-east-2_Cobrg1kBn',
+   ]);
+
+   echo $result;
+   */
+
 ?>
 
 
@@ -56,11 +100,10 @@
 						<table>
 							<thead>
 								<tr class="row100 head">
-									<th class="cell100 column1">UserID</th>
+									<th class="cell100 column1">Username</th>
 									<th class="cell100 column2">Name</th>
-									<th class="cell100 column3">Username</th>
-									<th class="cell100 column4">Birth Date</th>
-									<th class="cell100 column5">Sex</th>
+									<th class="cell100 column3">Birth Date</th>
+									<th class="cell100 column4">Sex</th>
 								</tr>
 							</thead>
 						</table>
@@ -93,19 +136,32 @@ try {
   throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-$resultPatient = $pdo->query("SELECT patientID, Username, Name, `Birth Date`, Sex
-FROM Patient
-JOIN `Personal Information` ON Patient.personalInformationID = `Personal Information`.personalInformationID
-ORDER BY Name;");
 
-  while ($row = $resultPatient-> fetch()) {
-    echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $row["patientID"] ."</td>
-            <td class=\"cell100 column2\">". $row["Name"] ."</td>
-            <td class=\"cell100 column3\">". $row["Username"] ."</td>
-            <td class=\"cell100 column4\">". $row["Birth Date"] ."</td>
-            <td class=\"cell100 column5\">". $row["Sex"] ."</td>
-          </tr>";
+   $result = $cognitoClient->listUsers([
+     'AttributesToGet' => array(
+       "name",
+       "birthdate",
+       "gender"
+     ),
+     'Filter' => '',
+     'Limit' => 60,
+     'UserPoolId' => 'us-east-2_Cobrg1kBn',
+   ]);
+
+
+  foreach ($result['Users'] as $user) {
+    echo "
+    <tr>
+      <td class='cell100 column1'>". $user['Username'] ."</td>";
+      foreach ($user['Attributes'] as $attribute) {
+        echo "<td class='cell100 column1'>". $attribute['Value'] ."</td>" . "\n";
+
+        //echo $attribute['Name'] . " ";
+        //echo $attribute['Value'] . "\n";
+      }
+    
+    echo "</tr>
+    ";
   }
 
 ?>
@@ -144,19 +200,6 @@ ORDER BY Name;");
 
 <?php
 
-$resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
-                             FROM Doctor
-                             ORDER BY Name;");
-
-  while ($row = $resultDoctor-> fetch()) {
-    echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $row["doctorID"] ."</td>
-            <td class=\"cell100 column2\">". $row["Name"] ."</td>
-            <td class=\"cell100 column3\">". $row["systemID"] ."</td>
-            <td class=\"cell100 column4\">". $row["Location"] ."</td>
-          </tr>";
-  }
-
 ?>
 								</tr>
 							</tbody>
@@ -182,7 +225,8 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
 									<th class="cell100 column1">Doctor ID</th>
 									<th class="cell100 column2">Doctor Name</th>
 									<th class="cell100 column3">Patient ID</th>
-									<th class="cell100 column4">Patient Username</th>                                                                        <th class="cell100 column5">Patient Name</th>
+									<th class="cell100 column4">Patient Username</th>
+                  <th class="cell100 column5">Patient Name</th>
 									<th class="cell100 column6">Patient Birth Date</th>
 								</tr>
 							</thead>
@@ -196,24 +240,6 @@ $resultDoctor = $pdo->query("SELECT doctorID, systemID, Name, Location
 
 <?php
 
-$resultPair = $pdo->query("SELECT Doctor.doctorID, Doctor.Name as doc_name, Patient.patientID, Username, `Personal Information`.Name as pat_name, `Birth Date`
-                               FROM Doctor_has_Patient
-                               JOIN Doctor ON Doctor.doctorID = Doctor_has_Patient.doctorID
-                               JOIN Patient ON Doctor_has_Patient.patientID = Patient.patientID
-                               JOIN `Personal Information` ON `Personal Information`.personalInformationID = Patient.personalInformationID
-                               ORDER BY doc_name, pat_name;");
-
-  while ($row = $resultPair-> fetch()) {
-    echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $row["doctorID"] ."</td>
-              <td class=\"cell100 column2\">". $row["doc_name"] ."</td>
-              <td class=\"cell100 column3\">". $row["patientID"] ."</td>
-              <td class=\"cell100 column4\">". $row["Username"] ."</td>
-              <td class=\"cell100 column5\">". $row["pat_name"] ."</td>
-              <td class=\"cell100 column6\">". $row["Birth Date"] ."</td>
-          </tr>";
-  }
-
 ?>
 								</tr>
 							</tbody>
@@ -225,20 +251,6 @@ $resultPair = $pdo->query("SELECT Doctor.doctorID, Doctor.Name as doc_name, Pati
 	</div>
 
 
-<?php
-$cognitoClient->getCommand('listUsers');
-   $result = $cognitoClient->listUsers([
-     'AttributesToGet' => [
-       'userID', 'name', 'family name', 'gender', 'birthdate'
-     ],
-     'Filter' => '',
-     'Limit' => 1000,
-     'UserPoolId' => 'us-east-2_Cobrg1kBn',
-   ]);
-
-  echo $result;
-
-?>
 
   <div class="form">
   <form action="">
