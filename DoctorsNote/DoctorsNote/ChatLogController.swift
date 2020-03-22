@@ -90,9 +90,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         connectionProcessor = ConnectionProcessor(connector: connector)
-        let tap = UITapGestureRecognizer(target:self.view,action: #selector(UIView.endEditing))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        
         //sendButton.delegate = self
         //messageText.delegate = self as! UITextFieldDelegate
         // Uncomment the following line to preserve selection between presentations
