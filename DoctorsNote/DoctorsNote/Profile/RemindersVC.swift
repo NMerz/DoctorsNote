@@ -36,7 +36,6 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     // ReminderCellDelegate protocol stub (onclick individual info button) NOT NECESSARY?
     func didTapReminderInfo(reminder: Reminder) {
         self.selectedReminder = reminder
-        print("didTap selected reminder: \(self.selectedReminder!.reminder ?? "nil")")
 //        let alertTitle = "Edit alert"
 //        let message = "\(reminder.reminder ?? "nil") will be edited"
 //
@@ -48,7 +47,6 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     // Order: 1. onInfoButtonTap 2. prepare 3. didTapReminderInfo
     // Apparently delegate function gets called last which makes sense
     @IBAction func onInfoButtonTap(_ sender: Any) {
-        print("onInfoButtonTap")
         let button = sender as! UIButton
         let cell = button.superview!.superview! as! ReminderCell
         indexPathForButton = remindersTableView.indexPath(for: cell)
@@ -61,7 +59,6 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             let editReminderVC = segue.destination as! EditReminderVC
             editReminderVC.selectedReminder = self.selectedReminder
             editReminderVC.indexPathForButton = self.indexPathForButton
-            print("prepare selected reminder: \(self.selectedReminder!.reminder ?? "nil")")
         }
     }
     

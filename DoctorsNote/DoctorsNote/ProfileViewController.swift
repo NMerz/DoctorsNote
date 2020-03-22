@@ -14,6 +14,13 @@ class ProfileViewController: UIViewController {
    
     @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var personalInfoView: PersonalInfoView!
+    @IBOutlet weak var remindersPreviewView: UIView!
+    @IBOutlet weak var remindersPreviewLabel: UILabel!
+    @IBOutlet weak var viewRemindersButton: UIButton!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        remindersPreviewLabel.text = "You currently have \(remindersList.count) reminder(s)."
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +46,9 @@ class ProfileViewController: UIViewController {
             }
         }
         //personalInfoView.layer.mask = mask
+        remindersPreviewView.bringSubviewToFront(viewRemindersButton)
+        remindersPreviewLabel.text = "You currently have \(remindersList.count) reminder(s)."
+        
         
     }
 
@@ -49,3 +59,5 @@ class ProfileViewController: UIViewController {
     }
     
 }
+
+
