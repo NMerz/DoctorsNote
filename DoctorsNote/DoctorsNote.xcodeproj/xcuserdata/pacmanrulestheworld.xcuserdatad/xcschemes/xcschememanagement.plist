@@ -7,7 +7,11 @@
 		<key>DoctorsNote.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
+<<<<<<< HEAD
 			<integer>1</integer>
+=======
+			<integer>0</integer>
+>>>>>>> f63b22c920435e4cc86cc2739b4b0c6c71f78cd4
 		</dict>
 	</dict>
 </dict>
