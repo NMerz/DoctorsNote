@@ -42,6 +42,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     func imageSend() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        //imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        //imagePicker.sourceType = UIImagePickerController.SourceType.camera
         self.present(imagePicker, animated: false) {
             print("done picking")
         }
@@ -85,7 +89,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         connectionProcessor = ConnectionProcessor(connector: connector)
-        
+        let tap = UITapGestureRecognizer(target:self.view,action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
         //sendButton.delegate = self
         //messageText.delegate = self as! UITextFieldDelegate
         // Uncomment the following line to preserve selection between presentations

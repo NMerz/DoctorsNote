@@ -25,7 +25,9 @@ class LoginViewController: UIViewController {
         let mask = CAShapeLayer()
         mask.path = UIBezierPath(roundedRect: loginButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         loginButton.layer.mask = mask
-
+        let tap = UITapGestureRecognizer(target:self.view,action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     override func viewDidAppear(_ animated: Bool) {
