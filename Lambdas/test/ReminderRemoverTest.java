@@ -2,7 +2,6 @@ import DoctorsNote.ReminderRemover;
 import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.sql.Connection;
@@ -22,7 +21,7 @@ public class ReminderRemoverTest {
         jsonBody.put("reminderID", "102");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
-        context.put("sub", "sub-id123"); //Note: not an accurate length for sample id
+        context.put("sub", "sub-id123");   // Note: not an accurate length for sample id
         topMap.put("context", context);
         return topMap;
     }
@@ -30,7 +29,7 @@ public class ReminderRemoverTest {
     @Test()
     public void testEmptyInputs() {
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
-        Assert.assertEquals(null, reminderRemover.add(new HashMap<>(), mock(Context.class)));
+        Assert.assertEquals(null, reminderRemover.remove(new HashMap<>(), mock(Context.class)));
     }
 
     @Test()
@@ -38,7 +37,7 @@ public class ReminderRemoverTest {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("reminderID");
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
-        Assert.assertEquals(null, reminderRemover.add(incompleteMap, mock(Context.class)));
+        Assert.assertEquals(null, reminderRemover.remove(incompleteMap, mock(Context.class)));
     }
 
     @Test()
@@ -46,7 +45,7 @@ public class ReminderRemoverTest {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("reminderID", null);
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
-        Assert.assertEquals(null, reminderRemover.add(incompleteMap, mock(Context.class)));
+        Assert.assertEquals(null, reminderRemover.remove(incompleteMap, mock(Context.class)));
     }
 
     @Test()
@@ -61,7 +60,7 @@ public class ReminderRemoverTest {
         } catch (SQLException e) {
             Assert.fail();
         }
-        Assert.assertEquals(null, reminderRemover.add(incompleteMap, mock(Context.class)));
+        Assert.assertEquals(null, reminderRemover.remove(incompleteMap, mock(Context.class)));
     }
 
     @Test()
@@ -73,6 +72,6 @@ public class ReminderRemoverTest {
             Assert.fail();
         }
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
-        Assert.assertNotNull(reminderRemover.add(incompleteMap, mock(Context.class)));
+        Assert.assertNotNull(reminderRemover.remove(incompleteMap, mock(Context.class)));
     }
 }
