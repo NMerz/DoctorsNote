@@ -16,12 +16,16 @@ import java.util.Map;
 public class GetMessages implements RequestHandler<Map<String,Object>, MessageGetter.GetMessagesResponse> {
 
     public MessageGetter.GetMessagesResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        MessageGetter messageGetter = new MessageGetter(Connector.getConnection());
+        MessageGetter messageGetter = makeMessageGetter();
         MessageGetter.GetMessagesResponse response = messageGetter.get(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
         }
         return response;
+    }
+
+    public MessageGetter makeMessageGetter() {
+        return new MessageGetter(Connector.getConnection());
     }
 
     public static void main(String[] args) {
