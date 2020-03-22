@@ -18,12 +18,16 @@ public class AddMessage implements RequestHandler<Map<String,Object>, MessageAdd
 
     @Override
     public MessageAdder.AddMessageResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        MessageAdder messageAdder = new MessageAdder(Connector.getConnection());
+        MessageAdder messageAdder = makeMessageAdder();
         MessageAdder.AddMessageResponse response = messageAdder.add(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
         }
         return response;
+    }
+
+    public MessageAdder makeMessageAdder() {
+        return new MessageAdder(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
