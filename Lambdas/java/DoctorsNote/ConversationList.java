@@ -16,12 +16,16 @@ import java.util.Map;
 public class ConversationList implements RequestHandler<Map<String,Object> , Object> {
 
     public ListConversations.ConversationListResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        ListConversations listConversations = new ListConversations(Connector.getConnection());
+        ListConversations listConversations = makeListConversations();
         ListConversations.ConversationListResponse response = listConversations.list(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
         }
         return response;
+    }
+
+    public ListConversations makeListConversations() {
+        return new ListConversations(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
