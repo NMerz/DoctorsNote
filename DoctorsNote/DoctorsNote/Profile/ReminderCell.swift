@@ -17,10 +17,8 @@ class ReminderCell: UITableViewCell {
     @IBOutlet weak var reminderTitle: UILabel!
     @IBOutlet weak var reminderFrequency: UILabel!
     
-    
     var delegate: ReminderCellDelegate?
     var reminderItem: Reminder!
-    
     
     // get index of table cell
     var tableView: UITableView? {

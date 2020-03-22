@@ -14,8 +14,10 @@ var remindersList = [Reminder]()
 
 class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ReminderCellDelegate {
     
-    
     @IBOutlet weak var remindersTableView: UITableView!
+    
+    var selectedReminder: Reminder?
+    var indexPathForButton: IndexPath?
     
     override func viewDidAppear(_ animated: Bool) {
         remindersTableView.reloadData()
@@ -24,19 +26,43 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     override func viewDidLoad() {
         navigationItem.title = "Reminders"
         super.viewDidLoad()
+        self.selectedReminder = Reminder()
+        self.indexPathForButton = IndexPath()
 
         // Do any additional setup after loading the view.
     }
     
-    // ReminderCellDelegate protocol stub
+    
+    // ReminderCellDelegate protocol stub (onclick individual info button) NOT NECESSARY?
     func didTapReminderInfo(reminder: Reminder) {
-        // TODO: Open editing page
-        let alertTitle = "Watch Later"
-        let message = "\(reminder.reminder ?? "nil") will be edited"
-        
-        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alert, animated: true, completion: nil)
+        self.selectedReminder = reminder
+        print("didTap selected reminder: \(self.selectedReminder!.reminder ?? "nil")")
+//        let alertTitle = "Edit alert"
+//        let message = "\(reminder.reminder ?? "nil") will be edited"
+//
+//        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+//        present(alert, animated: true, completion: nil)
+    }
+    
+    // Order: 1. onInfoButtonTap 2. prepare 3. didTapReminderInfo
+    // Apparently delegate function gets called last which makes sense
+    @IBAction func onInfoButtonTap(_ sender: Any) {
+        print("onInfoButtonTap")
+        let button = sender as! UIButton
+        let cell = button.superview!.superview! as! ReminderCell
+        indexPathForButton = remindersTableView.indexPath(for: cell)
+    }
+    
+    // Send info to segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toEditReminder" {
+            self.selectedReminder = remindersList[indexPathForButton!.row]
+            let editReminderVC = segue.destination as! EditReminderVC
+            editReminderVC.selectedReminder = self.selectedReminder
+            editReminderVC.indexPathForButton = self.indexPathForButton
+            print("prepare selected reminder: \(self.selectedReminder!.reminder ?? "nil")")
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,14 +105,5 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         return 100
     }
         
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
