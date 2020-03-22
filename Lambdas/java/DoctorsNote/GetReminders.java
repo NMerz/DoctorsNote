@@ -18,12 +18,16 @@ public class GetReminders implements RequestHandler<Map<String,Object>, Reminder
     @Override
     public ReminderGetter.GetReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
         // Establish connection with MariaDB
-        ReminderGetter getter = new ReminderGetter(Connector.getConnection());
+        ReminderGetter getter = makeReminderGetter();
         ReminderGetter.GetReminderResponse response = getter.get(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
         }
         return response;
+    }
+
+    public ReminderGetter makeReminderGetter() {
+        return new ReminderGetter(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {

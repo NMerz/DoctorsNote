@@ -5,10 +5,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Date;
 
 /*
@@ -20,7 +17,7 @@ import java.util.Date;
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
 public class CreateConversation implements RequestHandler<String, String> {
-    private final String addMessageFormatString = "INSERT INTO Conversation (conversationName, lastMessageTime) VALUES (\'%s\', \'%s\');";
+    private final String addMessageFormatString = "INSERT INTO Conversation (conversationName, lastMessageTime, isSupportGroup) VALUES (?, ?, ?);";
 
     public String handleRequest(String jsonString, Context context) {
         try {
@@ -33,11 +30,13 @@ public class CreateConversation implements RequestHandler<String, String> {
             Connection connection = getConnection();
 
             // Write to database
-            Statement statement = connection.createStatement();
-            String writeRowString = String.format(addMessageFormatString,
-                    request.getConversationName(),
-                    (new java.sql.Timestamp((new Date()).getTime())).toString());
-            statement.executeUpdate(writeRowString);
+            PreparedStatement statement = connection.prepareStatement(addMessageFormatString);
+            statement.setString(1, request.getConversationName());
+            statement.setString(2, (new java.sql.Timestamp((new Date()).getTime())).toString());
+            statement.setInt(3, 0);  // TODO: Update to pull from passed value; API not currently used so not a priority
+            int res = statement.executeUpdate();
+
+            // TODO: Update Conversation_has_User as well
 
             // Disconnect connection with shortest lifespan possible
             connection.close();

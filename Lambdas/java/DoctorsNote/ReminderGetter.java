@@ -29,8 +29,6 @@ public class ReminderGetter {
             statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("since").toString())));
             System.out.println(statement);
             ResultSet reminderRS = statement.executeQuery();
-            //statement.execute(addReminderFormatString);
-            //statement.executeUpdate(writeRowString);
 
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();

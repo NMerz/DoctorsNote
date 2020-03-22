@@ -27,8 +27,6 @@ public class AddReminder implements RequestHandler<Map<String,Object>, ReminderA
         return response;
     }
 
-
-
     public static void main(String[] args) throws IllegalStateException {
         throw new IllegalStateException();
     }
