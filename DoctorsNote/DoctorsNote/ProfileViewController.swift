@@ -10,6 +10,7 @@ import UIKit
 import PopupKit
 import AWSCognito
 import AWSMobileClient
+import UserNotifications
 
 class ProfileViewController: UIViewController {
    
@@ -19,9 +20,42 @@ class ProfileViewController: UIViewController {
     var mask: CAShapeLayer?
     
     var p: PopupView?
+    @IBOutlet weak var remindersPreviewView: UIView!
+    @IBOutlet weak var remindersPreviewLabel: UILabel!
+    @IBOutlet weak var viewRemindersButton: UIButton!
+    
+    override func viewDidAppear(_ animated: Bool) {
+        remindersPreviewLabel.text = "You currently have \(remindersList.count) reminder(s)."
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        // 1. Ask for notifiction permission
+//        let center = UNUserNotificationCenter.current()
+//        center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+//            // TODO: if !granted, tell user they can change notification settings later on
+//        }
+//        
+//        // 2. Create notification content
+//        let content = UNMutableNotificationContent()
+//        content.title = "Reminder"
+//        content.body = "Reminder name"
+//        content.sound = UNNotificationSound.default
+//
+//        // 3. Create notification trigger (modify this)
+//        let date = Date().addingTimeInterval(30)
+//        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+//        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+//
+//        // 4. Create the request
+//        let uuidString = UUID().uuidString
+//        let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+//
+//        // 5. Register request with notification center
+//        center.add(request) { (error) in
+//            // Check the error parameter and handle any errors
+//        }
 
         logOutButton.semanticContentAttribute = UIApplication.shared
         .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
@@ -49,6 +83,10 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
+        //personalInfoView.layer.mask = mask
+        remindersPreviewView.bringSubviewToFront(viewRemindersButton)
+        remindersPreviewLabel.text = "You currently have \(remindersList.count) reminder(s)."
+        
         
     }
 
@@ -128,3 +166,5 @@ class ProfileViewController: UIViewController {
     }
     
 }
+
+

@@ -15,7 +15,8 @@ class DoctorProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        CognitoHelper.sharedHelper.getWorkHours(doctor: User.init(uid: 1234)) { (success, hours) in
+        // FIXME: Actually implement
+        CognitoHelper.sharedHelper.getWorkHours(doctor: User.init(uid: "1234")) { (success, hours) in
             if (success) {
                 DispatchQueue.main.async {
                     self.hoursLabel.text = hours

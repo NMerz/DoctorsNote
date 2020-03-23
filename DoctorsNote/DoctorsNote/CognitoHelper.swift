@@ -33,8 +33,8 @@ class CognitoHelper {
                         // Needs to set up profile. Should to go create profile screen
                         onDone(false, AWSMobileClientError.invalidParameter(message: "Need to set up profile"))
                     } else {
+                        CognitoHelper.user = User(uid: AWSMobileClient.default().username!, dict: dict!)
                         onDone(true, AWSMobileClientError.aliasExists(message: "The user exists!"))
-                        CognitoHelper.user = User(uid: Int(dict!["custom:userID"]!)!, dict: dict!)
                     }
                 }
             }
@@ -51,7 +51,7 @@ class CognitoHelper {
             // Checks if the user's information is initialized
             if let _ = dict!["name"] {
                 // Needs to set up profile. Should to go create profile screen
-                CognitoHelper.user = User(uid: Int(dict!["custom:userID"]!)!, dict: dict!)
+                CognitoHelper.user = User(uid: AWSMobileClient.default().username!, dict: dict!)
                 onDone(true)
             } else {
                 onDone(false)

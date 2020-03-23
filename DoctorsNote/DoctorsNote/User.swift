@@ -11,7 +11,7 @@ import AWSMobileClient
 import AWSCognito
 
 class User {
-    private let uid: Int
+    private let uid: String
     private var email: String
     private var firstName: String
     private var middleName: String
@@ -22,7 +22,7 @@ class User {
     private var phoneNumber: String
     private var healthSystems: [HealthSystem]
     
-    init (uid: Int, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, healthSystems: [HealthSystem]) {
+    init (uid: String, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, healthSystems: [HealthSystem]) {
         self.uid = uid
         self.email = email
         self.firstName = firstName
@@ -35,7 +35,7 @@ class User {
         self.phoneNumber = phoneNumber
     }
     
-    convenience init! (uid: Int) {
+    convenience init! (uid: String) {
         let connector = Connector()
         let connectionProcessor = ConnectionProcessor(connector: connector)
         let (potentialUser, potentialError) = connectionProcessor.processUser(url: ConnectionProcessor.standardUrl(), uid: uid)
@@ -49,7 +49,7 @@ class User {
 //        return nil
     }
     
-    init(uid: Int, dict: [String:String]) {
+    init(uid: String, dict: [String:String]) {
         self.uid = uid
         self.email = dict["email"]!
         self.firstName = dict["name"]!
@@ -70,7 +70,7 @@ class User {
         self.healthSystems = [HealthSystem()]
     }
     
-    func getUID() -> Int {
+    func getUID() -> String {
         return uid
     }
     

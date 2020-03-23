@@ -147,7 +147,7 @@ class ConnectionProcessor {
             print(conversation["lastMessageTime"] as? TimeInterval)
             print(conversation["status"] as? Int)
             if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? Int) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! Int), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["status"] as! Int != 0)
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! String), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["status"] as! Int != 0)
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -156,14 +156,14 @@ class ConnectionProcessor {
         return (conversations, potentialError)
     }
     
-    func processUser(url: String, uid: Int) -> (User?, ConnectionError?) {
+    func processUser(url: String, uid: String) -> (User?, ConnectionError?) {
         //Placeholder
-        return (User(uid: -1, email: "placeholder", firstName: "place", middleName: "", lastName: "holder", dateOfBirth: Date(), address: "nowhere", sex: "None", phoneNumber:"", healthSystems: [HealthSystem]()), nil)
+        return (User(uid: "-1", email: "placeholder", firstName: "place", middleName: "", lastName: "holder", dateOfBirth: Date(), address: "nowhere", sex: "None", phoneNumber:"", healthSystems: [HealthSystem]()), nil)
     }
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
         //Placeholder
-        return (Conversation(conversationID: -1, conversationPartner: User(uid: -1)!, lastMessageTime: Date(), unreadMessages: false), nil)
+        return (Conversation(conversationID: -1, conversationPartner: User(uid: "-1")!, lastMessageTime: Date(), unreadMessages: false), nil)
     }
     
     func processMessages(url: String, conversation: Conversation, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message]? {
@@ -197,7 +197,7 @@ class ConnectionProcessor {
             }
             let message = messageDict as! [String : Any?]
             if ((message["messageID"] as? Int) != nil) && ((message["conversationID"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["senderID"] as? Int) != nil) {
-                let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["senderID"] as! Int))
+                let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["senderID"] as! String))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
