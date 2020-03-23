@@ -11,20 +11,24 @@ import UserNotifications
 import UIKit
 
 class NotificationPublisher: NSObject {
+    private var thisIdentifier: String?
     
-    func sendNotification(title: String, body: String, badge: Int?, delayInterval: Int?) {
+    func sendReminderNotification(title: String, body: String, badge: Int?, numTimesDaily: Int, everyNumDays: Int) {
         // Create notification content
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
         content.sound = UNNotificationSound.default
         
-        var delayTimeTrigger: UNTimeIntervalNotificationTrigger?
+        // TODO modify for backend
+//        content.categoryIdentifier = "Reminder"
+//        content.userInfo = ["userId": "thisID"]
         
-        if let delayInterval = delayInterval {
-            delayTimeTrigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(delayInterval), repeats: false)
-            
-        }
+        var delayTimeTrigger: UNTimeIntervalNotificationTrigger?
+        // 86400 seconds in a day
+        // TODO: fix repeating time interval logic lol, maybe change everyNumDays variable
+        let delayInterval = (86400 * Double(everyNumDays)) / Double(numTimesDaily)
+        delayTimeTrigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(delayInterval >= 60 ? delayInterval: 60), repeats: true)
         
         if let badge = badge {
             var currentBadgeCount = UIApplication.shared.applicationIconBadgeNumber
@@ -35,8 +39,9 @@ class NotificationPublisher: NSObject {
         UNUserNotificationCenter.current().delegate = self
         
         // Create request
-        //let uuidString = UUID().uuidString // identifier
-        let request = UNNotificationRequest(identifier: "LocalNotification", content: content, trigger: delayTimeTrigger)
+        let uuidString = UUID().uuidString // identifier
+        self.thisIdentifier = uuidString
+        let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: delayTimeTrigger)
         
         // Register request with notification center
         UNUserNotificationCenter.current().add(request) { (error) in
@@ -44,6 +49,12 @@ class NotificationPublisher: NSObject {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func removeReminderNotification() {
+        // error check if self.thisIdentifier is nil
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.thisIdentifier!])
+        print("removed notification")
     }
 }
 

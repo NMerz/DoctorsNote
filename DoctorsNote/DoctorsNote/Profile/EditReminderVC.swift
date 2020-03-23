@@ -14,7 +14,7 @@ class EditReminderVC: UIViewController {
     @IBOutlet weak var editEveryNumDaysField: UITextField!
     @IBOutlet weak var editReminderDescriptionField: UITextField!
     @IBOutlet weak var editReminderButton: UIButton!
-    
+        
     @IBAction func editReminderButtonAction(_ sender: Any) {
         if editReminderField.text != "" {
             if editNumTimesADayField.text != "" {
@@ -29,6 +29,14 @@ class EditReminderVC: UIViewController {
                     
                     remindersList[indexPathForButton!.row] = newReminder
                     
+                    // Remove previous notification info
+                    notificationsList[indexPathForButton!.row].removeReminderNotification()
+                    
+                    // update notification info
+                    let notificationPublisher = NotificationPublisher()
+                    notificationPublisher.sendReminderNotification(title: "Reminder", body: "\(newReminder.reminder ?? "")", badge: 1, numTimesDaily: Int(newReminder.numTimesADay!) ?? 1, everyNumDays: Int(newReminder.everyNumDays!) ?? 1)
+                    notificationsList[indexPathForButton!.row] = notificationPublisher
+                                        
                     // Confirm edit completed
                     let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                     let alertController2 = UIAlertController(title: "Edit Complete", message: "Your reminder has been updated.", preferredStyle: .alert)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+var notificationsList = [NotificationPublisher]()
 
 class AddReminderVC: UIViewController {
     @IBOutlet weak var newReminderField: UITextField!
@@ -14,9 +15,7 @@ class AddReminderVC: UIViewController {
     @IBOutlet weak var everyNumDaysField: UITextField!
     @IBOutlet weak var newReminderDescriptionField: UITextField!
     @IBOutlet weak var addReminderButton: UIButton!
-    
-    private let notificationPublisher = NotificationPublisher()
-    
+        
     @IBAction func addReminderButtonAction(_ sender: Any) {
         if newReminderField.text != "" {
             if numTimesADayField.text != "" {
@@ -36,7 +35,10 @@ class AddReminderVC: UIViewController {
                     everyNumDaysField.text = ""
                     newReminderDescriptionField.text = ""
                     
-                    notificationPublisher.sendNotification(title: "Reminder", body: "\(newReminder.reminder ?? "")", badge: 1, delayInterval: nil)
+                    // TODO: better error check for integer casting
+                    let notificationPublisher = NotificationPublisher()
+                    notificationPublisher.sendReminderNotification(title: "Reminder", body: "\(newReminder.reminder ?? "")", badge: 1, numTimesDaily: Int(newReminder.numTimesADay!) ?? 1, everyNumDays: Int(newReminder.everyNumDays!) ?? 1)
+                    notificationsList.append(notificationPublisher)
                 }
             }
         }
