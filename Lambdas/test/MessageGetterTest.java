@@ -1,5 +1,4 @@
-import DoctorsNote.ListConversations;
-import com.amazonaws.services.lambda.runtime.CognitoIdentity;
+import DoctorsNote.MessageGetter;
 import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,57 +11,53 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-public class ConversationListTest {
+public class MessageGetterTest {
     Connection connectionMock;
     Context contextMock;
-    CognitoIdentity identityMock;
 
     @Before
     public void beforeTests() {
         connectionMock = Mockito.mock(Connection.class);
         contextMock = Mockito.mock(Context.class);
-        identityMock = Mockito.mock(CognitoIdentity.class);
-        Mockito.when(contextMock.getIdentity()).thenReturn(identityMock);
-        Mockito.when(identityMock.getIdentityId()).thenReturn("mock string");
-        Mockito.when(identityMock.getIdentityPoolId()).thenReturn("mock string");
     }
 
     private HashMap getSampleMap() {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
+        jsonBody.put("conversationID", "0000000001");
+        jsonBody.put("numberToRetrieve", "20");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
-        context.put("dn-user-id", "dn-id123"); //Note: not an accurate length for sample id
         topMap.put("context", context);
         return topMap;
     }
 
     @Test()
     public void testEmptyInputs() {
-        ListConversations listConversations = new ListConversations(connectionMock);
-        Assert.assertEquals(null, listConversations.list(new HashMap<>(), contextMock));
+        MessageGetter messageGetter = new MessageGetter(connectionMock);
+        Assert.assertEquals(null, messageGetter.get(new HashMap<>(), contextMock));
     }
 
     @Test()
     public void testMissingInput() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("context");
-        ListConversations listConversations = new ListConversations(connectionMock);
-        Assert.assertEquals(null, listConversations.list(incompleteMap, contextMock));
+        MessageGetter messageGetter = new MessageGetter(connectionMock);
+        Assert.assertEquals(null, messageGetter.get(incompleteMap, contextMock));
     }
 
     @Test()
     public void testBadInput() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("context")).put("dn-user-id", 1);
-        ListConversations listConversations = new ListConversations(connectionMock);
-        Assert.assertEquals(null, listConversations.list(incompleteMap, contextMock));
+        MessageGetter messageGetter = new MessageGetter(connectionMock);
+        Assert.assertEquals(null, messageGetter.get(incompleteMap, contextMock));
     }
 
     @Test()
     public void testConnectionError() {
         HashMap incompleteMap = getSampleMap();
-        ListConversations listConversations = new ListConversations(connectionMock);
+        MessageGetter messageGetter = new MessageGetter(connectionMock);
         try {
             PreparedStatement statementMock = Mockito.mock(PreparedStatement.class);
             Mockito.when(statementMock.executeUpdate()).thenThrow(new RuntimeException());
@@ -70,7 +65,7 @@ public class ConversationListTest {
         } catch (SQLException e) {
             Assert.fail();
         }
-        Assert.assertEquals(null, listConversations.list(incompleteMap, contextMock));
+        Assert.assertEquals(null, messageGetter.get(incompleteMap, contextMock));
     }
 
     @Test()
@@ -86,7 +81,7 @@ public class ConversationListTest {
         } catch (SQLException e) {
             Assert.fail();
         }
-        ListConversations listConversations = new ListConversations(connectionMock);
-        Assert.assertNotNull(listConversations.list(completeMap, contextMock));
+        MessageGetter messageGetter = new MessageGetter(connectionMock);
+        Assert.assertNotNull(messageGetter.get(completeMap, contextMock));
     }
 }

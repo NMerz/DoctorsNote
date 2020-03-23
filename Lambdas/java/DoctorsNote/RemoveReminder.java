@@ -6,21 +6,20 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import java.util.Map;
 
 /*
- * A Lambda handler for adding reminders for a user.
+ * A Lambda handler for removing reminders from a user.
  *
- * Expects: A JSON body with the following fields: content (String), remindee (String), creator (String), timeCreated (long), alertTime (long)
+ * Expects: A JSON body with the following fields: reminderID (String)
  * Returns: TBD
  *
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
 
-public class AddReminder implements RequestHandler<Map<String,Object>, ReminderAdder.AddReminderResponse> {
-
+public class RemoveReminder implements RequestHandler<Map<String,Object>, ReminderRemover.RemoveReminderResponse> {
     @Override
-    public ReminderAdder.AddReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
+    public ReminderRemover.RemoveReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
         // Establish connection with MariaDB
-        ReminderAdder adder = new ReminderAdder(Connector.getConnection());
-        ReminderAdder.AddReminderResponse response = adder.add(inputMap, context);
+        ReminderRemover remover = new ReminderRemover(Connector.getConnection());
+        ReminderRemover.RemoveReminderResponse response = remover.remove(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
         }
