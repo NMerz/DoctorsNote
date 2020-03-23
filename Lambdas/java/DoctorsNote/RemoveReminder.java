@@ -18,12 +18,16 @@ public class RemoveReminder implements RequestHandler<Map<String,Object>, Remind
     @Override
     public ReminderRemover.RemoveReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
         // Establish connection with MariaDB
-        ReminderRemover remover = new ReminderRemover(Connector.getConnection());
+        ReminderRemover remover = makeReminderRemover();
         ReminderRemover.RemoveReminderResponse response = remover.remove(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
         }
         return response;
+    }
+
+    public ReminderRemover makeReminderRemover() {
+        return new ReminderRemover(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {

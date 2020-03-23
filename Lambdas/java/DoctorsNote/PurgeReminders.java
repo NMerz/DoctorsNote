@@ -20,12 +20,16 @@ public class PurgeReminders implements RequestHandler<Map<String,Object>, Remind
     @Override
     public ReminderPurger.PurgeReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
         // Establish connection with MariaDB
-        ReminderPurger purger = new ReminderPurger(Connector.getConnection());
+        ReminderPurger purger = makeReminderPurger();
         ReminderPurger.PurgeReminderResponse response = purger.purge(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
         }
         return response;
+    }
+
+    public ReminderPurger makeReminderPurger() {
+        return new ReminderPurger(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
