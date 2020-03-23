@@ -28,7 +28,7 @@ class TestUserSignIn: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testUserSignIn() {
+    func testUserSignInAndOut() {
         // Check if signed in
         app?.buttons["Log In"].tap()
         XCTAssertNotEqual(app!.staticTexts.element(matching:.any, identifier: "Error Label").label, "")
@@ -61,7 +61,9 @@ class TestUserSignIn: XCTestCase {
         sleep(2)
         XCTAssertFalse(app!.buttons["Log In"].isHittable)
         
-        
+        let logOutButton = app!.buttons["Log Out"].tap()
+        sleep(2)
+        XCTAssertFalse(app!.buttons["Log Out"].isHittable)
     }
 
 }
