@@ -15,6 +15,8 @@ class AddReminderVC: UIViewController {
     @IBOutlet weak var newReminderDescriptionField: UITextField!
     @IBOutlet weak var addReminderButton: UIButton!
     
+    private let notificationPublisher = NotificationPublisher()
+    
     @IBAction func addReminderButtonAction(_ sender: Any) {
         if newReminderField.text != "" {
             if numTimesADayField.text != "" {
@@ -33,6 +35,8 @@ class AddReminderVC: UIViewController {
                     numTimesADayField.text = ""
                     everyNumDaysField.text = ""
                     newReminderDescriptionField.text = ""
+                    
+                    notificationPublisher.sendNotification(title: "Reminder", body: "\(newReminder.reminder ?? "")", badge: 1, delayInterval: nil)
                 }
             }
         }
