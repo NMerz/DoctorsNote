@@ -222,7 +222,7 @@
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Authorization</stringProp>
-              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWRkcmVzcyI6eyJmb3JtYXR0ZWQiOiJncmFoYW1yZCJ9LCJnZW5kZXIiOiJNYWxlIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfQ29icmcxa0JuIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiMzdkNmE3NTgtZTc5Zi00NDJmLWFmNDktNmJmZjc4YzhhZDEwIiwibWlkZGxlX25hbWUiOiJCdXJrIiwiY3VzdG9tOnVzZXJJRCI6IjEyMzQ1Njc4OSIsImF1ZCI6IjRvZHU4bzRmbmVmNGV2N2Jvb2htYzFkOHRvIiwiZXZlbnRfaWQiOiI3MWQyN2MyYS1kODJjLTQ0MjEtYmUyMC01NGRiNDRiMDk2ODAiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU4MzUxMzMyMSwibmFtZSI6IkJlbiIsInBob25lX251bWJlciI6IisxODEyODAxNzY5OCIsImV4cCI6MTU4MzUxNjkyMSwiaWF0IjoxNTgzNTEzMzIxLCJmYW1pbHlfbmFtZSI6IkhhcmRpbiIsImVtYWlsIjoiaGFyZGluMzBAcHVyZHVlLmVkdSJ9.KMoUr3kQ3V9hmBXzVoeE6nADUGCQNtwrKR1H1rk9F1clDNQaKqrAUjS0jC2-JWzXW6jrorcs7C0mXqzlV5Mzih0VFVlePbayfsTymJfIYI7ZypbwtpS6cK_rGjQno5b5rA7QP0N3pp-bCzjfYogKLmb_ScAtcYb7ykf0r85MSjXmattw9y30UzRHhXxURbzqEXkr6oRa28prxHoDmdMzq94jz-h-68nRx5hX3kH9BvQvO9c8INULOzgjhyhqa9KOHdFNm7aDQPbmprlHyfvLvvzwEmN2VK2N_76lZT0DnC2s4_qZv68HZZ1h48wEA2bPhPWIELZnQ8xims0KXZNHGg</stringProp>
+              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWRkcmVzcyI6eyJmb3JtYXR0ZWQiOiIzOTgwIE4gR3JhaGFtIFJkIE1hZGlzb24gSU4gNDcyNTAifSwiYmlydGhkYXRlIjoiMDNcLzA4XC8yMDIwIiwiZ2VuZGVyIjoiTWFsZSIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTIuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0yX0NvYnJnMWtCbiIsInBob25lX251bWJlcl92ZXJpZmllZCI6ZmFsc2UsImNvZ25pdG86dXNlcm5hbWUiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJtaWRkbGVfbmFtZSI6IkJ1cmsiLCJjdXN0b206dXNlcklEIjoiMTIzNDU2Nzg5IiwiYXVkIjoiNG9kdThvNGZuZWY0ZXY3Ym9vaG1jMWQ4dG8iLCJldmVudF9pZCI6IjU5N2E1MDBlLWVhNTctNGYxZC1hY2VmLTYzYTBhNmMzYjYxMCIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTgzNjkzMDkzLCJuYW1lIjoiQmVuamFtaW4iLCJwaG9uZV9udW1iZXIiOiIrMTEyMzQ1Njc4OTAiLCJleHAiOjE1ODM2OTY2OTMsImlhdCI6MTU4MzY5MzA5MywiZmFtaWx5X25hbWUiOiJIYXJkaW4iLCJlbWFpbCI6ImhhcmRpbjMwQHB1cmR1ZS5lZHUifQ.SDKN4KznE5kqyBLe2O-MleeUovodFI3_SzGhXlXeNX2QXz9rnfefWn1a24-JH3pqKNx5_VhRt6MdCBBA6uScaLdjEmmGrreC3emMB1HPtDBaGAy1YeK4KFb4q_3zZZjIp7iWQWc0wgYRQBFLaj0GhR63385XmvnjWni2lx27fHYqPndpyxV9Df1OZ_rqpApvLgkUTTCNZi70pNYXTyy6za61-5IX6bb2VLsf-AHY9JvKglcIu6wQ2C6b7De6ak4uRBJp7PTQuNWOMKzA529Uk2fKoHvpV9AU6pMXfwMsrJ1eB_UYufwszb1tvms0jeBhA3EY9oMnPx41wD8E60AsHg</stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>
@@ -342,9 +342,9 @@
             <boolProp name="ISREGEX">true</boolProp>
           </JSONPathAssertion>
           <hashTree/>
-          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert converserID is a number" enabled="true">
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert converserID is a cognito ID" enabled="true">
             <stringProp name="JSON_PATH">$.conversationList.[0].converserID</stringProp>
-            <stringProp name="EXPECTED_VALUE">[0-9][0-9]*</stringProp>
+            <stringProp name="EXPECTED_VALUE">....................................</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
             <boolProp name="INVERT">false</boolProp>
@@ -454,16 +454,16 @@
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert messageID is a number" enabled="true">
             <stringProp name="JSON_PATH">$.messages.[0].messageId</stringProp>
-            <stringProp name="EXPECTED_VALUE">[0-9][0-9]*</stringProp>
+            <stringProp name="EXPECTED_VALUE">[0-9]+</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
             <boolProp name="INVERT">false</boolProp>
             <boolProp name="ISREGEX">true</boolProp>
           </JSONPathAssertion>
           <hashTree/>
-          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert senderID is a number" enabled="true">
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert senderID is a cognito ID" enabled="true">
             <stringProp name="JSON_PATH">$.messages.[0].sender</stringProp>
-            <stringProp name="EXPECTED_VALUE">[0-9]+</stringProp>
+            <stringProp name="EXPECTED_VALUE">....................................</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
             <boolProp name="INVERT">false</boolProp>
@@ -486,7 +486,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;senderID&quot;: &quot;123456789&quot;, &quot;conversationID&quot;: 10, &quot;content&quot;: &quot;testPost${PostAppendage}&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;conversationID&quot;: 10, &quot;content&quot;: &quot;testPost${PostAppendage}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -701,16 +701,6 @@
           <stringProp name="TestPlan.comments">Required that this runs after reminderAdd Test</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Status Code assertion" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="49586">200</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">8</intProp>
-          </ResponseAssertion>
-          <hashTree/>
           <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
@@ -747,6 +737,25 @@
             </objProp>
             <stringProp name="filename"></stringProp>
           </ResultCollector>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Status Code assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert reminderID is a number" enabled="true">
+            <stringProp name="JSON_PATH">$.reminders.[0].reminderID</stringProp>
+            <stringProp name="EXPECTED_VALUE">[0-9][0-9]*</stringProp>
+            <boolProp name="JSONVALIDATION">true</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">false</boolProp>
+          </JSONPathAssertion>
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert at least one element" enabled="true">
             <stringProp name="JSON_PATH">$.reminders.[0]</stringProp>
@@ -919,16 +928,6 @@
           <stringProp name="TestPlan.comments">Required that this runs after reminderAdd Test</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Status Code assertion" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="49586">200</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.custom_message"></stringProp>
-            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">8</intProp>
-          </ResponseAssertion>
-          <hashTree/>
           <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
             <boolProp name="ResultCollector.error_logging">false</boolProp>
             <objProp>
@@ -965,6 +964,25 @@
             </objProp>
             <stringProp name="filename"></stringProp>
           </ResultCollector>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Status Code assertion" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="49586">200</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.custom_message"></stringProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">8</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert reminderID is a number" enabled="true">
+            <stringProp name="JSON_PATH">$.reminders.[0].reminderID</stringProp>
+            <stringProp name="EXPECTED_VALUE">[0-9][0-9]*</stringProp>
+            <boolProp name="JSONVALIDATION">true</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">false</boolProp>
+          </JSONPathAssertion>
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert at least one element" enabled="true">
             <stringProp name="JSON_PATH">$.reminders.[0]</stringProp>
