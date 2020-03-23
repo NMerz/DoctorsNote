@@ -1,5 +1,5 @@
-import DoctorsNote.GetMessages;
-import DoctorsNote.MessageGetter;
+import DoctorsNote.RemoveReminder;
+import DoctorsNote.ReminderRemover;
 import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,34 +12,34 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-public class GetMessagesTest {
+public class RemoveReminderTest {
     Context contextMock;
-    GetMessages getMessages;
-    MessageGetter messageGetterMock;
+    RemoveReminder removeReminder;
+    ReminderRemover reminderRemoverMock;
 
     @Before
     public void beforeTests() {
         contextMock = Mockito.mock(Context.class);
-        getMessages = spy(new GetMessages());
-        messageGetterMock = Mockito.mock(MessageGetter.class);
-        doReturn(messageGetterMock).when(getMessages).makeMessageGetter();
+        removeReminder = spy(new RemoveReminder());
+        reminderRemoverMock = Mockito.mock(ReminderRemover.class);
+        doReturn(reminderRemoverMock).when(removeReminder).makeReminderRemover();
     }
 
     @Test
     public void testValidReturn() {
-        MessageGetter.GetMessagesResponse responseMock = Mockito.mock(MessageGetter.GetMessagesResponse.class);
-        when(messageGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
+        ReminderRemover.RemoveReminderResponse responseMock = Mockito.mock(ReminderRemover.RemoveReminderResponse.class);
+        when(reminderRemoverMock.remove(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
-        Assert.assertEquals(responseMock, getMessages.handleRequest(inputMap, contextMock));
+        Assert.assertEquals(responseMock, removeReminder.handleRequest(inputMap, contextMock));
     }
 
     @Test
     public void testInvalidReturn() {
-        when(messageGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(null);
+        when(reminderRemoverMock.remove(Mockito.anyMap(), Mockito.any())).thenReturn(null);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
 
         try {
-            getMessages.handleRequest(inputMap, contextMock);
+            removeReminder.handleRequest(inputMap, contextMock);
             Assert.fail();
         } catch (RuntimeException e) {
             Assert.assertEquals("Server experienced an error", e.getMessage());
