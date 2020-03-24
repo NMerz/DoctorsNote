@@ -33,7 +33,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
         print(newMessage.getBase64Content())
         connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
-        
+        reloadMessages()
         print("Pressed2")
     }
     
@@ -120,6 +120,20 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             
         }
     }
+    
+    func reloadMessages() {
+        var num = 5;
+        do {
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num))
+        } catch let error {
+            print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        }
+        //collectionView.removeFromSuperview()
+        collectionView.reloadData()
+        //view.addSubview(collectionView)
+    }
 
     /*
     // MARK: - Navigation
@@ -155,7 +169,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         //let convo = Conversation(conversationID: 15)
         cellM.delegate = self
         cellM.setupViews()
-       
+        cellM.showOutgoingMessage(text: String(data: self.messages.remove(at: messages.count - 1).getRawContent(), encoding: .utf8)!)
+        //print("Index path:" + ((indexPath as? String)!))
         
         return cellM
         // Configure the cell
@@ -180,7 +195,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 class FriendCellM: BaseCellM {
     
     var delegate: ChatLogController?
-    
+    var labelView: UILabel? = nil
     
     override func setupViews() {
         
@@ -206,7 +221,11 @@ class FriendCellM: BaseCellM {
     }()
         
     func showOutgoingMessage(text: String) {
-        let label =  UILabel()
+        if labelView != nil {
+            labelView!.removeFromSuperview()
+        }
+        labelView =  UILabel()
+        let label = labelView!
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .white
