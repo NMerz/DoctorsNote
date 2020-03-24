@@ -257,6 +257,7 @@
 				B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */,
 				B52ABE8D23F5B874007B3D6A /* Info.plist */,
 				B5AE73482415698600A9CDAE /* TestUserSignIn.swift */,
+				B587B55F2429907C00B6BF0D /* TestSupportGroups.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -649,6 +650,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5AE73492415698600A9CDAE /* TestUserSignIn.swift in Sources */,
+				B587B5602429907C00B6BF0D /* TestSupportGroups.swift in Sources */,
 				B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

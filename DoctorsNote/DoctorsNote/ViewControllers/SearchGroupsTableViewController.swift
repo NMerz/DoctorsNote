@@ -104,6 +104,7 @@ class SearchGroupCell: UITableViewCell {
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         closeButton.layer.mask = layer
+        closeButton.accessibilityLabel = "Close Button"
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
 
         
@@ -113,6 +114,7 @@ class SearchGroupCell: UITableViewCell {
         let joinLayer = CAShapeLayer()
         joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         joinButton.layer.mask = joinLayer
+        joinButton.accessibilityLabel = "Join Button"
         joinButton.addTarget(self, action: #selector(setDisplayName), for: .touchUpInside)
 
         contentView.addSubview(joinButton)
@@ -147,12 +149,15 @@ class SearchGroupCell: UITableViewCell {
                 }
             }
         }
+        setNameAction.accessibilityLabel = "Set Name Button"
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        cancelAction.accessibilityLabel = "Cancel Button"
         alertController.addAction(setNameAction)
         alertController.addAction(cancelAction)
         setNameAction.isEnabled = false
         
         alertController.addTextField { (textField) in
+            textField.accessibilityLabel = "Display Name Field"
             textField.placeholder = "Enter Display Name"
             
             // This segment of code borrowed from:
@@ -178,7 +183,9 @@ class SearchGroupCell: UITableViewCell {
     
     func showJoinAlert() {
         let joinAlert = UIAlertController(title: "Support Groups Notice", message: "Support groups are public forums. Do not post anything that you feel should not be shared with other group members.", preferredStyle: .alert)
-        joinAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        okAction.accessibilityLabel = "Ok Button"
+        joinAlert.addAction(okAction)
         DispatchQueue.main.async {
             self.delegate!.present(joinAlert, animated: true, completion: nil)
         }
