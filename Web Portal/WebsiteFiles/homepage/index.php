@@ -72,7 +72,8 @@ else
 <?php
 
 
-require '/var/app/current/vendor/autoload.php';
+//require '/var/app/current/vendor/autoload.php';
+require '../vendor/autoload.php';
 
 
 //Call structure from: https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-cognito-idp-2016-04-18.html#listusers
@@ -93,13 +94,17 @@ $resultPatient = $client->listUsers([
 
 
   foreach ($resultPatient["Users"] as $row) {
-    echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $row["Username"] ."</td>
-            <td class=\"cell100 column2\">". $row["Attributes"][2]["Value"] ." ". $row["Attributes"][3]["Value"] ."</td>
-            <td class=\"cell100 column3\"> - </td>
-            <td class=\"cell100 column4\">". $row["Attributes"][0]["Value"] ."</td>
-            <td class=\"cell100 column5\">". $row["Attributes"][1]["Value"] ."</td>
-          </tr>";
+    if (sizeof($row["Attributes"]) == 4) {
+
+      echo "<tr class=\"row100 head\">
+              <td class=\"cell100 column1\">". $row["Username"] ."</td>
+              <td class=\"cell100 column2\">". $row["Attributes"][2]["Value"] ." ". $row["Attributes"][3]["Value"] ."</td>
+              <td class=\"cell100 column3\"> - </td>
+              <td class=\"cell100 column4\">". $row["Attributes"][0]["Value"] ."</td>
+              <td class=\"cell100 column5\">". $row["Attributes"][1]["Value"] ."</td>
+            </tr>";
+
+    }
   }
 
 ?>
@@ -145,17 +150,18 @@ $resultDoctor = $client->listUsers([
     //'PaginationToken' => '<string>',
     'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
 ]);
-
-  if ($row["Attributes"][2]["Value"] == "Doctor") {
+  //if ($row["Attributes"][2]["Value"] != "Doctor") {
   foreach ($resultDoctor["Users"] as $row) {
-    echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $row["Username"] ."</td>
-            <td class=\"cell100 column2\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][3]["Value"] ."</td>
-            <td class=\"cell100 column3\">". $row["Attributes"][4]["Value"] ."</td>
-            <td class=\"cell100 column4\">". $row["Attributes"][0]["Value"] ."</td>
-          </tr>";
+    if (sizeof($row["Attributes"]) == 5) {
+      echo "<tr class=\"row100 head\">
+              <td class=\"cell100 column1\">". $row["Username"] ."</td>
+              <td class=\"cell100 column2\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][3]["Value"] ."</td>
+              <td class=\"cell100 column3\">". $row["Attributes"][4]["Value"] ."</td>
+              <td class=\"cell100 column4\">". $row["Attributes"][0]["Value"] ."</td>
+            </tr>";
+    }
   }
-}
+//}
 
 ?>
 								</tr>
@@ -182,8 +188,9 @@ $resultDoctor = $client->listUsers([
 									<th class="cell100 column1">Doctor ID</th>
 									<th class="cell100 column2">Doctor Name</th>
 									<th class="cell100 column3">Patient ID</th>
-                                                                        <th class="cell100 column4">Patient Name</th>
-									<th class="cell100 column5">Patient Birth Date</th>
+									<th class="cell100 column4">Patient Username</th>
+                                                                        <th class="cell100 column5">Patient Name</th>
+									<th class="cell100 column6">Patient Birth Date</th>
 								</tr>
 							</thead>
 						</table>
@@ -216,64 +223,50 @@ try {
   throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-
-//TODO: finish and test below
-$resultDoctor = $client->listUsers([
-    'AttributesToGet' => ['name', 'family_name', 'email', 'address', 'middle_name'], //TODO: fix these attributes. In particular, middle name should be replaced by the custom role
-    'Filter' => "status = \"Enabled\"", //Can only filter on certain default attributes
-    //'Limit' => <integer>,
-    //'PaginationToken' => '<string>',
-    'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
-]);
-  foreach ($resultDoctor["Users"] as $docrow) {
-
-    if ($docrow["Attributes"][2]["Value"] == "Doctor") {
-
-
-      $patientID = //Select from conversation has user where userid shared with doc's id ($docrow["Username"])
-      while ($patient = $resultPair-> fetch()) {
-
-        $resultPatient = $client->listUsers([
-          'AttributesToGet' => ['name', 'family_name', 'birthdate'],
-          'Filter' => "sub = \"$patientID\"",
-          //'Limit' => <integer>,
-          //'PaginationToken' => '<string>',
-          'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
-        ]);
-
-
-        foreach ($resultPatient["Users"] as $row) {
-          echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $docrow["Username"] ."</td>
-            <td class=\"cell100 column2\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][3]["Value"] ."</td>
-            <td class=\"cell100 column3\"> $row["Username"] </td>
-            <td class=\"cell100 column4\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][2]["Value"] ."</td>
-            <td class=\"cell100 column5\">". $row["Attributes"][0]["Value"] ."</td>
-            </tr>";
-        }
-      }
-    }
-  }
-
-
-
-/*$resultPair = $pdo->query("SELECT Doctor.doctorID, Doctor.Name as doc_name, Patient.patientID, Username, `Personal Information`.Name as pat_name, `Birth Date`
-                               FROM Doctor_has_Patient
-                               JOIN Doctor ON Doctor.doctorID = Doctor_has_Patient.doctorID
-                               JOIN Patient ON Doctor_has_Patient.patientID = Patient.patientID
-                               JOIN `Personal Information` ON `Personal Information`.personalInformationID = Patient.personalInformationID
-                               ORDER BY doc_name, pat_name;");
+$resultPair = $pdo->query("SELECT Doctor_has_Patient.doctorID, Doctor_has_Patient.patientID
+                               FROM Doctor_has_Patient");
 
   while ($row = $resultPair-> fetch()) {
-    echo "<tr class=\"row100 head\">
-            <td class=\"cell100 column1\">". $row["doctorID"] ."</td>
-              <td class=\"cell100 column2\">". $row["doc_name"] ."</td>
-              <td class=\"cell100 column3\">". $row["patientID"] ."</td>
-              <td class=\"cell100 column4\">". $row["Username"] ."</td>
-              <td class=\"cell100 column5\">". $row["pat_name"] ."</td>
-              <td class=\"cell100 column6\">". $row["Birth Date"] ."</td>
-          </tr>";
-  }*/
+    //get the doctor info from cognito
+    $resultDoctor = $client->listUsers([
+      'AttributesToGet' => ['name', 'family_name'], 
+      'Filter' => "username = \"". $row["doctorID"] . "\"", //Can only filter on certain default attributes
+      'Limit' => 1,
+      //'PaginationToken' => '<string>',
+      'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+      ]);
+    
+    // echo $resultDoctor . "\n"; //testing
+
+
+     //get the patient info from cognito
+     $resultPatient = $client->listUsers([
+      'AttributesToGet' => ['name', 'family_name', 'birthdate'], 
+      'Filter' => "username = \"". $row["patientID"] . "\"", //Can only filter on certain default attributes
+      'Limit' => 1,
+      //'PaginationToken' => '<string>',
+      'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+     ]);
+
+
+     if (sizeof($resultPatient["Users"]) >= 1 && sizeof($resultDoctor["Users"]) >= 1) {
+
+       $DoctorAttr = $resultDoctor["Users"][0]["Attributes"];
+       $PatientAttr = $resultPatient["Users"][0]["Attributes"];
+    
+       if (sizeof($DoctorAttr) == 2 && sizeof($PatientAttr) == 3) {
+    
+      echo "<tr class=\"row100 head\">
+              <td class=\"cell100 column1\">". $row["doctorID"] ."</td>
+                <td class=\"cell100 column2\">". $DoctorAttr[0]["Value"] ." ". $DoctorAttr[1]["Value"]  ."</td>
+                <td class=\"cell100 column3\">". $row["patientID"] ."</td>
+                <td class=\"cell100 column4\">"."</td>
+                <td class=\"cell100 column5\">". $PatientAttr[1]["Value"] ." ". $PatientAttr[2]["Value"]  ."</td>
+                <td class=\"cell100 column6\">". $PatientAttr[0]["Value"] ."</td>
+            </tr>";
+       }
+     }
+  }
 
 ?>
 								</tr>
@@ -290,9 +283,9 @@ $resultDoctor = $client->listUsers([
   echo "<br>";
   echo "<form class='form' method='post'>";
   echo "<label for='doctorIDinputPair' class='labelNice'>Doctor ID:</label>
-        <input class='input' type='number' name='doctorIDinputPair'/>";
+        <input class='input' name='doctorIDinputPair'/>";
   echo "<label for='patientIDinputPair' class = 'labelNice'>Patient ID:</label>
-        <input class='input' type='number' name='patientIDinputPair'/>";
+        <input class='input' name='patientIDinputPair'/>";
   //echo "<br />";
   echo "<input class='submit' type='submit' name='submitPair' value='update' />";
   echo "</form> <br>";
@@ -305,9 +298,45 @@ $resultDoctor = $client->listUsers([
     try {
       if (isset($doctorIDinputPair) && trim($doctorIDinputPair) != ''
           && isset($patientIDinputPair) && trim($patientIDinputPair) != '') {
-        $pdo->query("INSERT INTO Doctor_has_Patient (doctorID, patientID)
-                     VALUES ($doctorIDinputPair, $patientIDinputPair);");
-        echo "<h4>Successfully Updated!</h4>";
+
+        //test to see if the doctor and patient exist in cognito
+        $bothExist = true;
+        //doctor
+         $doctorToPair = $client->listUsers([
+          'AttributesToGet' => ['name', 'family_name', 'birthdate'], 
+          'Filter' => "username = \"". $doctorIDinputPair . "\"", //Can only filter on certain default attributes
+          'Limit' => 1,
+          //'PaginationToken' => '<string>',
+          'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+         ]);
+
+         if (count($doctorToPair["Users"]) == 0) {
+           echo "<h4>Pairing unsuccessful, make sure the doctor exists.</h4>";
+           $bothExist = false;
+         }
+
+
+       //patient
+         $patientToPair = $client->listUsers([
+          'AttributesToGet' => ['name', 'family_name', 'birthdate'], 
+          'Filter' => "username = \"". $patientIDinputPair . "\"", //Can only filter on certain default attributes
+          'Limit' => 1,
+          //'PaginationToken' => '<string>',
+          'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+         ]);
+
+         if (count($patientToPair["Users"]) == 0) {
+           echo "<h4>Pairing unsuccessful, make sure the patient exists.</h4>";
+           $bothExist = false;
+         }
+
+
+       //insert into database
+         if ($bothExist) {
+           $pdo->query("INSERT INTO Doctor_has_Patient (doctorID, patientID)
+                        VALUES (\"$doctorIDinputPair\", \"$patientIDinputPair\");");
+           echo "<h4>Successfully Updated!</h4>";
+         }
       }
     }
     catch (PDOException $e) {
@@ -327,9 +356,9 @@ $resultDoctor = $client->listUsers([
   echo "<br>";
   echo "<form class='form' method='post'>";
   echo "<label for='doctorIDinputUnpair' class='labelNice'>Doctor ID:</label>
-        <input class='input' type='number' name='doctorIDinputUnpair'/>";
+        <input class='input' name='doctorIDinputUnpair'/>";
   echo "<label for='patientIDinputUnpair' class = 'labelNice'>Patient ID:</label>
-        <input class='input' type='number' name='patientIDinputUnpair'/>";
+        <input class='input' name='patientIDinputUnpair'/>";
   //echo "<br />";
   echo "<input class='submit' type='submit' name='submitUnpair' value='update' />";
   echo "</form> <br>";
@@ -342,7 +371,7 @@ $resultDoctor = $client->listUsers([
     try {
       if (isset($doctorIDinputUnpair) && trim($doctorIDinputUnpair) != ''
           && isset($patientIDinputUnpair) && trim($patientIDinputUnpair) != '') {
-        $pdo->query("DELETE FROM Doctor_has_Patient WHERE doctorID = $doctorIDinputUnpair AND patientID = $patientIDinputUnpair;");
+        $pdo->query("DELETE FROM Doctor_has_Patient WHERE doctorID = \"$doctorIDinputUnpair\" AND patientID = \"$patientIDinputUnpair\";");
         echo "<h4>Success!</h4>";
       }
     }
