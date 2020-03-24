@@ -70,14 +70,15 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
+        return 4;
         if (isFiltering()) {
             return filteredConversationList!.count
         } else {
             if let l = conversationList {
-                //print(l.count)
+                print(l.count)
                 return l.count
             } else {
-                //print("NO ELEMENTS!")
+                print("NO ELEMENTS!")
                 return 0
             }
         }
@@ -87,7 +88,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
-        cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()
+        /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
 //        let df = DateFormatter()
 //        let calendar = Calendar.current

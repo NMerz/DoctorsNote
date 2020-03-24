@@ -6,13 +6,78 @@
 //  Copyright © 2020 Team7. All rights reserved.
 //
 
+
 import UIKit
+import AWSMobileClient
 
 private let reuseIdentifier = "Cell"
 
-class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     private let cellId = "cellId"
+    private var connectionProcessor = ConnectionProcessor(connector: Connector())
+    private var messages = [Message]()
+    private var messagesShown = 5
+    
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var messageText: UITextField!
+    
+    
+    @IBAction
+    func ourSendButtonClick() {
+        print("Pressed1")
+        print (messageText.text!)
+        //messages.append(messageText.text!)
+        if messageText.text == nil || messageText.text!.isEmpty || (messageText!.text?.data(using: .utf8)) == nil {
+            return
+        }
+        let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        print(newMessage.getBase64Content())
+        connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        reloadMessages()
+        print("Pressed2")
+    }
+    
+    //Credit for how to set up the ImagePickerDelagate goes to: https://www.youtube.com/watch?v=v8r_wD_P3B8
+    @IBAction
+    func imageSend() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        //comment out the line below when using simulator
+        imagePicker.sourceType = .camera
+        //imagePicker.allowsEditing = true
+        imagePicker.delegate = self
+        //imagePicker.sourceType = UIImagePickerController.SourceType.camera
+        self.present(imagePicker, animated: false) {
+            print("done picking")
+        }
+    }
+    
+    //Credit for how to set up the ImagePickerDelagate goes to: https://www.youtube.com/watch?v=v8r_wD_P3B8
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("Controller")
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            dismiss(animated: false)
+            return
+        }
+        print("pass guard")
+        var quality = 1.0
+        var content = image.jpegData(compressionQuality: 1)!
+        print(content.base64EncodedString().count)
+        while content.base64EncodedString().count > 6000000 { //AWS Gateway maxes out at 10 MB, ensure this is smaller. I was having issues with one of the stock simulator images at 8138448 bytes encoded, but had one working at 6.x MB and everything seems to work under 6MB.
+            quality *= 0.5
+            print("Shrinking to:" + String(quality))
+            content = image.jpegData(compressionQuality: CGFloat(quality))!
+        }
+        let newMessage = Message(messageID: -1, conversationID: 15, content: content) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
+
+        //print(newMessage.getContent())
+        let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        if (potentialError != nil) {
+            print(potentialError?.getMessage())
+        }
+        dismiss(animated: false)
+    }
     
     /*override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -23,9 +88,17 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }*/
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        connectionProcessor = ConnectionProcessor(connector: connector)
+        let tap = UITapGestureRecognizer(target:self.view,action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+        //sendButton.delegate = self
+        //messageText.delegate = self as! UITextFieldDelegate
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
+        
 
         // Register cell classes
         collectionView.alwaysBounceVertical = true
@@ -33,6 +106,34 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+        messagesShown = 5;
+        do {
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
+        } catch let error {
+            print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        }
+        
+        for message in messages {
+            print(message.getBase64Content())
+            //cellM.showOutgoingMessage(text: message.getBase64Content())
+            
+        }
+    }
+    
+    func reloadMessages() {
+        messagesShown += 1
+        do {
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
+        } catch let error {
+            print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        }
+        //collectionView.removeFromSuperview()
+        collectionView.reloadData()
+        //view.addSubview(collectionView)
     }
 
     /*
@@ -55,15 +156,22 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 4
+        if (messages.count == 0) {
+            return 5
+        }
+        else {
+            return messages.count
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         let cellM = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellM
+        //let convo = Conversation(conversationID: 15)
         cellM.delegate = self
         cellM.setupViews()
-        cellM.showOutgoingMessage(text: "TEST")
+        cellM.showOutgoingMessage(text: String(data: self.messages.remove(at: messages.count - 1).getRawContent(), encoding: .utf8)!)
+        //print("Index path:" + ((indexPath as? String)!))
         
         return cellM
         // Configure the cell
@@ -76,12 +184,19 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
 
 }
 
+/*extension ViewController = UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}*/
+
 
 
 class FriendCellM: BaseCellM {
     
     var delegate: ChatLogController?
-    
+    var labelView: UILabel? = nil
     
     override func setupViews() {
         
@@ -107,7 +222,11 @@ class FriendCellM: BaseCellM {
     }()
         
     func showOutgoingMessage(text: String) {
-        let label =  UILabel()
+        if labelView != nil {
+            labelView!.removeFromSuperview()
+        }
+        labelView =  UILabel()
+        let label = labelView!
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .white

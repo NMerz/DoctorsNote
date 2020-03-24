@@ -23,6 +23,7 @@ class User {
     private var healthSystems: [HealthSystem]
     
     init (uid: String, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, healthSystems: [HealthSystem]) {
+    init (uid: String, firstName: String, lastName: String, dateOfBirth: Date, address: String, healthSystems: [HealthSystem]) {
         self.uid = uid
         self.email = email
         self.firstName = firstName

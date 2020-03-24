@@ -1,38 +1,48 @@
 import DoctorsNote.AddMessage;
-
+import DoctorsNote.MessageAdder;
+import com.amazonaws.services.lambda.runtime.Context;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
+import org.mockito.Mockito;
+
+import java.util.HashMap;
+
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 public class AddMessageTest {
-    private AddMessage addMessage;
+    Context contextMock;
+    AddMessage addMessage;
+    MessageAdder messageAdderMock;
 
     @Before
-    public void before() {
-        addMessage = new AddMessage();
+    public void beforeTests() {
+        contextMock = Mockito.mock(Context.class);
+        addMessage = spy(new AddMessage());
+        messageAdderMock = Mockito.mock(MessageAdder.class);
+        doReturn(messageAdderMock).when(addMessage).makeMessageAdder();
     }
 
     @Test
-    public void testValidJSON() {
-        String actual = addMessage.handleRequest("{conversationId:\"12\",content:\"Hello world\",senderId:\"0000000000\"}", null);
-        Assert.assertEquals(actual, "{}");
+    public void testValidReturn() {
+        MessageAdder.AddMessageResponse responseMock = Mockito.mock(MessageAdder.AddMessageResponse.class);
+        when(messageAdderMock.add(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
+        HashMap<String, Object> inputMap = new HashMap<String, Object>();
+        Assert.assertEquals(responseMock, addMessage.handleRequest(inputMap, contextMock));
     }
 
     @Test
-    public void testInvalidJSON1() {
-        String actual = addMessage.handleRequest(null, null);
-        Assert.assertNull(actual);
+    public void testInvalidReturn() {
+        when(messageAdderMock.add(Mockito.anyMap(), Mockito.any())).thenReturn(null);
+        HashMap<String, Object> inputMap = new HashMap<String, Object>();
+
+        try {
+            addMessage.handleRequest(inputMap, contextMock);
+            Assert.fail();
+        } catch (RuntimeException e) {
+            Assert.assertEquals("Server experienced an error", e.getMessage());
+        }
     }
-
-    @Test
-    public void testInvalidJSON2() {
-        String actual = addMessage.handleRequest("{\"conversationId\"}", null);
-        Assert.assertNull(actual);
-    }
-
-    // Long term goal: Add an additional test that mocks the DBCredentialsProvider to
-    // return an invalid URL to test that it does not connect.
-
-    // Mockito is not currently a dependency so this can't be done right now without
-    // adding additional overhead to the package as a whole.
 }

@@ -34,6 +34,9 @@ class LoginViewController: UIViewController {
         loginButton.layer.mask = mask
         
 
+        let tap = UITapGestureRecognizer(target:self.view,action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     @IBAction func login(_ sender: Any) {
