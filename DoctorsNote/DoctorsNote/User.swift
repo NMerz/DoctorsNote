@@ -66,8 +66,12 @@ class User {
         self.address = dict["address"]!
         self.sex = dict["gender"]!
         self.phoneNumber = dict["phone_number"]!
-        // FIXME: Placeholder
-        self.healthSystems = [HealthSystem()]
+        let hospital = dict["custom:hospital"]!
+        let hospitalWebsite = dict["custom:hospital_website"]!
+        let healthcareProvider = dict["custom:healthcare_provider"]!
+        let healthcareWebsite = dict["custom:healthcare_website"]!
+        let system = HealthSystem(hospital: hospital, hospitalWebsite: hospitalWebsite, healthcareProvider: healthcareProvider, healthcareWebsite: healthcareWebsite)
+        self.healthSystems = [system]
     }
     
     func getUID() -> String {

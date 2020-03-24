@@ -97,11 +97,12 @@ class CognitoHelper {
         }
     }
     
-    func setUserRole(role:String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
+    func setHealthcareInformation(role:String, hospital:String, hospitalWebsite: String, healthcareProvider: String, healthcareWebsite:String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
         // Check if user is valid
         
         // Set user role
-        AWSMobileClient.default().updateUserAttributes(attributeMap: ["custom:role":role]) { (details, err) in
+        let map = ["custom:role":role, "custom:hospital":hospital, "custom:hospital_website":hospitalWebsite, "custom:healthcare_provider":healthcareProvider, "custom:healthcare_website":healthcareWebsite]
+        AWSMobileClient.default().updateUserAttributes(attributeMap: map) { (details, err) in
             if let err = err as? AWSMobileClientError {
                 onDone(false, err.message)
             } else {

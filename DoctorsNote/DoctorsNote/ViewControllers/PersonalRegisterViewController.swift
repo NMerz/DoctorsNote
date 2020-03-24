@@ -288,10 +288,14 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     var picker: UIPickerView?
     // To be gathered later from the database
     let hospitals = ["IU Health Arnett Hospital", "Franciscan Health Lafayette East"]
+    let hospitalWebsites = ["https://iuhealth.org/find-locations/iu-health-arnett-hospital", "https://www.franciscanhealth.org/healthcare-facilities/franciscan-health-lafayette-east-62"]
     var hospital: String?
+    var hospitalWebsite: String?
     
     let providers = ["Humana", "Aetna", "Other"]
+    let providerWebsites = ["https://humana.com", "https://aetna.com", ""]
     var provider: String?
+    var providerWebsite: String?
     
     let roles = ["Doctor", "Patient"]
     var role: String?
@@ -346,14 +350,14 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             return
         }
         
-        CognitoHelper.sharedHelper.setUserRole(role: role!) { (success, errMessage) in
+        CognitoHelper.sharedHelper.setHealthcareInformation(role: role!, hospital: hospital!, hospitalWebsite: hospitalWebsite!, healthcareProvider: provider!, healthcareWebsite: providerWebsite!, onDone: { (success, errMessage) in
             DispatchQueue.main.async {
                 self.errorLabel.text = errMessage
                 if (success) {
                     self.performSegue(withIdentifier: "finish", sender: self)
                 }
             }
-        }
+        })
         
     }
     
@@ -452,11 +456,12 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     @objc func dismissPopup(sender: UIButton!) {
         if (picker?.tag == 1) {
             hospital = hospitals[(picker?.selectedRow(inComponent: 0))!]
-            
+            hospitalWebsite = hospitalWebsites[(picker?.selectedRow(inComponent: 0))!]
             selectHospitalButton.setTitle(hospital, for: .normal)
         }
         else if (picker?.tag == 2) {
             provider = providers[(picker?.selectedRow(inComponent: 0))!]
+            providerWebsite = providerWebsites[(picker?.selectedRow(inComponent: 0))!]
             selectHealthcareButton.setTitle(provider, for: .normal)
         }
         else if (picker?.tag == 3) {

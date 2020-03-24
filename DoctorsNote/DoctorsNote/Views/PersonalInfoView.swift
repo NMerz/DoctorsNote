@@ -43,34 +43,20 @@ class PersonalInfoView: UIView {
         self.DOBLabel.text = CognitoHelper.user?.getDateOfBirthString()
         self.addressLabel.text = CognitoHelper.user?.getAddress()
         self.sexLabel.text = CognitoHelper.user?.getSex()
-        // TODO: ACTUALLY CONNECT TOGETHER
-        self.hospitalLabel.text = "IU Arnett"
-        self.providerLabel.text = "Humana"
-//        AWSMobileClient.default().getUserAttributes { (attr, err) in
-//            if let err = err as? AWSMobileClientError {
-//
-//            } else if (attr != nil) {
-//                DispatchQueue.main.async {
-//                    self.emailLabel.text = attr!["email"]
-//                    self.phoneLabel.text = attr!["phone_number"]
-//                    self.DOBLabel.text = attr!["birthdate"]
-//                    self.addressLabel.text = attr!["address"]
-//                    self.sexLabel.text = attr!["gender"]
-//                    // TODO: ACTUALLY CONNECT TOGETHER
-//                    self.hospitalLabel.text = "IU Arnett"
-//                    self.providerLabel.text = "Humana"
-//                }
-//            }
-//
-//        }
+        self.hospitalLabel.text = CognitoHelper.user?.getHealthSystems()[0].getHospital()
+        self.providerLabel.text = CognitoHelper.user?.getHealthSystems()[0].getHealthcareProvider()
+    }
+    
+    @IBAction func goToHospitalWebsite(_ sender: Any) {
+        if let url = URL(string: (CognitoHelper.user?.getHealthSystems()[0].getHospitalWebsite())!) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
     
     @IBAction func goToHealthcareWebsite(_ sender: Any) {
-        // TODO: UPDATE LATER WITH CORRECT FUNCTIONALITY
-        if let url = URL(string: "https://www.humana.com") {
+        if let url = URL(string: (CognitoHelper.user?.getHealthSystems()[0].getHealthcareWebsite())!) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-    
     }
     
 }

@@ -31,8 +31,8 @@ class AccountRegisterViewController: UIViewController {
         activityIndicator.hidesWhenStopped = true
         activityIndicator.style = .gray
         view.addSubview(activityIndicator)
-        // TODO: REMOVE LATER
-        AWSMobileClient.default().signOut()
+//        // TODO: REMOVE LATER
+//        AWSMobileClient.default().signOut()
     }
     
     @IBAction func goBack(_ sender: Any) {
