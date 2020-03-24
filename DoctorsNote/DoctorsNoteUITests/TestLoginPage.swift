@@ -61,9 +61,30 @@ class TestUserSignIn: XCTestCase {
         sleep(2)
         XCTAssertFalse(app!.buttons["Log In"].isHittable)
         
-        let logOutButton = app!.buttons["Log Out"].tap()
+        app!.buttons["Log Out"].tap()
         sleep(2)
         XCTAssertFalse(app!.buttons["Log Out"].isHittable)
+    }
+    
+    func testResetPassword() {
+        
+        let emailField = app!.textFields["Email Field"]
+        
+        app?.buttons["Forgot Button"].tap()
+        
+        emailField.tap()
+        emailField.typeText("test@test.test")
+        
+        app?.buttons["Recover Button"].tap()
+        
+        // Check for existence of popup
+        app?.buttons["Close Button"].tap()
+        
+        // Check that it moved on to the next view controller
+        app?.textFields["Verification Field"].tap()
+        
+        
+        
     }
 
 }
