@@ -12,7 +12,6 @@
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
 		9D23056E24105ED00064E6E2 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
 		9D23056F24105ED00064E6E2 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
-		9D267F0224105BDA00E787FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
 		9D267F0324105BDA00E787FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
 		9D267F0524105BE200E787FB /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0424105BE200E787FB /* HealthSystem.swift */; };
 		9D267F0624105BE200E787FB /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0424105BE200E787FB /* HealthSystem.swift */; };
@@ -22,6 +21,7 @@
 		9D267F0C24105BFD00E787FB /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0A24105BFD00E787FB /* ConnectionProcessor.swift */; };
 		9D267F0F24105CD000E787FB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
 		9D267F1024105CD000E787FB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
+		9D325395242A765F0057B354 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
 		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
 		AD4567D3634346E5B3E37C80 /* Pods_DoctorsNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */; };
 		B2E92EDF0D4EB4D291081AEE /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */; };
@@ -570,10 +570,10 @@
 			files = (
 				B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */,
 				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
-				B82083D324039A2100CF41D0 /* Form.swift in Sources */,
-				9D267F0824105BEA00E787FB /* Conversation.swift in Sources */,
 				B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */,
-				B5AC8B312409CE6E002E070D /* User.swift in Sources */,
+				9D267F0824105BEA00E787FB /* Conversation.swift in Sources */,
+				9D325395242A765F0057B354 /* User.swift in Sources */,
+				B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */,
 				B8866F002409796800C6149F /* CalendarVC.swift in Sources */,
 				B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */,
 				B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */,
