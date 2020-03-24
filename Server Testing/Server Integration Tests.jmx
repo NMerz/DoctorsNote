@@ -222,7 +222,7 @@
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Authorization</stringProp>
-              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWRkcmVzcyI6eyJmb3JtYXR0ZWQiOiIzOTgwIE4gR3JhaGFtIFJkIE1hZGlzb24gSU4gNDcyNTAifSwiYmlydGhkYXRlIjoiMDNcLzA4XC8yMDIwIiwiZ2VuZGVyIjoiTWFsZSIsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTIuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0yX0NvYnJnMWtCbiIsInBob25lX251bWJlcl92ZXJpZmllZCI6ZmFsc2UsImNvZ25pdG86dXNlcm5hbWUiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJtaWRkbGVfbmFtZSI6IkJ1cmsiLCJjdXN0b206dXNlcklEIjoiMTIzNDU2Nzg5IiwiYXVkIjoiNG9kdThvNGZuZWY0ZXY3Ym9vaG1jMWQ4dG8iLCJldmVudF9pZCI6IjNkYTJkZWRhLTg5YTktNDg5My1iODlkLTM0YzY5ZmNmNzM2YyIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTg0MzA4MzMzLCJuYW1lIjoiQmVuamFtaW4iLCJwaG9uZV9udW1iZXIiOiIrMTEyMzQ1Njc4OTAiLCJleHAiOjE1ODQzMTE5MzMsImlhdCI6MTU4NDMwODMzMywiZmFtaWx5X25hbWUiOiJIYXJkaW4iLCJlbWFpbCI6ImhhcmRpbjMwQHB1cmR1ZS5lZHUifQ.GR86Ac1OKsUjypRwIEJBHJpmzrD2mHVxHcQlBkU6QffaHThWzi8KpEyL_Y9sKj3zydtQy-huuDEby3b73D2hZA5ItyqDBYDACz39mXuOEGljymAwADnmu3qCr8NaT_LJW1ioWuLRe0U4UrKCfQ80xmBUKIybenXTr7GtQoXK0olmX2asiIbUUTS5uLc6um1h8L4CVK1nrOPrpftBjwIxp1Nz-_2nyUU1HlSe6UmgbahO95-4v1E5yNZISDdiiOJKv8w4ZIS67RuOBLLFzXr3wkK4O2EK8GrmXGIEAJJeIjjZfhRZIWEkvjbIF-kaXbBaCpyc6tz-ew3rYIwtXf33-A</stringProp>
+              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJjb2duaXRvOmdyb3VwcyI6WyJXZWJQb3J0YWxBZG1pbiJdLCJiaXJ0aGRhdGUiOiIwM1wvMDhcLzIwMjAiLCJnZW5kZXIiOiJNYWxlIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfQ29icmcxa0JuIiwiY3VzdG9tOmhvc3BpdGFsIjoiSVUgQXJuZXR0IiwiY3VzdG9tOnVzZXJJRCI6IjEyMzQ1Njc4OSIsImNvZ25pdG86cm9sZXMiOlsiYXJuOmF3czppYW06OjM2MzMyODc2ODcxODpyb2xlXC9XZWJfUG9ydGFsX0FkbWluIl0sImF1dGhfdGltZSI6MTU4NTA3NjM0NCwiY3VzdG9tOmhvc3BpdGFsX3dlYnNpdGUiOiJodHRwczpcL1wvaXVoZWFsdGgub3JnXC9maW5kLWxvY2F0aW9uc1wvaXUtaGVhbHRoLWFybmV0dC1ob3NwaXRhbCIsImV4cCI6MTU4NTA3OTk0NCwiaWF0IjoxNTg1MDc2MzQ0LCJlbWFpbCI6ImhhcmRpbjMwQHB1cmR1ZS5lZHUiLCJjdXN0b206aGVhbHRoY2FyZV9wcm92aWRlciI6Ikh1bWFuYSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhZGRyZXNzIjp7ImZvcm1hdHRlZCI6IjM5ODAgTiBHcmFoYW0gUmQgTWFkaXNvbiBJTiA0NzI1MCJ9LCJwaG9uZV9udW1iZXJfdmVyaWZpZWQiOmZhbHNlLCJjb2duaXRvOnVzZXJuYW1lIjoiMzdkNmE3NTgtZTc5Zi00NDJmLWFmNDktNmJmZjc4YzhhZDEwIiwiY3VzdG9tOmRpc3BsYXlfbmFtZSI6IlRlc3QgRGlzcGxheSBOYW1lIiwibWlkZGxlX25hbWUiOiJCdXJrIiwiYXVkIjoiNG9kdThvNGZuZWY0ZXY3Ym9vaG1jMWQ4dG8iLCJldmVudF9pZCI6ImM4OGJiMDg1LWFkMzYtNGI3OC1hM2Q1LTA5MDA0NzhhMGI2ZiIsInRva2VuX3VzZSI6ImlkIiwiY3VzdG9tOmhlYWx0aGNhcmVfd2Vic2l0ZSI6Imh0dHBzOlwvXC93d3cuaHVtYW5hLmNvbSIsIm5hbWUiOiJCZW5qYW1pbiIsInBob25lX251bWJlciI6IisxMTIzNDU2Nzg5MCIsImZhbWlseV9uYW1lIjoiSGFyZGluIn0.abHowa3nGYRMZfQBvGK6hUhKDuj41O8zAVoLqlxJMo0hkXM_kFbFbd315iaXl9l39UfEZEgpX4Y47bBRZXeWGiRdi6srOcwWOxmE5C8OtK6U1t1CJGvdpDbguHkzo8dnn5fEh_1WNa_Fai1APZ1coDhnguY4wCW1fwOhGRLzSyJx8J3w2tfG8gzleII_rG4NtJJaVbOWv_QPUjQ5TmsHgdteEUa1eFHMtNqawcRdAfBwkrM1L3VLWSvEBlJNHBwQECDJML3f5HGbFQqPdqfv6kxXURM8WgXjPxNP0TPxxjgxUWeTnMPjGdqU7d83dl83rcE9zMtdmm1Ej5DeI2CtGw</stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>
@@ -232,12 +232,13 @@
         </HeaderManager>
         <hashTree/>
         <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="PostAppendage Variable" enabled="true">
-          <stringProp name="maximumValue">10000</stringProp>
-          <stringProp name="minimumValue">1</stringProp>
+          <stringProp name="maximumValue">99999</stringProp>
+          <stringProp name="minimumValue">10000</stringProp>
           <stringProp name="outputFormat"></stringProp>
           <boolProp name="perThread">false</boolProp>
           <stringProp name="randomSeed"></stringProp>
           <stringProp name="variableName">PostAppendage</stringProp>
+          <stringProp name="TestPlan.comments">Must not destroy base64 assumptions</stringProp>
         </RandomVariableConfig>
         <hashTree/>
         <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Time1 Variable" enabled="true">
@@ -486,7 +487,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;conversationID&quot;: 15, &quot;content&quot;: &quot;testPost${PostAppendage}&quot;}</stringProp>
+                <stringProp name="Argument.value">{&quot;conversationID&quot;: 15, &quot;content&quot;: &quot;${base64Post}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -506,6 +507,20 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
         </HTTPSamplerProxy>
         <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">//From: https://stackoverflow.com/questions/36552265/how-to-encode-an-attachment-to-base64-in-jmeter
+
+import org.apache.commons.codec.binary.Base64;
+String toEncode =  vars.get(&quot;PostAppendage&quot;)
+byte[] base64Post = Base64.encodeBase64(toEncode.getBytes());
+vars.put(&quot;base64Post&quot;, new String(&quot;TmF0aGFu4oCZcyB0ZXN0&quot; + new String(base64Post)));
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Status Code assertion" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="49586">200</stringProp>
@@ -666,7 +681,7 @@
           <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert content matches sent" enabled="true">
             <stringProp name="JSON_PATH">$.messages.[0].content</stringProp>
-            <stringProp name="EXPECTED_VALUE">testPost${PostAppendage}</stringProp>
+            <stringProp name="EXPECTED_VALUE">${base64Post}</stringProp>
             <boolProp name="JSONVALIDATION">true</boolProp>
             <boolProp name="EXPECT_NULL">false</boolProp>
             <boolProp name="INVERT">false</boolProp>

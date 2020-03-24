@@ -26,12 +26,10 @@ public class ReminderGetter {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(getRemindersFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
-            statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("since").toString())));
+            statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("sinceWhen").toString())));
             System.out.println(statement);
             ResultSet reminderRS = statement.executeQuery();
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
 
             // Processing results
             ArrayList<Reminder> reminders = new ArrayList<>();
@@ -45,6 +43,8 @@ public class ReminderGetter {
                 }
             }
 
+            // Disconnect connection with shortest lifespan possible
+            dbConnection.close();
             Reminder[] tempArray = new Reminder[reminders.size()];
             return new GetReminderResponse(reminders.toArray(tempArray));
         } catch (Exception e) {
