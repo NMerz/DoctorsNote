@@ -51,6 +51,7 @@
 		B5AE734E24156C5B00A9CDAE /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
 		B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */; };
 		B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */; };
+		B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083CD24036C0200CF41D0 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -132,6 +133,7 @@
 		B5AE73482415698600A9CDAE /* TestUserSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUserSignIn.swift; sourceTree = "<group>"; };
 		B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRegisterViewController.swift; sourceTree = "<group>"; };
 		B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorProfileViewController.swift; sourceTree = "<group>"; };
+		B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSupportGroups.swift; sourceTree = "<group>"; };
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083CC24036C0200CF41D0 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
@@ -256,8 +258,8 @@
 			children = (
 				B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */,
 				B52ABE8D23F5B874007B3D6A /* Info.plist */,
+				B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */,
 				B5AE73482415698600A9CDAE /* TestUserSignIn.swift */,
-				B587B55F2429907C00B6BF0D /* TestSupportGroups.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -650,7 +652,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5AE73492415698600A9CDAE /* TestUserSignIn.swift in Sources */,
-				B587B5602429907C00B6BF0D /* TestSupportGroups.swift in Sources */,
+				B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */,
 				B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
