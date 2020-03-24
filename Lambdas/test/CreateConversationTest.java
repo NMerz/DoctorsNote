@@ -13,12 +13,6 @@ public class CreateConversationTest {
     }
 
     @Test
-    public void testValidJSON() {
-        String actual = createConversation.handleRequest("{\"conversationName\":\"Test conversation\"}", null);
-        Assert.assertEquals(actual, "{}");
-    }
-
-    @Test
     public void testInvalidJSON1() {
         String actual = createConversation.handleRequest(null, null);
         Assert.assertNull(actual);

@@ -19,7 +19,7 @@ public class AddReminder implements RequestHandler<Map<String,Object>, ReminderA
     @Override
     public ReminderAdder.AddReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
         // Establish connection with MariaDB
-        ReminderAdder adder = new ReminderAdder(Connector.getConnection());
+        ReminderAdder adder = makeReminderAdder();
         ReminderAdder.AddReminderResponse response = adder.add(inputMap, context);
         if (response == null) {
             throw new RuntimeException("Server experienced an error");
@@ -27,7 +27,9 @@ public class AddReminder implements RequestHandler<Map<String,Object>, ReminderA
         return response;
     }
 
-
+    public ReminderAdder makeReminderAdder() {
+        return new ReminderAdder(Connector.getConnection());
+    }
 
     public static void main(String[] args) throws IllegalStateException {
         throw new IllegalStateException();

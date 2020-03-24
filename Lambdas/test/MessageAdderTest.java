@@ -1,7 +1,7 @@
-import DoctorsNote.ReminderAdder;
+import DoctorsNote.MessageAdder;
 import com.amazonaws.services.lambda.runtime.Context;
-import org.junit.Assert;
 import org.junit.Test;
+import org.junit.Assert;
 import org.mockito.Mockito;
 
 import java.sql.Connection;
@@ -12,16 +12,15 @@ import java.util.HashMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ReminderAdderTest {
+public class MessageAdderTest {
     Connection connectionMock = mock(Connection.class);
 
     private HashMap getSampleMap() {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
-        jsonBody.put("content", "test reminder");
-        jsonBody.put("remindee", "0000000001");
-        jsonBody.put("timeCreated", 1L);
-        jsonBody.put("alertTime", 2L);
+        jsonBody.put("content", "Test Message");
+        jsonBody.put("senderId", "0000000001");
+        jsonBody.put("conversationId", "0000000001");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
         context.put("sub", "sub-id123"); //Note: not an accurate length for sample id
@@ -31,31 +30,31 @@ public class ReminderAdderTest {
 
     @Test()
     public void testEmptyInputs() {
-        ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
-        Assert.assertEquals(null, reminderAdder.add(new HashMap<>(), mock(Context.class)));
+        MessageAdder messageAdder = new MessageAdder(connectionMock);
+        Assert.assertEquals(null, messageAdder.add(new HashMap<>(), mock(Context.class)));
     }
 
     @Test()
     public void testMissingInput() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("content");
-        ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
-        Assert.assertEquals(null, reminderAdder.add(incompleteMap, mock(Context.class)));
+        MessageAdder messageAdder = new MessageAdder(connectionMock);
+        Assert.assertEquals(null, messageAdder.add(incompleteMap, mock(Context.class)));
     }
 
     @Test()
     public void testBadInput() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("content", 1);
-        ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
-        Assert.assertEquals(null, reminderAdder.add(incompleteMap, mock(Context.class)));
+        MessageAdder messageAdder = new MessageAdder(connectionMock);
+        Assert.assertEquals(null, messageAdder.add(incompleteMap, mock(Context.class)));
     }
 
     @Test()
     public void testConnectionError() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("content");
-        ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
+        MessageAdder messageAdder = new MessageAdder(connectionMock);
         try {
             PreparedStatement statementMock = Mockito.mock(PreparedStatement.class);
             Mockito.when(statementMock.executeUpdate()).thenThrow(new RuntimeException());
@@ -63,18 +62,18 @@ public class ReminderAdderTest {
         } catch (SQLException e) {
             Assert.fail();
         }
-        Assert.assertEquals(null, reminderAdder.add(incompleteMap, mock(Context.class)));
+        Assert.assertEquals(null, messageAdder.add(incompleteMap, mock(Context.class)));
     }
 
     @Test()
     public void testCompleteInput() {
-        HashMap incompleteMap = getSampleMap();
+        HashMap completeMap = getSampleMap();
         try {
             when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(Mockito.mock(PreparedStatement.class));
         } catch (SQLException e) {
             Assert.fail();
         }
-        ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
-        Assert.assertNotNull(reminderAdder.add(incompleteMap, mock(Context.class)));
+        MessageAdder messageAdder = new MessageAdder(connectionMock);
+        Assert.assertNotNull(messageAdder.add(completeMap, mock(Context.class)));
     }
 }

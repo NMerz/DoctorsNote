@@ -1,38 +1,48 @@
 import DoctorsNote.ConversationList;
-
+import DoctorsNote.ListConversations;
+import com.amazonaws.services.lambda.runtime.Context;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Assert;
+import org.mockito.Mockito;
+
+import java.util.HashMap;
+
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 public class ConversationListTest {
-    private ConversationList conversationList = new ConversationList();
+    Context contextMock;
+    ConversationList conversationList;
+    ListConversations listConversationsMock;
 
     @Before
-    public void before() {
-        ConversationList cl = new ConversationList();
+    public void beforeTests() {
+        contextMock = Mockito.mock(Context.class);
+        conversationList = spy(new ConversationList());
+        listConversationsMock = Mockito.mock(ListConversations.class);
+        doReturn(listConversationsMock).when(conversationList).makeListConversations();
     }
 
     @Test
-    public void testValidJSON() {
-        //String actual = conversationList.handleRequest("{\"userId\":\"12345678910\"}", null);
-        //Assert.assertTrue(actual.matches("\\{\"conversationList\":\\[.*\\]\\}"));
+    public void testValidReturn() {
+        ListConversations.ConversationListResponse responseMock = Mockito.mock(ListConversations.ConversationListResponse.class);
+        when(listConversationsMock.list(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
+        HashMap<String, Object> inputMap = new HashMap<String, Object>();
+        Assert.assertEquals(responseMock, conversationList.handleRequest(inputMap, contextMock));
     }
 
     @Test
-    public void testInvalidJSON1() {
-        //String actual = conversationList.handleRequest(null, null);
-        //Assert.assertNull(actual);
+    public void testInvalidReturn() {
+        when(listConversationsMock.list(Mockito.anyMap(), Mockito.any())).thenReturn(null);
+        HashMap<String, Object> inputMap = new HashMap<String, Object>();
+
+        try {
+            conversationList.handleRequest(inputMap, contextMock);
+            Assert.fail();
+        } catch (RuntimeException e) {
+            Assert.assertEquals("Server experienced an error", e.getMessage());
+        }
     }
-
-    @Test
-    public void testInvalidJSON2() {
-        //String actual = conversationList.handleRequest("{\"userId\"}", null);
-        //Assert.assertNull(actual);
-    }
-
-    // Long term goal: Add an additional test that mocks the DBCredentialsProvider to
-    // return an invalid URL to test that it does not connect.
-
-    // Mockito is not currently a dependency so this can't be done right now without
-    // adding additional overhead to the package as a whole.
 }
