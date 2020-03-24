@@ -184,7 +184,7 @@ class ConnectionProcessor {
         return (Conversation(conversationID: -1, conversationPartner: User(uid: "-1")!, lastMessageTime: Date(), unreadMessages: false), nil)
     }
     
-    func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message]? {
+    func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
         var messageJSON = [String : Any]()
         messageJSON["conversationID"] = conversationID
         messageJSON["numberToRetrieve"] = numberToRetrieve
@@ -202,12 +202,12 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let message = messageDict as! [String : Any?]
-            print((message["messageId"]! as? String) != nil)
+            print((message["messageId"]! as? Int) != nil)
             print((message["content"] as? String) != nil)
             print(Data(base64Encoded: (message["content"] as! String)) != nil)
             print((message["sender"] as? String) != nil)
-            if ((message["messageId"] as? String) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["sender"] as? String) != nil) {
-                let newMessage = Message(messageID: Int(message["messageId"] as! String)!, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, sender: User(uid: message["sender"] as! String))
+            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["sender"] as? String) != nil) {
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, sender: User(uid: message["sender"] as! String))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -222,7 +222,6 @@ class ConnectionProcessor {
         var messageJSON = [String: Any]()
         messageJSON["conversationID"] = message.getConversationID()
         messageJSON["content"] = message.getBase64Content()
-        var messageData = Data()
         do {
             let data = try postData(urlString: url, dataJSON: messageJSON)
             if data.count != 0 {

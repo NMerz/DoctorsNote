@@ -24,15 +24,15 @@ public class MessageGetter {
 
             // Reading from database
             PreparedStatement statement = dbConnection.prepareStatement(getMessagesFormatString);
-            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationID"));
-            statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve"));
+            statement.setLong(1, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
+            statement.setLong(2, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve").toString()));
             ResultSet messageResult = statement.executeQuery();
 
             // Processing results
             ArrayList<Message> messages = new ArrayList<>();
             while (messageResult.next()) {
                 String content = messageResult.getString(1);
-                String messageId = messageResult.getString(2);
+                long messageId = messageResult.getLong(2);
                 long timeSent = messageResult.getTimestamp(3).toInstant().getEpochSecond();
                 String sender = messageResult.getString(4);
 
@@ -54,16 +54,16 @@ public class MessageGetter {
     }
 
     private class GetMessagesRequest {
-        private String conversationId;
+        private Long conversationId;
         private int nMessages;
         private int startIndex;
         private long sinceWhen;
 
-        public String getConversationId() {
+        public Long getConversationId() {
             return conversationId;
         }
 
-        public void setConversationId(String conversationId) {
+        public void setConversationId(Long conversationId) {
             this.conversationId = conversationId;
         }
 
@@ -94,11 +94,11 @@ public class MessageGetter {
 
     private class Message {
         private String content;
-        private String messageID;
+        private long messageID;
         private long timeSent;
         private String sender;
 
-        public Message(String content, String messageId, long timeSent, String sender) {
+        public Message(String content, long messageId, long timeSent, String sender) {
             this.content = content;
             this.messageID = messageId;
             this.timeSent = timeSent;
@@ -113,11 +113,11 @@ public class MessageGetter {
             this.content = content;
         }
 
-        public String getMessageId() {
+        public Long getMessageId() {
             return messageID;
         }
 
-        public void setMessageId(String messageId) {
+        public void setMessageId(Long messageId) {
             this.messageID = messageId;
         }
 

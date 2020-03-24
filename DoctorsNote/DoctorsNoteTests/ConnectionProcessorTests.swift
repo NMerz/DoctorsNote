@@ -120,7 +120,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"[0]\":{\"messageId\":\"1\",\"content\":\"123\",\"sender\":\"2id\"}}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
+            let potentialMessageList = try processor.processMessages(url: "url", conversationID: 1, numberToRetrieve: 2)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -133,7 +133,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"messageList\":[\"bad\", {\"messageId\":\"1\",\"content\":\"123\",\"sender\":\"2id\"}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
+            let potentialMessageList = try processor.processMessages(url: "url", conversationID: 1, numberToRetrieve: 2)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -146,7 +146,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"messageList\":[{\"messageId\":\"1\",\"content\":\"123\",\"sender\":\"2id\"}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let potentialMessageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 1)!, numberToRetrieve: 2)
+            let potentialMessageList = try processor.processMessages(url: "url", conversationID: 1, numberToRetrieve: 2)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -228,7 +228,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"body\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: "1id")!))
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, sender: User(uid: "1id")!))
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "Non-blank return")
     }
@@ -247,9 +247,9 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data(("{\"messageList\":[{\"messageId\":1,\"content\":\"" + ("123".data(using: .utf8)!.base64EncodedString()) + "\",\"sender\":\"2id\"}]}").data(using: .utf8)!), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let messageList = try processor.processMessages(url: "url", conversation: Conversation(conversationID: 0)!, numberToRetrieve: 1)
-            XCTAssert(messageList[0].getConversation().getConversationID() == 0)
-            XCTAssert(messageList[0].getContent() == [UInt8]("123".utf8))
+            let messageList = try processor.processMessages(url: "url", conversationID: 0, numberToRetrieve: 1)
+            XCTAssert(messageList[0].getConversationID() == 0)
+            XCTAssert(String(bytes:messageList[0].getRawContent(), encoding: .utf8) == "123")
             XCTAssert(messageList[0].getSender().getUID() == "2id")
         } catch {
             XCTAssert(false)
