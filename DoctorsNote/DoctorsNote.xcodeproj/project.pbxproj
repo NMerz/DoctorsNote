@@ -34,6 +34,7 @@
 		B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F302408EDA200349316 /* PersonalInfoView.swift */; };
 		B54E4F392408EDA200349316 /* DOBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F312408EDA200349316 /* DOBView.swift */; };
 		B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */; };
+		B587B5602429907C00B6BF0D /* TestSupportGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B55F2429907C00B6BF0D /* TestSupportGroups.swift */; };
 		B5AC8B2D2409CE21002E070D /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */; };
 		B5AC8B2F2409CE36002E070D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2E2409CE35002E070D /* Conversation.swift */; };
 		B5AC8B312409CE6E002E070D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
@@ -116,6 +117,7 @@
 		B54E4F2E2408EDA200349316 /* PersonalInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonalInfoView.xib; sourceTree = "<group>"; };
 		B54E4F302408EDA200349316 /* PersonalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
 		B54E4F312408EDA200349316 /* DOBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOBView.swift; sourceTree = "<group>"; };
+		B587B55F2429907C00B6BF0D /* TestSupportGroups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupportGroups.swift; sourceTree = "<group>"; };
 		B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionProcessor.swift; sourceTree = "<group>"; };
 		B5AC8B2E2409CE35002E070D /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		B5AC8B302409CE6E002E070D /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				B52ABE8B23F5B874007B3D6A /* DoctorsNoteUITests.swift */,
 				B52ABE8D23F5B874007B3D6A /* Info.plist */,
 				B5AE73482415698600A9CDAE /* TestUserSignIn.swift */,
+				B587B55F2429907C00B6BF0D /* TestSupportGroups.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -631,6 +634,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5AE73492415698600A9CDAE /* TestUserSignIn.swift in Sources */,
+				B587B5602429907C00B6BF0D /* TestSupportGroups.swift in Sources */,
 				B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
