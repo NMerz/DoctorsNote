@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Form: NSObject {
+class SupportGroupForm: NSObject {
     var groupName: String?
      var hospital: String?
     var groupDescription: String?

@@ -2,7 +2,9 @@ package DoctorsNote;
 
 import com.amazonaws.services.lambda.runtime.Context;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.util.Map;
 
 /*
@@ -20,6 +22,7 @@ public class ReminderAdder {
 
     public ReminderAdder.AddReminderResponse add(Map<String, Object> inputMap, Context context) {
         try {
+            System.out.println("Adding reminder on behalf for " + ((Map<String,Object>) inputMap.get("context")).get("sub"));
             PreparedStatement statement = dbConnection.prepareStatement(addReminderFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("remindee"));
@@ -27,9 +30,8 @@ public class ReminderAdder {
             statement.setTimestamp(4, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("timeCreated").toString())));
             statement.setTimestamp(5, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("alertTime").toString())));
             System.out.println(statement);
-            statement.executeUpdate();
-            //statement.execute(addReminderFormatString);
-            //statement.executeUpdate(writeRowString);
+            int res = statement.executeUpdate();
+            System.out.println("Update executed with return code " + res);
 
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();

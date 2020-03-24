@@ -1,5 +1,5 @@
-import DoctorsNote.GetMessages;
-import DoctorsNote.MessageGetter;
+import DoctorsNote.GetReminders;
+import DoctorsNote.ReminderGetter;
 import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.Assert;
 import org.junit.Before;
@@ -12,34 +12,34 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-public class GetMessagesTest {
+public class GetRemindersTest {
     Context contextMock;
-    GetMessages getMessages;
-    MessageGetter messageGetterMock;
+    GetReminders getReminders;
+    ReminderGetter reminderGetterMock;
 
     @Before
     public void beforeTests() {
         contextMock = Mockito.mock(Context.class);
-        getMessages = spy(new GetMessages());
-        messageGetterMock = Mockito.mock(MessageGetter.class);
-        doReturn(messageGetterMock).when(getMessages).makeMessageGetter();
+        getReminders = spy(new GetReminders());
+        reminderGetterMock = Mockito.mock(ReminderGetter.class);
+        doReturn(reminderGetterMock).when(getReminders).makeReminderGetter();
     }
 
     @Test
     public void testValidReturn() {
-        MessageGetter.GetMessagesResponse responseMock = Mockito.mock(MessageGetter.GetMessagesResponse.class);
-        when(messageGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
+        ReminderGetter.GetReminderResponse responseMock = Mockito.mock(ReminderGetter.GetReminderResponse.class);
+        when(reminderGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
-        Assert.assertEquals(responseMock, getMessages.handleRequest(inputMap, contextMock));
+        Assert.assertEquals(responseMock, getReminders.handleRequest(inputMap, contextMock));
     }
 
     @Test
     public void testInvalidReturn() {
-        when(messageGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(null);
+        when(reminderGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(null);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
 
         try {
-            getMessages.handleRequest(inputMap, contextMock);
+            getReminders.handleRequest(inputMap, contextMock);
             Assert.fail();
         } catch (RuntimeException e) {
             Assert.assertEquals("Server experienced an error", e.getMessage());

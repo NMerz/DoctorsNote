@@ -13,7 +13,7 @@ import java.io.IOException;
  * and adds unnecessary overhead)
  */
 public class DBCredentialsProvider {
-    private final String tsvFilePath = "DBCredentials.tsv";
+    private String tsvFilePath;
     private final String delimeter = ";;;;";
 
     private final String DBProvider;
@@ -25,8 +25,9 @@ public class DBCredentialsProvider {
     private final String DBName;
     private final String DBDriver;
 
-    public DBCredentialsProvider() throws IOException {
+    public DBCredentialsProvider(String tsvFilePath) throws IOException {
         try {
+            this.tsvFilePath = tsvFilePath;
             BufferedReader br = new BufferedReader(new FileReader(tsvFilePath));
 
             DBProvider = br.readLine().split(delimeter)[1];
@@ -42,6 +43,10 @@ public class DBCredentialsProvider {
         catch(IOException e){
             throw new IOException("Unable to read DBCredentials.tsv");
         }
+    }
+
+    public DBCredentialsProvider() throws IOException {
+        this("DBCredentials.tsv");
     }
 
     public String getDBProvider() {
@@ -75,4 +80,8 @@ public class DBCredentialsProvider {
     public String getDBDriver() {
         return this.DBDriver;
     }
+
+    public String getTsvFilePath() { return this.tsvFilePath; }
+
+    public void setTsvFilePath(String path) { this.tsvFilePath = path; }
 }
