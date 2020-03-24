@@ -17,6 +17,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     private let cellId = "cellId"
     private var connectionProcessor = ConnectionProcessor(connector: Connector())
     private var messages = [Message]()
+    private var messagesShown = 5
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageText: UITextField!
@@ -105,10 +106,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
-        let num = 5;
+        messagesShown = 5;
         do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num) ?? messages)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num))
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")
@@ -122,10 +123,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     func reloadMessages() {
-        var num = 5;
+        messagesShown += 1
         do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num) ?? messages)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: num))
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")
