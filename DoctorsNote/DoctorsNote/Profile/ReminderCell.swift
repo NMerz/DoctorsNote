@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ReminderCellDelegate {
-    func didTapReminderInfo(reminder: Reminder)
+    func didTapReminderInfo(reminder: Reminder2)
 }
 
 class ReminderCell: UITableViewCell {
@@ -18,7 +18,7 @@ class ReminderCell: UITableViewCell {
     @IBOutlet weak var reminderFrequency: UILabel!
     
     var delegate: ReminderCellDelegate?
-    var reminderItem: Reminder!
+    var reminderItem: Reminder2!
     
     // get index of table cell
     var tableView: UITableView? {
@@ -34,7 +34,7 @@ class ReminderCell: UITableViewCell {
         // Initialization code
     }
     
-    func setReminder(reminder: Reminder) {
+    func setReminder(reminder: Reminder2) {
         reminderItem = reminder
         reminderTitle.text = reminder.reminder
         reminderFrequency.text = "\(reminder.numTimesADay ?? "nil") time(s) a day, every \(reminder.everyNumDays ?? "nil") day(s)"

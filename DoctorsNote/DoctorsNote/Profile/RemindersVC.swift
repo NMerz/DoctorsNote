@@ -10,13 +10,13 @@ import UIKit
 
 // Global list of reminders for now, should start with empty
 //var remindersList = [String]()
-var remindersList = [Reminder]()
+var remindersList = [Reminder2]()
 
 class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ReminderCellDelegate {
     
     @IBOutlet weak var remindersTableView: UITableView!
     
-    var selectedReminder: Reminder?
+    var selectedReminder: Reminder2?
     var indexPathForButton: IndexPath?
     
     override func viewDidAppear(_ animated: Bool) {
@@ -26,7 +26,7 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     override func viewDidLoad() {
         navigationItem.title = "Reminders"
         super.viewDidLoad()
-        self.selectedReminder = Reminder()
+        self.selectedReminder = Reminder2()
         self.indexPathForButton = IndexPath()
 
         // Do any additional setup after loading the view.
@@ -34,7 +34,7 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     
     // ReminderCellDelegate protocol stub (onclick individual info button) NOT NECESSARY?
-    func didTapReminderInfo(reminder: Reminder) {
+    func didTapReminderInfo(reminder: Reminder2) {
         self.selectedReminder = reminder
 //        let alertTitle = "Edit alert"
 //        let message = "\(reminder.reminder ?? "nil") will be edited"

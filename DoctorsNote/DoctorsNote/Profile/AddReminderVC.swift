@@ -20,7 +20,7 @@ class AddReminderVC: UIViewController {
         if newReminderField.text != "" {
             if numTimesADayField.text != "" {
                 if everyNumDaysField.text != "" {
-                    let newReminder = Reminder()
+                    let newReminder = Reminder2()
                     newReminder.reminder = newReminderField.text!
                     newReminder.numTimesADay = numTimesADayField.text!
                     newReminder.everyNumDays = everyNumDaysField.text!
@@ -58,7 +58,7 @@ class AddReminderVC: UIViewController {
 
 }
 
-class Reminder: NSObject {
+class Reminder2: NSObject {
     var reminder: String?
     var numTimesADay: String?
     var everyNumDays: String?

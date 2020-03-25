@@ -11,23 +11,16 @@
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
 		9D23056E24105ED00064E6E2 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
-		9D23056F24105ED00064E6E2 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
-		9D267F0324105BDA00E787FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
 		9D267F0524105BE200E787FB /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0424105BE200E787FB /* HealthSystem.swift */; };
-		9D267F0624105BE200E787FB /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0424105BE200E787FB /* HealthSystem.swift */; };
 		9D267F0824105BEA00E787FB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0724105BEA00E787FB /* Conversation.swift */; };
-		9D267F0924105BEA00E787FB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0724105BEA00E787FB /* Conversation.swift */; };
 		9D267F0B24105BFD00E787FB /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0A24105BFD00E787FB /* ConnectionProcessor.swift */; };
-		9D267F0C24105BFD00E787FB /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0A24105BFD00E787FB /* ConnectionProcessor.swift */; };
 		9D267F0F24105CD000E787FB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
-		9D267F1024105CD000E787FB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
 		9D325395242A765F0057B354 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
 		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
 		AD4567D3634346E5B3E37C80 /* Pods_DoctorsNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */; };
 		B2E92EDF0D4EB4D291081AEE /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */; };
 		B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6923F5B872007B3D6A /* AppDelegate.swift */; };
 		B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */; };
-		B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6D23F5B872007B3D6A /* ConversationViewController */; };
 		B52ABE7123F5B872007B3D6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE6F23F5B872007B3D6A /* Main.storyboard */; };
 		B52ABE7323F5B874007B3D6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE7223F5B874007B3D6A /* Assets.xcassets */; };
 		B52ABE7623F5B874007B3D6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */; };
@@ -48,20 +41,16 @@
 		B587B55A2429710C00B6BF0D /* EditReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B5592429710B00B6BF0D /* EditReminderVC.swift */; };
 		B587B55C2429711600B6BF0D /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B55B2429711600B6BF0D /* ReminderCell.swift */; };
 		B587B55E2429711E00B6BF0D /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B55D2429711E00B6BF0D /* NotificationPublisher.swift */; };
-		B5AC8B2D2409CE21002E070D /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */; };
-		B5AC8B2F2409CE36002E070D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2E2409CE35002E070D /* Conversation.swift */; };
-		B5AC8B312409CE6E002E070D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
-		B5AC8B332409CE85002E070D /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
 		B5AE7347241563C600A9CDAE /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE73482415698600A9CDAE /* TestLoginPage.swift */; };
 		B5AE734A24156C4900A9CDAE /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */; };
 		B5AE734B24156C5B00A9CDAE /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
 		B5AE734C24156C5B00A9CDAE /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2E2409CE35002E070D /* Conversation.swift */; };
-		B5AE734D24156C5B00A9CDAE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
-		B5AE734E24156C5B00A9CDAE /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CC24036C0200CF41D0 /* Message.swift */; };
+		B5AE734E24156C5B00A9CDAE /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */; };
 		B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */; };
+		B5C1F7D2242BA6AA00020121 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
 		B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -111,7 +100,6 @@
 		B52ABE6623F5B872007B3D6A /* DoctorsNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorsNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE6923F5B872007B3D6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B52ABE6D23F5B872007B3D6A /* ConversationViewController */ = {isa = PBXFileReference; lastKnownFileType = text; path = ConversationViewController; sourceTree = "<group>"; };
 		B52ABE7023F5B872007B3D6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B52ABE7223F5B874007B3D6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B52ABE7523F5B874007B3D6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -236,24 +224,22 @@
 				B82083CE2403999300CF41D0 /* SupportGroup */,
 				B52ABE6923F5B872007B3D6A /* AppDelegate.swift */,
 				B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */,
-				B52ABE6D23F5B872007B3D6A /* ConversationViewController */,
 				B52ABE6F23F5B872007B3D6A /* Main.storyboard */,
 				B52ABE7223F5B874007B3D6A /* Assets.xcassets */,
 				B54E4F202408ED7800349316 /* Login.storyboard */,
-				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
-				B5AC8B342409CF13002E070D /* ChatLogController.swift */,
-				B5AC8B302409CE6E002E070D /* User.swift */,
-				B5AE7346241563C600A9CDAE /* CognitoHelper.swift */,
 				9D267F0A24105BFD00E787FB /* ConnectionProcessor.swift */,
-				9D267F0424105BE200E787FB /* HealthSystem.swift */,
 				9D267F0124105BDA00E787FB /* User.swift */,
+				B5AC8B302409CE6E002E070D /* User.swift */,
+				9D267F0424105BE200E787FB /* HealthSystem.swift */,
+				B5AE7346241563C600A9CDAE /* CognitoHelper.swift */,
 				9D267F0E24105CD000E787FB /* Message.swift */,
 				9D267F0724105BEA00E787FB /* Conversation.swift */,
 				9D23056D24105ED00064E6E2 /* Reminder.swift */,
+				B52ABE7423F5B874007B3D6A /* LaunchScreen.storyboard */,
+				B5AC8B342409CF13002E070D /* ChatLogController.swift */,
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
-				B52F16A6240954760083C2EA /* ProfileViewController.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -322,6 +308,9 @@
 		B5AC8B2B2409CDAF002E070D /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
+				B5AC8B2E2409CE35002E070D /* Conversation.swift */,
+				B5AC8B322409CE85002E070D /* HealthSystem.swift */,
+				B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -339,6 +328,7 @@
 		B87E49022408F422000E6ABC /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				B52F16A6240954760083C2EA /* ProfileViewController.swift */,
 				B587B5592429710B00B6BF0D /* EditReminderVC.swift */,
 				B87E49032408F462000E6ABC /* RemindersVC.swift */,
 				B87E49052408F80E000E6ABC /* AddReminderVC.swift */,
@@ -610,10 +600,8 @@
 			files = (
 				B587B55E2429711E00B6BF0D /* NotificationPublisher.swift in Sources */,
 				B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */,
-				B5AC8B2F2409CE36002E070D /* Conversation.swift in Sources */,
 				B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */,
 				B587B55C2429711600B6BF0D /* ReminderCell.swift in Sources */,
-				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */,
 				9D267F0824105BEA00E787FB /* Conversation.swift in Sources */,
 				9D325395242A765F0057B354 /* User.swift in Sources */,
@@ -627,17 +615,14 @@
 				B54E4F322408EDA200349316 /* PersonalRegisterViewController.swift in Sources */,
 				B885DAD92415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
-				B52ABE6E23F5B872007B3D6A /* ConversationViewController in Sources */,
 				9D267F0F24105CD000E787FB /* Message.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */,
 				9D267F0524105BE200E787FB /* HealthSystem.swift in Sources */,
 				B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
-				B5AC8B332409CE85002E070D /* HealthSystem.swift in Sources */,
+				B5C1F7D2242BA6AA00020121 /* User.swift in Sources */,
 				B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */,
-				B54E4F252408ED8300349316 /* DataModel.swift in Sources */,
-				B82083CD24036C0200CF41D0 /* Message.swift in Sources */,
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 				B54E4F332408EDA200349316 /* ForgotPasswordViewController.swift in Sources */,
 				B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */,
@@ -659,19 +644,12 @@
 			files = (
 				B5AE734B24156C5B00A9CDAE /* HealthSystem.swift in Sources */,
 				B5AE734C24156C5B00A9CDAE /* Conversation.swift in Sources */,
-				B5AE734D24156C5B00A9CDAE /* User.swift in Sources */,
-				B5AE734E24156C5B00A9CDAE /* Message.swift in Sources */,
+				B5AE734E24156C5B00A9CDAE /* (null) in Sources */,
 				B5AE734A24156C4900A9CDAE /* ConnectionProcessor.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
-				9D267F0624105BE200E787FB /* HealthSystem.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
-				9D267F0C24105BFD00E787FB /* ConnectionProcessor.swift in Sources */,
-				9D267F0924105BEA00E787FB /* Conversation.swift in Sources */,
-				9D267F0324105BDA00E787FB /* User.swift in Sources */,
-				9D267F1024105CD000E787FB /* Message.swift in Sources */,
-				9D23056F24105ED00064E6E2 /* Reminder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

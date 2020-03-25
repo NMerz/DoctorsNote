@@ -1185,8 +1185,6 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfI-FG-NCz">
-                                    <rect key="frame" x="344" y="712" width="50" height="30"/>
                                 <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-Pw-VPi">
                                     <rect key="frame" x="69" y="770" width="276" height="34"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1211,18 +1209,12 @@
                                         <action selector="imageSend" destination="qrY-CR-dFM" eventType="primaryActionTriggered" id="I9k-mc-8Ob"/>
                                     </connections>
                                 </button>
-                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-Pw-VPi">
-                                    <rect key="frame" x="10" y="708" width="324" height="34"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="yfI-FG-NCz" secondAttribute="trailing" constant="20" id="8lI-w2-SjS"/>
                                 <constraint firstItem="yfI-FG-NCz" firstAttribute="leading" secondItem="VaR-Pw-VPi" secondAttribute="trailing" constant="10" id="dxH-IL-QMK"/>
                                 <constraint firstAttribute="bottom" secondItem="VaR-Pw-VPi" secondAttribute="bottom" constant="100" id="e8V-nu-fqk"/>
-                                <constraint firstAttribute="bottom" secondItem="VaR-Pw-VPi" secondAttribute="bottomMargin" constant="80" id="e8V-nu-fqk"/>
                                 <constraint firstItem="VaR-Pw-VPi" firstAttribute="leading" secondItem="TdV-lU-OC3" secondAttribute="leading" constant="10" id="llg-ei-sSh"/>
                                 <constraint firstItem="VaR-Pw-VPi" firstAttribute="bottom" secondItem="yfI-FG-NCz" secondAttribute="bottom" id="xU7-61-TXl"/>
                             </constraints>

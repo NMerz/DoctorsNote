@@ -19,7 +19,7 @@ class EditReminderVC: UIViewController {
         if editReminderField.text != "" {
             if editNumTimesADayField.text != "" {
                 if editEveryNumDaysField.text != "" {
-                    let newReminder = Reminder()
+                    let newReminder = Reminder2()
                     newReminder.reminder = editReminderField.text!
                     newReminder.numTimesADay = editNumTimesADayField.text!
                     newReminder.everyNumDays = editEveryNumDaysField.text!
@@ -55,7 +55,7 @@ class EditReminderVC: UIViewController {
     }
     
     
-    var selectedReminder: Reminder?
+    var selectedReminder: Reminder2?
     var indexPathForButton: IndexPath?
     
     override func viewDidLoad() {
