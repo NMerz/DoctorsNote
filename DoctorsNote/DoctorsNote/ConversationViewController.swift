@@ -28,7 +28,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Points"
+        searchController.searchBar.placeholder = "Search Chats"
         navigationItem.searchController = searchController
         
         collectionView.backgroundColor = UIColor.white
@@ -75,7 +75,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
             return filteredConversationList!.count
         } else {
             if let l = conversationList {
-                print(l.count)
+                print("Count is: ", l.count)
                 return l.count
             } else {
                 print("NO ELEMENTS!")
@@ -111,6 +111,13 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
 //    func switchVC(ViewController: UIViewController) {
 //        self.present(UIViewController(), animated: true)
 //    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "open_chat") {
+            //segue.destination.title = conversationList![0].getConversationPartner().getFirstName()
+        }
+    }
+    
 }
 
 class FriendCell: BaseCellC {

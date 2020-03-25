@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DoA-A8-DEq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DoA-A8-DEq">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -24,7 +24,7 @@
                         </collectionViewFlowLayout>
                         <cells/>
                     </collectionView>
-                    <tabBarItem key="tabBarItem" title="Chats" image="message" catalog="system" id="1jf-H2-gNh"/>
+                    <tabBarItem key="tabBarItem" title="Chats" id="1jf-H2-gNh"/>
                     <navigationItem key="navigationItem" id="BIr-l7-1TX"/>
                     <connections>
                         <segue destination="qrY-CR-dFM" kind="show" identifier="open_chat" id="cbR-Dz-3zz"/>
@@ -34,21 +34,25 @@
             </objects>
             <point key="canvasLocation" x="-1091.304347826087" y="381.69642857142856"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Chats-->
         <scene sceneID="Wu9-Cf-QZV">
             <objects>
                 <navigationController id="PZA-wq-2AD" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chats" image="bubble.left.and.bubble.right.fill" catalog="system" id="Gxg-Zp-tyr"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PTK-Yp-Zr9">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jgo-Ad-0Am">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="by2-sr-bJ2" kind="relationship" relationship="rootViewController" id="7Ub-Gu-Gh9"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YuV-z5-j02" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2831" y="-375"/>
+            <point key="canvasLocation" x="-1778" y="382"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ibc-jV-CHq">
@@ -61,8 +65,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="XEr-Ex-JO7" kind="relationship" relationship="viewControllers" id="no5-aq-aeR"/>
-                        <segue destination="by2-sr-bJ2" kind="relationship" relationship="viewControllers" id="iFy-Wi-UEg"/>
-                        <segue destination="Ml0-kQ-FII" kind="relationship" relationship="viewControllers" id="Idp-DO-wYC"/>
+                        <segue destination="PZA-wq-2AD" kind="relationship" relationship="viewControllers" id="Ll7-Ha-giR"/>
+                        <segue destination="Ml0-kQ-FII" kind="relationship" relationship="viewControllers" id="jim-fH-LEW"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F6K-P5-HIl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -193,7 +197,7 @@
             </objects>
             <point key="canvasLocation" x="-1551" y="897"/>
         </scene>
-        <!--Ib Calendar Data Source-->
+        <!--CalendarVC-->
         <scene sceneID="YdV-5z-1vE">
             <objects>
                 <viewController title="CalendarVC" id="ot2-vW-eD3" customClass="CalendarVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
@@ -427,13 +431,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please provide any details for your doctor to review before the appointment." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TV-CB-qoz">
-                                <rect key="frame" x="30" y="362" width="354" height="48"/>
+                                <rect key="frame" x="30" y="363" width="354" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select date and time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEJ-n9-eFO">
-                                <rect key="frame" x="30" y="298" width="354" height="34"/>
+                                <rect key="frame" x="30" y="298" width="354" height="35"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -443,7 +447,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDQ-Kn-gXd">
-                                <rect key="frame" x="30" y="484" width="354" height="40"/>
+                                <rect key="frame" x="30" y="485" width="354" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Submit Appointment Request"/>
                                 <connections>
@@ -641,74 +645,6 @@
             </objects>
             <point key="canvasLocation" x="-1778.2608695652175" y="2501.7857142857142"/>
         </scene>
-        <!--MessageVC-->
-        <scene sceneID="orL-i7-zni">
-            <objects>
-                <viewController title="MessageVC" id="Wdc-ot-CDS" customClass="MessageCollectionVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TDd-jW-Elo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="uVB-tL-4d1">
-                                <rect key="frame" x="20" y="53" width="374" height="736"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fiS-oy-r1Z">
-                                    <size key="itemSize" width="50" height="50"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                            </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qn4-SY-qnD">
-                                <rect key="frame" x="0.0" y="764" width="414" height="44"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-y5-wVJ">
-                                        <rect key="frame" x="8" y="5" width="340" height="34"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psD-nS-Yp3">
-                                        <rect key="frame" x="356" y="5" width="50" height="34"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="57" id="7jy-db-ICp"/>
-                                            <constraint firstAttribute="width" constant="36" id="Cdt-YY-3g5"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="wGD-YW-cdP"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Send"/>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="psD-nS-Yp3" secondAttribute="bottom" constant="5" id="OZ4-mC-pSg"/>
-                                    <constraint firstItem="Mxj-y5-wVJ" firstAttribute="top" secondItem="qn4-SY-qnD" secondAttribute="top" constant="5" id="P3s-LK-Ptn"/>
-                                    <constraint firstItem="Mxj-y5-wVJ" firstAttribute="leading" secondItem="qn4-SY-qnD" secondAttribute="leading" constant="8" id="UdZ-Jh-eQf"/>
-                                    <constraint firstItem="psD-nS-Yp3" firstAttribute="leading" secondItem="Mxj-y5-wVJ" secondAttribute="trailing" constant="8" id="Uw8-4W-5Vp"/>
-                                    <constraint firstItem="psD-nS-Yp3" firstAttribute="top" secondItem="qn4-SY-qnD" secondAttribute="top" constant="5" id="bmm-Ad-f2b"/>
-                                    <constraint firstItem="psD-nS-Yp3" firstAttribute="leading" secondItem="Mxj-y5-wVJ" secondAttribute="trailing" constant="8" id="dvx-dH-Xul"/>
-                                    <constraint firstAttribute="bottom" secondItem="Mxj-y5-wVJ" secondAttribute="bottom" constant="5" id="eFA-bZ-HP9"/>
-                                    <constraint firstAttribute="trailing" secondItem="psD-nS-Yp3" secondAttribute="trailing" constant="8" id="if6-8i-abc"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="qn4-SY-qnD" firstAttribute="trailing" secondItem="Qjc-J3-ben" secondAttribute="trailing" id="1ID-mE-Bcc"/>
-                            <constraint firstItem="qn4-SY-qnD" firstAttribute="leading" secondItem="Qjc-J3-ben" secondAttribute="leading" id="4Ca-Ie-bc8"/>
-                            <constraint firstItem="qn4-SY-qnD" firstAttribute="bottom" secondItem="Qjc-J3-ben" secondAttribute="bottom" id="SJ7-8V-KVZ"/>
-                            <constraint firstItem="qn4-SY-qnD" firstAttribute="trailing" secondItem="Qjc-J3-ben" secondAttribute="trailing" id="coA-UV-cnr"/>
-                            <constraint firstItem="qn4-SY-qnD" firstAttribute="leading" secondItem="Qjc-J3-ben" secondAttribute="leading" id="de0-vv-T7R"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Qjc-J3-ben"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="eWx-RO-VVc"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qmJ-sZ-GrZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-893" y="1140"/>
-        </scene>
         <!--SupportGroupConversationsVC-->
         <scene sceneID="cUj-DJ-cOk">
             <objects>
@@ -819,13 +755,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NORMAL WORK HOURS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em5-A9-hg6">
-                                <rect key="frame" x="25" y="69" width="193" height="21"/>
+                                <rect key="frame" x="25" y="113" width="193" height="21"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PB-8b-HPz">
-                                <rect key="frame" x="40" y="100" width="364" height="21"/>
+                                <rect key="frame" x="40" y="144" width="364" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -841,14 +777,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nrx-Ek-xhV"/>
                     </view>
-                    <navigationItem key="navigationItem" id="4Zh-5I-ZVf"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="4Zh-5I-ZVf"/>
                     <connections>
                         <outlet property="hoursLabel" destination="6PB-8b-HPz" id="2FP-xA-pAy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mj0-aK-wat" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-803" y="1901"/>
+            <point key="canvasLocation" x="-820" y="1839"/>
         </scene>
         <!--SupportGroupMessageVC-->
         <scene sceneID="p3z-Ar-qZ7">
@@ -1167,12 +1103,12 @@
             </objects>
             <point key="canvasLocation" x="-2593" y="352"/>
         </scene>
-        <!--Chat Log Controller-->
+        <!--Test Title-->
         <scene sceneID="d7C-ca-aj3">
             <objects>
-                <viewController id="qrY-CR-dFM" customClass="ChatLogController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="qrY-CR-dFM" customClass="ChatLogController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="eHP-PD-lC4">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Sad-SC-QCm">
@@ -1182,7 +1118,7 @@
                             <inset key="sectionInset" minX="20" minY="20" maxX="20" maxY="20"/>
                         </collectionViewFlowLayout>
                         <view key="backgroundView" contentMode="scaleToFill" id="TdV-lU-OC3">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                            <rect key="frame" x="0.0" y="-88" width="414" height="896"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-Pw-VPi">
@@ -1221,7 +1157,13 @@
                         </view>
                         <cells/>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="Ntu-NM-gzM"/>
+                    <navigationItem key="navigationItem" title="Test Title" id="Ntu-NM-gzM">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="info.circle" catalog="system" style="plain" id="5E5-7q-Xah">
+                            <connections>
+                                <segue destination="bLo-c2-Fla" kind="show" id="mT8-ky-VDy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="messageText" destination="VaR-Pw-VPi" id="yoX-st-dYp"/>
                         <outlet property="sendButton" destination="yfI-FG-NCz" id="pfI-KU-GbG"/>
@@ -1229,7 +1171,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YEM-Ro-IEG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-140.57971014492756" y="1134.375"/>
+            <point key="canvasLocation" x="-820" y="1104"/>
         </scene>
         <!--Edit ReminderVC-->
         <scene sceneID="wsu-DC-ayO">
@@ -1346,15 +1288,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="camera.fill" catalog="system" width="64" height="48"/>
-        <image name="chevron.left.circle.fill" catalog="system" width="64" height="60"/>
-        <image name="gear" catalog="system" width="64" height="58"/>
-        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
-        <image name="message" catalog="system" width="64" height="56"/>
-        <image name="person.3.fill" catalog="system" width="71" height="34"/>
-        <image name="person.fill" catalog="system" width="64" height="60"/>
+        <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>
+        <image name="camera.fill" catalog="system" width="128" height="96"/>
+        <image name="chevron.left.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="gear" catalog="system" width="128" height="119"/>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="person.3.fill" catalog="system" width="128" height="61"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="iFy-Wi-UEg"/>
-    </inferredMetricsTieBreakers>
 </document>
