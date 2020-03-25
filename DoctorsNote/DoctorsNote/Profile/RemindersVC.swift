@@ -9,11 +9,15 @@
 import UIKit
 
 // Global list of reminders for now, should start with empty
-var remindersList = [String]()
+//var remindersList = [String]()
+var remindersList = [Reminder2]()
 
-class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ReminderCellDelegate {
     
     @IBOutlet weak var remindersTableView: UITableView!
+    
+    var selectedReminder: Reminder2?
+    var indexPathForButton: IndexPath?
     
     override func viewDidAppear(_ animated: Bool) {
         remindersTableView.reloadData()
@@ -22,8 +26,40 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     override func viewDidLoad() {
         navigationItem.title = "Reminders"
         super.viewDidLoad()
+        self.selectedReminder = Reminder2()
+        self.indexPathForButton = IndexPath()
 
         // Do any additional setup after loading the view.
+    }
+    
+    
+    // ReminderCellDelegate protocol stub (onclick individual info button) NOT NECESSARY?
+    func didTapReminderInfo(reminder: Reminder2) {
+        self.selectedReminder = reminder
+//        let alertTitle = "Edit alert"
+//        let message = "\(reminder.reminder ?? "nil") will be edited"
+//
+//        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+//        present(alert, animated: true, completion: nil)
+    }
+    
+    // Order: 1. onInfoButtonTap 2. prepare 3. didTapReminderInfo
+    // Apparently delegate function gets called last which makes sense
+    @IBAction func onInfoButtonTap(_ sender: Any) {
+        let button = sender as! UIButton
+        let cell = button.superview!.superview! as! ReminderCell
+        indexPathForButton = remindersTableView.indexPath(for: cell)
+    }
+    
+    // Send info to segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toEditReminder" {
+            self.selectedReminder = remindersList[indexPathForButton!.row]
+            let editReminderVC = segue.destination as! EditReminderVC
+            editReminderVC.selectedReminder = self.selectedReminder
+            editReminderVC.indexPathForButton = self.indexPathForButton
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -31,25 +67,41 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "remindersCell")
-        cell.textLabel?.text = remindersList[indexPath.row]
+        let reminder = remindersList[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell") as! ReminderCell
+        cell.setReminder(reminder: reminder)
+        cell.delegate = self
+
         return cell
+        
+        
+        ///
+//        var cell = tableView.dequeueReusableCell(withIdentifier: "remindersCell")
+//        if cell == nil {
+//            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "remindersCell")
+//        }
+//
+//        cell!.textLabel?.text = remindersList[indexPath.row].reminder
+//        let frequency = "\(remindersList[indexPath.row].numTimesADay ?? "nil") time(s) a day, every \(remindersList[indexPath.row].everyNumDays ?? "nil") day(s)"
+//        cell!.detailTextLabel?.text = frequency
+//
+//        return cell!
+        
+//        let cell = UITableViewCell(style: .default, reuseIdentifier: "remindersCell")
+//        cell.textLabel?.text = remindersList[indexPath.row].reminder
+//        return cell
     }
     
     // Delete a reminder
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        notificationsList[indexPath.row].removeReminderNotification()
         remindersList.remove(at: indexPath.row)
         remindersTableView.reloadData()
     }
-        
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
-    */
+        
 
 }

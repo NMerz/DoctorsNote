@@ -24,7 +24,7 @@ class Reminder {
         self.timeCreated = timeCreated
         self.alertTime = alertTime
     }
-    
+
     func getReminderID() -> Int {
         return reminderID
     }
@@ -32,19 +32,19 @@ class Reminder {
     func getContent() -> String {
         return content
     }
-    
+
     func getCreatorID() -> String {
         return creatorID
     }
-    
+
     func getRemindeeID() -> String {
         return remindeeID
     }
-    
+
     func getTimeCreated() -> Date {
         return timeCreated
     }
-    
+
     func getAlertTime() -> Date {
         return alertTime
     }

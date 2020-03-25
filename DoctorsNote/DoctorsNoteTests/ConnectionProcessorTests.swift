@@ -210,6 +210,7 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(potentialError == nil)
         XCTAssert(potentialConversationList != nil)
         let conversationList = potentialConversationList!
+        XCTAssert(conversationList[0].getConversationPartner().getUID() == "0")
         XCTAssert(conversationList[0].getConversationPartner().getUID() == "0id")
         XCTAssert(conversationList[0].getLastMessageTime() == Date(timeIntervalSince1970: 0))
         XCTAssert(conversationList[0].getUnreadMessages() == false)
@@ -219,6 +220,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: "1")!))
         let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, sender: User(uid: "1id")!))
         XCTAssert(potentialError != nil)
         XCTAssert(potentialError?.getMessage() == "Error connecting on server with return code: 500")
@@ -237,6 +239,7 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversation: Conversation(conversationID: 1)!, content: [UInt8]("content".utf8), sender: User(uid: "1")!))
         let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, sender: User(uid: "id1")!))
         XCTAssert(connector.getConductPostTaskCalls() == 1)
         XCTAssert(potentialError == nil)
@@ -508,6 +511,7 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(potentialError2 == nil)
         XCTAssert(potentialConversationList != nil)
         let conversationList = potentialConversationList!
+        XCTAssert(conversationList[0].getConversationPartner().getUID() == "0")
         XCTAssert(conversationList[0].getConversationPartner().getUID() == "0id")
         XCTAssert(conversationList[0].getLastMessageTime() == Date(timeIntervalSince1970: 0))
         XCTAssert(conversationList[0].getUnreadMessages() == false)
