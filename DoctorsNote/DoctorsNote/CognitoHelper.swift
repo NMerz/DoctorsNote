@@ -21,22 +21,7 @@ class CognitoHelper {
                 onDone(false, err)
                 return
             } else {
-                AWSMobileClient.default().getUserAttributes { (dict, err) in
-                    if let err = err as? AWSMobileClientError {
-                        print("\(err.message)")
-                        onDone(false, err)
-                        return
-                    }
-                    // Means the user hasn't udpate info yet. This is probably not the best way to do this...
-                    let name = dict!["name"]
-                    if (name == nil) {
-                        // Needs to set up profile. Should to go create profile screen
-                        onDone(false, AWSMobileClientError.invalidParameter(message: "Need to set up profile"))
-                    } else {
-                        CognitoHelper.user = User(uid: AWSMobileClient.default().username!, dict: dict!)
-                        onDone(true, AWSMobileClientError.aliasExists(message: "The user exists!"))
-                    }
-                }
+                onDone(true, AWSMobileClientError.aliasExists(message: "The user exists!"))
             }
         }
     }
@@ -54,6 +39,7 @@ class CognitoHelper {
                 CognitoHelper.user = User(uid: AWSMobileClient.default().username!, dict: dict!)
                 onDone(true)
             } else {
+                CognitoHelper.user = User(uid: AWSMobileClient.default().username!)
                 onDone(false)
             }
         }
@@ -63,8 +49,10 @@ class CognitoHelper {
         return AWSMobileClient.default().isSignedIn
     }
     
-    func resetPassword() {
-        
+    func logout() {
+        AWSMobileClient.default().signOut()
+        // Clear old user
+        CognitoHelper.user = User(uid: "-1")
     }
 
     func getWorkHours(doctor: User, onDone: @escaping (_ success: Bool, _ message: String)->Void) {
@@ -97,6 +85,43 @@ class CognitoHelper {
         }
     }
     
+    func updateAttributes(attributeMap: [String:String], onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
+        AWSMobileClient.default().updateUserAttributes(attributeMap: attributeMap) { (details, err) in
+            if let err = err as? AWSMobileClientError {
+                onDone(false, err.message)
+            } else {
+                onDone(true, "")
+            }
+        }
+        if let name = attributeMap["name"] {
+            CognitoHelper.user?.setFirstName(firstName: name)
+        }
+        if let middleName = attributeMap["middle_name"] {
+            CognitoHelper.user?.setMiddleName(middleName: middleName)
+        }
+        if let lastName = attributeMap["family_name"] {
+            CognitoHelper.user?.setLastName(lastName: lastName)
+        }
+        if let lastName = attributeMap["family_name"] {
+            CognitoHelper.user?.setLastName(lastName: lastName)
+        }
+        if let sex = attributeMap["gender"] {
+            CognitoHelper.user?.setSex(sex: sex)
+        }
+        if let DOB = attributeMap["birthdate"] {
+            CognitoHelper.user?.setDOB(DOB: DOB)
+        }
+        if let address = attributeMap["address"] {
+            CognitoHelper.user?.setAddress(address: address)
+        }
+        if let phoneNumber = attributeMap["phone_number"] {
+            CognitoHelper.user?.setPhoneNumber(phoneNumber: phoneNumber)
+        }
+        if let email = attributeMap["email"] {
+            CognitoHelper.user?.setEmail(email: email)
+        }
+    }
+    
     func setHealthcareInformation(role:String, hospital:String, hospitalWebsite: String, healthcareProvider: String, healthcareWebsite:String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
         // Check if user is valid
         
@@ -109,6 +134,7 @@ class CognitoHelper {
                 onDone(true, "")
             }
         }
+        CognitoHelper.user?.setHealthSystem(hospital: hospital, hospitalWebsite: hospitalWebsite, healthcareProvider: healthcareProvider, healthcareWebsite: healthcareWebsite)
     }
     
     func setDisplayName(displayName: String, onDone: @escaping (Bool)->Void) {

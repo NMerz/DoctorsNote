@@ -100,7 +100,7 @@ class ProfileViewController: UIViewController {
     
     @IBAction func logOut(_ sender: Any) {
         
-        AWSMobileClient.default().signOut()
+        CognitoHelper.sharedHelper.logout()
     
     }
     

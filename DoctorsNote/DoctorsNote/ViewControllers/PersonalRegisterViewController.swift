@@ -26,6 +26,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBOutlet weak var cityField: CustomTextField!
     @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var zipField: CustomTextField!
+    @IBOutlet weak var errorLabel: UILabel!
     
     var p: PopupView?
     var DOBPicker: UIDatePicker?
@@ -62,11 +63,15 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     
     @IBAction func goForward(_ sender: Any) {
         if (fieldsCorrect()) {
-            // TODO ADD PHONE NUMBER VALIDATION
             var address = streetField.text! + " " + cityField.text! + " " + stateButton.titleLabel!.text!
             address += " " + zipField.text!
             let phone = "+1" + phoneField.text!
-            AWSMobileClient.default().updateUserAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleNameField.text!, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
+            var middleName = middleNameField.text!
+            // This is a workaround since we accidently set up middle name as a required attribute in Cognito
+            if (middleName == "") {
+                middleName = "<empty>"
+            }
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")
                 } else {
@@ -87,6 +92,8 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let street = streetField.isEmpty()
         let city = cityField.isEmpty()
         let zip = zipField.isEmpty()
+        let isPhoneFormatted = checkPhoneFormat()
+        let isZIPFormatted = checkZipFormat()
         
         var DOBFilled = true
         if (DOB == "") {
@@ -112,9 +119,27 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             stateButton.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
-        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled) {
+        if (isPhoneFormatted) {
+            phoneField.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            phoneField.layer.borderColor = UIColor.systemRed.cgColor
+            errorLabel.text = "Error: Phone number must be sequence of 10 digits"
+        }
+        
+        if (isZIPFormatted) {
+            zipField.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            zipField.layer.borderColor = UIColor.systemRed.cgColor
+            // Only add this error if another one doesn't exist
+            if (errorLabel.text == "") {
+                errorLabel.text = "Error: ZIP must be a sequence of 5 digits"
+            }
+        }
+        
+        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted) {
             return false
         }
+        errorLabel.text = ""
         return true
     }
     
@@ -208,6 +233,13 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             p?.dismissType = .slideOutToBottom
             p?.dismiss(animated: true)
         }
+    }
+    
+    func checkPhoneFormat() -> Bool {
+        let phoneRegex = "[0-9]{10}"
+        let validatePhone = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        let isValidPhone = validatePhone.evaluate(with: phoneField.text!)
+        return isValidPhone
     }
     
     func checkZipFormat() -> Bool {
