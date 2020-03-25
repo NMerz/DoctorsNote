@@ -8,22 +8,26 @@
 
 import Foundation
 
-class Reminder {
+class Reminder: CustomStringConvertible{
     private let reminderID: Int
     private var content: String
     private let creatorID: String
     private let remindeeID: String
     private var timeCreated: Date
-    private var intradayFequency: Int
+    private var intradayFrequency: Int
     private var daysBetweenReminders: Int
     
-    init(reminderID: Int, content: String, creatorID: String, remindeeID: String, timeCreated: Date, intradayFequency: Int, daysBetweenReminders: Int) {
+    public var description: String {
+        return "Reminder: reminderID: \(reminderID), content: \(content), creatorID: \(creatorID), remindeeID: \(remindeeID), timeCreated: \(timeCreated), intradayFrequency: \(intradayFrequency), daysBetweenReminders: \(daysBetweenReminders)"
+    }
+    
+    init(reminderID: Int, content: String, creatorID: String, remindeeID: String, timeCreated: Date, intradayFrequency: Int, daysBetweenReminders: Int) {
         self.reminderID = reminderID
         self.content = content
         self.creatorID = creatorID
         self.remindeeID = remindeeID
         self.timeCreated = timeCreated
-        self.intradayFequency = intradayFequency
+        self.intradayFrequency = intradayFrequency
         self.daysBetweenReminders = daysBetweenReminders
     }
 
@@ -47,11 +51,12 @@ class Reminder {
         return timeCreated
     }
 
-    func getIntradayFequency() -> Int {
-        return intradayFequency
+    func getIntradayFrequency() -> Int {
+        return intradayFrequency
     }
     
     func getDaysBetweenReminders() -> Int {
         return daysBetweenReminders
     }
+    
 }

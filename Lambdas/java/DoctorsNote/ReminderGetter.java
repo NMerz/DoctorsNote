@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class ReminderGetter {
-    private final String getRemindersFormatString = "SELECT * FROM Reminder WHERE remindedID = ? AND timeCreated >= ? ORDER BY reminderID DESC;";
+    private final String getRemindersFormatString = "SELECT * FROM Reminder WHERE remindedID = ? ORDER BY reminderID DESC;";
     Connection dbConnection;
 
     public ReminderGetter(Connection dbConnection) {
@@ -26,7 +26,7 @@ public class ReminderGetter {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(getRemindersFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
-            statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("sinceWhen").toString())));
+            //statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("sinceWhen").toString())));
             System.out.println(statement);
             ResultSet reminderRS = statement.executeQuery();
 
@@ -34,7 +34,7 @@ public class ReminderGetter {
             // Processing results
             ArrayList<Reminder> reminders = new ArrayList<>();
             while (reminderRS.next()) {
-                String reminderID = reminderRS.getString(1);
+                int reminderID = reminderRS.getInt(1);
                 String content = reminderRS.getString(2);
                 String remindee = reminderRS.getString(3);
                 String creatorID = reminderRS.getString(4);
@@ -58,7 +58,7 @@ public class ReminderGetter {
     }
 
     public class Reminder {
-        private String reminderID;
+        private int reminderID;
         private String content;
         private String remindee;
         private String creatorID;
@@ -66,7 +66,7 @@ public class ReminderGetter {
         private int daysBetweenReminders;
         private long timeCreated;
 
-        public Reminder(String reminderID, String content, String remindee, String creatorID, int intradayFequency, int daysBetweenReminders, long timeCreated) {
+        public Reminder(int reminderID, String content, String remindee, String creatorID, int intradayFequency, int daysBetweenReminders, long timeCreated) {
             this.reminderID = reminderID;
             this.remindee = remindee;
             this.creatorID = creatorID;
@@ -76,11 +76,11 @@ public class ReminderGetter {
             this.timeCreated = timeCreated;
         }
 
-        public String getReminderID() {
+        public int getReminderID() {
             return reminderID;
         }
 
-        public void setReminderID(String reminderID) {
+        public void setReminderID(int reminderID) {
             this.reminderID = reminderID;
         }
 

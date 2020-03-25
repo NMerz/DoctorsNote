@@ -714,7 +714,7 @@ vars.put(&quot;base64Post&quot;, new String(&quot;TmF0aGFu4oCZcyB0ZXN0&quot; + n
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;numberToRetrieve&quot;: 1, &quot;startIndex&quot;: 1, &quot;sinceWhen&quot;: 0}</stringProp>
+                <stringProp name="Argument.value">{&quot;numberToRetrieve&quot;: 1}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -951,7 +951,7 @@ vars.put(&quot;base64Post&quot;, new String(&quot;TmF0aGFu4oCZcyB0ZXN0&quot; + n
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;numberToRetrieve&quot;: 1, &quot;startIndex&quot;: 1, &quot;sinceWhen&quot;: 0}</stringProp>
+                <stringProp name="Argument.value">{&quot;numberToRetrieve&quot;: 1}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
