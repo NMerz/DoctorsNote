@@ -176,7 +176,7 @@ class ConnectionProcessor {
     
     func processUser(url: String, uid: String) -> (User?, ConnectionError?) {
         //Placeholder
-        return (User(uid: "-1", email: "placeholder", firstName: "place", middleName: "", lastName: "holder", dateOfBirth: Date(), address: "nowhere", sex: "None", phoneNumber:"", healthSystems: [HealthSystem]()), nil)
+            return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", healthSystems: [HealthSystem]()), nil)
     }
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
@@ -202,10 +202,6 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let message = messageDict as! [String : Any?]
-            if ((message["messageID"] as? Int) != nil) && ((message["conversationID"] as? Int) != nil) && ((message["content"] as? String) != nil) && ((message["senderID"] as? Int) != nil) {
-                // FIXME:
-                //let newMessage = Message(messageID: message["messageID"] as! Int, conversation: Conversation(conversationID: message["conversationID"] as! Int)!, content: [UInt8]((message["content"] as! String).utf8), sender: User(uid: message["senderID"] as! String))
-            }
             print((message["messageId"]! as? Int) != nil)
             print((message["content"] as? String) != nil)
             print(Data(base64Encoded: (message["content"] as! String)) != nil)
