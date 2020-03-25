@@ -30,6 +30,23 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        var processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processNewReminder(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderadd", reminder: Reminder(reminderID: -1, content: "Contents", creatorID: "ignored", remindeeID: "37d6a758-e79f-442f-af49-6bff78c8ad10", timeCreated: Date(timeIntervalSince1970: 1234), intradayFrequency: 2, daysBetweenReminders: 1))
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+        }
+        do {
+            let reminders = try processor.processReminders(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderlist", numberToRetrieve: 3)
+            print(reminders[0])
+            //print(reminders[1])
+            //print(reminders[2])
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+        }
+        
         
 //        // 1. Ask for notifiction permission
 //        let center = UNUserNotificationCenter.current()
