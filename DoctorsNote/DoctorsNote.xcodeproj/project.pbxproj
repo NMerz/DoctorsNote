@@ -18,9 +18,9 @@
 		9D137F43242BAB7700A0B0AB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F41242BAB7700A0B0AB /* Conversation.swift */; };
 		9D137F45242BAC2000A0B0AB /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F44242BAC2000A0B0AB /* HealthSystem.swift */; };
 		9D137F46242BAC2000A0B0AB /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F44242BAC2000A0B0AB /* HealthSystem.swift */; };
-		9D137F47242BAC3900A0B0AB /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
 		9D137F48242BAC3D00A0B0AB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
 		9D137F49242BAC4000A0B0AB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
+		9D137F89242C020A00A0B0AB /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
 		9D23056E24105ED00064E6E2 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
 		9D267F0F24105CD000E787FB /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
 		9D325395242A765F0057B354 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
@@ -643,6 +643,7 @@
 				B5AE734E24156C5B00A9CDAE /* (null) in Sources */,
 				9D137F40242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */,
 				9D137F43242BAB7700A0B0AB /* Conversation.swift in Sources */,
+				9D137F89242C020A00A0B0AB /* Reminder.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
@@ -651,7 +652,6 @@
 				9D137F49242BAC4000A0B0AB /* User.swift in Sources */,
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
 				9D137F2E242B93A600A0B0AB /* Appointment.swift in Sources */,
-				9D137F47242BAC3900A0B0AB /* Reminder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -165,7 +165,7 @@ class ConnectionProcessor {
             print(conversation["lastMessageTime"] as? TimeInterval)
             print(conversation["status"] as? Int)
             if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! String), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval)), unreadMessages: conversation["status"] as! Int != 0)
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! String), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), unreadMessages: conversation["status"] as! Int != 0)
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -351,7 +351,7 @@ class ConnectionProcessor {
             }
             let appointment = appointmentDict as! [String : Any?]
             if ((appointment["appointmentID"] as? Int) != nil) && ((appointment["timeScheduled"] as? Int) != nil) && ((appointment["content"] as? String) != nil) && ((appointment["withID"] as? String) != nil) && ((appointment["status"] as? Int) != nil) {
-                let newAppointment = Appointment(appointmentID: appointment["appointmentID"] as! Int, content: appointment["content"] as! String, timeScheduled: Date(timeIntervalSince1970: TimeInterval(appointment["timeScheduled"] as! Int)), withID: appointment["withID"] as! String, status: appointment["status"] as! Int)
+                let newAppointment = Appointment(appointmentID: appointment["appointmentID"] as! Int, content: appointment["content"] as! String, timeScheduled: Date(timeIntervalSince1970: TimeInterval((appointment["timeScheduled"] as! Double)) / 1000.0), withID: appointment["withID"] as! String, status: appointment["status"] as! Int)
                 appointments.append(newAppointment)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
