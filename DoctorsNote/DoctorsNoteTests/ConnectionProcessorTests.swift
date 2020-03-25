@@ -258,7 +258,7 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testValidReminderRetrieval() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"reminderList\":[{\"reminderID\":11,\"remindee\":\"123id\",\"creatorID\":\"231id\",\"timeCreated\":123,\"alertTime\":1583692386455,\"content\":\"This is content\"}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"reminderList\":[{\"reminderID\":11,\"remindee\":\"123id\",\"creatorID\":\"231id\",\"timeCreated\":123,\"intradayFequency\":10,\"daysBetweenReminders\":2,\"content\":\"This is content\"}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
             let reminderList = try processor.processReminders(url: "url", numberToRetrieve: 1)
@@ -267,7 +267,8 @@ class ConnectionProcessorTests: XCTestCase {
             XCTAssert(reminder.getRemindeeID() == "123id")
             XCTAssert(reminder.getCreatorID() == "231id")
             XCTAssert(reminder.getTimeCreated() == Date(timeIntervalSince1970: 123))
-            XCTAssert(reminder.getAlertTime() == Date(timeIntervalSince1970: 1583692386455))
+            XCTAssert(reminder.getIntradayFequency() == 10)
+            XCTAssert(reminder.getDaysBetweenReminders() == 2)
         } catch {
             XCTAssert(false)
         }
@@ -278,7 +279,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processNewReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processNewReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
         } catch {
             XCTAssert(false)
         }
@@ -290,7 +291,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processNewReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processNewReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -304,7 +305,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processNewReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processNewReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -318,7 +319,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processDeleteReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processDeleteReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
         } catch {
             XCTAssert(false)
         }
@@ -330,7 +331,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processDeleteReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processDeleteReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -344,7 +345,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processDeleteReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processDeleteReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -358,7 +359,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processEditReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processEditReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
         } catch {
             XCTAssert(false)
         }
@@ -370,7 +371,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processEditReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processEditReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
             XCTAssert(false)
         } catch {
             XCTAssert((error as! ConnectionError).getMessage() == "Error connecting on server with return code: 500")
@@ -383,7 +384,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processEditReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), alertTime: Date(timeIntervalSince1970: 1583360914316)))
+            try processor.processEditReminder(url: "url", reminder: Reminder(reminderID: 7, content: "content", creatorID: "creatorID", remindeeID: "remindeeID", timeCreated: Date(timeIntervalSince1970: 0), intradayFequency: 13, daysBetweenReminders: 3))
             XCTAssert(false)
         } catch let error {
             XCTAssert((error as! ConnectionError).getMessage() == "Non-blank return")

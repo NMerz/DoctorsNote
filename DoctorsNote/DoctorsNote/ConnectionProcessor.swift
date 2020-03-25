@@ -250,8 +250,8 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let reminder = reminderDict as! [String : Any?]
-            if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["alertTime"] as? Int) != nil) && ((reminder["content"] as? String) != nil) {
-                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: TimeInterval(reminder["timeCreated"] as! Int)), alertTime: Date(timeIntervalSince1970: TimeInterval(reminder["alertTime"] as! Int)))
+            if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["intradayFrequency"] as? Int) != nil) && ((reminder["daysBetweenReminders"] as? Int) != nil) && ((reminder["content"] as? String) != nil) {
+                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: TimeInterval(reminder["timeCreated"] as! Int)), intradayFequency: reminder["intradayFrequency"] as! Int, daysBetweenReminders: reminder["daysBetweenReminders"] as! Int)
                 reminders.append(newReminder)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -267,7 +267,8 @@ class ConnectionProcessor {
         reminderJSON["content"] = reminder.getContent()
         reminderJSON["remindee"] = reminder.getRemindeeID()
         reminderJSON["timeCreated"] = reminder.getTimeCreated().timeIntervalSince1970
-        reminderJSON["alertTime"] = reminder.getAlertTime().timeIntervalSince1970
+        reminderJSON["intradayFrequency"] = reminder.getIntradayFequency()
+        reminderJSON["daysBetweenReminders"] = reminder.getDaysBetweenReminders()
         let data = try postData(urlString: url, dataJSON: reminderJSON)
         if data.count != 0 {
             throw ConnectionError(message: "Non-blank return")

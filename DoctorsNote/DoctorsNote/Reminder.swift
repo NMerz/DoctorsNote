@@ -14,15 +14,17 @@ class Reminder {
     private let creatorID: String
     private let remindeeID: String
     private var timeCreated: Date
-    private var alertTime: Date
+    private var intradayFequency: Int
+    private var daysBetweenReminders: Int
     
-    init(reminderID: Int, content: String, creatorID: String, remindeeID: String, timeCreated: Date, alertTime: Date) {
+    init(reminderID: Int, content: String, creatorID: String, remindeeID: String, timeCreated: Date, intradayFequency: Int, daysBetweenReminders: Int) {
         self.reminderID = reminderID
         self.content = content
         self.creatorID = creatorID
         self.remindeeID = remindeeID
         self.timeCreated = timeCreated
-        self.alertTime = alertTime
+        self.intradayFequency = intradayFequency
+        self.daysBetweenReminders = daysBetweenReminders
     }
 
     func getReminderID() -> Int {
@@ -45,7 +47,11 @@ class Reminder {
         return timeCreated
     }
 
-    func getAlertTime() -> Date {
-        return alertTime
+    func getIntradayFequency() -> Int {
+        return intradayFequency
+    }
+    
+    func getDaysBetweenReminders() -> Int {
+        return daysBetweenReminders
     }
 }
