@@ -10,13 +10,13 @@ import Foundation
 
 class Reminder {
     private let reminderID: Int
-    private var content: [UInt8]
+    private var content: String
     private let creatorID: String
     private let remindeeID: String
     private var timeCreated: Date
     private var alertTime: Date
     
-    init(reminderID: Int, content: [UInt8], creatorID: String, remindeeID: String, timeCreated: Date, alertTime: Date) {
+    init(reminderID: Int, content: String, creatorID: String, remindeeID: String, timeCreated: Date, alertTime: Date) {
         self.reminderID = reminderID
         self.content = content
         self.creatorID = creatorID
@@ -29,7 +29,7 @@ class Reminder {
         return reminderID
     }
     
-    func getContent() -> [UInt8] {
+    func getContent() -> String {
         return content
     }
     

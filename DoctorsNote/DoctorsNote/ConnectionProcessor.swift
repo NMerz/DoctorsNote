@@ -251,7 +251,7 @@ class ConnectionProcessor {
             }
             let reminder = reminderDict as! [String : Any?]
             if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["alertTime"] as? Int) != nil) && ((reminder["content"] as? String) != nil) {
-                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: [UInt8]((reminder["content"] as! String).utf8), creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: TimeInterval(reminder["timeCreated"] as! Int)), alertTime: Date(timeIntervalSince1970: TimeInterval(reminder["alertTime"] as! Int)))
+                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: TimeInterval(reminder["timeCreated"] as! Int)), alertTime: Date(timeIntervalSince1970: TimeInterval(reminder["alertTime"] as! Int)))
                 reminders.append(newReminder)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -264,7 +264,7 @@ class ConnectionProcessor {
     //  - Need to discuss this with team
     func processNewReminder(url: String, reminder: Reminder) throws {
         var reminderJSON = [String: Any]()
-        reminderJSON["content"] = String(bytes: reminder.getContent(), encoding: .utf8)
+        reminderJSON["content"] = reminder.getContent()
         reminderJSON["remindee"] = reminder.getRemindeeID()
         reminderJSON["timeCreated"] = reminder.getTimeCreated().timeIntervalSince1970
         reminderJSON["alertTime"] = reminder.getAlertTime().timeIntervalSince1970
@@ -293,6 +293,62 @@ class ConnectionProcessor {
     func processEditReminder(url: String, reminder: Reminder) throws {
         try processDeleteReminder(url: url, reminder: reminder);
         try processNewReminder(url: url, reminder: reminder);
+    }
+    
+    func processNewAppointment(url: String, appointment: Appointment) throws {
+        var appointmentJSON = [String: Any]()
+        appointmentJSON["timeScheduled"] = appointment.getTimeScheduled().timeIntervalSince1970
+        appointmentJSON["content"] = appointment.getContent()
+        appointmentJSON["withID"] = appointment.getWithID()
+        let data = try postData(urlString: url, dataJSON: appointmentJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return") //Should have returned a blank 200 if successful
+        }
+    }
+    
+    func processAcceptAppointment(url: String, appointment: Appointment) throws {
+        var appointmentJSON = [String: Any]()
+        appointmentJSON["appointmentID"] = appointment.getAppointmentID()
+
+        let data = try postData(urlString: url, dataJSON: appointmentJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
+    }
+    
+    func processDeleteAppointment(url: String, appointment: Appointment) throws {
+        var appointmentJSON = [String: Any]()
+        appointmentJSON["appointmentID"] = appointment.getAppointmentID()
+
+        let data = try postData(urlString: url, dataJSON: appointmentJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
+    }
+    
+    func processAppointments(url: String) throws -> [Appointment] {
+        let appointmentJSON = [String: Any]()
+        let appointmentList = try postData(urlString: url, dataJSON: appointmentJSON)
+        var appointments = [Appointment]()
+        if (appointmentList.first?.value as? NSArray == nil) {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        
+        for appointmentDict in (appointmentList.first?.value as! NSArray) {
+            if (appointmentDict as? [String : Any?] == nil) {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+            let appointment = appointmentDict as! [String : Any?]
+            if ((appointment["appointmentID"] as? Int) != nil) && ((appointment["timeScheduled"] as? Int) != nil) && ((appointment["content"] as? String) != nil) && ((appointment["withID"] as? String) != nil) && ((appointment["status"] as? Int) != nil) {
+                let newAppointment = Appointment(appointmentID: appointment["appointmentID"] as! Int, content: appointment["content"] as! String, timeScheduled: Date(timeIntervalSince1970: TimeInterval(appointment["timeScheduled"] as! Int)), withID: appointment["withID"] as! String, status: appointment["status"] as! Int)
+                appointments.append(newAppointment)
+            } else {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+        }
+        return appointments
     }
 }
 
