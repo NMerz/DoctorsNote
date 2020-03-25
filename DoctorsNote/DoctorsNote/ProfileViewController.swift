@@ -10,7 +10,6 @@ import UIKit
 import PopupKit
 import AWSCognito
 import AWSMobileClient
-import UserNotifications
 
 class ProfileViewController: UIViewController {
    
@@ -20,59 +19,9 @@ class ProfileViewController: UIViewController {
     var mask: CAShapeLayer?
     
     var p: PopupView?
-    @IBOutlet weak var remindersPreviewView: UIView!
-    @IBOutlet weak var remindersPreviewLabel: UILabel!
-    @IBOutlet weak var viewRemindersButton: UIButton!
-    
-    override func viewDidAppear(_ animated: Bool) {
-        remindersPreviewLabel.text = "You currently have \(remindersList.count) reminder(s)."
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var connector = Connector()
-        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
-        var processor = ConnectionProcessor(connector: connector)
-        do {
-            try processor.processNewReminder(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderadd", reminder: Reminder(reminderID: -1, content: "Contents", creatorID: "ignored", remindeeID: "37d6a758-e79f-442f-af49-6bff78c8ad10", timeCreated: Date(timeIntervalSince1970: 1234), intradayFrequency: 2, daysBetweenReminders: 1))
-        } catch let error {
-            print((error as! ConnectionError).getMessage())
-        }
-        do {
-            let reminders = try processor.processReminders(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderlist", numberToRetrieve: 3)
-            print(reminders[0])
-            //print(reminders[1])
-            //print(reminders[2])
-        } catch let error {
-            print((error as! ConnectionError).getMessage())
-        }
-        
-        
-//        // 1. Ask for notifiction permission
-//        let center = UNUserNotificationCenter.current()
-//        center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-//            // TODO: if !granted, tell user they can change notification settings later on
-//        }
-//        
-//        // 2. Create notification content
-//        let content = UNMutableNotificationContent()
-//        content.title = "Reminder"
-//        content.body = "Reminder name"
-//        content.sound = UNNotificationSound.default
-//
-//        // 3. Create notification trigger (modify this)
-//        let date = Date().addingTimeInterval(30)
-//        let dateComponents = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
-//        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-//
-//        // 4. Create the request
-//        let uuidString = UUID().uuidString
-//        let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
-//
-//        // 5. Register request with notification center
-//        center.add(request) { (error) in
-//            // Check the error parameter and handle any errors
-//        }
 
         logOutButton.semanticContentAttribute = UIApplication.shared
         .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
@@ -100,10 +49,6 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
-        //personalInfoView.layer.mask = mask
-        remindersPreviewView.bringSubviewToFront(viewRemindersButton)
-        remindersPreviewLabel.text = "You currently have \(remindersList.count) reminder(s)."
-        
         
     }
 
@@ -117,7 +62,7 @@ class ProfileViewController: UIViewController {
     
     @IBAction func logOut(_ sender: Any) {
         
-        CognitoHelper.sharedHelper.logout()
+        AWSMobileClient.default().signOut()
     
     }
     
@@ -183,5 +128,3 @@ class ProfileViewController: UIViewController {
     }
     
 }
-
-

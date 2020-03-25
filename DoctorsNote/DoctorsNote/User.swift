@@ -59,7 +59,6 @@ class User {
             self.middleName = ""
         }
         self.lastName = dict["family_name"]!
-        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy"
         self.dateOfBirth = dateFormatter.date(from: dict["birthdate"]!)!
@@ -119,4 +118,51 @@ class User {
     func getHealthSystems() -> [HealthSystem] {
         return healthSystems
     }
+    
+    func setEmail(email: String) {
+        self.email = email
+    }
+    
+    func setFirstName(firstName: String) {
+        self.firstName = firstName
+    }
+    
+    func setMiddleName(middleName: String) {
+        if (middleName == "<empty>") {
+            self.middleName = ""
+        } else {
+            self.middleName = middleName
+        }
+    }
+    
+    func setLastName(lastName: String) {
+        self.lastName = lastName
+    }
+    
+    func setSex(sex: String) {
+        self.sex = sex
+    }
+    
+    func setDOB(DOB: String) {
+        self.dateOfBirth = convertDOBStringToDate(DOB: DOB)
+    }
+    
+    func setAddress(address: String) {
+        self.address = address
+    }
+    
+    func setPhoneNumber(phoneNumber: String) {
+        self.phoneNumber = phoneNumber
+    }
+    
+    func convertDOBStringToDate(DOB: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        return dateFormatter.date(from: DOB)!
+    }
+    
+    func setHealthSystem(hospital: String, hospitalWebsite: String, healthcareProvider: String, healthcareWebsite: String) {
+        self.healthSystems = [HealthSystem(hospital: hospital, hospitalWebsite: hospitalWebsite, healthcareProvider: healthcareProvider, healthcareWebsite: healthcareWebsite)]
+    }
+    
 }
