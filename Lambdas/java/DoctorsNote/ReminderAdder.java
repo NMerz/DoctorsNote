@@ -13,7 +13,7 @@ import java.util.Map;
  */
 
 public class ReminderAdder {
-    private final String addReminderFormatString = "INSERT INTO Reminder (content, remindedID, creatorID, timeCreated, alertTime) VALUES (?, ?, ?, ?, ?);";
+    private final String addReminderFormatString = "INSERT INTO Reminder (content, remindedID, creatorID, timeCreated, intradayFrequency, daysBetweenReminders) VALUES (?, ?, ?, ?, ?, ?);";
     Connection dbConnection;
 
     public ReminderAdder(Connection dbConnection) {
@@ -28,7 +28,8 @@ public class ReminderAdder {
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("remindee"));
             statement.setString(3, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setTimestamp(4, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("timeCreated").toString())));
-            statement.setTimestamp(5, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("alertTime").toString())));
+            statement.setInt(5, Integer.parseInt(((Map<String,Object>) inputMap.get("body-json")).get("intradayFrequency").toString()));
+            statement.setInt(6, Integer.parseInt(((Map<String,Object>) inputMap.get("body-json")).get("daysBetweenReminders").toString()));
             System.out.println(statement);
             int res = statement.executeUpdate();
             System.out.println("Update executed with return code " + res);
