@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import AWSMobileClient
+
+
 var notificationsList = [NotificationPublisher]()
 
 class AddReminderVC: UIViewController {
@@ -15,20 +18,34 @@ class AddReminderVC: UIViewController {
     @IBOutlet weak var everyNumDaysField: UITextField!
     @IBOutlet weak var newReminderDescriptionField: UITextField!
     @IBOutlet weak var addReminderButton: UIButton!
+    
+    var processor: ConnectionProcessor?
+
         
     @IBAction func addReminderButtonAction(_ sender: Any) {
         if newReminderField.text != "" {
             if numTimesADayField.text != "" {
                 if everyNumDaysField.text != "" {
-                    let newReminder = Reminder2()
-                    newReminder.reminder = newReminderField.text!
-                    newReminder.numTimesADay = numTimesADayField.text!
-                    newReminder.everyNumDays = everyNumDaysField.text!
+                    let content = newReminderField.text!
+                    let intradayFrequency = Int(numTimesADayField.text!)!
+                    let daysBetweenReminders = Int(everyNumDaysField.text!)!
+                    let newReminder = Reminder(reminderID: 0, content: content, creatorID: "", remindeeID: "37d6a758-e79f-442f-af49-6bff78c8ad10", timeCreated: Date(timeIntervalSinceNow: 0), intradayFrequency: intradayFrequency, daysBetweenReminders: daysBetweenReminders)
+//                    newReminder.reminder = newReminderField.text!
+//                    newReminder.numTimesADay = numTimesADayField.text!
+//                    newReminder.everyNumDays = everyNumDaysField.text!
                     if newReminderDescriptionField.text != "" {
-                        newReminder.reminderDescription = newReminderDescriptionField.text!
+                        // TODO description
+//                        newReminder.reminderDescription = newReminderDescriptionField.text!
                     }
                     
-                    remindersList.append(newReminder)
+                    remindersList!.append(newReminder)
+                    do {
+                        try processor!.processNewReminder(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderadd", reminder: newReminder)
+                    }
+                    catch let error {
+                        // Fails to store message on server
+                        print((error as! ConnectionError).getMessage())
+                    }
                     
                     newReminderField.text = ""
                     numTimesADayField.text = ""
@@ -37,7 +54,7 @@ class AddReminderVC: UIViewController {
                     
                     // TODO: better error check for integer casting
                     let notificationPublisher = NotificationPublisher()
-                    notificationPublisher.sendReminderNotification(title: "Reminder", body: "\(newReminder.reminder ?? "")", badge: 1, numTimesDaily: Int(newReminder.numTimesADay!) ?? 1, everyNumDays: Int(newReminder.everyNumDays!) ?? 1)
+                    notificationPublisher.sendReminderNotification(title: "Reminder", body: "\(newReminder.getContent() )", badge: 1, numTimesDaily: Int(newReminder.getIntradayFrequency()) , everyNumDays: Int(newReminder.getDaysBetweenReminders()) )
                     notificationsList.append(notificationPublisher)
                 }
             }
@@ -54,13 +71,17 @@ class AddReminderVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Add Reminder"
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        processor = ConnectionProcessor(connector: connector)
+        //        self.selectedReminder = Reminder()
     }
 
 }
 
-class Reminder2: NSObject {
-    var reminder: String?
-    var numTimesADay: String?
-    var everyNumDays: String?
-    var reminderDescription: String?
-}
+//class Reminder2: NSObject {
+//    var reminder: String?
+//    var numTimesADay: String?
+//    var everyNumDays: String?
+//    var reminderDescription: String?
+//}

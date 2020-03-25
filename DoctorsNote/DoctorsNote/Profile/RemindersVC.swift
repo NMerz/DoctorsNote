@@ -7,34 +7,37 @@
 //
 
 import UIKit
+import AWSMobileClient
+
 
 // Global list of reminders for now, should start with empty
 //var remindersList = [String]()
-var remindersList = [Reminder2]()
+var remindersList: [Reminder]?
 
 class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource, ReminderCellDelegate {
     
     @IBOutlet weak var remindersTableView: UITableView!
     
-    var selectedReminder: Reminder2?
+    var selectedReminder: Reminder?
     var indexPathForButton: IndexPath?
     
     override func viewDidAppear(_ animated: Bool) {
         remindersTableView.reloadData()
     }
     
+    var processor: ConnectionProcessor?
+
+    
     override func viewDidLoad() {
         navigationItem.title = "Reminders"
         super.viewDidLoad()
-        self.selectedReminder = Reminder2()
-        self.indexPathForButton = IndexPath()
-
+                self.indexPathForButton = IndexPath()
         // Do any additional setup after loading the view.
     }
     
     
     // ReminderCellDelegate protocol stub (onclick individual info button) NOT NECESSARY?
-    func didTapReminderInfo(reminder: Reminder2) {
+    func didTapReminderInfo(reminder: Reminder) {
         self.selectedReminder = reminder
 //        let alertTitle = "Edit alert"
 //        let message = "\(reminder.reminder ?? "nil") will be edited"
@@ -55,7 +58,7 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     // Send info to segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toEditReminder" {
-            self.selectedReminder = remindersList[indexPathForButton!.row]
+            self.selectedReminder = remindersList![indexPathForButton!.row]
             let editReminderVC = segue.destination as! EditReminderVC
             editReminderVC.selectedReminder = self.selectedReminder
             editReminderVC.indexPathForButton = self.indexPathForButton
@@ -63,14 +66,24 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return remindersList.count
+        return remindersList!.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let reminder = remindersList[indexPath.row]
+        let reminder = remindersList![indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell") as! ReminderCell
         cell.setReminder(reminder: reminder)
         cell.delegate = self
+        
+        // Check if this reminder has notification, add notification info if not
+        //Ask device for notifcations registered by this app
+        //Pair notifcations back up with reminders
+        //Add any that do not exist (make sure to take creationTime into account!)
+        
+        
+        //Pull notification identifiers from storage
+        //Remove all notifcations
+        //Add notifcation for each reminder
 
         return cell
         
@@ -94,8 +107,16 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     // Delete a reminder
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        do {
+            try processor?.processDeleteReminder(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderdelete", reminder: remindersList![indexPath.row])
+        }
+        catch let error {
+            // Fails to store message on server
+            print((error as! ConnectionError).getMessage())
+        }
         notificationsList[indexPath.row].removeReminderNotification()
-        remindersList.remove(at: indexPath.row)
+        remindersList!.remove(at: indexPath.row)
+
         remindersTableView.reloadData()
     }
     

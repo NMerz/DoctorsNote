@@ -299,9 +299,9 @@ class ConnectionProcessor {
     
     //TODO: Finer processing/passing of any errors returned by server to UI
     //  - Need to discuss this with team
-    func processEditReminder(url: String, reminder: Reminder) throws {
-        try processDeleteReminder(url: url, reminder: reminder);
-        try processNewReminder(url: url, reminder: reminder);
+    func processEditReminder(deleteUrl: String, addURl: String, reminder: Reminder) throws {
+        try processDeleteReminder(url: deleteUrl, reminder: reminder);
+        try processNewReminder(url: addURl, reminder: reminder);
     }
     
     func processNewAppointment(url: String, appointment: Appointment) throws {
