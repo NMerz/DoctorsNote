@@ -75,7 +75,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func requestNotificationAuthorization(application: UIApplication) {
         // Ask for notifiction permission
         let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests() // not sure if this is right
+        
+        // Modify as needed for new user/login
+        center.removeAllPendingNotificationRequests()
         center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             // TODO: if !granted, tell user they can change notification settings later on
             if let error = error {

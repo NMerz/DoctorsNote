@@ -95,7 +95,9 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     // Delete a reminder
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         notificationsList[indexPath.row].removeReminderNotification()
+        notificationsList.remove(at: indexPath.row)
         remindersList.remove(at: indexPath.row)
+        print("Deleted reminder")
         remindersTableView.reloadData()
     }
     
