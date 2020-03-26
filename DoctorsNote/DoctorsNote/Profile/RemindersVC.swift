@@ -33,6 +33,9 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         super.viewDidLoad()
                 self.indexPathForButton = IndexPath()
         // Do any additional setup after loading the view.
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        processor = ConnectionProcessor(connector: connector)
     }
     
     

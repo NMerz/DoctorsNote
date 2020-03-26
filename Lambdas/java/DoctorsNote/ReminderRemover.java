@@ -23,7 +23,7 @@ public class ReminderRemover {
         try {
             System.out.println("Preparing to remove reminder with id " + ((Map<String,Object>) inputMap.get("body-json")).get("reminderID"));
             PreparedStatement statement = dbConnection.prepareStatement(removeReminderFormatString);
-            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("reminderID"));
+            statement.setLong(1, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("reminderID").toString()));
             System.out.println(statement);
             int res = statement.executeUpdate();
             System.out.println("statement.executeUpdate returned " + res);
