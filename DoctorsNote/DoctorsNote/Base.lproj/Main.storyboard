@@ -1129,8 +1129,8 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfI-FG-NCz">
-                                    <rect key="frame" x="353" y="771" width="50" height="30"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfI-FG-NCz">
+                                    <rect key="frame" x="344" y="764" width="50" height="30"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="50" id="DmY-qN-HVd"/>
                                     </constraints>
@@ -1140,7 +1140,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRU-TH-d9z">
-                                    <rect key="frame" x="10" y="774" width="25" height="22"/>
+                                    <rect key="frame" x="10" y="768" width="25" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="25" id="0D5-Il-SEc"/>
                                     </constraints>
@@ -1155,11 +1155,11 @@
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="yfI-FG-NCz" secondAttribute="trailing" constant="20" id="8lI-w2-SjS"/>
                                 <constraint firstItem="oRU-TH-d9z" firstAttribute="leading" secondItem="TdV-lU-OC3" secondAttribute="leading" constant="10" id="9Z1-Hq-wgh"/>
+                                <constraint firstItem="yfI-FG-NCz" firstAttribute="centerY" secondItem="VaR-Pw-VPi" secondAttribute="centerY" id="Ho2-M0-7En"/>
+                                <constraint firstItem="oRU-TH-d9z" firstAttribute="centerY" secondItem="VaR-Pw-VPi" secondAttribute="centerY" id="ONd-Ye-369"/>
                                 <constraint firstItem="VaR-Pw-VPi" firstAttribute="leading" secondItem="oRU-TH-d9z" secondAttribute="trailing" constant="10" id="dWF-Cv-pkj"/>
                                 <constraint firstItem="yfI-FG-NCz" firstAttribute="leading" secondItem="VaR-Pw-VPi" secondAttribute="trailing" constant="10" id="dxH-IL-QMK"/>
                                 <constraint firstAttribute="bottom" secondItem="VaR-Pw-VPi" secondAttribute="bottom" constant="100" id="e8V-nu-fqk"/>
-                                <constraint firstItem="oRU-TH-d9z" firstAttribute="bottom" secondItem="VaR-Pw-VPi" secondAttribute="bottom" id="ihR-ZY-MZC"/>
-                                <constraint firstItem="VaR-Pw-VPi" firstAttribute="bottom" secondItem="yfI-FG-NCz" secondAttribute="bottom" id="xU7-61-TXl"/>
                             </constraints>
                         </view>
                         <cells/>

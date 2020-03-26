@@ -33,7 +33,14 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         }
         let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
         print(newMessage.getBase64Content())
-        connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        if (err != nil) {
+            let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+            alertController.addAction(okAction)
+            // Turn this into a reminder eventually because it takes so long to determine that the message failed to send.
+            self.present(alertController, animated: true, completion: nil)
+        }
         reloadMessages()
         print("Pressed2")
     }
@@ -163,6 +170,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         //let convo = Conversation(conversationID: 15)
         cellM.delegate = self
         cellM.setupViews()
+        // FIXME: Error with this when message fails to send
         cellM.showOutgoingMessage(text: String(data: self.messages.remove(at: messages.count - 1).getRawContent(), encoding: .utf8)!)
         //print("Index path:" + ((indexPath as? String)!))
         
