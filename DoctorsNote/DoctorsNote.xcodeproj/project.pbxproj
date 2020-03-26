@@ -10,8 +10,6 @@
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
-		9D137F2D242B936200A0B0AB /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F2C242B936200A0B0AB /* Appointment.swift */; };
-		9D137F2E242B93A600A0B0AB /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F2C242B936200A0B0AB /* Appointment.swift */; };
 		9D137F3F242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F3E242BAB6E00A0B0AB /* ConnectionProcessor.swift */; };
 		9D137F40242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F3E242BAB6E00A0B0AB /* ConnectionProcessor.swift */; };
 		9D137F42242BAB7700A0B0AB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F41242BAB7700A0B0AB /* Conversation.swift */; };
@@ -59,6 +57,7 @@
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
 		B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D224039A2100CF41D0 /* SupportGroupForm.swift */; };
+		B85C61AD242C930B0002D014 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85C61AC242C930A0002D014 /* Appointment.swift */; };
 		B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */; };
 		B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49032408F462000E6ABC /* RemindersVC.swift */; };
 		B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49052408F80E000E6ABC /* AddReminderVC.swift */; };
@@ -92,7 +91,6 @@
 		6AD397D1E99E16E4D6AE39F6 /* Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		87122CD23068385D7B24E2A2 /* Pods-DoctorsNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote/Pods-DoctorsNote.release.xcconfig"; sourceTree = "<group>"; };
 		897DD7D27778B748CB4A2FBF /* Pods-DoctorsNoteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNoteTests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNoteTests/Pods-DoctorsNoteTests.release.xcconfig"; sourceTree = "<group>"; };
-		9D137F2C242B936200A0B0AB /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Appointment.swift; path = /Users/MNM/Documents/GitHub/DoctorsNote/DoctorsNote/DoctorsNote/SupportGroup/Appointment.swift; sourceTree = "<absolute>"; };
 		9D137F3E242BAB6E00A0B0AB /* ConnectionProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionProcessor.swift; sourceTree = "<group>"; };
 		9D137F41242BAB7700A0B0AB /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		9D137F44242BAC2000A0B0AB /* HealthSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthSystem.swift; sourceTree = "<group>"; };
@@ -138,6 +136,8 @@
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
 		B82083D224039A2100CF41D0 /* SupportGroupForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupForm.swift; sourceTree = "<group>"; };
+		B85C61AC242C930A0002D014 /* Appointment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Appointment.swift; path = SupportGroup/Appointment.swift; sourceTree = "<group>"; };
+		B85C61AE242C93660002D014 /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Appointment.swift; path = DoctorsNote/SupportGroup/Appointment.swift; sourceTree = "<group>"; };
 		B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGroupConfirmationVC.swift; sourceTree = "<group>"; };
 		B87E49032408F462000E6ABC /* RemindersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersVC.swift; sourceTree = "<group>"; };
 		B87E49052408F80E000E6ABC /* AddReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderVC.swift; sourceTree = "<group>"; };
@@ -192,6 +192,7 @@
 		B52ABE5D23F5B872007B3D6A = {
 			isa = PBXGroup;
 			children = (
+				B85C61AE242C93660002D014 /* Appointment.swift */,
 				B52ABE6823F5B872007B3D6A /* DoctorsNote */,
 				B52ABE7F23F5B874007B3D6A /* DoctorsNoteTests */,
 				B52ABE8A23F5B874007B3D6A /* DoctorsNoteUITests */,
@@ -224,7 +225,7 @@
 				B54E4F222408ED8300349316 /* Models */,
 				B82083CE2403999300CF41D0 /* SupportGroup */,
 				B52ABE6923F5B872007B3D6A /* AppDelegate.swift */,
-				9D137F2C242B936200A0B0AB /* Appointment.swift */,
+				B85C61AC242C930A0002D014 /* Appointment.swift */,
 				B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */,
 				B52ABE6F23F5B872007B3D6A /* Main.storyboard */,
 				B52ABE7223F5B874007B3D6A /* Assets.xcassets */,
@@ -596,6 +597,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B85C61AD242C930B0002D014 /* Appointment.swift in Sources */,
 				B587B55E2429711E00B6BF0D /* NotificationPublisher.swift in Sources */,
 				B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */,
 				B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */,
@@ -623,7 +625,6 @@
 				B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */,
 				B54E4F332408EDA200349316 /* ForgotPasswordViewController.swift in Sources */,
 				B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */,
-				9D137F2D242B936200A0B0AB /* Appointment.swift in Sources */,
 				B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */,
 				B885DAD72415801D00DF5D29 /* RequestAppointmentVC.swift in Sources */,
 				B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */,
@@ -651,7 +652,6 @@
 				9D137F46242BAC2000A0B0AB /* HealthSystem.swift in Sources */,
 				9D137F49242BAC4000A0B0AB /* User.swift in Sources */,
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
-				9D137F2E242B93A600A0B0AB /* Appointment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
