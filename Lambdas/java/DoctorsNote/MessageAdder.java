@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 
@@ -26,18 +27,20 @@ public class MessageAdder {
 
     public AddMessageResponse add(Map<String,Object> inputMap, Context context) {
         try {
-            // Converting the passed JSON string into a POJO
-            Gson gson = new Gson();
-            //AddMessageRequest request = gson.fromJson(jsonString, AddMessage.AddMessageRequest.class);
-            // Establish connection with MariaDB
-            DBCredentialsProvider dbCP;
-
-            // Write to database (note: recipientId is intentionally omitted since it is unnecessary for future ops)
+            for (String key : ((Map<String,Object>)inputMap.get("context")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)inputMap.get("context")).get(key));
+            }
+            for (String key : ((Map<String,Object>)inputMap.get("body-json")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)inputMap.get("body-json")).get(key));
+            }
             PreparedStatement statement = dbConnection.prepareStatement(addMessageFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
-            statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("senderId"));
-            statement.setString(2, (new java.sql.Timestamp((new Date()).getTime())).toString());
-            statement.setString(4, (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationId"));
+            statement.setString(2, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
+            statement.setTimestamp(3, new java.sql.Timestamp(Instant.now().toEpochMilli()));
+            statement.setLong(4, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
+            System.out.println(statement);
             statement.executeUpdate();
 
             // Disconnect connection with shortest lifespan possible

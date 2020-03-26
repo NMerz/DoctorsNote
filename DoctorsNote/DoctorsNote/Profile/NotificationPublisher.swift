@@ -40,6 +40,9 @@ class NotificationPublisher: NSObject {
         
         // Create request
         let uuidString = UUID().uuidString // identifier
+        // TODO Put in iOS permanent storage
+        
+        
         self.thisIdentifier = uuidString
         let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: delayTimeTrigger)
         
@@ -53,6 +56,7 @@ class NotificationPublisher: NSObject {
     
     func removeReminderNotification() {
         // error check if self.thisIdentifier is nil
+        // TODO remobe identifier from permanent storage
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.thisIdentifier!])
         print("removed notification")
     }

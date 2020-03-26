@@ -8,29 +8,39 @@
 
 import Foundation
 
-class Reminder {
+class Reminder: CustomStringConvertible{
     private let reminderID: Int
-    private var content: [UInt8]
+    private var content: String     // Reminder2.reminder
     private let creatorID: String
     private let remindeeID: String
     private var timeCreated: Date
-    private var alertTime: Date
-
-    init(reminderID: Int, content: [UInt8], creatorID: String, remindeeID: String, timeCreated: Date, alertTime: Date) {
+    private var intradayFrequency: Int  // Reminder2.numTimesADay
+    private var daysBetweenReminders: Int // Remidner2.everyNumDays
+    
+    public var description: String {
+        return "Reminder: reminderID: \(reminderID), content: \(content), creatorID: \(creatorID), remindeeID: \(remindeeID), timeCreated: \(timeCreated), intradayFrequency: \(intradayFrequency), daysBetweenReminders: \(daysBetweenReminders)"
+    }
+    
+    init(reminderID: Int, content: String, creatorID: String, remindeeID: String, timeCreated: Date, intradayFrequency: Int, daysBetweenReminders: Int) {
         self.reminderID = reminderID
         self.content = content
         self.creatorID = creatorID
         self.remindeeID = remindeeID
         self.timeCreated = timeCreated
-        self.alertTime = alertTime
+        self.intradayFrequency = intradayFrequency
+        self.daysBetweenReminders = daysBetweenReminders
     }
 
     func getReminderID() -> Int {
         return reminderID
     }
-
-    func getContent() -> [UInt8] {
+    
+    func getContent() -> String {
         return content
+    }
+    
+    func setContent(newContent: String) {
+        content = newContent
     }
 
     func getCreatorID() -> String {
@@ -44,8 +54,25 @@ class Reminder {
     func getTimeCreated() -> Date {
         return timeCreated
     }
-
-    func getAlertTime() -> Date {
-        return alertTime
+    
+    func setTimeCreated(newTime: Date) {
+        timeCreated = newTime
     }
+
+    func getIntradayFrequency() -> Int {
+        return intradayFrequency
+    }
+    
+    func setIntradayFrequency(newFrequency: Int) {
+        intradayFrequency = newFrequency
+    }
+    
+    func getDaysBetweenReminders() -> Int {
+        return daysBetweenReminders
+    }
+    
+    func setDaysBetweenReminders(newInterval: Int) {
+        daysBetweenReminders = newInterval
+    }
+    
 }

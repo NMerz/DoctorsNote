@@ -33,7 +33,7 @@ public class MessageGetter {
             while (messageResult.next()) {
                 String content = messageResult.getString(1);
                 long messageId = messageResult.getLong(2);
-                long timeSent = messageResult.getTimestamp(3).toInstant().getEpochSecond();
+                long timeSent = messageResult.getTimestamp(3).toInstant().toEpochMilli();
                 String sender = messageResult.getString(4);
 
                 if (timeSent >= 0) {
