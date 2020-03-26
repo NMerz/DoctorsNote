@@ -28,8 +28,27 @@ class ProfileViewController: UIViewController {
         remindersPreviewLabel.text = "You currently have \(remindersList!.count) reminder(s)."
     }
     
+    func resetDefaults() {
+        let defaults = UserDefaults.standard
+        defaults.dictionaryRepresentation().keys.forEach(defaults.removeObject(forKey:))
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Remove permanent data, should I do this here?
+//        resetDefaults()
+        
+        // Permanent data test
+//        UserDefaults.standard.set("ariana was here", forKey: "id")
+//        UserDefaults.standard.removeObject(forKey: "id")
+//        if let string = UserDefaults.standard.object(forKey: "id") {
+//            print(string)
+//        }
+//        else {
+//            print("deleted!")
+//        }
+        // End permanent data test
+        
 //        var connector = Connector()
 //        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
 //        var processor = ConnectionProcessor(connector: connector)

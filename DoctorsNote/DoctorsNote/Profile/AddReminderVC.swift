@@ -10,7 +10,9 @@ import UIKit
 import AWSMobileClient
 
 
-var notificationsList = [NotificationPublisher]()
+//var notificationsList = [NotificationPublisher]()
+// Key: ReminderID, Value: corresponding notification publisher
+var notificationsDict = [Int: NotificationPublisher]()
 
 class AddReminderVC: UIViewController {
     @IBOutlet weak var newReminderField: UITextField!
@@ -54,8 +56,9 @@ class AddReminderVC: UIViewController {
                     
                     // TODO: better error check for integer casting
                     let notificationPublisher = NotificationPublisher()
-                    notificationPublisher.sendReminderNotification(title: "Reminder", body: "\(newReminder.getContent() )", badge: 1, numTimesDaily: Int(newReminder.getIntradayFrequency()) , everyNumDays: Int(newReminder.getDaysBetweenReminders()) )
-                    notificationsList.append(notificationPublisher)
+                    notificationPublisher.sendReminderNotification(reminder: newReminder, title: "Reminder", body: "\(newReminder.getContent() )", badge: 1, numTimesDaily: Int(newReminder.getIntradayFrequency()) , everyNumDays: Int(newReminder.getDaysBetweenReminders()) )
+//                    notificationsList.append(notificationPublisher)
+                    notificationsDict[newReminder.getReminderID()] = notificationPublisher
                 }
             }
         }

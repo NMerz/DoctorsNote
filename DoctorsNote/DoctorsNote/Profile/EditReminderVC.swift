@@ -50,12 +50,15 @@ class EditReminderVC: UIViewController {
                     }
                     
                     // Remove previous notification info
-                    notificationsList[indexPathForButton!.row].removeReminderNotification()
+//                    notificationsList[indexPathForButton!.row].removeReminderNotification()
+                    notificationsDict[remindersList![indexPathForButton!.row].getReminderID()]?.removeReminderNotification(reminderId: remindersList![indexPathForButton!.row].getReminderID())
                     
                     // update notification info
                     let notificationPublisher = NotificationPublisher()
-                    notificationPublisher.sendReminderNotification(title: "Reminder", body: "\(remindersList![indexPathForButton!.row].getContent() )", badge: 1, numTimesDaily: Int(remindersList![indexPathForButton!.row].getIntradayFrequency()) , everyNumDays: Int(remindersList![indexPathForButton!.row].getDaysBetweenReminders()) )
-                    notificationsList[indexPathForButton!.row] = notificationPublisher
+                    notificationPublisher.sendReminderNotification(reminder: remindersList![indexPathForButton!.row], title: "Reminder", body: "\(remindersList![indexPathForButton!.row].getContent() )", badge: 1, numTimesDaily: Int(remindersList![indexPathForButton!.row].getIntradayFrequency()) , everyNumDays: Int(remindersList![indexPathForButton!.row].getDaysBetweenReminders()) )
+//                    notificationsList[indexPathForButton!.row] = notificationPublisher
+                    notificationsDict[remindersList![indexPathForButton!.row].getReminderID()] = notificationPublisher
+                    
                                         
                     // Confirm edit completed
                     let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
