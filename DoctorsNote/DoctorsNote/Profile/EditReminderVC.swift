@@ -26,16 +26,12 @@ class EditReminderVC: UIViewController {
                     let content = editReminderField.text!
                     let intradayFrequency = Int(editNumTimesADayField.text!)!
                     let daysBetweenReminders = Int(editEveryNumDaysField.text!)!
-                remindersList![indexPathForButton!.row].setTimeCreated(newTime: Date(timeIntervalSinceNow: 0))
-                    remindersList![indexPathForButton!.row].setContent(newContent: content)
-                    remindersList![indexPathForButton!.row].setIntradayFrequency(newFrequency: intradayFrequency)
-                    remindersList![indexPathForButton!.row].setDaysBetweenReminders(newInterval: daysBetweenReminders)
+                    let reminder = remindersList![indexPathForButton!.row]
+                    reminder.setTimeCreated(newTime: Date(timeIntervalSinceNow: 0))
+                    reminder.setContent(newContent: content)
+                    reminder.setIntradayFrequency(newFrequency: intradayFrequency)
+                    reminder.setDaysBetweenReminders(newInterval: daysBetweenReminders)
 
-//                    let newReminder = Reminder(reminderID: 0, content: content, creatorID: "", remindeeID: "37d6a758-e79f-442f-af49-6bff78c8ad10", timeCreated: Date(timeIntervalSinceNow: 0), intradayFrequency: intradayFrequency, daysBetweenReminders: daysBetweenReminders)
-//
-//                    newReminder.reminder = editReminderField.text!
-//                    newReminder.numTimesADay = editNumTimesADayField.text!
-//                    newReminder.everyNumDays = editEveryNumDaysField.text!
                     if editReminderDescriptionField.text != "" {
 //                        newReminder.reminderDescription = editReminderDescriptionField.text!
                     }
@@ -51,13 +47,14 @@ class EditReminderVC: UIViewController {
                     
                     // Remove previous notification info
 //                    notificationsList[indexPathForButton!.row].removeReminderNotification()
-                    notificationsDict[remindersList![indexPathForButton!.row].getReminderID()]?.removeReminderNotification(reminderId: remindersList![indexPathForButton!.row].getReminderID())
+                    notificationsDict[reminder.getReminderID()]?.removeReminderNotification(reminderId: reminder.getReminderID())
                     
+                    // Again, don't need to sendReminderNotification bc it's done in CellforRowAt?
                     // update notification info
-                    let notificationPublisher = NotificationPublisher()
-                    notificationPublisher.sendReminderNotification(reminder: remindersList![indexPathForButton!.row], title: "Reminder", body: "\(remindersList![indexPathForButton!.row].getContent() )", badge: 1, numTimesDaily: Int(remindersList![indexPathForButton!.row].getIntradayFrequency()) , everyNumDays: Int(remindersList![indexPathForButton!.row].getDaysBetweenReminders()) )
-//                    notificationsList[indexPathForButton!.row] = notificationPublisher
-                    notificationsDict[remindersList![indexPathForButton!.row].getReminderID()] = notificationPublisher
+//                    let notificationPublisher = NotificationPublisher()
+//                    notificationPublisher.sendReminderNotification(reminder: remindersList![indexPathForButton!.row], title: "Reminder", body: "\(remindersList![indexPathForButton!.row].getContent() )", badge: 1, numTimesDaily: Int(remindersList![indexPathForButton!.row].getIntradayFrequency()) , everyNumDays: Int(remindersList![indexPathForButton!.row].getDaysBetweenReminders()) )
+////                    notificationsList[indexPathForButton!.row] = notificationPublisher
+//                    notificationsDict[remindersList![indexPathForButton!.row].getReminderID()] = notificationPublisher
                     
                                         
                     // Confirm edit completed

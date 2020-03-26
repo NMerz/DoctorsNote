@@ -32,9 +32,7 @@ class AddReminderVC: UIViewController {
                     let intradayFrequency = Int(numTimesADayField.text!)!
                     let daysBetweenReminders = Int(everyNumDaysField.text!)!
                     let newReminder = Reminder(reminderID: 0, content: content, creatorID: "", remindeeID: "37d6a758-e79f-442f-af49-6bff78c8ad10", timeCreated: Date(timeIntervalSinceNow: 0), intradayFrequency: intradayFrequency, daysBetweenReminders: daysBetweenReminders)
-//                    newReminder.reminder = newReminderField.text!
-//                    newReminder.numTimesADay = numTimesADayField.text!
-//                    newReminder.everyNumDays = everyNumDaysField.text!
+
                     if newReminderDescriptionField.text != "" {
                         // TODO description
 //                        newReminder.reminderDescription = newReminderDescriptionField.text!
@@ -54,11 +52,12 @@ class AddReminderVC: UIViewController {
                     everyNumDaysField.text = ""
                     newReminderDescriptionField.text = ""
                     
+                    // Don't need to add publisher here bc it will be added in cellForRowAt?
                     // TODO: better error check for integer casting
-                    let notificationPublisher = NotificationPublisher()
-                    notificationPublisher.sendReminderNotification(reminder: newReminder, title: "Reminder", body: "\(newReminder.getContent() )", badge: 1, numTimesDaily: Int(newReminder.getIntradayFrequency()) , everyNumDays: Int(newReminder.getDaysBetweenReminders()) )
-//                    notificationsList.append(notificationPublisher)
-                    notificationsDict[newReminder.getReminderID()] = notificationPublisher
+//                    let notificationPublisher = NotificationPublisher()
+//                    notificationPublisher.sendReminderNotification(reminder: newReminder, title: "Reminder", body: "\(newReminder.getContent() )", badge: 1, numTimesDaily: Int(newReminder.getIntradayFrequency()) , everyNumDays: Int(newReminder.getDaysBetweenReminders()) )
+////                    notificationsList.append(notificationPublisher)
+//                    notificationsDict[newReminder.getReminderID()] = notificationPublisher
                 }
             }
         }

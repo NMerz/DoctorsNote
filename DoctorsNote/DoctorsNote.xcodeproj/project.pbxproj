@@ -46,7 +46,6 @@
 		B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */; };
 		B587B55A2429710C00B6BF0D /* EditReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B5592429710B00B6BF0D /* EditReminderVC.swift */; };
 		B587B55C2429711600B6BF0D /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B55B2429711600B6BF0D /* ReminderCell.swift */; };
-		B587B55E2429711E00B6BF0D /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B55D2429711E00B6BF0D /* NotificationPublisher.swift */; };
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
 		B5AE7347241563C600A9CDAE /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE73482415698600A9CDAE /* TestLoginPage.swift */; };
@@ -57,6 +56,7 @@
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
 		B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D224039A2100CF41D0 /* SupportGroupForm.swift */; };
+		B85C61AF242D3F8B0002D014 /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3BA2024282A2D00820F05 /* NotificationPublisher.swift */; };
 		B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */; };
 		B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49032408F462000E6ABC /* RemindersVC.swift */; };
 		B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49052408F80E000E6ABC /* AddReminderVC.swift */; };
@@ -126,7 +126,6 @@
 		B54E4F312408EDA200349316 /* DOBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOBView.swift; sourceTree = "<group>"; };
 		B587B5592429710B00B6BF0D /* EditReminderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditReminderVC.swift; sourceTree = "<group>"; };
 		B587B55B2429711600B6BF0D /* ReminderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
-		B587B55D2429711E00B6BF0D /* NotificationPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationPublisher.swift; sourceTree = "<group>"; };
 		B5AC8B342409CF13002E070D /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		B5AE7346241563C600A9CDAE /* CognitoHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CognitoHelper.swift; sourceTree = "<group>"; };
 		B5AE73482415698600A9CDAE /* TestLoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestLoginPage.swift; sourceTree = "<group>"; };
@@ -332,7 +331,6 @@
 				B8866EFF2409796800C6149F /* CalendarVC.swift */,
 				B8E3BA2024282A2D00820F05 /* NotificationPublisher.swift */,
 				B587B55B2429711600B6BF0D /* ReminderCell.swift */,
-				B587B55D2429711E00B6BF0D /* NotificationPublisher.swift */,
 				B885DAD62415801D00DF5D29 /* RequestAppointmentVC.swift */,
 				B885DAD82415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift */,
 			);
@@ -595,8 +593,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B85C61AF242D3F8B0002D014 /* NotificationPublisher.swift in Sources */,
 				B8E3BA29242C258900820F05 /* Appointment.swift in Sources */,
-				B587B55E2429711E00B6BF0D /* NotificationPublisher.swift in Sources */,
 				B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */,
 				B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */,
 				B587B55C2429711600B6BF0D /* ReminderCell.swift in Sources */,

@@ -62,7 +62,6 @@ class NotificationPublisher: NSObject {
     
     func removeReminderNotification(reminderId: Int) {
         // error check if self.thisIdentifier is nil
-        // TODO remobe identifier from permanent storage
         print("removeReminderNotification for reminder: \(String(reminderId)), notification: \(UserDefaults.standard.object(forKey: String(reminderId)) ?? "_nil_")")
         // Remove notification from permanent data
         UserDefaults.standard.removeObject(forKey: String(reminderId))

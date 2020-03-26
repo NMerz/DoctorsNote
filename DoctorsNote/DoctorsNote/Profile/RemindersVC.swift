@@ -95,6 +95,8 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         //Pull notification identifiers from storage
         //Remove all notifcations (or should I do this in ProfileViewController viewdidload)
         resetDefaults()
+        notificationsDict[reminder.getReminderID()]?.removeReminderNotification(reminderId: reminder.getReminderID())
+        
         //Add notifcation for each reminder
         let notificationPublisher = NotificationPublisher()
         notificationPublisher.sendReminderNotification(reminder: reminder, title: "Reminder", body: "\(reminder.getContent() )", badge: 1, numTimesDaily: Int(reminder.getIntradayFrequency()) , everyNumDays: Int(reminder.getDaysBetweenReminders()) )
