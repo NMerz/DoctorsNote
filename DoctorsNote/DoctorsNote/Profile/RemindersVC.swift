@@ -94,7 +94,7 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         
         //Pull notification identifiers from storage
         //Remove all notifcations (or should I do this in ProfileViewController viewdidload)
-        resetDefaults()
+//        resetDefaults()
         notificationsDict[reminder.getReminderID()]?.removeReminderNotification(reminderId: reminder.getReminderID())
         
         //Add notifcation for each reminder
