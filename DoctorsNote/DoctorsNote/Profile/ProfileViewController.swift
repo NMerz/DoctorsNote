@@ -26,6 +26,8 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         remindersPreviewLabel.text = "You currently have \(remindersList!.count) reminder(s)."
+        UIApplication.shared.applicationIconBadgeNumber = 0
+
     }
     
     func resetDefaults() {

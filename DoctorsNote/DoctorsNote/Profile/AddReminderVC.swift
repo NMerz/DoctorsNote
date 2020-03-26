@@ -52,6 +52,9 @@ class AddReminderVC: UIViewController {
                     everyNumDaysField.text = ""
                     newReminderDescriptionField.text = ""
                     
+                    // Go back to RemindersVC
+                    _ = navigationController?.popViewController(animated: true)
+                    
                     // Don't need to add publisher here bc it will be added in cellForRowAt?
                     // TODO: better error check for integer casting
 //                    let notificationPublisher = NotificationPublisher()

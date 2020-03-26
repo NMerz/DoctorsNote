@@ -11,7 +11,6 @@ import AWSMobileClient
 
 class EditReminderVC: UIViewController {
     var processor: ConnectionProcessor?
-
     
     @IBOutlet weak var editReminderField: UITextField!
     @IBOutlet weak var editNumTimesADayField: UITextField!
@@ -58,10 +57,13 @@ class EditReminderVC: UIViewController {
                     
                                         
                     // Confirm edit completed
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    let alertController2 = UIAlertController(title: "Edit Complete", message: "Your reminder has been updated.", preferredStyle: .alert)
-                    alertController2.addAction(okAction)
-                    self.present(alertController2, animated: true, completion: nil)
+//                    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+//                    let alertController2 = UIAlertController(title: "Edit Complete", message: "Your reminder has been updated.", preferredStyle: .alert)
+//                    alertController2.addAction(okAction)
+//                    self.present(alertController2, animated: true, completion: nil)
+                    
+                    // Go back to RemindersVC
+                    _ = navigationController?.popViewController(animated: true)
                 }
             }
         }
