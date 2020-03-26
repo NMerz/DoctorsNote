@@ -25,7 +25,7 @@
                         <cells/>
                     </collectionView>
                     <tabBarItem key="tabBarItem" title="Chats" id="1jf-H2-gNh"/>
-                    <navigationItem key="navigationItem" id="BIr-l7-1TX"/>
+                    <navigationItem key="navigationItem" title="Conversations" largeTitleDisplayMode="always" id="BIr-l7-1TX"/>
                     <connections>
                         <segue destination="qrY-CR-dFM" kind="show" identifier="open_chat" id="cbR-Dz-3zz"/>
                     </connections>
@@ -39,8 +39,8 @@
             <objects>
                 <navigationController id="PZA-wq-2AD" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Chats" image="bubble.left.and.bubble.right.fill" catalog="system" id="Gxg-Zp-tyr"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="PTK-Yp-Zr9">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="PTK-Yp-Zr9">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="jgo-Ad-0Am">
@@ -746,7 +746,7 @@
             </objects>
             <point key="canvasLocation" x="1808.6956521739132" y="1125"/>
         </scene>
-        <!--Doctor Profile View Controller-->
+        <!--Doctor Dijkstra-->
         <scene sceneID="X8T-vl-8sN">
             <objects>
                 <viewController id="bLo-c2-Fla" customClass="DoctorProfileViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
@@ -755,13 +755,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NORMAL WORK HOURS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em5-A9-hg6">
-                                <rect key="frame" x="25" y="113" width="193" height="21"/>
+                                <rect key="frame" x="25" y="165" width="193" height="21"/>
+                                <accessibility key="accessibilityConfiguration" label="Work Hours Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PB-8b-HPz">
-                                <rect key="frame" x="40" y="144" width="364" height="21"/>
+                                <rect key="frame" x="40" y="196" width="364" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -777,7 +778,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nrx-Ek-xhV"/>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="4Zh-5I-ZVf"/>
+                    <navigationItem key="navigationItem" title="Doctor Dijkstra" largeTitleDisplayMode="always" id="4Zh-5I-ZVf">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="cyx-fw-ASD"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="hoursLabel" destination="6PB-8b-HPz" id="2FP-xA-pAy"/>
                     </connections>
@@ -1103,7 +1106,7 @@
             </objects>
             <point key="canvasLocation" x="-2593" y="352"/>
         </scene>
-        <!--Test Title-->
+        <!--Chat Log Controller-->
         <scene sceneID="d7C-ca-aj3">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="qrY-CR-dFM" customClass="ChatLogController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
@@ -1121,8 +1124,8 @@
                             <rect key="frame" x="0.0" y="-88" width="414" height="896"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-Pw-VPi">
-                                    <rect key="frame" x="69" y="770" width="276" height="34"/>
+                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VaR-Pw-VPi">
+                                    <rect key="frame" x="45" y="762" width="289" height="34"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -1136,9 +1139,11 @@
                                         <action selector="ourSendButtonClick" destination="qrY-CR-dFM" eventType="primaryActionTriggered" id="ZhN-la-pZu"/>
                                     </connections>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRU-TH-d9z">
-                                    <rect key="frame" x="41" y="758" width="34" height="54"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oRU-TH-d9z">
+                                    <rect key="frame" x="10" y="774" width="25" height="22"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="25" id="0D5-Il-SEc"/>
+                                    </constraints>
                                     <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <state key="normal" title="Button" image="camera.fill" catalog="system"/>
                                     <connections>
@@ -1149,16 +1154,18 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="yfI-FG-NCz" secondAttribute="trailing" constant="20" id="8lI-w2-SjS"/>
+                                <constraint firstItem="oRU-TH-d9z" firstAttribute="leading" secondItem="TdV-lU-OC3" secondAttribute="leading" constant="10" id="9Z1-Hq-wgh"/>
+                                <constraint firstItem="VaR-Pw-VPi" firstAttribute="leading" secondItem="oRU-TH-d9z" secondAttribute="trailing" constant="10" id="dWF-Cv-pkj"/>
                                 <constraint firstItem="yfI-FG-NCz" firstAttribute="leading" secondItem="VaR-Pw-VPi" secondAttribute="trailing" constant="10" id="dxH-IL-QMK"/>
                                 <constraint firstAttribute="bottom" secondItem="VaR-Pw-VPi" secondAttribute="bottom" constant="100" id="e8V-nu-fqk"/>
-                                <constraint firstItem="VaR-Pw-VPi" firstAttribute="leading" secondItem="TdV-lU-OC3" secondAttribute="leading" constant="10" id="llg-ei-sSh"/>
+                                <constraint firstItem="oRU-TH-d9z" firstAttribute="bottom" secondItem="VaR-Pw-VPi" secondAttribute="bottom" id="ihR-ZY-MZC"/>
                                 <constraint firstItem="VaR-Pw-VPi" firstAttribute="bottom" secondItem="yfI-FG-NCz" secondAttribute="bottom" id="xU7-61-TXl"/>
                             </constraints>
                         </view>
                         <cells/>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="Test Title" id="Ntu-NM-gzM">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="info.circle" catalog="system" style="plain" id="5E5-7q-Xah">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="Ntu-NM-gzM">
+                        <barButtonItem key="rightBarButtonItem" title="Info Button" image="info.circle" catalog="system" style="plain" id="5E5-7q-Xah">
                             <connections>
                                 <segue destination="bLo-c2-Fla" kind="show" id="mT8-ky-VDy"/>
                             </connections>
@@ -1171,7 +1178,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YEM-Ro-IEG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-820" y="1104"/>
+            <point key="canvasLocation" x="-820.28985507246387" y="1103.5714285714284"/>
         </scene>
         <!--Edit ReminderVC-->
         <scene sceneID="wsu-DC-ayO">

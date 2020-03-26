@@ -109,9 +109,22 @@ class AccountRegisterViewController: UIViewController {
         let passwordEmpty = passwordField.isEmpty()
         let confirmEmpty = confirmField.isEmpty()
         let passwordsEqual = (passwordField.text! == confirmField.text!)
+        
+        if (emailValid) {
+            errorLabel.text = ""
+            emailField.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            emailField.layer.borderColor = UIColor.systemRed.cgColor
+            errorLabel.text = "Error: You must enter a valid email address."
+        }
+        
         if (passwordsEqual) {
+            passwordField.layer.borderColor = UIColor.systemBlue.cgColor
+            confirmField.layer.borderColor = UIColor.systemBlue.cgColor
             errorLabel.text = ""
         } else {
+            passwordField.layer.borderColor = UIColor.systemRed.cgColor
+            confirmField.layer.borderColor = UIColor.systemRed.cgColor
             errorLabel.text = "Error: Password entries do not match."
         }
         

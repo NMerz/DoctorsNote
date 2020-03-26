@@ -122,6 +122,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.title = "Test Title"
+    }
+    
     func reloadMessages() {
         messagesShown += 1
         do {
@@ -136,17 +140,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         //view.addSubview(collectionView)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -180,6 +173,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 100)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        navigationItem.title = nil
     }
 
 }

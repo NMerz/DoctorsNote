@@ -19,6 +19,13 @@
 		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
 		AD4567D3634346E5B3E37C80 /* Pods_DoctorsNoteTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */; };
 		B2E92EDF0D4EB4D291081AEE /* Pods_DoctorsNote_DoctorsNoteUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */; };
+		B51C6A20242C551F00048BCF /* TestChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C6A1F242C551F00048BCF /* TestChatView.swift */; };
+		B51C6A21242C574B00048BCF /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0A24105BFD00E787FB /* ConnectionProcessor.swift */; };
+		B51C6A22242C574B00048BCF /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0424105BE200E787FB /* HealthSystem.swift */; };
+		B51C6A23242C574B00048BCF /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0724105BEA00E787FB /* Conversation.swift */; };
+		B51C6A24242C577300048BCF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
+		B51C6A25242C577300048BCF /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
+		B51C6A26242C577300048BCF /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
 		B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6923F5B872007B3D6A /* AppDelegate.swift */; };
 		B52ABE6C23F5B872007B3D6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */; };
 		B52ABE7123F5B872007B3D6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52ABE6F23F5B872007B3D6A /* Main.storyboard */; };
@@ -44,10 +51,6 @@
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
 		B5AE7347241563C600A9CDAE /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE73482415698600A9CDAE /* TestLoginPage.swift */; };
-		B5AE734A24156C4900A9CDAE /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2C2409CE21002E070D /* ConnectionProcessor.swift */; };
-		B5AE734B24156C5B00A9CDAE /* HealthSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B322409CE85002E070D /* HealthSystem.swift */; };
-		B5AE734C24156C5B00A9CDAE /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B2E2409CE35002E070D /* Conversation.swift */; };
-		B5AE734E24156C5B00A9CDAE /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */; };
 		B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */; };
 		B5C1F7D2242BA6AA00020121 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B302409CE6E002E070D /* User.swift */; };
@@ -97,6 +100,7 @@
 		9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionProcessorTests.swift; sourceTree = "<group>"; };
 		A21B97793A0B6E9F53489841 /* Pods_DoctorsNoteTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNoteTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupsTableViewController.swift; sourceTree = "<group>"; };
+		B51C6A1F242C551F00048BCF /* TestChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestChatView.swift; sourceTree = "<group>"; };
 		B52ABE6623F5B872007B3D6A /* DoctorsNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorsNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B52ABE6923F5B872007B3D6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B52ABE6B23F5B872007B3D6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 				B52ABE8D23F5B874007B3D6A /* Info.plist */,
 				B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */,
 				B5AE73482415698600A9CDAE /* TestLoginPage.swift */,
+				B51C6A1F242C551F00048BCF /* TestChatView.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -642,10 +647,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B5AE734B24156C5B00A9CDAE /* HealthSystem.swift in Sources */,
-				B5AE734C24156C5B00A9CDAE /* Conversation.swift in Sources */,
-				B5AE734E24156C5B00A9CDAE /* (null) in Sources */,
-				B5AE734A24156C4900A9CDAE /* ConnectionProcessor.swift in Sources */,
+				B51C6A24242C577300048BCF /* User.swift in Sources */,
+				B51C6A25242C577300048BCF /* Message.swift in Sources */,
+				B51C6A26242C577300048BCF /* Reminder.swift in Sources */,
+				B51C6A21242C574B00048BCF /* ConnectionProcessor.swift in Sources */,
+				B51C6A22242C574B00048BCF /* HealthSystem.swift in Sources */,
+				B51C6A23242C574B00048BCF /* Conversation.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
@@ -657,6 +664,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B51C6A20242C551F00048BCF /* TestChatView.swift in Sources */,
 				B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */,
 				B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */,
 				B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */,

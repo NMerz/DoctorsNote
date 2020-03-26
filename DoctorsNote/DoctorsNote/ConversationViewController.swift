@@ -24,7 +24,6 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         
 //        let convo1 = Conversation(conversationID: 5, conversationPartner: User(uid: 4, firstName: "your mom", lastName: "", dateOfBirth: "", address: "", healthSystems: nil), lastMessageTime: Date(), unreadMessages: false)
 //        let convo2 = Conversation(conversationID: 5, conversationPartner: "Your Other Mom", lastMessageTime: Date(), unreadMessages: false)
-        navigationItem.title = "Recent"
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false

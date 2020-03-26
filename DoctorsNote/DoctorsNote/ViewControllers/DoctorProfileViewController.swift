@@ -15,6 +15,8 @@ class DoctorProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationController?.navigationItem.backBarButtonItem?.title = "Back"
+        
         // FIXME: Actually implement
         CognitoHelper.sharedHelper.getWorkHours(doctor: User.init(uid: "1234")) { (success, hours) in
             if (success) {
