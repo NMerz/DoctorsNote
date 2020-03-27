@@ -11,6 +11,7 @@ import UIKit
 class RequestAppointmentConfirmationVC: UIViewController {
 //    var form: AppointmentForm?
     var appointment: Appointment?
+    var docName: String?
     @IBOutlet weak var appointmentConfirmationLabel: UILabel!
     
     override func viewDidLoad() {
@@ -21,7 +22,7 @@ class RequestAppointmentConfirmationVC: UIViewController {
         dateFormatter.dateFormat = "MM/dd/yyyy 'at' HH:mm"
         var formattedDateTime = dateFormatter.string(from: appointment!.getTimeScheduled())
         
-        self.appointmentConfirmationLabel.text = "Your request for an appointment with \(appointment!.getWithID()) on \(formattedDateTime) has been scheduled. If approved, you will receive a notification shortly."
+        self.appointmentConfirmationLabel.text = "Your request for an appointment with \(docName!) on \(formattedDateTime) has been scheduled. If approved, you will receive a notification shortly."
         self.appointmentConfirmationLabel.sizeToFit()
         self.appointmentConfirmationLabel.layoutIfNeeded()
 

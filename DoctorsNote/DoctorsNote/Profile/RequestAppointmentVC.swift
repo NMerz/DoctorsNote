@@ -30,6 +30,7 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     // Name, ID
     var doctorList = [(String, String)]()
     var thisId: String?
+    var thisName: String?
     
 //    var form: AppointmentForm?
     var appointment: Appointment?
@@ -151,6 +152,7 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let (docName, docId) = doctorList[indexPath.row]
         thisId = docId
+        thisName = docName
         selectedButton.setTitle(docName, for: .normal)
         removeTransparentView()
     }
@@ -173,6 +175,7 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
 //        requestConfirmation.form = self.form
         // Pass name of doctor
         requestConfirmation.appointment = self.appointment
+        requestConfirmation.docName = self.thisName
     }
     
     // Check for invalid input
