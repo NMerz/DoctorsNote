@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -21,11 +22,14 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     let transparentView = UIView()
     let dropdownTableView = UITableView()
+    var processor: ConnectionProcessor?
     
     var selectedButton = UIButton()
     
     // Is doctorlist specific to user or same for everyone
-    var doctorList = [String]()
+    // Name, ID
+    var doctorList = [(String, String)]()
+    var thisId: String?
     
 //    var form: AppointmentForm?
     var appointment: Appointment?
@@ -33,6 +37,9 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        processor = ConnectionProcessor(connector: connector)
         navigationItem.title = "Request Appointment"
 //        self.form = AppointmentForm()
         
@@ -108,7 +115,20 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBAction func onClickDoctorDropdown(_ sender: Any) {
         // Connect doctor list to backend
-        doctorList = ["Doctor 1", "Doctor 2", "Doctor 3"]
+        let (potentialConversationList, error) = (processor?.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList"))!
+        if error != nil {
+            //Panic
+        } else {
+            let converversationList = potentialConversationList!
+            for conversation in converversationList {
+                // If conversation isn't support group
+                if conversation.getConverserID() != "N/A" {
+                    doctorList.append((conversation.getConversationName(), conversation.getConverserID()))
+                }
+            }
+        }
+        
+        //doctorList = ["Doctor 1", "Doctor 2", "Doctor 3"]
         selectedButton = doctorDropdownButton
         addTransparentView(frames: doctorDropdownButton.frame)
     }
@@ -119,7 +139,8 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DropdownCell", for: indexPath)
-        cell.textLabel?.text = doctorList[indexPath.row]
+        let (docName, _) = doctorList[indexPath.row]
+        cell.textLabel?.text = docName
         return cell
     }
     
@@ -128,20 +149,29 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedButton.setTitle(doctorList[indexPath.row], for: .normal)
+        let (docName, docId) = doctorList[indexPath.row]
+        thisId = docId
+        selectedButton.setTitle(docName, for: .normal)
         removeTransparentView()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // AppointmentID?
-        self.appointment = Appointment(appointmentID: 0, content: detailField.text!, timeScheduled: self.date, withID: doctorDropdownButton.titleLabel!.text!)
-        appointmentList.append(self.appointment!)
+        self.appointment = Appointment(appointmentID: 0, content: detailField.text!, timeScheduled: self.date, withID: thisId!)
+        do {
+            try processor?.processNewAppointment(url: "tdb", appointment: appointment!)
+            
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+        }
+        //appointmentList.append(self.appointment!)
 //        self.form?.doctor = doctorDropdownButton.titleLabel?.text
 //        self.form?.dateAndTime = appointmentDatePicker.date
 //
 //        self.form?.appointmentDetails = detailField.text
         let requestConfirmation = segue.destination as! RequestAppointmentConfirmationVC
 //        requestConfirmation.form = self.form
+        // Pass name of doctor
         requestConfirmation.appointment = self.appointment
     }
     
