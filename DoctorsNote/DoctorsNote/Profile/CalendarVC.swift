@@ -8,6 +8,8 @@
 import JTAppleCalendar
 import UIKit
 
+var appointmentList = [Appointment]()
+
 class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalendarViewDelegate {
 
     @IBOutlet var calendarView: JTAppleCalendarView!
@@ -19,7 +21,7 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
         calendarView.scrollDirection = .horizontal
         calendarView.scrollingMode   = .stopAtEachCalendarFrame
         calendarView.showsHorizontalScrollIndicator = false
-
+        
         // Do any additional setup after loading the view.
     }
     

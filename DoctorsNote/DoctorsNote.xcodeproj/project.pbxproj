@@ -63,6 +63,8 @@
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
 		B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D224039A2100CF41D0 /* SupportGroupForm.swift */; };
 		B85C61AF242D3F8B0002D014 /* NotificationPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3BA2024282A2D00820F05 /* NotificationPublisher.swift */; };
+		B85C61B5242DDB160002D014 /* AppointmentListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85C61B4242DDB160002D014 /* AppointmentListCell.swift */; };
+		B85C61B7242DE6950002D014 /* AppointmentListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85C61B6242DE6950002D014 /* AppointmentListVC.swift */; };
 		B87E49012408B2AB000E6ABC /* RequestGroupConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */; };
 		B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49032408F462000E6ABC /* RemindersVC.swift */; };
 		B87E49062408F80E000E6ABC /* AddReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87E49052408F80E000E6ABC /* AddReminderVC.swift */; };
@@ -142,6 +144,8 @@
 		B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupMessageVC.swift; sourceTree = "<group>"; };
 		B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSupportGroupVC.swift; sourceTree = "<group>"; };
 		B82083D224039A2100CF41D0 /* SupportGroupForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupForm.swift; sourceTree = "<group>"; };
+		B85C61B4242DDB160002D014 /* AppointmentListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentListCell.swift; sourceTree = "<group>"; };
+		B85C61B6242DE6950002D014 /* AppointmentListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentListVC.swift; sourceTree = "<group>"; };
 		B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestGroupConfirmationVC.swift; sourceTree = "<group>"; };
 		B87E49032408F462000E6ABC /* RemindersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersVC.swift; sourceTree = "<group>"; };
 		B87E49052408F80E000E6ABC /* AddReminderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderVC.swift; sourceTree = "<group>"; };
@@ -341,6 +345,8 @@
 				B587B55B2429711600B6BF0D /* ReminderCell.swift */,
 				B885DAD62415801D00DF5D29 /* RequestAppointmentVC.swift */,
 				B885DAD82415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift */,
+				B85C61B4242DDB160002D014 /* AppointmentListCell.swift */,
+				B85C61B6242DE6950002D014 /* AppointmentListVC.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -610,10 +616,12 @@
 				9D325395242A765F0057B354 /* User.swift in Sources */,
 				B82083D324039A2100CF41D0 /* SupportGroupForm.swift in Sources */,
 				B8866F002409796800C6149F /* CalendarVC.swift in Sources */,
+				B85C61B5242DDB160002D014 /* AppointmentListCell.swift in Sources */,
 				B54E4F262408ED8300349316 /* DefinedValues.swift in Sources */,
 				9D137F45242BAC2000A0B0AB /* HealthSystem.swift in Sources */,
 				B587B55A2429710C00B6BF0D /* EditReminderVC.swift in Sources */,
 				B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */,
+				B85C61B7242DE6950002D014 /* AppointmentListVC.swift in Sources */,
 				9D137F42242BAB7700A0B0AB /* Conversation.swift in Sources */,
 				B54E4F352408EDA200349316 /* LoginViewController.swift in Sources */,
 				B54E4F322408EDA200349316 /* PersonalRegisterViewController.swift in Sources */,

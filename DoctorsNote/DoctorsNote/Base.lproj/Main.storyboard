@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DoA-A8-DEq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DoA-A8-DEq">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -197,7 +197,66 @@
             </objects>
             <point key="canvasLocation" x="-1551" y="897"/>
         </scene>
-        <!--CalendarVC-->
+        <!--Appointment ListVC-->
+        <scene sceneID="6mn-VZ-zTl">
+            <objects>
+                <tableViewController id="8ZG-ZQ-VdB" customClass="AppointmentListVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gLy-xf-tMV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="appointmentCell" rowHeight="77" id="K3i-ec-Afc" customClass="AppointmentListCell" customModule="DoctorsNote" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="77"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K3i-ec-Afc" id="8oi-wS-ePx">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="77"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Doctor" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2K-bv-9Cy">
+                                            <rect key="frame" x="20" y="16" width="59" height="24"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n2h-sr-VAw">
+                                            <rect key="frame" x="20" y="45" width="35" height="20"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="n2h-sr-VAw" secondAttribute="bottom" constant="20" id="AUy-hk-Wo1"/>
+                                        <constraint firstItem="n2h-sr-VAw" firstAttribute="top" secondItem="O2K-bv-9Cy" secondAttribute="bottom" constant="10" id="HPg-as-iOf"/>
+                                        <constraint firstItem="O2K-bv-9Cy" firstAttribute="leading" secondItem="8oi-wS-ePx" secondAttribute="leading" constant="20" id="NNH-cf-B8Z"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n2h-sr-VAw" secondAttribute="trailing" constant="20" id="auB-XP-amr"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="O2K-bv-9Cy" secondAttribute="trailing" constant="20" id="hcl-GT-YuM"/>
+                                        <constraint firstItem="n2h-sr-VAw" firstAttribute="leading" secondItem="8oi-wS-ePx" secondAttribute="leading" constant="20" id="q87-yu-9VZ"/>
+                                        <constraint firstItem="O2K-bv-9Cy" firstAttribute="top" secondItem="8oi-wS-ePx" secondAttribute="top" constant="20" id="yJW-Sf-RhX"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="date" destination="n2h-sr-VAw" id="Ts9-Sh-eoj"/>
+                                    <outlet property="doctor" destination="O2K-bv-9Cy" id="ld1-PS-xDT"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8ZG-ZQ-VdB" id="PpI-Fm-G05"/>
+                            <outlet property="delegate" destination="8ZG-ZQ-VdB" id="Eqn-fL-Obq"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="I0L-Hm-Xwm"/>
+                    <connections>
+                        <outlet property="appointmentTableView" destination="gLy-xf-tMV" id="fsr-G7-WCP"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QXP-7A-e7t" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3559.420289855073" y="1842.8571428571427"/>
+        </scene>
+        <!--Ib Calendar Data Source-->
         <scene sceneID="YdV-5z-1vE">
             <objects>
                 <viewController title="CalendarVC" id="ot2-vW-eD3" customClass="CalendarVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
@@ -206,7 +265,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="t27-19-jx8" customClass="JTAppleCalendarView" customModule="JTAppleCalendar">
-                                <rect key="frame" x="20" y="220" width="374" height="400"/>
+                                <rect key="frame" x="20" y="160" width="374" height="400"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="374" id="O0h-uU-NHX"/>
@@ -285,12 +344,23 @@
                                     <outlet property="ibCalendarDelegate" destination="ot2-vW-eD3" id="1VU-OB-NIV"/>
                                 </connections>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yGO-dO-CKh">
+                                <rect key="frame" x="20" y="590" width="374" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="View Pending Appointments"/>
+                                <connections>
+                                    <segue destination="8ZG-ZQ-VdB" kind="show" id="btf-lT-HBh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="t27-19-jx8" firstAttribute="top" secondItem="rlw-Pu-7d6" secondAttribute="top" constant="80" id="00M-70-YdJ"/>
+                            <constraint firstItem="t27-19-jx8" firstAttribute="top" secondItem="rlw-Pu-7d6" secondAttribute="top" constant="20" id="00M-70-YdJ"/>
+                            <constraint firstItem="rlw-Pu-7d6" firstAttribute="trailing" secondItem="yGO-dO-CKh" secondAttribute="trailing" constant="20" id="6MR-vY-qI6"/>
                             <constraint firstItem="t27-19-jx8" firstAttribute="leading" secondItem="rlw-Pu-7d6" secondAttribute="leading" constant="20" id="8c5-D6-KxD"/>
+                            <constraint firstItem="yGO-dO-CKh" firstAttribute="top" secondItem="t27-19-jx8" secondAttribute="bottom" constant="30" id="XvX-h3-Yh9"/>
                             <constraint firstItem="rlw-Pu-7d6" firstAttribute="trailing" secondItem="t27-19-jx8" secondAttribute="trailing" constant="20" id="dyV-6l-MFI"/>
+                            <constraint firstItem="yGO-dO-CKh" firstAttribute="leading" secondItem="rlw-Pu-7d6" secondAttribute="leading" constant="20" id="sID-Vx-3eq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rlw-Pu-7d6"/>
                     </view>
@@ -336,7 +406,7 @@
                                                         <segue destination="JwN-n9-7au" kind="show" identifier="toEditReminder" id="NBl-fH-gZa"/>
                                                     </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LFV-s3-PaK">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LFV-s3-PaK">
                                                     <rect key="frame" x="20" y="54" width="39.5" height="19.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -431,13 +501,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please provide any details for your doctor to review before the appointment." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TV-CB-qoz">
-                                <rect key="frame" x="30" y="363" width="354" height="48"/>
+                                <rect key="frame" x="30" y="362" width="354" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select date and time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEJ-n9-eFO">
-                                <rect key="frame" x="30" y="298" width="354" height="35"/>
+                                <rect key="frame" x="30" y="298" width="354" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -447,7 +517,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDQ-Kn-gXd">
-                                <rect key="frame" x="30" y="485" width="354" height="40"/>
+                                <rect key="frame" x="30" y="484" width="354" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Submit Appointment Request"/>
                                 <connections>
@@ -513,11 +583,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kU-F5-WJn">
+                                <rect key="frame" x="20" y="536" width="374" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Back to Calendar"/>
+                                <connections>
+                                    <action selector="onClickBackToCalendarButton:" destination="9i8-HL-cfa" eventType="touchUpInside" id="CF9-Um-Y7X"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="3Is-aA-XRQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="xuQ-B3-iu1" secondAttribute="top" constant="100" id="44z-dy-t5a"/>
+                            <constraint firstItem="xuQ-B3-iu1" firstAttribute="trailing" secondItem="4kU-F5-WJn" secondAttribute="trailing" constant="20" id="5Qc-cT-CgR"/>
+                            <constraint firstItem="4kU-F5-WJn" firstAttribute="leading" secondItem="xuQ-B3-iu1" secondAttribute="leading" constant="20" id="AwB-zQ-h3I"/>
                             <constraint firstItem="xuQ-B3-iu1" firstAttribute="trailing" secondItem="3Is-aA-XRQ" secondAttribute="trailing" constant="30" id="KkA-9u-8V6"/>
+                            <constraint firstItem="4kU-F5-WJn" firstAttribute="top" secondItem="3Is-aA-XRQ" secondAttribute="bottom" constant="30" id="YHX-sG-rw7"/>
                             <constraint firstItem="3Is-aA-XRQ" firstAttribute="leading" secondItem="xuQ-B3-iu1" secondAttribute="leading" constant="30" id="gCf-On-Wyx"/>
                             <constraint firstItem="xuQ-B3-iu1" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3Is-aA-XRQ" secondAttribute="bottom" constant="100" id="loe-GP-mey"/>
                         </constraints>
@@ -1295,13 +1376,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>
-        <image name="camera.fill" catalog="system" width="128" height="96"/>
-        <image name="chevron.left.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="gear" catalog="system" width="128" height="119"/>
-        <image name="info.circle" catalog="system" width="128" height="121"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="person.3.fill" catalog="system" width="128" height="61"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="bubble.left.and.bubble.right.fill" catalog="system" width="64" height="48"/>
+        <image name="camera.fill" catalog="system" width="64" height="48"/>
+        <image name="chevron.left.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="gear" catalog="system" width="64" height="58"/>
+        <image name="info.circle" catalog="system" width="64" height="60"/>
+        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
+        <image name="person.3.fill" catalog="system" width="71" height="34"/>
+        <image name="person.fill" catalog="system" width="64" height="60"/>
     </resources>
 </document>

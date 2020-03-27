@@ -24,14 +24,17 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     var selectedButton = UIButton()
     
+    // Is doctorlist specific to user or same for everyone
     var doctorList = [String]()
     
-    var form: AppointmentForm?
+//    var form: AppointmentForm?
+    var appointment: Appointment?
+    var date: Date!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Request Appointment"
-        self.form = AppointmentForm()
+//        self.form = AppointmentForm()
         
         dropdownTableView.delegate = self
         dropdownTableView.dataSource = self
@@ -39,8 +42,6 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
         // Do any additional setup after loading the view.
         
         appointmentDatePicker = UIDatePicker()
-        // Not military time pls
-//        appointmentDatePicker.locale = NSLocale(localeIdentifier: "en_US") as Locale
         appointmentDatePicker?.datePickerMode = .dateAndTime
         appointmentDatePicker?.addTarget(self, action: #selector(dateTimeChanged(appointmentDatePicker:)), for: .valueChanged)
         
@@ -58,6 +59,11 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc func dateTimeChanged(appointmentDatePicker: UIDatePicker) {
         let dateFormatter = DateFormatter()
+        
+        // Includes time as well?
+        self.appointment?.setTimeScheduled(newTime: appointmentDatePicker.date)
+        date = appointmentDatePicker.date
+        
         dateFormatter.dateFormat = "MM/dd/yyyy 'at' HH:mm"
         dateAndTimeField.text = dateFormatter.string(from: appointmentDatePicker.date)
         view.endEditing(true)
@@ -101,7 +107,7 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     @IBAction func onClickDoctorDropdown(_ sender: Any) {
-        // Connect hospital list to API later
+        // Connect doctor list to backend
         doctorList = ["Doctor 1", "Doctor 2", "Doctor 3"]
         selectedButton = doctorDropdownButton
         addTransparentView(frames: doctorDropdownButton.frame)
@@ -127,12 +133,16 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        self.form?.doctor = doctorDropdownButton.titleLabel?.text
-        self.form?.dateAndTime = appointmentDatePicker.date
-        
-        self.form?.appointmentDetails = detailField.text
+        // AppointmentID?
+        self.appointment = Appointment(appointmentID: 0, content: detailField.text!, timeScheduled: self.date, withID: doctorDropdownButton.titleLabel!.text!)
+        appointmentList.append(self.appointment!)
+//        self.form?.doctor = doctorDropdownButton.titleLabel?.text
+//        self.form?.dateAndTime = appointmentDatePicker.date
+//
+//        self.form?.appointmentDetails = detailField.text
         let requestConfirmation = segue.destination as! RequestAppointmentConfirmationVC
-        requestConfirmation.form = self.form
+//        requestConfirmation.form = self.form
+        requestConfirmation.appointment = self.appointment
     }
     
     // Check for invalid input
@@ -153,15 +163,5 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
         // Date and time
         return true
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

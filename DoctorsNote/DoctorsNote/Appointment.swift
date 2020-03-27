@@ -35,6 +35,10 @@ class Appointment {
         return timeScheduled
     }
     
+    func setTimeScheduled(newTime: Date) {
+        timeScheduled = newTime
+    }
+    
     func getWithID() -> String {
         return withID
     }
