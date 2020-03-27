@@ -55,6 +55,8 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         DOBButton.layer.cornerRadius = DefinedValues.fieldRadius
         sexButton.layer.cornerRadius = DefinedValues.fieldRadius
         
+        hideKeyboardWhenTappedAround()
+        
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -185,6 +187,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         closeButton.layer.mask = layer
+        closeButton.accessibilityLabel = "Close Button"
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         closeButton.tag = tag
         
@@ -203,6 +206,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         p?.maskType = .dimmed
         p?.dismissType = .slideOutToBottom
         p?.show(at: location, in: self.navigationController!.view)
+        dismissKeyboard()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -352,6 +356,7 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         selectHealthcareButton.layer.borderColor = UIColor.systemBlue.cgColor
         selectHealthcareButton.layer.borderWidth = 2
         
+        hideKeyboardWhenTappedAround()
     }
     
     @IBAction func requestAccount(_ sender: Any) {
@@ -379,7 +384,10 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         }
         
         if (!roleSelected || !hospitalSelected || !providerSelected) {
+            errorLabel.text = "Error: You must fill all required information"
             return
+        } else {
+            errorLabel.text = ""
         }
         
         CognitoHelper.sharedHelper.setHealthcareInformation(role: role!, hospital: hospital!, hospitalWebsite: hospitalWebsite!, healthcareProvider: provider!, healthcareWebsite: providerWebsite!, onDone: { (success, errMessage) in
@@ -437,6 +445,7 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         closeButton.layer.mask = layer
+        closeButton.accessibilityLabel = "Close Button"
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         
         contentView.addSubview(closeButton)
@@ -448,6 +457,7 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         p?.maskType = .dimmed
         p?.dismissType = .slideOutToBottom
         p?.show(at: location, in: (self.view)!)
+        dismissKeyboard()
     }
     
     @IBAction func goBack(_ sender: Any) {

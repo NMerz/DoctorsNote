@@ -34,7 +34,7 @@ class CognitoHelper {
                 return
             }
             // Checks if the user's information is initialized
-            if let _ = dict!["name"] {
+            if let _ = dict!["custom:healthcare_provider"] {
                 // Needs to set up profile. Should to go create profile screen
                 CognitoHelper.user = User(uid: AWSMobileClient.default().username!, dict: dict!)
                 onDone(true)
