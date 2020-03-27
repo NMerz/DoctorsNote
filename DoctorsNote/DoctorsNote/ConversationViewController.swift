@@ -69,7 +69,6 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
-        return 4;
         if (isFiltering()) {
             return filteredConversationList!.count
         } else {
