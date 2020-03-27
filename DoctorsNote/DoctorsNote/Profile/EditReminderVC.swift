@@ -44,6 +44,18 @@ class EditReminderVC: UIViewController {
                         print((error as! ConnectionError).getMessage())
                     }
                     
+                    // Pull reminders from server
+                    let connector = Connector()
+                    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+                    let processor = ConnectionProcessor(connector: connector)
+                    do {
+                        remindersList = try processor.processReminders(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderlist", numberToRetrieve: 10000)
+                    }
+                    catch let error {
+                        // Fails to store message on server
+                        print((error as! ConnectionError).getMessage())
+                    }
+                    
                     // Remove previous notification info
 //                    notificationsList[indexPathForButton!.row].removeReminderNotification()
                     notificationsDict[reminder.getReminderID()]?.removeReminderNotification(reminderId: reminder.getReminderID())

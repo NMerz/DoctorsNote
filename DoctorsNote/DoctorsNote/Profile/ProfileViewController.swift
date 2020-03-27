@@ -121,6 +121,7 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
+        
         let connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
