@@ -371,6 +371,15 @@
             <boolProp name="ISREGEX">true</boolProp>
           </JSONPathAssertion>
           <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert conversationName exists" enabled="true">
+            <stringProp name="JSON_PATH">$.conversationList.[0].conversationName</stringProp>
+            <stringProp name="EXPECTED_VALUE">.*</stringProp>
+            <boolProp name="JSONVALIDATION">true</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">true</boolProp>
+          </JSONPathAssertion>
+          <hashTree/>
           <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert status is an int" enabled="true">
             <stringProp name="JSON_PATH">$.conversationList.[0].status</stringProp>
             <stringProp name="EXPECTED_VALUE">[0-9]+</stringProp>
