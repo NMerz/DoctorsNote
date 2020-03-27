@@ -47,8 +47,18 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     func updateSearchResults(for searchController: UISearchController) {
         filteredConversationList = conversationList!.filter({( conversation : Conversation) -> Bool in
             let searched = searchController.searchBar.text!.lowercased()
-            let inFirstName = conversation.getConversationPartner().getFirstName().contains(searched)
-            let inLastName = conversation.getConversationPartner().getLastName().contains(searched)
+            let authorizedConnector = Connector()
+             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            let processor = ConnectionProcessor(connector: authorizedConnector)
+            let (potentialUser, potentialError) = processor.processUser(url: "tdb", uid: conversation.getConverserID())
+            if potentialError != nil {
+                //TODO: handle this error
+                //Must return if this is reached!
+                return false
+            }
+            let user = potentialUser!
+            let inFirstName = user.getFirstName().contains(searched)
+            let inLastName = user.getLastName().contains(searched)
             return (inFirstName || inLastName)
         })
         collectionView.reloadData()

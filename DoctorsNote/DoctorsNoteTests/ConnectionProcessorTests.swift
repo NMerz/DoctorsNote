@@ -204,15 +204,16 @@ class ConnectionProcessorTests: XCTestCase {
     
     func testValidConversationList() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":\"0id\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
+        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":\"0id\",\"conversationName\":\"0id\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         let (potentialConversationList, potentialError) = processor.processConversationList(url: "url")
         XCTAssert(potentialError == nil)
         XCTAssert(potentialConversationList != nil)
         let conversationList = potentialConversationList!
-        XCTAssert(conversationList[0].getConversationPartner().getUID() == "0id")
+        XCTAssert(conversationList[0].getConverserID() == "0id")
+        XCTAssert(conversationList[0].getConversationName() == "0id")
         XCTAssert(conversationList[0].getLastMessageTime() == Date(timeIntervalSince1970: 0))
-        XCTAssert(conversationList[0].getUnreadMessages() == false)
+        XCTAssert(conversationList[0].getStatus() == 0)
     }
     
     func testMessagePostBadStatus() {
@@ -496,7 +497,7 @@ class ConnectionProcessorTests: XCTestCase {
     //This test is testMessagePostBadStatus preceeding testValidConversationList without the ConnectionProcessor being reinititalized. This should provide some confidence that it is relatively stateless
     func testConsecutiveExecutions() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
-        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":\"0id\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: ConnectionError(message: "Test error"))
+        let connector = ConnectorMock(returnData: Data("{\"conversationList\":[{\"conversationID\":1,\"converserID\":\"0id\",\"conversationName\":\"0id\",\"lastMessageTime\":0,\"status\":0}]}".utf8), responseHeader: response, potentialError: ConnectionError(message: "Test error"))
         //connector.setToken(potentialTokens: Tokens(idToken: SessionToken(tokenString: "a"), accessToken: nil, refreshToken: nil, expiration: nil), potentialError: nil)
             //(idToken: SessionToken(tokenString: "token")), potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
@@ -510,9 +511,10 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(potentialError2 == nil)
         XCTAssert(potentialConversationList != nil)
         let conversationList = potentialConversationList!
-        XCTAssert(conversationList[0].getConversationPartner().getUID() == "0id")
+        XCTAssert(conversationList[0].getConverserID() == "0id")
+        XCTAssert(conversationList[0].getConversationName() == "0id")
         XCTAssert(conversationList[0].getLastMessageTime() == Date(timeIntervalSince1970: 0))
-        XCTAssert(conversationList[0].getUnreadMessages() == false)
+        XCTAssert(conversationList[0].getStatus() == 0)
         
     }
 }

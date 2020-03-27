@@ -162,10 +162,11 @@ class ConnectionProcessor {
            // let conversation = conversationList[conversationKey] as! [String : Any?]
             print(conversation["conversationID"] as? Int)
             print(conversation["converserID"] as? String)
+            print(conversation["conversationName"] as? String)
             print(conversation["lastMessageTime"] as? TimeInterval)
             print(conversation["status"] as? Int)
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! String), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), unreadMessages: conversation["status"] as! Int != 0)
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int)
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -181,7 +182,7 @@ class ConnectionProcessor {
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
         //Placeholder
-        return (Conversation(conversationID: -1, conversationPartner: User(uid: "-1")!, lastMessageTime: Date(), unreadMessages: false), nil)
+        return (Conversation(conversationID: -1, converserID: "-1", conversationName: "placeholder retrieval", lastMessageTime: Date(), status: -999), nil)
     }
     
     func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
