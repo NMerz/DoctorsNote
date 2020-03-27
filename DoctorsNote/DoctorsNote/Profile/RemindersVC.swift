@@ -33,6 +33,9 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         super.viewDidLoad()
                 self.indexPathForButton = IndexPath()
         // Do any additional setup after loading the view.
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        processor = ConnectionProcessor(connector: connector)
     }
     
     
@@ -69,7 +72,14 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         return remindersList!.count
     }
     
+    func resetDefaults() {
+        let defaults = UserDefaults.standard
+        defaults.dictionaryRepresentation().keys.forEach(defaults.removeObject(forKey:))
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("\(String(indexPath.row)) cell starting")
+
         let reminder = remindersList![indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "reminderCell") as! ReminderCell
         cell.setReminder(reminder: reminder)
@@ -80,11 +90,19 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         //Pair notifcations back up with reminders
         //Add any that do not exist (make sure to take creationTime into account!)
         
+        // OR
         
         //Pull notification identifiers from storage
-        //Remove all notifcations
+        //Remove all notifcations (or should I do this in ProfileViewController viewdidload)
+//        resetDefaults()
+        notificationsDict[reminder.getReminderID()]?.removeReminderNotification(reminderId: reminder.getReminderID())
+        
         //Add notifcation for each reminder
-
+        let notificationPublisher = NotificationPublisher()
+        notificationPublisher.sendReminderNotification(reminder: reminder, title: "Reminder", body: "\(reminder.getContent() )", badge: 1, numTimesDaily: Int(reminder.getIntradayFrequency()) , everyNumDays: Int(reminder.getDaysBetweenReminders()) )
+        //                    notificationsList.append(notificationPublisher)
+        notificationsDict[reminder.getReminderID()] = notificationPublisher
+        print()
         return cell
         
         
@@ -107,6 +125,11 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
     
     // Delete a reminder
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let reminder = remindersList![indexPath.row]
+
+        print("starting delete")
+        print("notifID from dict: \(notificationsDict[reminder.getReminderID()]!.getIdentifier())")
+        print("notifID from userdefault: \(UserDefaults.standard.object(forKey: String(reminder.getReminderID())) ?? "_WHY_")")
         do {
             try processor?.processDeleteReminder(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/reminderdelete", reminder: remindersList![indexPath.row])
         }
@@ -114,10 +137,12 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
             // Fails to store message on server
             print((error as! ConnectionError).getMessage())
         }
-        notificationsList[indexPath.row].removeReminderNotification()
+        notificationsDict[reminder.getReminderID()]?.removeReminderNotification(reminderId: reminder.getReminderID())
+//        notificationsList[indexPath.row].removeReminderNotification()
+        notificationsDict.removeValue(forKey: reminder.getReminderID())
         remindersList!.remove(at: indexPath.row)
-
         remindersTableView.reloadData()
+        print("deleted reminder")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -274,7 +274,9 @@ class ConnectionProcessor {
         var reminderJSON = [String: Any]()
         reminderJSON["content"] = reminder.getContent()
         reminderJSON["remindee"] = reminder.getRemindeeID()
-        reminderJSON["timeCreated"] = reminder.getTimeCreated().timeIntervalSince1970
+        var timeCreated = reminder.getTimeCreated().timeIntervalSince1970 * 1000 //put the millis before the decimal point
+        timeCreated.round() // make an int
+        reminderJSON["timeCreated"] = timeCreated
         reminderJSON["intradayFrequency"] = reminder.getIntradayFrequency()
         reminderJSON["daysBetweenReminders"] = reminder.getDaysBetweenReminders()
         let data = try postData(urlString: url, dataJSON: reminderJSON)

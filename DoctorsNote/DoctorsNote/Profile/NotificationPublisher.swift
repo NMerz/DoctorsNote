@@ -13,7 +13,7 @@ import UIKit
 class NotificationPublisher: NSObject {
     private var thisIdentifier: String?
     
-    func sendReminderNotification(title: String, body: String, badge: Int?, numTimesDaily: Int, everyNumDays: Int) {
+    func sendReminderNotification(reminder: Reminder, title: String, body: String, badge: Int?, numTimesDaily: Int, everyNumDays: Int) {
         // Create notification content
         let content = UNMutableNotificationContent()
         content.title = title
@@ -40,10 +40,10 @@ class NotificationPublisher: NSObject {
         
         // Create request
         let uuidString = UUID().uuidString // identifier
-        // TODO Put in iOS permanent storage
-        
-        
         self.thisIdentifier = uuidString
+        // TODO Put in iOS permanent storage
+        UserDefaults.standard.set(uuidString, forKey: String(reminder.getReminderID()))
+        
         let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: delayTimeTrigger)
         
         // Register request with notification center
@@ -52,13 +52,21 @@ class NotificationPublisher: NSObject {
                 print(error.localizedDescription)
             }
         }
+        
+        print("sendremindernotification for reminder: \(String(reminder.getReminderID())), notification: \(UserDefaults.standard.object(forKey: String(reminder.getReminderID())) ?? "_nil_")")
     }
     
-    func removeReminderNotification() {
+    func getIdentifier() -> String {
+        return thisIdentifier!
+    }
+    
+    func removeReminderNotification(reminderId: Int) {
         // error check if self.thisIdentifier is nil
-        // TODO remobe identifier from permanent storage
+        print("removeReminderNotification for reminder: \(String(reminderId)), notification: \(UserDefaults.standard.object(forKey: String(reminderId)) ?? "_nil_")")
+        // Remove notification from permanent data
+        UserDefaults.standard.removeObject(forKey: String(reminderId))
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [self.thisIdentifier!])
-        print("removed notification")
+        
     }
 }
 
