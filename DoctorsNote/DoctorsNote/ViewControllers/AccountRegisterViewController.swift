@@ -29,10 +29,9 @@ class AccountRegisterViewController: UIViewController {
         super.viewDidLoad()
         activityIndicator.center = self.view.center
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .gray
+        activityIndicator.style = .medium
         view.addSubview(activityIndicator)
-//        // TODO: REMOVE LATER
-//        AWSMobileClient.default().signOut()
+        hideKeyboardWhenTappedAround()
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -183,6 +182,8 @@ class ConfirmAccountViewController: UIViewController {
         let requestLayer = CAShapeLayer()
         requestLayer.path = UIBezierPath(roundedRect: createButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         createButton.layer.mask = requestLayer
+        
+        hideKeyboardWhenTappedAround()
         
     }
     
