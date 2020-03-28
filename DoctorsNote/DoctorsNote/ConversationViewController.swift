@@ -40,7 +40,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         (conversationList, _) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest") //{
         //}
         //print(conversationList)
-        //print(conversationList?.count)
+        //print("The count is: ", conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
     }
     
@@ -69,6 +69,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
+        return 4
         if (isFiltering()) {
             return filteredConversationList!.count
         } else {
@@ -86,6 +87,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
+        cell.conversationID = 15
+        //cell.conversationID = conversationList![indexPath.row].getConversationID()
         /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
 //        let df = DateFormatter()
@@ -102,7 +105,6 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        //return CGSizeMake(view.frame.width, 100)
         return CGSize(width: view.frame.width, height: 100.0)
     }
     
@@ -112,6 +114,11 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "open_chat") {
+            // TODO: Update later
+            let dest = segue.destination as! ChatLogController
+            dest.conversationID = 15
+            let path = collectionView.indexPathsForSelectedItems
+            //dest.conversationID = conversationList![path![0].row].getConversationID()
             //segue.destination.title = conversationList![0].getConversationPartner().getFirstName()
         }
     }
@@ -121,6 +128,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
 class FriendCell: BaseCellC {
     
     var delegate: ConversationViewController?
+    var conversationID: Int?
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -190,8 +198,6 @@ class FriendCell: BaseCellC {
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if(sender.state == .ended) {
-            //print("Success!")
-            //self.delegate!.performSegue(withIdentifier: "show_chat", sender: self.delegate!)
             self.delegate!.performSegue(withIdentifier: "open_chat", sender: self.delegate!)
         }
     }
@@ -199,7 +205,6 @@ class FriendCell: BaseCellC {
     private func setupContainerView() {
         let containerView = UIView()
         addSubview(containerView)
-        //        addConstraintsWithFormat(format: "H:|-90-[v0]|", views: containerView)
         addConstraintsWithFormat(format: "H:|-90-[v0]|", views: containerView)
         addConstraintsWithFormat(format: "V:[v0(50)]", views: containerView)
         addConstraint(NSLayoutConstraint(item: containerView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
