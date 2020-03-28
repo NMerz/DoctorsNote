@@ -31,7 +31,8 @@ class AddReminderVC: UIViewController {
                     let content = newReminderField.text!
                     let intradayFrequency = Int(numTimesADayField.text!)!
                     let daysBetweenReminders = Int(everyNumDaysField.text!)!
-                    let newReminder = Reminder(reminderID: 0, content: content, creatorID: "ignored", remindeeID: "37d6a758-e79f-442f-af49-6bff78c8ad10", timeCreated: Date(timeIntervalSinceNow: 0), intradayFrequency: intradayFrequency, daysBetweenReminders: daysBetweenReminders)
+                    let descriptionContent = newReminderDescriptionField.text ?? ""
+                    let newReminder = Reminder(reminderID: 0, content: content, descriptionContent: descriptionContent, creatorID: "ignored", remindeeID: "37d6a758-e79f-442f-af49-6bff78c8ad10", timeCreated: Date(timeIntervalSinceNow: 0), intradayFrequency: intradayFrequency, daysBetweenReminders: daysBetweenReminders)
 
                     if newReminderDescriptionField.text != "" {
                         // TODO description

@@ -11,6 +11,7 @@ import Foundation
 class Reminder: CustomStringConvertible{
     private let reminderID: Int
     private var content: String     // Reminder2.reminder
+    private var descriptionContent: String
     private let creatorID: String
     private let remindeeID: String
     private var timeCreated: Date
@@ -18,12 +19,13 @@ class Reminder: CustomStringConvertible{
     private var daysBetweenReminders: Int // Remidner2.everyNumDays
     
     public var description: String {
-        return "Reminder: reminderID: \(reminderID), content: \(content), creatorID: \(creatorID), remindeeID: \(remindeeID), timeCreated: \(timeCreated), intradayFrequency: \(intradayFrequency), daysBetweenReminders: \(daysBetweenReminders)"
+        return "Reminder: reminderID: \(reminderID), content: \(content), descriptionContent: \(descriptionContent), creatorID: \(creatorID), remindeeID: \(remindeeID), timeCreated: \(timeCreated), intradayFrequency: \(intradayFrequency), daysBetweenReminders: \(daysBetweenReminders)"
     }
     
-    init(reminderID: Int, content: String, creatorID: String, remindeeID: String, timeCreated: Date, intradayFrequency: Int, daysBetweenReminders: Int) {
+    init(reminderID: Int, content: String, descriptionContent: String, creatorID: String, remindeeID: String, timeCreated: Date, intradayFrequency: Int, daysBetweenReminders: Int) {
         self.reminderID = reminderID
         self.content = content
+        self.descriptionContent = descriptionContent
         self.creatorID = creatorID
         self.remindeeID = remindeeID
         self.timeCreated = timeCreated
@@ -41,6 +43,14 @@ class Reminder: CustomStringConvertible{
     
     func setContent(newContent: String) {
         content = newContent
+    }
+    
+    func getDescriptionContent() -> String {
+        return descriptionContent
+    }
+    
+    func setDescriptionContent(newDescription: String) {
+        descriptionContent = newDescription
     }
 
     func getCreatorID() -> String {

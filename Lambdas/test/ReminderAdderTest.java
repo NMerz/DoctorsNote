@@ -19,9 +19,11 @@ public class ReminderAdderTest {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("content", "test reminder");
+        jsonBody.put("descriptionContent", "about the reminder");
         jsonBody.put("remindee", "0000000001");
         jsonBody.put("timeCreated", 1L);
-        jsonBody.put("alertTime", 2L);
+        jsonBody.put("intradayFrequency", 2L);
+        jsonBody.put("daysBetweenReminders", 3L);
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
         context.put("sub", "sub-id123"); //Note: not an accurate length for sample id

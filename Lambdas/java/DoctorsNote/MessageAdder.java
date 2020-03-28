@@ -20,7 +20,7 @@ import java.util.Map;
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
 public class MessageAdder {
-    private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID) VALUES (?, ?, ?, ?);";
+    private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID, contentType) VALUES (?, ?, ?, ?, ?);";
     Connection dbConnection;
 
     public MessageAdder(Connection dbConnection) { this.dbConnection = dbConnection; }
@@ -40,6 +40,7 @@ public class MessageAdder {
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setTimestamp(3, new java.sql.Timestamp(Instant.now().toEpochMilli()));
             statement.setLong(4, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
+            statement.setLong(5, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("contentType").toString()));
             System.out.println(statement);
             statement.executeUpdate();
 

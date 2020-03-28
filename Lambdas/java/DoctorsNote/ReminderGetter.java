@@ -41,9 +41,10 @@ public class ReminderGetter {
                 long timeCreated = reminderRS.getTimestamp(5).toInstant().toEpochMilli();
                 int intradayFrequency = reminderRS.getInt(6);
                 int daysBetweenReminders = reminderRS.getInt(7);
+                String descriptionContent = reminderRS.getString(8);
 
 //                if (alertTime >= 0) {
-                reminders.add(new Reminder(reminderID, content, remindee, creatorID,  intradayFrequency, daysBetweenReminders, timeCreated));
+                reminders.add(new Reminder(reminderID, content, descriptionContent, remindee, creatorID,  intradayFrequency, daysBetweenReminders, timeCreated));
 //                }
             }
 
@@ -60,17 +61,19 @@ public class ReminderGetter {
     public class Reminder {
         private int reminderID;
         private String content;
+        private String descriptionContent;
         private String remindee;
         private String creatorID;
         private int intradayFrequency;
         private int daysBetweenReminders;
         private long timeCreated;
 
-        public Reminder(int reminderID, String content, String remindee, String creatorID, int intradayFequency, int daysBetweenReminders, long timeCreated) {
+        public Reminder(int reminderID, String content, String descriptionContent, String remindee, String creatorID, int intradayFequency, int daysBetweenReminders, long timeCreated) {
             this.reminderID = reminderID;
             this.remindee = remindee;
             this.creatorID = creatorID;
             this.content = content;
+            this.descriptionContent = descriptionContent;
             this.intradayFrequency = intradayFequency;
             this.daysBetweenReminders = daysBetweenReminders;
             this.timeCreated = timeCreated;
@@ -90,6 +93,14 @@ public class ReminderGetter {
 
         public void setContent(String content) {
             this.content = content;
+        }
+
+        public String getDescriptionContent() {
+            return descriptionContent;
+        }
+
+        public void setDescriptionContent(String descriptionContent) {
+            this.descriptionContent = descriptionContent;
         }
 
         public long getTimeCreated() {
