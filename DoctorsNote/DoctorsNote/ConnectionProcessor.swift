@@ -255,12 +255,13 @@ class ConnectionProcessor {
             print((reminder["remindee"] as? String) != nil)
             print((reminder["creatorID"] as? String) != nil)
             print((reminder["timeCreated"] as? Int) != nil)
+            print((reminder["timeCreated"] as! Double) / 1000.0)
             print((reminder["intradayFrequency"] as? Int) != nil)
             print((reminder["daysBetweenReminders"] as? Int) != nil)
             print((reminder["content"] as? String) != nil)
-            print((reminder["timeCreated"] as! Double) / 1000.0)
-            if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["intradayFrequency"] as? Int) != nil) && ((reminder["daysBetweenReminders"] as? Int) != nil) && ((reminder["content"] as? String) != nil) {
-                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: ((reminder["timeCreated"] as! Double) / 1000.0)), intradayFrequency: reminder["intradayFrequency"] as! Int, daysBetweenReminders: reminder["daysBetweenReminders"] as! Int)
+            print((reminder["descriptionContent"] as? String) != nil)
+            if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["intradayFrequency"] as? Int) != nil) && ((reminder["daysBetweenReminders"] as? Int) != nil) && ((reminder["content"] as? String) != nil) && ((reminder["descriptionContent"] as? String) != nil) {
+                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, descriptionContent: reminder["descriptionContent"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: ((reminder["timeCreated"] as! Double) / 1000.0)), intradayFrequency: reminder["intradayFrequency"] as! Int, daysBetweenReminders: reminder["daysBetweenReminders"] as! Int)
                 reminders.append(newReminder)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -274,6 +275,7 @@ class ConnectionProcessor {
     func processNewReminder(url: String, reminder: Reminder) throws {
         var reminderJSON = [String: Any]()
         reminderJSON["content"] = reminder.getContent()
+        reminderJSON["descriptionContent"] = reminder.getDescriptionContent()
         reminderJSON["remindee"] = reminder.getRemindeeID()
         var timeCreated = reminder.getTimeCreated().timeIntervalSince1970 * 1000 //put the millis before the decimal point
         timeCreated.round() // make an int

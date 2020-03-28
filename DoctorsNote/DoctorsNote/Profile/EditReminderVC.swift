@@ -30,10 +30,8 @@ class EditReminderVC: UIViewController {
                     reminder.setContent(newContent: content)
                     reminder.setIntradayFrequency(newFrequency: intradayFrequency)
                     reminder.setDaysBetweenReminders(newInterval: daysBetweenReminders)
+                    reminder.setDescriptionContent(newDescription: editReminderDescriptionField.text ?? "")
 
-                    if editReminderDescriptionField.text != "" {
-//                        newReminder.reminderDescription = editReminderDescriptionField.text!
-                    }
                     
 //                    remindersList![indexPathForButton!.row] = newReminder
                     do {
@@ -98,7 +96,7 @@ class EditReminderVC: UIViewController {
         self.editReminderField.text = "\(selectedReminder!.getContent())"
         self.editNumTimesADayField.text = "\(selectedReminder!.getIntradayFrequency())"
         self.editEveryNumDaysField.text = "\(selectedReminder!.getDaysBetweenReminders())"
-//        self.editReminderDescriptionField.text = "\(selectedReminder!.reminderDescription ?? "")"
+        self.editReminderDescriptionField.text = "\(selectedReminder!.getDescriptionContent() ?? "")"
         
         var connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))

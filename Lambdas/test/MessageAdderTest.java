@@ -19,8 +19,8 @@ public class MessageAdderTest {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("content", "Test Message");
-        jsonBody.put("senderId", "0000000001");
-        jsonBody.put("conversationId", "0000000001");
+//        jsonBody.put("senderId", "0000000001");
+        jsonBody.put("conversationID    ", "0000000001");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
         context.put("sub", "sub-id123"); //Note: not an accurate length for sample id
