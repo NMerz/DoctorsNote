@@ -31,7 +31,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         if messageText.text == nil || messageText.text!.isEmpty || (messageText!.text?.data(using: .utf8)) == nil {
             return
         }
-        let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
         print(newMessage.getBase64Content())
         let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
         if (err != nil) {
@@ -51,7 +51,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         //comment out the line below when using simulator
-        imagePicker.sourceType = .camera
+        //imagePicker.sourceType = .camera
         //imagePicker.allowsEditing = true
         imagePicker.delegate = self
         //imagePicker.sourceType = UIImagePickerController.SourceType.camera
@@ -76,7 +76,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             print("Shrinking to:" + String(quality))
             content = image.jpegData(compressionQuality: CGFloat(quality))!
         }
-        let newMessage = Message(messageID: -1, conversationID: 15, content: content) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: 15, content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
 
         //print(newMessage.getContent())
         let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
@@ -115,7 +115,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         // Do any additional setup after loading the view.
         messagesShown = 5;
         do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown) ?? messages)
+            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown)
             print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
         } catch let error {
             print ((error as! ConnectionError).getMessage())
@@ -123,7 +123,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         }
         
         for message in messages {
-            print(message.getBase64Content())
+            //print(message.getBase64Content())
             //cellM.showOutgoingMessage(text: message.getBase64Content())
             
         }
@@ -136,7 +136,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     func reloadMessages() {
         messagesShown += 1
         do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown) ?? messages)
+            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown)
             print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
         } catch let error {
             print ((error as! ConnectionError).getMessage())
@@ -171,7 +171,12 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         cellM.delegate = self
         cellM.setupViews()
         // FIXME: Error with this when message fails to send
-        cellM.showOutgoingMessage(text: String(data: self.messages.remove(at: messages.count - 1).getRawContent(), encoding: .utf8)!)
+        let nextMessage = self.messages.remove(at: messages.count - 1)
+        if nextMessage.getContentType() == 0 {
+            cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+        } else if nextMessage.getContentType() == 1 {
+            cellM.showOutgoingMessage(image: UIImage(data: nextMessage.getRawContent()) ?? UIImage())
+        }
         //print("Index path:" + ((indexPath as? String)!))
         
         return cellM
@@ -252,6 +257,65 @@ class FriendCellM: BaseCellM {
         let width = bubbleSize.width
         let height = bubbleSize.height
         
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: width - 22, y: height))
+        bezierPath.addLine(to: CGPoint(x: 17, y: height))
+        bezierPath.addCurve(to: CGPoint(x: 0, y: height - 17), controlPoint1: CGPoint(x: 7.61, y: height), controlPoint2: CGPoint(x: 0, y: height - 7.61))
+        bezierPath.addLine(to: CGPoint(x: 0, y: 17))
+        bezierPath.addCurve(to: CGPoint(x: 17, y: 0), controlPoint1: CGPoint(x: 0, y: 7.61), controlPoint2: CGPoint(x: 7.61, y: 0))
+        bezierPath.addLine(to: CGPoint(x: width - 21, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: width - 4, y: 17), controlPoint1: CGPoint(x: width - 11.61, y: 0), controlPoint2: CGPoint(x: width - 4, y: 7.61))
+        bezierPath.addLine(to: CGPoint(x: width - 4, y: height - 11))
+        bezierPath.addCurve(to: CGPoint(x: width, y: height), controlPoint1: CGPoint(x: width - 4, y: height - 1), controlPoint2: CGPoint(x: width, y: height))
+        bezierPath.addLine(to: CGPoint(x: width + 0.05, y: height - 0.01))
+        bezierPath.addCurve(to: CGPoint(x: width - 11.04, y: height - 4.04), controlPoint1: CGPoint(x: width - 4.07, y: height + 0.43), controlPoint2: CGPoint(x: width - 8.16, y: height - 1.06))
+        bezierPath.addCurve(to: CGPoint(x: width - 22, y: height), controlPoint1: CGPoint(x: width - 16, y: height), controlPoint2: CGPoint(x: width - 19, y: height))
+        bezierPath.close()
+        
+        let outgoingMessageLayer = CAShapeLayer()
+        outgoingMessageLayer.path = bezierPath.cgPath
+        outgoingMessageLayer.frame = CGRect(x: message.frame.width/2 - width/2,
+                                            y: message.frame.height/2 - height/2,
+                                            width: width,
+                                            height: height)
+        outgoingMessageLayer.fillColor = UIColor(red: 0.09, green: 0.54, blue: 1, alpha: 1).cgColor
+        
+        message.layer.addSublayer(outgoingMessageLayer)
+        label.center = message.center
+        message.addSubview(label)
+    }
+    
+    func showOutgoingMessage(image: UIImage) {
+        if labelView != nil {
+            labelView!.removeFromSuperview()
+        }
+        labelView =  UILabel()
+        let label = labelView!
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .white
+        //Image embedding from https://jayeshkawli.ghost.io/add-image-to-uilabel-with-swift-ios/
+        let imageAttachment = NSTextAttachment()
+        imageAttachment.image = image
+        
+        
+        let constraintRect = CGSize(width: 0.66 * message.frame.width,
+                                    height: .greatestFiniteMagnitude)
+        imageAttachment.bounds = CGRect(origin: message.center, size: CGSize(width: 200, height: 100))
+        label.attributedText = NSAttributedString(attachment: imageAttachment)
+        let boundingBox = imageAttachment.bounds/*(with: constraintRect,
+                                            options: .usesLineFragmentOrigin,
+                                            attributes: [.font: label.font],
+                                            context: nil)*/
+        label.frame.size = CGSize(width: ceil(boundingBox.width),
+                                  height: ceil(boundingBox.height))
+        
+        let bubbleSize = CGSize(width: label.frame.width + 28,
+                                     height: label.frame.height + 20)
+        
+        let width = bubbleSize.width
+        let height = bubbleSize.height
+
         let bezierPath = UIBezierPath()
         bezierPath.move(to: CGPoint(x: width - 22, y: height))
         bezierPath.addLine(to: CGPoint(x: 17, y: height))

@@ -72,7 +72,7 @@ class ConnectionProcessor {
         }
         connectionError = nil
         var jsonData: [String: Any]?
-        print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
+        //print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
         do {
             jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
             if jsonData == nil { //I cannot remember any case where this would happen instead of throwing
@@ -83,8 +83,8 @@ class ConnectionProcessor {
             return (nil, ConnectionError(message: "Malformed response body"))
             
         }
-        print(type(of: jsonData!))
-        print(jsonData!)
+        //print(type(of: jsonData!))
+        //print(jsonData!)
         return (jsonData!, nil)
     }
     
@@ -206,9 +206,10 @@ class ConnectionProcessor {
             print((message["messageId"]! as? Int) != nil)
             print((message["content"] as? String) != nil)
             print(Data(base64Encoded: (message["content"] as! String)) != nil)
+            print((message["contentType"] as? Int) != nil)
             print((message["sender"] as? String) != nil)
-            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["sender"] as? String) != nil) {
-                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, sender: User(uid: message["sender"] as! String))
+            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -223,6 +224,7 @@ class ConnectionProcessor {
         var messageJSON = [String: Any]()
         messageJSON["conversationID"] = message.getConversationID()
         messageJSON["content"] = message.getBase64Content()
+        messageJSON["contentType"] = message.getContentType()
         do {
             let data = try postData(urlString: url, dataJSON: messageJSON)
             if data.count != 0 {
