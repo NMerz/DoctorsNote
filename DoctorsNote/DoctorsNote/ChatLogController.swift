@@ -63,6 +63,9 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
         let lastItemIndex = NSIndexPath(item: item, section: 0)
         self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -213,6 +216,24 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         navigationItem.title = nil
     }
 
+    // Credit to: https://medium.com/@PaulWall43/how-to-raise-a-uitextfield-when-the-keyboard-shows-ccfa6553c911
+    @objc func keyboardWillShow(notification: NSNotification) {
+       if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            if (self.view.frame.origin.y == 0) {
+                self.view.frame.origin.y -= keyboardHeight
+                self.view.frame.origin.y += (tabBarController?.tabBar.frame.height)!
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if (self.view.frame.origin.y != 0) {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
 }
 
 /*extension ViewController = UITextFieldDelegate {
