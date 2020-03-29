@@ -22,7 +22,6 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     private var messages = [Message]()
     private var messagesShown = 5
     
-    var conversationID: Int?
     var conversation: Conversation?
     
     @IBOutlet weak var sendButton: UIButton!
@@ -50,12 +49,12 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         collectionView!.collectionViewLayout = layout
 
         let testString = "Hello, \nWorld!\n test"
-        let testMessage = Message(messageID: -1, conversationID: 15, content: (testString.data(using: .utf8))!, contentType: 0)
+        let testMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (testString.data(using: .utf8))!, contentType: 0)
         // Do any additional setup after loading the view.
         messagesShown = 20;
         do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversationID!, numberToRetrieve: messagesShown) ?? messages)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversationID!, numberToRetrieve: messagesShown))
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown) ?? messages)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown))
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")
@@ -86,7 +85,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         if messageText.text == nil || messageText.text!.isEmpty || (messageText!.text?.data(using: .utf8)) == nil {
             return
         }
-        let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
         print(newMessage.getBase64Content())
         let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
         if (err != nil) {
@@ -144,8 +143,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     func reloadMessages() {
         messagesShown += 1
         do {
-            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
+            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown))
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")
@@ -161,9 +160,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellM = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellM
-        //let convo = Conversation(conversationID: 15)
         cellM.delegate = self
-        // FIXME: Error with this when message fails to send
         let nextMessage = self.messages[messages.count - indexPath.row - 1]
         if nextMessage.getContentType() == 0 {
             cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)

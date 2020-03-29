@@ -18,6 +18,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     private var conversationList: [Conversation]?
     private var filteredConversationList: [Conversation]?
     let searchController = UISearchController(searchResultsController: nil)
+    var selectedConversation: Conversation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,9 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         //print(conversationList)
         //print("The count is: ", conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
+        
+        let testConversation = Conversation(conversationID: 15, converserID: "-1", conversationName: "Test Converstation", lastMessageTime: Date(), status: 1)
+        conversationList = [testConversation, testConversation, testConversation, testConversation]
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -114,22 +118,21 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         return cell
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedConversation = conversationList![indexPath.row]
+        self.performSegue(withIdentifier: "open_chat", sender: self)
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 100.0)
     }
-    
-//    func switchVC(ViewController: UIViewController) {
-//        self.present(UIViewController(), animated: true)
-//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "open_chat") {
             // TODO: Update later
             let dest = segue.destination as! ChatLogController
-            dest.conversationID = 15
-            let path = collectionView.indexPathsForSelectedItems
-            //dest.conversationID = conversationList![path![0].row].getConversationID()
-            //segue.destination.title = conversationList![0].getConversationPartner().getFirstName()
+            dest.conversation = selectedConversation
+            segue.destination.title = "Test Title"//conversationList![0].getConversationPartner().getFirstName()
         }
     }
     
@@ -233,8 +236,8 @@ class FriendCell: BaseCellC {
         containerView.addConstraintsWithFormat(format: "V:|[v0(24)]", views: timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:[v0(20)]|", views: hasReadImageView)
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
-        self.addGestureRecognizer(tapRecognizer)
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+//        self.addGestureRecognizer(tapRecognizer)
 
     }
     
