@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MessageGetter {
-    private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender FROM Message" +
+    private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender, contentType FROM Message" +
             " WHERE conversationID = ? ORDER BY timeCreated DESC LIMIT ?;";
     Connection dbConnection;
 
@@ -35,9 +35,10 @@ public class MessageGetter {
                 long messageId = messageResult.getLong(2);
                 long timeSent = messageResult.getTimestamp(3).toInstant().toEpochMilli();
                 String sender = messageResult.getString(4);
+                long contentType = messageResult.getLong(5);
 
                 if (timeSent >= 0) {
-                    messages.add(new Message(content, messageId, timeSent, sender));
+                    messages.add(new Message(content, contentType, messageId, timeSent, sender));
                 }
             }
 
@@ -94,12 +95,14 @@ public class MessageGetter {
 
     private class Message {
         private String content;
+        private long contentType;
         private long messageID;
         private long timeSent;
         private String sender;
 
-        public Message(String content, long messageId, long timeSent, String sender) {
+        public Message(String content, long contentType, long messageId, long timeSent, String sender) {
             this.content = content;
+            this.contentType = contentType;
             this.messageID = messageId;
             this.timeSent = timeSent;
             this.sender = sender;
@@ -135,6 +138,14 @@ public class MessageGetter {
 
         public void setSender(String sender) {
             this.sender = sender;
+        }
+
+        public long getContentType() {
+            return contentType;
+        }
+
+        public void setContentType(long contentType) {
+            this.contentType = contentType;
         }
     }
 

@@ -72,7 +72,7 @@ class ConnectionProcessor {
         }
         connectionError = nil
         var jsonData: [String: Any]?
-        print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
+        //print("JSON decoding:", String(bytes: data!, encoding: .utf8)!)
         do {
             jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
             if jsonData == nil { //I cannot remember any case where this would happen instead of throwing
@@ -83,8 +83,8 @@ class ConnectionProcessor {
             return (nil, ConnectionError(message: "Malformed response body"))
             
         }
-        print(type(of: jsonData!))
-        print(jsonData!)
+        //print(type(of: jsonData!))
+        //print(jsonData!)
         return (jsonData!, nil)
     }
     
@@ -162,10 +162,11 @@ class ConnectionProcessor {
            // let conversation = conversationList[conversationKey] as! [String : Any?]
             print(conversation["conversationID"] as? Int)
             print(conversation["converserID"] as? String)
+            print(conversation["conversationName"] as? String)
             print(conversation["lastMessageTime"] as? TimeInterval)
             print(conversation["status"] as? Int)
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, conversationPartner: User(uid: conversation["converserID"] as! String), lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), unreadMessages: conversation["status"] as! Int != 0)
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int)
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -181,7 +182,7 @@ class ConnectionProcessor {
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
         //Placeholder
-        return (Conversation(conversationID: -1, conversationPartner: User(uid: "-1")!, lastMessageTime: Date(), unreadMessages: false), nil)
+        return (Conversation(conversationID: -1, converserID: "-1", conversationName: "placeholder retrieval", lastMessageTime: Date(), status: -999), nil)
     }
     
     func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
@@ -205,9 +206,10 @@ class ConnectionProcessor {
             print((message["messageId"]! as? Int) != nil)
             print((message["content"] as? String) != nil)
             print(Data(base64Encoded: (message["content"] as! String)) != nil)
+            print((message["contentType"] as? Int) != nil)
             print((message["sender"] as? String) != nil)
-            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["sender"] as? String) != nil) {
-                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, sender: User(uid: message["sender"] as! String))
+            if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -222,6 +224,7 @@ class ConnectionProcessor {
         var messageJSON = [String: Any]()
         messageJSON["conversationID"] = message.getConversationID()
         messageJSON["content"] = message.getBase64Content()
+        messageJSON["contentType"] = message.getContentType()
         do {
             let data = try postData(urlString: url, dataJSON: messageJSON)
             if data.count != 0 {
@@ -254,12 +257,13 @@ class ConnectionProcessor {
             print((reminder["remindee"] as? String) != nil)
             print((reminder["creatorID"] as? String) != nil)
             print((reminder["timeCreated"] as? Int) != nil)
+            print((reminder["timeCreated"] as! Double) / 1000.0)
             print((reminder["intradayFrequency"] as? Int) != nil)
             print((reminder["daysBetweenReminders"] as? Int) != nil)
             print((reminder["content"] as? String) != nil)
-            print((reminder["timeCreated"] as! Double) / 1000.0)
-            if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["intradayFrequency"] as? Int) != nil) && ((reminder["daysBetweenReminders"] as? Int) != nil) && ((reminder["content"] as? String) != nil) {
-                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: ((reminder["timeCreated"] as! Double) / 1000.0)), intradayFrequency: reminder["intradayFrequency"] as! Int, daysBetweenReminders: reminder["daysBetweenReminders"] as! Int)
+            print((reminder["descriptionContent"] as? String) != nil)
+            if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["intradayFrequency"] as? Int) != nil) && ((reminder["daysBetweenReminders"] as? Int) != nil) && ((reminder["content"] as? String) != nil) && ((reminder["descriptionContent"] as? String) != nil) {
+                let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, descriptionContent: reminder["descriptionContent"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: ((reminder["timeCreated"] as! Double) / 1000.0)), intradayFrequency: reminder["intradayFrequency"] as! Int, daysBetweenReminders: reminder["daysBetweenReminders"] as! Int)
                 reminders.append(newReminder)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -273,6 +277,7 @@ class ConnectionProcessor {
     func processNewReminder(url: String, reminder: Reminder) throws {
         var reminderJSON = [String: Any]()
         reminderJSON["content"] = reminder.getContent()
+        reminderJSON["descriptionContent"] = reminder.getDescriptionContent()
         reminderJSON["remindee"] = reminder.getRemindeeID()
         var timeCreated = reminder.getTimeCreated().timeIntervalSince1970 * 1000 //put the millis before the decimal point
         timeCreated.round() // make an int

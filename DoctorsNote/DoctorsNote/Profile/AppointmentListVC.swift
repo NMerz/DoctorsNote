@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 class AppointmentListVC: UITableViewController {
 
@@ -14,6 +15,17 @@ class AppointmentListVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Pending Appointments"
+        
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            appointmentList = try processor.processAppointments(url: "tdb")
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+        }
+        
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

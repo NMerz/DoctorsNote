@@ -60,6 +60,9 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     }
     
     @IBAction func goBack(_ sender: Any) {
+        if (CognitoHelper.sharedHelper.isLoggedIn()) {
+            CognitoHelper.sharedHelper.logout()
+        }
         self.navigationController?.popViewController(animated: true)
     }
     
