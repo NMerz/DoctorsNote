@@ -26,7 +26,7 @@ public class ListConversations {
                 System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
             }
 //            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
-            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("dn-user-id").toString());
+            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
 
             // Extracting necessary fields from POJO
             String userId = request.getUserId();
@@ -42,6 +42,7 @@ public class ListConversations {
             // Request necessary information from MariaDB and process into Conversation objects
             PreparedStatement statement = dbConnection.prepareStatement(getConversationFormatString);
             statement.setString(1, userId);
+            System.out.println("PreparedStatement: " + statement.toString());
             ResultSet conversationRS = statement.executeQuery();
             ArrayList<String> conversationIds = new ArrayList<>();
             while (conversationRS.next()) { // Must finish reading all results of one query before executing another over the same connection
@@ -57,6 +58,7 @@ public class ListConversations {
 
                 ArrayList<String> converserIds = new ArrayList<>();
                 String converserId;
+
                 while (userRS.next()) {
                     converserId = userRS.getString(1);
                     System.out.println("converserID:" + converserId);
@@ -65,13 +67,11 @@ public class ListConversations {
                         converserIds.add(converserId);
                     }
                 }
+
                 if (converserIds.size() == 0) {
                     System.out.println("continuing");
                     System.out.flush();
                     continue;
-                }
-                if (converserIds.size() > 1) {
-                    throw (new NoSuchMethodException());
                 }
 
                 PreparedStatement statement2 = dbConnection.prepareStatement(getNameTimeAndStatusFormatString);
@@ -85,18 +85,21 @@ public class ListConversations {
                 int status = nameAndTimeRS.getInt(3);
                 System.out.println("status:" + status);
                 System.out.flush();
-
-                if (converserIds.size() == 0) {
-                    continue;
-                }
                 System.out.println(conversationName);
                 System.out.println(conversationId);
-                String[] converserIdsArray = new String[converserIds.size()];
-                converserIds.toArray(converserIdsArray);
-                System.out.println(converserIdsArray);
+                String converserIdString;
+
+                // For difference between one to one convos and support groups
+                if (converserIds.size() == 1) {
+                    converserIdString = converserIds.get(0);
+                } else {
+                    converserIdString = "N/A";
+                }
+
+                System.out.println(converserIdString);
                 System.out.println(status);
                 System.out.println(lastMessageTime);
-                conversations.add(new Conversation(conversationName, conversationId, converserIdsArray, status, lastMessageTime));
+                conversations.add(new Conversation(conversationName, conversationId, converserIdString, status, lastMessageTime));
                 System.out.println("conversations:" + conversations);
                 System.out.flush();
             }
@@ -149,15 +152,14 @@ public class ListConversations {
     public class Conversation {
         private String conversationName;
         private int conversationID;
-        private int converserID;
+        private String converserID;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
 
-        public Conversation(String conversationName, String conversationID, String[] converserIds, int status, long lastMessageTime) {
+        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime) {
             this.conversationName = conversationName;
             this.conversationID = Integer.parseInt(conversationID);
-            //TODO: generalize this to multiple conversers if needed for Support Groups
-            this.converserID = Integer.parseInt(converserIds[0]);
+            this.converserID = converserID;
             this.status = status;
             this.lastMessageTime = lastMessageTime;
         }
@@ -178,12 +180,12 @@ public class ListConversations {
             this.conversationID = Integer.parseInt(conversationID);
         }
 
-        public int getConverserID() {
+        public String getConverserID() {
             return converserID;
         }
 
-        public void setConverserID(String[] converserIds) {
-            this.converserID = Integer.parseInt(converserIds[0]);
+        public void setConverserID(String converserIds) {
+            this.converserID = converserIds;
         }
 
         public int getStatus() {

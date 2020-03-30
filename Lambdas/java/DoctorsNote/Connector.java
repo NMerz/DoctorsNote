@@ -8,13 +8,17 @@ import java.sql.SQLException;
 public class Connector {
     public static Connection getConnection() {
         try {
+            System.out.println("Connector: Instantiating a new database connection");
             DBCredentialsProvider dbCP = new DBCredentialsProvider();
             Class.forName(dbCP.getDBDriver());     // Loads and registers the driver
             return DriverManager.getConnection(dbCP.getDBURL(),
                     dbCP.getDBUsername(),
                     dbCP.getDBPassword());
         } catch (IOException | SQLException | ClassNotFoundException e) {
+            System.out.println("Connector: Connection failed: " + e.toString());
             throw new NullPointerException("Failed to load connection");
+        } finally {
+            System.out.println("Connector: Connection successful");
         }
     }
 }

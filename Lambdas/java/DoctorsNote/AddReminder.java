@@ -22,16 +22,20 @@ public class AddReminder implements RequestHandler<Map<String,Object>, ReminderA
         ReminderAdder adder = makeReminderAdder();
         ReminderAdder.AddReminderResponse response = adder.add(inputMap, context);
         if (response == null) {
+            System.out.println("AddReminder: ReminderAdder returned null");
             throw new RuntimeException("Server experienced an error");
         }
+        System.out.println("AddReminder: ReminderAdder returned valid response");
         return response;
     }
 
     public ReminderAdder makeReminderAdder() {
+        System.out.println("ReminderAdder: Instantiating ReminderAdder");
         return new ReminderAdder(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
+        System.out.println("AddReminder: Executing main() (THIS SHOULD NEVER HAPPEN)");
         throw new IllegalStateException();
     }
 }

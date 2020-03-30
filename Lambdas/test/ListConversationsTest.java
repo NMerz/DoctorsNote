@@ -32,7 +32,7 @@ public class ListConversationsTest {
         HashMap<String, Object> jsonBody = new HashMap();
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
-        context.put("dn-user-id", "dn-id123"); //Note: not an accurate length for sample id
+        context.put("sub", "sub-id123"); //Note: not an accurate length for sample id
         topMap.put("context", context);
         return topMap;
     }
@@ -54,7 +54,7 @@ public class ListConversationsTest {
     @Test()
     public void testBadInput() {
         HashMap incompleteMap = getSampleMap();
-        ((HashMap) incompleteMap.get("context")).put("dn-user-id", 1);
+        ((HashMap) incompleteMap.get("context")).put("sub", 1);
         ListConversations listConversations = new ListConversations(connectionMock);
         Assert.assertEquals(null, listConversations.list(incompleteMap, contextMock));
     }

@@ -18,19 +18,24 @@ public class AddMessage implements RequestHandler<Map<String,Object>, MessageAdd
 
     @Override
     public MessageAdder.AddMessageResponse handleRequest(Map<String,Object> inputMap, Context context) {
+
         MessageAdder messageAdder = makeMessageAdder();
         MessageAdder.AddMessageResponse response = messageAdder.add(inputMap, context);
         if (response == null) {
+            System.out.println("AddMessage: MessageAdder returned null");
             throw new RuntimeException("Server experienced an error");
         }
+        System.out.println("AddMessage: MessageAdder returned valid response");
         return response;
     }
 
     public MessageAdder makeMessageAdder() {
+        System.out.println("AddMessage: Instantiating MessageAdder");
         return new MessageAdder(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
+        System.out.println("AddMessage: Executing main() (THIS SHOULD NEVER HAPPEN)");
         throw new IllegalStateException();
     }
 }

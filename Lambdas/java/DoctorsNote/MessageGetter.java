@@ -17,16 +17,14 @@ public class MessageGetter {
 
     public GetMessagesResponse get(Map<String,Object> inputMap, Context context) {
         try {
-            System.out.println("Getting messages");
-
-            // Establish connection with MariaDB
-            DBCredentialsProvider dbCP;
-
             // Reading from database
             PreparedStatement statement = dbConnection.prepareStatement(getMessagesFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationID"));
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve"));
+            System.out.println("MessageGetter: statement: " + statement.toString());
             ResultSet messageResult = statement.executeQuery();
+
+            messageResult.getFetchSize();
 
             // Processing results
             ArrayList<Message> messages = new ArrayList<>();
@@ -44,11 +42,15 @@ public class MessageGetter {
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();
 
+            System.out.println(String.format("MessageGetter: Returning %d messages for conversationID %s",
+                    messages.size(),
+                    ((Map<String,Object>) inputMap.get("body-json")).get("conversationID")));
             Message[] tempArray = new Message[messages.size()];
             GetMessagesResponse response = new GetMessagesResponse(messages.toArray(tempArray));
 
             return response;
         } catch (Exception e) {
+            System.out.println("MessageGetter: Exception encountered: " + e.toString());
             return null;
         }
     }
