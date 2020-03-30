@@ -19,6 +19,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
     private var filteredConversationList: [Conversation]?
     let searchController = UISearchController(searchResultsController: nil)
     @IBOutlet weak var collectionView: UICollectionView!
+    var selectedConversation: Conversation?
     
 
     override func viewDidLoad() {
@@ -31,6 +32,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Chats"
         navigationItem.searchController = searchController
+        //self.selectedConversation = selectedConversation
         
         //self.view.addSubview(collectionView)
         //collectionView = collectionView
@@ -48,9 +50,11 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         //print(conversationList)
         //print("The count is: ", conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
-         let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+        let testConversation = Conversation(conversationID: 16, converserID: "-1", conversationName: "Test Conversation", lastMessageTime: Date(), status: 1)
+        conversationList = [testConversation, testConversation, testConversation, testConversation]
+         /*let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
                let lastItemIndex = NSIndexPath(item: item, section: 0)
-               self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+               self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)*/
     }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23
@@ -120,6 +124,11 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedConversation = conversationList![indexPath.row]
+        self.performSegue(withIdentifier: "open_chat", sender: self)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellS
         cell.delegate = self
@@ -153,8 +162,11 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         if (segue.identifier == "open_chat") {
             // TODO: Update later
             let dest = segue.destination as! ChatLogController
-            dest.conversationID = 16
-            let path = collectionView.indexPathsForSelectedItems
+            //print(selectedConversation?.getConversationID())
+            dest.conversation = selectedConversation
+            //print(dest.conversation?.getConversationID())
+            segue.destination.title = "Support Group"
+            //let path = collectionView.indexPathsForSelectedItems
             //dest.conversationID = conversationList![path![0].row].getConversationID()
             //segue.destination.title = conversationList![0].getConversationPartner().getFirstName()
         }
@@ -263,8 +275,8 @@ class FriendCellS: BaseCellC {
         containerView.addConstraintsWithFormat(format: "V:|[v0(24)]", views: timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:[v0(20)]|", views: hasReadImageView)
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
-        self.addGestureRecognizer(tapRecognizer)
+        //let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        //self.addGestureRecognizer(tapRecognizer)
 
     }
     
