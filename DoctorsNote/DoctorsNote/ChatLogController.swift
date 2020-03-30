@@ -133,7 +133,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print("Shrinking to:" + String(quality))
             content = image.jpegData(compressionQuality: CGFloat(quality))!
         }
-        let newMessage = Message(messageID: -1, conversationID: 15, content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: conversationID!, content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
 
         //print(newMessage.getContent())
         let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)

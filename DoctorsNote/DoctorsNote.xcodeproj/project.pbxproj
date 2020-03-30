@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
+		44732400243184900026DA34 /* SupportGroupConvo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447323FF243184900026DA34 /* SupportGroupConvo.swift */; };
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
 		9D137F3F242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F3E242BAB6E00A0B0AB /* ConnectionProcessor.swift */; };
@@ -96,6 +97,7 @@
 		088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F61D7A5EA743CE919A6270 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		447323FF243184900026DA34 /* SupportGroupConvo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupConvo.swift; sourceTree = "<group>"; };
 		6740B3FFB6664955BB5D35CC /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
 		6AD397D1E99E16E4D6AE39F6 /* Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		87122CD23068385D7B24E2A2 /* Pods-DoctorsNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote/Pods-DoctorsNote.release.xcconfig"; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				B52ABE7723F5B874007B3D6A /* Info.plist */,
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
+				447323FF243184900026DA34 /* SupportGroupConvo.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				B85C61B7242DE6950002D014 /* AppointmentListVC.swift in Sources */,
 				9D137F42242BAB7700A0B0AB /* Conversation.swift in Sources */,
 				B54E4F352408EDA200349316 /* LoginViewController.swift in Sources */,
+				44732400243184900026DA34 /* SupportGroupConvo.swift in Sources */,
 				B54E4F322408EDA200349316 /* PersonalRegisterViewController.swift in Sources */,
 				B885DAD92415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift in Sources */,
 				442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */,
