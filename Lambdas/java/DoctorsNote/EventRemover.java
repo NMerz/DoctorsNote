@@ -22,7 +22,8 @@ public class EventRemover {
 
     public RemoveEventResponse remove(Map<String, Object> inputMap, Context context) {
         try {
-            System.out.println("EventRemover: Adding reminder on behalf of " + context.getIdentity().getIdentityId());
+            String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
+            System.out.println("EventRemover: Removing event on behalf of " + userId);
 
             PreparedStatement statement = dbConnection.prepareStatement(removeEventFormatString);
             statement.setInt(1, Integer.parseInt((String)((Map<String,Object>) inputMap.get("body-json")).get("eventId")));
