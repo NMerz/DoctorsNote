@@ -153,6 +153,7 @@ class TestUserSignIn: XCTestCase {
             
             app?.secureTextFields["Password Field"].tap()
             app?.secureTextFields["Password Field"].typeText("DoctorsNote1@")
+            app?.staticTexts["Account Label"].tap()
             
             app?.buttons["Log In"].tap()
         }

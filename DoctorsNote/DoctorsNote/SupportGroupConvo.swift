@@ -44,17 +44,19 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         
          let authorizedConnector = Connector()
          AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+        var tempList: [Conversation]?
         let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
-        (conversationList, _) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest") //{
-        //}
-        //print(conversationList)
-        //print("The count is: ", conversationList?.count)
-        //super.present(MessageCollectionVC(), animated: true)
-        let testConversation = Conversation(conversationID: 16, converserID: "-1", conversationName: "Support Group", lastMessageTime: Date(), status: 1)
-        conversationList = [testConversation, testConversation, testConversation, testConversation]
-         /*let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
-               let lastItemIndex = NSIndexPath(item: item, section: 0)
-               self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)*/
+        (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
+        
+        // Filter conversations
+        conversationList = []
+        if (tempList != nil && tempList!.count > 0) {
+            for i in 0...tempList!.count - 1 {
+                if (tempList![i].getConverserID() == "N/A") {
+                    conversationList?.append(tempList![i])
+                }
+            }
+        }
     }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23
@@ -109,7 +111,6 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
-        return 4
         if (isFiltering()) {
             return filteredConversationList!.count
         } else {

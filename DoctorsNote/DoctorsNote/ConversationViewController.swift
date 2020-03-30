@@ -37,15 +37,18 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         
          let authorizedConnector = Connector()
          AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+        var tempList: [Conversation]?
         let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
-        (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList") //{
-        //}
-        //print(conversationList)
-        //print("The count is: ", conversationList?.count)
-        //super.present(MessageCollectionVC(), animated: true)
-        
-//        let testConversation = Conversation(conversationID: 15, converserID: "-1", conversationName: "Chat Conversation", lastMessageTime: Date(), status: 1)
-//        conversationList = [testConversation, testConversation, testConversation, testConversation]
+        (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
+        // Filter conversations
+        conversationList = []
+        if (tempList != nil && tempList!.count > 0) {
+            for i in 0...tempList!.count - 1 {
+                if (tempList![i].getConverserID() != "N/A") {
+                    conversationList?.append(tempList![i])
+                }
+            }
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController) {

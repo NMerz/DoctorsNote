@@ -50,15 +50,17 @@ class TestSupportGroups: XCTestCase {
         let emailField = app!.textFields["Email Field"]
         let passwordField = app!.secureTextFields["Password Field"]
         
-        emailField.tap()
-        emailField.typeText("hardin30@purdue.edu")
-        
-        passwordField.press(forDuration: 1.1)
-        passwordField.typeText("DoctorsNote1@")
-        app?.staticTexts["Account Label"].tap()
-        app?.buttons["Log In"].tap()
-        sleep(2)
-        //XCTAssertFalse(app!.buttons["Log In"].isHittable)
+        if (emailField.isHittable) {
+            emailField.tap()
+            emailField.typeText("hardin30@purdue.edu")
+            
+            passwordField.press(forDuration: 1.1)
+            passwordField.typeText("DoctorsNote1@")
+            app?.staticTexts["Account Label"].tap()
+            app?.buttons["Log In"].tap()
+            sleep(2)
+            //XCTAssertFalse(app!.buttons["Log In"].isHittable)
+        }
     }
     
     func tryLogout() {

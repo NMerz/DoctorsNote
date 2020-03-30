@@ -179,11 +179,11 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     
     @IBAction func onClick(_ sender: Any) {
-        if (conversation?.getConversationName() == "Chat Conversation") {
-            performSegue(withIdentifier: "chat", sender: self)
+        if (conversation!.getConverserID() as! String == "N/A") {
+            performSegue(withIdentifier: "support_group", sender: self)
         }
         else {
-            performSegue(withIdentifier: "support_group", sender: self)
+            performSegue(withIdentifier: "chat", sender: self)
         }
     }
     
