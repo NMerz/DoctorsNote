@@ -22,7 +22,8 @@ public class EventAdder {
 
     public AddEventResponse add(Map<String, Object> inputMap, Context context) {
         try {
-            System.out.println("EventAdder: Adding reminder on behalf of " + context.getIdentity().getIdentityId());
+            String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
+            System.out.println("EventAdder: Adding reminder on behalf of " + userId);
 
             PreparedStatement statement = dbConnection.prepareStatement(addEventFormatString);
             statement.setTimestamp(1, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("startTime").toString())));
@@ -30,7 +31,7 @@ public class EventAdder {
             statement.setString(3, (String)((Map<String,Object>) inputMap.get("body-json")).get("location"));
             statement.setString(4, (String)((Map<String,Object>) inputMap.get("body-json")).get("title"));
             statement.setString(5, (String)((Map<String,Object>) inputMap.get("body-json")).get("description"));
-            statement.setString(6, context.getIdentity().getIdentityId());
+            statement.setString(6, userId);
             System.out.println("EventAdder: statement: " + statement);
             int ret = statement.executeUpdate();
 
