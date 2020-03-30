@@ -19,74 +19,50 @@ public class ListConversations {
 
     public ConversationListResponse list(Map<String,Object> jsonString, Context context) {
         try {
-            System.out.println(context.getIdentity().getIdentityPoolId());
-            System.out.println(context.getIdentity().getIdentityId());
-            for (String key : ((Map<String,Object>)jsonString.get("context")).keySet()) {
-                System.out.println("Key:" + key);
-                System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
-            }
-//            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
-            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
+            System.out.println("ListConversations: Getting conversations for " + context.getIdentity().getIdentityId());
+            ConversationListRequest request = new ConversationListRequest(context.getIdentity().getIdentityId());
 
             // Extracting necessary fields from POJO
             String userId = request.getUserId();
-            System.out.println("userID: " + userId);
-
-            // Establish connection with MariaDB
-            DBCredentialsProvider dbCP;
-            System.out.println("Pre connection");
-            System.out.flush();
-            System.out.println("Connection:" + dbConnection);
-            System.out.flush();
 
             // Request necessary information from MariaDB and process into Conversation objects
-            PreparedStatement statement = dbConnection.prepareStatement(getConversationFormatString);
-            statement.setString(1, userId);
-            System.out.println("PreparedStatement: " + statement.toString());
-            ResultSet conversationRS = statement.executeQuery();
+            PreparedStatement getConversationStatement = dbConnection.prepareStatement(getConversationFormatString);
+            getConversationStatement.setString(1, userId);
+            System.out.println("ListConversations: getConversationStatement: " + getConversationStatement.toString());
+            ResultSet conversationRS = getConversationStatement.executeQuery();
             ArrayList<String> conversationIds = new ArrayList<>();
             while (conversationRS.next()) { // Must finish reading all results of one query before executing another over the same connection
                 conversationIds.add(conversationRS.getString(1));
             }
             ArrayList<Conversation> conversations = new ArrayList<>();
             for (String conversationId : conversationIds) {
-                System.out.println("conversationID:" + conversationId);
-                System.out.flush();
-                PreparedStatement statement1 = dbConnection.prepareStatement(getUserFormatString);
-                statement1.setString(1, conversationId);
-                ResultSet userRS = statement.executeQuery();
+                PreparedStatement getUserStatement = dbConnection.prepareStatement(getUserFormatString);
+                getUserStatement.setString(1, conversationId);
+                System.out.println("ListConversations: getUserStatement: " + getUserStatement.toString());
+                ResultSet userRS = getConversationStatement.executeQuery();
 
                 ArrayList<String> converserIds = new ArrayList<>();
                 String converserId;
 
                 while (userRS.next()) {
                     converserId = userRS.getString(1);
-                    System.out.println("converserID:" + converserId);
-                    System.out.flush();
                     if (!converserId.equals(userId)) {
                         converserIds.add(converserId);
                     }
                 }
 
                 if (converserIds.size() == 0) {
-                    System.out.println("continuing");
-                    System.out.flush();
                     continue;
                 }
 
-                PreparedStatement statement2 = dbConnection.prepareStatement(getNameTimeAndStatusFormatString);
-                statement2.setString(1, conversationId);
-                ResultSet nameAndTimeRS = statement2.executeQuery();
+                PreparedStatement getDataStatement = dbConnection.prepareStatement(getNameTimeAndStatusFormatString);
+                getDataStatement.setString(1, conversationId);
+                System.out.println("ListConversations: getDataStatement: " + getDataStatement.toString());
+                ResultSet nameAndTimeRS = getDataStatement.executeQuery();
                 nameAndTimeRS.next();
                 String conversationName = nameAndTimeRS.getString(1);
-                System.out.println("conversationName:" + conversationName);
-                System.out.flush();
                 long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
                 int status = nameAndTimeRS.getInt(3);
-                System.out.println("status:" + status);
-                System.out.flush();
-                System.out.println(conversationName);
-                System.out.println(conversationId);
                 String converserIdString;
 
                 // For difference between one to one convos and support groups
@@ -96,17 +72,9 @@ public class ListConversations {
                     converserIdString = "N/A";
                 }
 
-                System.out.println(converserIdString);
-                System.out.println(status);
-                System.out.println(lastMessageTime);
                 conversations.add(new Conversation(conversationName, conversationId, converserIdString, status, lastMessageTime));
-                System.out.println("conversations:" + conversations);
-                System.out.flush();
             }
-            System.out.println("conversations done");
-            System.out.flush();
-            System.out.println("conversations:" + conversations);
-            System.out.flush();
+
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();
 
@@ -115,16 +83,12 @@ public class ListConversations {
 
             // Combine Conversations into a ConversationListResponse  (tempArray resolves casting issue)
             Conversation[] tempArray = new Conversation[conversations.size()];
+            System.out.println(String.format("ListConversations: Returning %d conversations for %s", conversations.size(), userId));
+
             ConversationListResponse conversationListResponse = new ConversationListResponse(conversations.toArray(tempArray));
-            System.out.println("response:" + conversationListResponse);
-            System.out.flush();
-            // Serialize and return ConversationListResponse
-            //String response = "{\"isBase64Encoded\":false,\"statusCode\": 200, \"headers\": {\"Content-Type\" : \"application/json\"},\"body\":" + gson.toJson(conversationListResponse) +"}";
-            //System.out.println("Response: " + response);
-            //System.out.flush();
             return conversationListResponse;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ListConversations: Exception encountered: " + e.getMessage());
             return null;
         }
     }
