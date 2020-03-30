@@ -150,7 +150,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
 //    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "") {
+        if (segue.identifier == "open_chat") {
             // TODO: Update later
             let dest = segue.destination as! ChatLogController
             dest.conversationID = 16
