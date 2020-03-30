@@ -66,9 +66,6 @@ class LoginViewController: UIViewController {
                 }
             } else {
                 self.decideNextController()
-                DispatchQueue.main.async {
-                    self.errorLabel.text = err.message
-                }
             }
             
         }

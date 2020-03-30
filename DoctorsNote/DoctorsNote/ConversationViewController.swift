@@ -38,14 +38,14 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
          let authorizedConnector = Connector()
          AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
         let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
-        (conversationList, _) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest") //{
+        (conversationList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList") //{
         //}
         //print(conversationList)
         //print("The count is: ", conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
         
-        let testConversation = Conversation(conversationID: 15, converserID: "-1", conversationName: "Chat Conversation", lastMessageTime: Date(), status: 1)
-        conversationList = [testConversation, testConversation, testConversation, testConversation]
+//        let testConversation = Conversation(conversationID: 15, converserID: "-1", conversationName: "Chat Conversation", lastMessageTime: Date(), status: 1)
+//        conversationList = [testConversation, testConversation, testConversation, testConversation]
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -83,7 +83,6 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
-        return 4
         if (isFiltering()) {
             return filteredConversationList!.count
         } else {
@@ -101,7 +100,6 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
-        cell.conversationID = 15
         //cell.conversationID = conversationList![indexPath.row].getConversationID()
         /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
@@ -129,10 +127,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "open_chat") {
-            // TODO: Update later
             let dest = segue.destination as! ChatLogController
             dest.conversation = selectedConversation
-            segue.destination.title = "Test Title"//conversationList![0].getConversationPartner().getFirstName()
         }
     }
     

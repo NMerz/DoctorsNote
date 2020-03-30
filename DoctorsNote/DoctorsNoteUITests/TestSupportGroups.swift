@@ -21,7 +21,6 @@ class TestSupportGroups: XCTestCase {
         self.app = XCUIApplication()
         app?.launch()
         app?.activate()
-        tryLogout()
     }
 
     override func tearDown() {
@@ -56,6 +55,7 @@ class TestSupportGroups: XCTestCase {
         
         passwordField.press(forDuration: 1.1)
         passwordField.typeText("DoctorsNote1@")
+        app?.staticTexts["Account Label"].tap()
         app?.buttons["Log In"].tap()
         sleep(2)
         //XCTAssertFalse(app!.buttons["Log In"].isHittable)
