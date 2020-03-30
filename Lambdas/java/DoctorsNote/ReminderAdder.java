@@ -22,7 +22,7 @@ public class ReminderAdder {
 
     public ReminderAdder.AddReminderResponse add(Map<String, Object> inputMap, Context context) {
         try {
-            System.out.println("ReminderAdder: Adding reminder on behalf for " + ((Map<String,Object>) inputMap.get("context")).get("sub"));
+            System.out.println("ReminderAdder: Adding reminder on behalf of " + ((Map<String,Object>) inputMap.get("context")).get("sub"));
             PreparedStatement statement = dbConnection.prepareStatement(addReminderFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("remindee"));
