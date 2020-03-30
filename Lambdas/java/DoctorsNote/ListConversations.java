@@ -26,7 +26,7 @@ public class ListConversations {
                 System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
             }
 //            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
-            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("dn-user-id").toString());
+            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
 
             // Extracting necessary fields from POJO
             String userId = request.getUserId();
@@ -42,6 +42,7 @@ public class ListConversations {
             // Request necessary information from MariaDB and process into Conversation objects
             PreparedStatement statement = dbConnection.prepareStatement(getConversationFormatString);
             statement.setString(1, userId);
+            System.out.println("PreparedStatement: " + statement.toString());
             ResultSet conversationRS = statement.executeQuery();
             ArrayList<String> conversationIds = new ArrayList<>();
             while (conversationRS.next()) { // Must finish reading all results of one query before executing another over the same connection
