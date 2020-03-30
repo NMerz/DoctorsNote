@@ -43,6 +43,7 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
         processor = ConnectionProcessor(connector: connector)
         navigationItem.title = "Request Appointment"
 //        self.form = AppointmentForm()
+        dropdownTableView.accessibilityIdentifier = "Dropdown"
         
         dropdownTableView.delegate = self
         dropdownTableView.dataSource = self
@@ -124,7 +125,9 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
             for conversation in converversationList {
                 // If conversation isn't support group
                 if conversation.getConverserID() != "N/A" {
-                    doctorList.append((conversation.getConversationName(), conversation.getConverserID()))
+                    var newDoctorList = [(String, String)]()
+                    newDoctorList.append((conversation.getConversationName(), conversation.getConverserID()))
+                    doctorList = newDoctorList
                 }
             }
         }
