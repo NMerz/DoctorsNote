@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class ListConversations {
@@ -51,7 +52,7 @@ public class ListConversations {
                 PreparedStatement getUserStatement = dbConnection.prepareStatement(getUserFormatString);
                 getUserStatement.setString(1, conversationId);
                 System.out.println("ListConversations: getUserStatement: " + getUserStatement.toString());
-                ResultSet userRS = getConversationStatement.executeQuery();
+                ResultSet userRS = getUserStatement.executeQuery();
 
                 ArrayList<String> converserIds = new ArrayList<>();
                 String converserId;
@@ -59,9 +60,12 @@ public class ListConversations {
                 while (userRS.next()) {
                     converserId = userRS.getString(1);
                     if (!converserId.equals(userId)) {
+                        System.out.println("ListConversations: Adding converserId: " + converserId);
                         converserIds.add(converserId);
                     }
                 }
+
+                System.out.println("ListConversations: converserIds at line 67: " + converserIds.toString());
 
                 if (converserIds.size() == 0) {
                     continue;
@@ -77,6 +81,7 @@ public class ListConversations {
                 long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().toEpochMilli();
                 int status = nameAndTimeRS.getInt(3);
                 String converserIdString;
+                System.out.println("ListConversations: converserIds at line 84: " + converserIds.toString());
 
                 // For difference between one to one convos and support groups
                 if (converserIds.size() == 1) {
@@ -84,6 +89,8 @@ public class ListConversations {
                 } else {
                     converserIdString = "N/A";
                 }
+
+                System.out.println("ListConversations: converserIdString at line 93: " + converserIdString);
 
                 conversations.add(new Conversation(conversationName, conversationId, converserIdString, status, lastMessageTime));
             }
