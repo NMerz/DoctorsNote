@@ -44,7 +44,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         //print("The count is: ", conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
         
-        let testConversation = Conversation(conversationID: 15, converserID: "-1", conversationName: "Test Converstation", lastMessageTime: Date(), status: 1)
+        let testConversation = Conversation(conversationID: 15, converserID: "-1", conversationName: "Chat Conversation", lastMessageTime: Date(), status: 1)
         conversationList = [testConversation, testConversation, testConversation, testConversation]
     }
     

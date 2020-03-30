@@ -50,7 +50,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         //print(conversationList)
         //print("The count is: ", conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
-        let testConversation = Conversation(conversationID: 16, converserID: "-1", conversationName: "Test Conversation", lastMessageTime: Date(), status: 1)
+        let testConversation = Conversation(conversationID: 16, converserID: "-1", conversationName: "Support Group", lastMessageTime: Date(), status: 1)
         conversationList = [testConversation, testConversation, testConversation, testConversation]
          /*let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
                let lastItemIndex = NSIndexPath(item: item, section: 0)

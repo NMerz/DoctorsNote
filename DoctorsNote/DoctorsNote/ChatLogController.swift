@@ -177,6 +177,16 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     
+    @IBAction func onClick(_ sender: Any) {
+        if (conversation?.getConversationName() == "Chat Conversation") {
+            performSegue(withIdentifier: "chat", sender: self)
+        }
+        else {
+            performSegue(withIdentifier: "support_group", sender: self)
+        }
+    }
+    
+    
 //    override func numberOfSections(in collectionView: UICollectionView) -> Int {
 //        // #warning Incomplete implementation, return the number of sections
 //        return 1

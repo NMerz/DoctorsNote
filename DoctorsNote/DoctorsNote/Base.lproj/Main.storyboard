@@ -958,12 +958,18 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Privacy Information"/>
+                                <connections>
+                                    <segue destination="qCm-Ch-kIj" kind="show" id="Swz-M4-pwe"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="woY-mQ-ROP">
                                 <rect key="frame" x="80" y="324" width="255" height="119"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Report Inappropriate Behavior"/>
+                                <connections>
+                                    <segue destination="yNS-Sy-Vwo" kind="show" id="7jV-ot-7AY"/>
+                                </connections>
                             </button>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gCd-Aa-9gq">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -976,7 +982,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="DLa-mW-Bch"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="Ytr-AC-nHX" userLabel="Back"/>
+                    <navigationItem key="navigationItem" title="Support Group Help" id="Ytr-AC-nHX" userLabel="Back"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uDf-W0-wJY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1255,7 +1261,7 @@
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="Ntu-NM-gzM">
                         <barButtonItem key="rightBarButtonItem" title="Info Button" image="info.circle" catalog="system" style="plain" id="5E5-7q-Xah">
                             <connections>
-                                <segue destination="bLo-c2-Fla" kind="show" id="mT8-ky-VDy"/>
+                                <action selector="onClick:" destination="qrY-CR-dFM" id="eXg-qz-5IQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1264,6 +1270,8 @@
                         <outlet property="collectionView" destination="tUq-nf-bVE" id="bkr-wg-Nc5"/>
                         <outlet property="messageText" destination="nAw-57-JVw" id="54y-kF-ONK"/>
                         <outlet property="sendButton" destination="eWI-rZ-a9X" id="qxW-fU-ZHd"/>
+                        <segue destination="bLo-c2-Fla" kind="show" identifier="chat" id="9cp-Ww-48a"/>
+                        <segue destination="IFi-sd-Clo" kind="show" identifier="support_group" id="KOn-ib-Brp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YEM-Ro-IEG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1390,13 +1398,68 @@
                     <view key="view" contentMode="scaleToFill" id="QWz-rx-QP2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sb5-Sm-3vc">
+                                <rect key="frame" x="29" y="75" width="348" height="238"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <string key="text">A support group is a tool to help people with similar health experiences convene. Please do not share any personal health information in a support group.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Mr5-j2-sNZ"/>
                     </view>
+                    <navigationItem key="navigationItem" id="qrh-vw-gUB"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5jq-TI-tv0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7" y="2567"/>
+            <point key="canvasLocation" x="5.7971014492753632" y="2566.0714285714284"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="46y-tV-LXV">
+            <objects>
+                <viewController id="yNS-Sy-Vwo" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rMl-nf-3AA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User you want to report" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOb-2d-Nni">
+                                <rect key="frame" x="117" y="93" width="181" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zwx-cD-Glc">
+                                <rect key="frame" x="117" y="122" width="181" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reason for reporting:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JyS-RA-frO">
+                                <rect key="frame" x="126" y="189" width="162" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OQT-xW-cPq">
+                                <rect key="frame" x="87" y="218" width="240" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Qxl-g7-aXL"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="IVg-Tu-vQn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LMH-tl-0nY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1000.0000000000001" y="2603.5714285714284"/>
         </scene>
     </scenes>
     <resources>
