@@ -195,11 +195,14 @@ class ConnectionProcessor {
         let messageList = try postData(urlString: url, dataJSON: messageJSON)
         var messages = [Message]()
         if (messageList.first?.value as? NSArray == nil) {
+            print("MessageList not an array")
+            print(messageList.first?.value)
             throw ConnectionError(message: "At least one JSON field was an incorrect format")
         }
         
         for messageDict in (messageList.first?.value as! NSArray) {
             if (messageDict as? [String : Any?] == nil) {
+                print("Message is wrong")
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let message = messageDict as! [String : Any?]

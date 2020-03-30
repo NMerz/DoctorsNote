@@ -54,7 +54,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         messagesShown = 20;
         do {
             messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown) ?? messages)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown))
+            print(messages)
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")
@@ -128,10 +128,13 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         var quality = 1.0
         var content = image.jpegData(compressionQuality: 1)!
         print(content.base64EncodedString().count)
-        while content.base64EncodedString().count > 6000000 { //AWS Gateway maxes out at 10 MB, ensure this is smaller. I was having issues with one of the stock simulator images at 8138448 bytes encoded, but had one working at 6.x MB and everything seems to work under 6MB.
+        while content.base64EncodedString().count > 2000000 { //AWS Gateway maxes out at 10 MB, ensure this is smaller. I was having issues with one of the stock simulator images at 8138448 bytes encoded, but had one working at 6.x MB and everything seems to work under 6MB.
+            //Update: Responses max out at 6MB.
+            //Note: There is apparent a limit on how far images can be compressed with jpeg and the flowers default image (original size 12MB) cannot be compressed below 1
             quality *= 0.5
             print("Shrinking to:" + String(quality))
             content = image.jpegData(compressionQuality: CGFloat(quality))!
+            print(content.base64EncodedString().count)
         }
         let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
 
