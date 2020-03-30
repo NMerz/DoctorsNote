@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 
@@ -19,13 +20,14 @@ import java.util.Map;
  * Error Handling: Returns null if an unrecoverable error is encountered
  */
 public class MessageAdder {
-    private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID) VALUES (?, ?, ?, ?);";
+    private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID, contentType) VALUES (?, ?, ?, ?, ?);";
     Connection dbConnection;
 
     public MessageAdder(Connection dbConnection) { this.dbConnection = dbConnection; }
 
     public AddMessageResponse add(Map<String,Object> inputMap, Context context) {
         try {
+<<<<<<< HEAD
 
             // Write to database (note: recipientId is intentionally omitted since it is unnecessary for future ops)
             PreparedStatement statement = dbConnection.prepareStatement(addMessageFormatString);
@@ -41,6 +43,24 @@ public class MessageAdder {
             } else {
                 System.out.println(String.format("MessageAdder: Update failed (%d)", ret));
             }
+=======
+            for (String key : ((Map<String,Object>)inputMap.get("context")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)inputMap.get("context")).get(key));
+            }
+            for (String key : ((Map<String,Object>)inputMap.get("body-json")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)inputMap.get("body-json")).get(key));
+            }
+            PreparedStatement statement = dbConnection.prepareStatement(addMessageFormatString);
+            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
+            statement.setString(2, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
+            statement.setTimestamp(3, new java.sql.Timestamp(Instant.now().toEpochMilli()));
+            statement.setLong(4, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
+            statement.setLong(5, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("contentType").toString()));
+            System.out.println(statement);
+            statement.executeUpdate();
+>>>>>>> dev
 
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();

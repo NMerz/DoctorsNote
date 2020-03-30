@@ -18,66 +18,89 @@ class LoginViewController: UIViewController {
     @IBOutlet var thisView: UIView!
     @IBOutlet weak var emailField: CustomTextField!
     @IBOutlet weak var passwordField: CustomTextField!
+    @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        if (CognitoHelper.sharedHelper.isLoggedIn()) {
+            decideNextController()
+        }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         let mask = CAShapeLayer()
         mask.path = UIBezierPath(roundedRect: loginButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         loginButton.layer.mask = mask
+        
 
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        // TODO: REMOVE LATER
-        //AWSMobileClient.default().signOut()
+        let tap = UITapGestureRecognizer(target:self.view,action: #selector(UIView.endEditing))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     @IBAction func login(_ sender: Any) {
-        
-        // TODO REMOVE LATER
-        if (AWSMobileClient.default().isSignedIn) {
-            AWSMobileClient.default().signOut()
-        }
         
         let emailEmpty = emailField.isEmpty()
         let emailValid = emailField.isValidEmail()
         let passwordEmpty = passwordField.isEmpty()
         
-        if (emailEmpty || passwordEmpty || !emailValid) {
+        if (emailEmpty) {
+            errorLabel.text = "Error: Please enter an email."
             return
         }
+        else if (!emailValid) {
+            errorLabel.text = "Error: Please enter email in the correct format."
+            return
+        }
+        else if (passwordEmpty) {
+            errorLabel.text = "Error: Please enter a password."
+            return
+        }
+        errorLabel.text = ""
         
-        // TODO: Remove this signed in check
-        //if (!AWSMobileClient.default().isSignedIn) {
-            AWSMobileClient.default().signIn(username: emailField.text!, password: passwordField.text!) { (result, err) in
-                if let err = err as? AWSMobileClientError {
-                    print("\(err.message)")
-                    return
-                } else {
-                    AWSMobileClient.default().getUserAttributes { (dict, err) in
-                        if let err = err{
-                            
-                        }
-                        // Means the user hasn't udpate info yet. This is probably not the best way to do this...
-                        let name = dict!["name"]
-                        if (name == nil) {
-                            DispatchQueue.main.async {
-                                self.performSegue(withIdentifier: "show_profile_setup", sender: self)
-                            }
-                        } else {
-                            DispatchQueue.main.async {
-                                self.performSegue(withIdentifier: "go_to_main", sender: self)
-                            }
-                        }
-                    }
-                    
+        CognitoHelper.sharedHelper.login(email: emailField.text!, password: passwordField.text!) { (success, err) -> (Void) in
+            if (!success) {
+                DispatchQueue.main.async {
+                    self.errorLabel.text = err.message
                 }
-            
+            } else {
+                self.decideNextController()
             }
-        //}
+            
+        }
+        
     
     }
     
+    func decideNextController() {
+        CognitoHelper.sharedHelper.isUserSetUp { (setUp) in
+            if (setUp) {
+                DispatchQueue.main.async {
+                    // User has all properties set
+                    self.performSegue(withIdentifier: "go_to_main", sender: self)
+                }
+            } else {
+                DispatchQueue.main.async {
+                    // User needs to finish creating profile
+                    self.performSegue(withIdentifier: "show_profile_setup", sender: self)
+                }
+            }
+        }
+    }
 
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
 }

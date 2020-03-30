@@ -47,9 +47,9 @@ public class MessageGetterTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() { //TODO: This test fails for the wrong reason. The sub field isn't actually used. I think it is failing due to not having the connectionMock interactions defined
         HashMap incompleteMap = getSampleMap();
-        ((HashMap) incompleteMap.get("context")).put("dn-user-id", 1);
+        ((HashMap) incompleteMap.get("context")).put("sub", 1);
         MessageGetter messageGetter = new MessageGetter(connectionMock);
         Assert.assertEquals(null, messageGetter.get(incompleteMap, contextMock));
     }

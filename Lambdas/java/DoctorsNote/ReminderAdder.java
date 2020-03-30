@@ -13,7 +13,7 @@ import java.util.Map;
  */
 
 public class ReminderAdder {
-    private final String addReminderFormatString = "INSERT INTO Reminder (content, remindedID, creatorID, timeCreated, alertTime) VALUES (?, ?, ?, ?, ?);";
+    private final String addReminderFormatString = "INSERT INTO Reminder (content, remindedID, creatorID, timeCreated, intradayFrequency, daysBetweenReminders, descriptionContent) VALUES (?, ?, ?, ?, ?, ?, ?);";
     Connection dbConnection;
 
     public ReminderAdder(Connection dbConnection) {
@@ -28,6 +28,7 @@ public class ReminderAdder {
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("remindee"));
             statement.setString(3, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setTimestamp(4, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("timeCreated").toString())));
+<<<<<<< HEAD
             statement.setTimestamp(5, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("alertTime").toString())));
             System.out.println("ReminderAdder: statement: " + statement);
             int ret = statement.executeUpdate();
@@ -37,6 +38,14 @@ public class ReminderAdder {
             } else {
                 System.out.println(String.format("ReminderAdder: Update failed (%d)", ret));
             }
+=======
+            statement.setInt(5, Integer.parseInt(((Map<String,Object>) inputMap.get("body-json")).get("intradayFrequency").toString()));
+            statement.setInt(6, Integer.parseInt(((Map<String,Object>) inputMap.get("body-json")).get("daysBetweenReminders").toString()));
+            statement.setString(7, (String)((Map<String,Object>) inputMap.get("body-json")).get("descriptionContent"));
+            System.out.println(statement);
+            int res = statement.executeUpdate();
+            System.out.println("Update executed with return code " + res);
+>>>>>>> dev
 
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();
