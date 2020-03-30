@@ -911,14 +911,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NORMAL WORK HOURS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em5-A9-hg6">
-                                <rect key="frame" x="25" y="113" width="193" height="21"/>
+                                <rect key="frame" x="25" y="165" width="193" height="21"/>
                                 <accessibility key="accessibilityConfiguration" label="Work Hours Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PB-8b-HPz">
-                                <rect key="frame" x="40" y="144" width="364" height="21"/>
+                                <rect key="frame" x="40" y="196" width="364" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1445,14 +1445,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OQT-xW-cPq">
+                            <textField opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OQT-xW-cPq">
                                 <rect key="frame" x="87" y="218" width="240" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="td1-da-NpN">
+                                <rect key="frame" x="144.5" y="294" width="125" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="125" id="p6e-tK-aW3"/>
+                                </constraints>
+                                <state key="normal" title="Report"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="td1-da-NpN" firstAttribute="top" secondItem="OQT-xW-cPq" secondAttribute="bottom" constant="45" id="CWB-Am-O2J"/>
+                            <constraint firstItem="td1-da-NpN" firstAttribute="centerX" secondItem="rMl-nf-3AA" secondAttribute="centerX" id="jzM-Ty-3jY"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Qxl-g7-aXL"/>
                     </view>
                     <navigationItem key="navigationItem" id="IVg-Tu-vQn"/>
@@ -1463,7 +1473,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="sqe-bD-kpk"/>
+        <segue reference="cbR-Dz-3zz"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>

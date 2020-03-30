@@ -69,7 +69,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationItem.title = "Test Title"
+        // TODO: Update later
+        navigationItem.title = "Chat Title"
     }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23
@@ -181,11 +182,11 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     
     @IBAction func onClick(_ sender: Any) {
-        if (conversation?.getConversationName() == "Chat Conversation") {
-            performSegue(withIdentifier: "chat", sender: self)
+        if (conversation!.getConverserID() as! String == "N/A") {
+            performSegue(withIdentifier: "support_group", sender: self)
         }
         else {
-            performSegue(withIdentifier: "support_group", sender: self)
+            performSegue(withIdentifier: "chat", sender: self)
         }
     }
     
@@ -236,7 +237,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             let keyboardHeight = keyboardRectangle.height
             if (self.view.frame.origin.y == 0) {
                 self.view.frame.origin.y -= keyboardHeight
-                self.view.frame.origin.y += (tabBarController?.tabBar.frame.height)!
+                self.view.frame.origin.y += 83 // Tab bar height, using variable from tab bar controller caused race condition crash
             }
         }
     }
