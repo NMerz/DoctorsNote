@@ -30,7 +30,7 @@ public class AddReminder implements RequestHandler<Map<String,Object>, ReminderA
     }
 
     public ReminderAdder makeReminderAdder() {
-        System.out.println("ReminderAdder: Instantiating ReminderAdder");
+        System.out.println("AddReminder: Instantiating ReminderAdder");
         return new ReminderAdder(Connector.getConnection());
     }
 
