@@ -33,6 +33,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doc.plaintext" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="5cJ-SM-70O">
                                 <rect key="frame" x="119.5" y="170.5" width="175" height="175"/>
+                                <accessibility key="accessibilityConfiguration" label="Image"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="175" id="7Bg-Uz-CvC"/>
                                     <constraint firstAttribute="width" secondItem="5cJ-SM-70O" secondAttribute="height" multiplier="1:1" id="DHT-eD-oha"/>
@@ -78,6 +79,7 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kst-sh-c5u">
                                 <rect key="frame" x="117.5" y="767" width="179" height="21"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Account Label" label="Account Label"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1255,7 +1257,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JDB-Jh-d9i"/>
+        <segue reference="bIQ-PC-edH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.left.circle.fill" catalog="system" width="128" height="121"/>

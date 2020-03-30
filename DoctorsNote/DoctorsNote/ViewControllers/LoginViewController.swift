@@ -60,9 +60,15 @@ class LoginViewController: UIViewController {
         errorLabel.text = ""
         
         CognitoHelper.sharedHelper.login(email: emailField.text!, password: passwordField.text!) { (success, err) -> (Void) in
-            self.decideNextController()
-            DispatchQueue.main.async {
-                self.errorLabel.text = err.message
+            if (!success) {
+                DispatchQueue.main.async {
+                    self.errorLabel.text = err.message
+                }
+            } else {
+                self.decideNextController()
+                DispatchQueue.main.async {
+                    self.errorLabel.text = err.message
+                }
             }
             
         }

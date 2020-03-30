@@ -604,7 +604,7 @@ class CustomTextField: UITextField {
     }
     
     func isEmpty() -> Bool {
-        if (self.text == "") {
+        if (self.text!.isEmpty) {
             self.layer.borderColor = UIColor.systemRed.cgColor
             return true
         } else {
