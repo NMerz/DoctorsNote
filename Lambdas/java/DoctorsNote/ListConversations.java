@@ -1,7 +1,10 @@
 package DoctorsNote;
 
 import com.amazonaws.services.lambda.runtime.Context;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,23 +20,32 @@ public class ListConversations {
 
     public ListConversations(Connection dbConnection) { this.dbConnection = dbConnection; }
 
+    private void printMap(Map<String, Object> map) {
+        Gson gson = new Gson();
+        Type gsonType = new TypeToken<Map>(){}.getType();
+        String gsonString = gson.toJson(map,gsonType);
+        System.out.println("ListConversations: Input Map: " + gsonString);
+    }
+
     public ConversationListResponse list(Map<String,Object> jsonString, Context context) {
         try {
-            System.out.println("ListConversations: Getting conversations for " + context.getIdentity().getIdentityId());
-            ConversationListRequest request = new ConversationListRequest(context.getIdentity().getIdentityId());
+            printMap(jsonString);
+            String userId = (String)((Map<String,Object>)  jsonString.get("context")).get("sub");
 
-            // Extracting necessary fields from POJO
-            String userId = request.getUserId();
+            System.out.println("ListConversations: Getting conversations for " + context.getIdentity().getIdentityId());
+            ConversationListRequest request = new ConversationListRequest(userId);
 
             // Request necessary information from MariaDB and process into Conversation objects
             PreparedStatement getConversationStatement = dbConnection.prepareStatement(getConversationFormatString);
             getConversationStatement.setString(1, userId);
             System.out.println("ListConversations: getConversationStatement: " + getConversationStatement.toString());
             ResultSet conversationRS = getConversationStatement.executeQuery();
+
             ArrayList<String> conversationIds = new ArrayList<>();
             while (conversationRS.next()) { // Must finish reading all results of one query before executing another over the same connection
                 conversationIds.add(conversationRS.getString(1));
             }
+
             ArrayList<Conversation> conversations = new ArrayList<>();
             for (String conversationId : conversationIds) {
                 PreparedStatement getUserStatement = dbConnection.prepareStatement(getUserFormatString);
@@ -61,7 +73,8 @@ public class ListConversations {
                 ResultSet nameAndTimeRS = getDataStatement.executeQuery();
                 nameAndTimeRS.next();
                 String conversationName = nameAndTimeRS.getString(1);
-                long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
+                //long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
+                long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().toEpochMilli();
                 int status = nameAndTimeRS.getInt(3);
                 String converserIdString;
 
@@ -88,7 +101,7 @@ public class ListConversations {
             ConversationListResponse conversationListResponse = new ConversationListResponse(conversations.toArray(tempArray));
             return conversationListResponse;
         } catch (Exception e) {
-            System.out.println("ListConversations: Exception encountered: " + e.getMessage());
+            System.out.println("ListConversations: Exception encountered: " + e.toString());
             return null;
         }
     }
