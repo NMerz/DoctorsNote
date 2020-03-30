@@ -13,10 +13,15 @@ class ComposerStaticInite10345a74a6e64f2028af0ce0d1ee6e2
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' => 
+        array (
+            'phpseclib\\' => 10,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -24,6 +29,10 @@ class ComposerStaticInite10345a74a6e64f2028af0ce0d1ee6e2
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+        ),
+        'L' => 
+        array (
+            'Lcobucci\\JWT\\' => 13,
         ),
         'J' => 
         array (
@@ -35,6 +44,14 @@ class ComposerStaticInite10345a74a6e64f2028af0ce0d1ee6e2
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
+        'F' => 
+        array (
+            'Firebase\\JWT\\' => 13,
+        ),
+        'C' => 
+        array (
+            'CoderCat\\JWKToPEM\\' => 18,
+        ),
         'A' => 
         array (
             'Aws\\' => 4,
@@ -42,6 +59,10 @@ class ComposerStaticInite10345a74a6e64f2028af0ce0d1ee6e2
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpseclib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -49,6 +70,10 @@ class ComposerStaticInite10345a74a6e64f2028af0ce0d1ee6e2
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Lcobucci\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lcobucci/jwt/src',
         ),
         'JmesPath\\' => 
         array (
@@ -65,6 +90,14 @@ class ComposerStaticInite10345a74a6e64f2028af0ce0d1ee6e2
         'GuzzleHttp\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
+        ),
+        'CoderCat\\JWKToPEM\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codercat/jwk-to-pem/src',
         ),
         'Aws\\' => 
         array (
