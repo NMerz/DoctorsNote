@@ -11,13 +11,15 @@ import AWSMobileClient
 
 //private let reuseIdentifier = "Cell"
 
-class SupportGroupConvo: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchResultsUpdating {
     
     
     private let cellId = "cellId"
     private var conversationList: [Conversation]?
     private var filteredConversationList: [Conversation]?
     let searchController = UISearchController(searchResultsController: nil)
+    @IBOutlet weak var collectionView: UICollectionView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,9 +32,13 @@ class SupportGroupConvo: UICollectionViewController, UICollectionViewDelegateFlo
         searchController.searchBar.placeholder = "Search Chats"
         navigationItem.searchController = searchController
         
-        collectionView.backgroundColor = UIColor.white
-        collectionView.alwaysBounceVertical = true
-        collectionView.register(FriendCellS.self, forCellWithReuseIdentifier: cellId)
+        //self.view.addSubview(collectionView)
+        //collectionView = collectionView
+        self.collectionView.backgroundColor = UIColor.white
+        self.collectionView.alwaysBounceVertical = true
+        self.collectionView.register(FriendCellS.self, forCellWithReuseIdentifier: cellId)
+        //self.collectionView!.collectionViewLayout = layout
+        //layoutCells()
         
          let authorizedConnector = Connector()
          AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
@@ -42,6 +48,26 @@ class SupportGroupConvo: UICollectionViewController, UICollectionViewDelegateFlo
         //print(conversationList)
         //print("The count is: ", conversationList?.count)
         //super.present(MessageCollectionVC(), animated: true)
+         let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
+               let lastItemIndex = NSIndexPath(item: item, section: 0)
+               self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
+    }
+    
+    // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23
+    var layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        let width = UIScreen.main.bounds.size.width
+        layout.estimatedItemSize = CGSize(width: width, height: 90)
+        return layout
+    }()
+    
+    func layoutCells() {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
+        layout.minimumInteritemSpacing = 5.0
+        layout.minimumLineSpacing = 5.0
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.size.width - 40)/3, height: ((UIScreen.main.bounds.size.width - 40)/3))
+        collectionView!.collectionViewLayout = layout
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -73,11 +99,11 @@ class SupportGroupConvo: UICollectionViewController, UICollectionViewDelegateFlo
         return searchController.isActive && !searchBarIsEmpty()
     }
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(_ collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(conversationList?.count)
         return 4
         if (isFiltering()) {
@@ -94,7 +120,7 @@ class SupportGroupConvo: UICollectionViewController, UICollectionViewDelegateFlo
         
     }
 
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellS
         cell.delegate = self
         cell.conversationID = 16
@@ -110,28 +136,29 @@ class SupportGroupConvo: UICollectionViewController, UICollectionViewDelegateFlo
 //            df.dateFormat = "MM-dd-YYYY"
 //        }
 //        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
+        //cell.display(<#T##layer: CALayer##CALayer#>)
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 100.0)
+        return CGSize(width: view.frame.width, height: view.frame.height)
     }
     
 //    func switchVC(ViewController: UIViewController) {
 //        self.present(UIViewController(), animated: true)
 //    }
     
-   /* override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "") {
             // TODO: Update later
             let dest = segue.destination as! ChatLogController
-            dest.conversationID = 15
+            dest.conversationID = 16
             let path = collectionView.indexPathsForSelectedItems
             //dest.conversationID = conversationList![path![0].row].getConversationID()
             //segue.destination.title = conversationList![0].getConversationPartner().getFirstName()
         }
-    }*/
+    }
     
 }
 
@@ -156,7 +183,7 @@ class FriendCellS: BaseCellC {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Doctor"
+        label.text = "Support Group"
         label.font = UIFont.systemFont(ofSize: 18)
         return label
     }()
@@ -190,6 +217,8 @@ class FriendCellS: BaseCellC {
         addSubview(profileImageView)
         addSubview(dividerLineView)
         
+        //backgroundColor = UIColor.red
+        
         setupContainerView()
         
         profileImageView.image = UIImage(named: "doctor")
@@ -201,11 +230,12 @@ class FriendCellS: BaseCellC {
         
         addConstraint(NSLayoutConstraint(item: profileImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         
+        
+        
         addConstraintsWithFormat(format: "H:|-82-[v0]|", views: dividerLineView)
         addConstraintsWithFormat(format: "V:[v0(1)]|", views: dividerLineView)
         
     }
-    
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if(sender.state == .ended) {
             self.delegate!.performSegue(withIdentifier: "open_chat", sender: self.delegate!)
