@@ -25,9 +25,10 @@ public class ReminderGetter {
     public GetReminderResponse get(Map<String, Object> inputMap, Context context) {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(getRemindersFormatString);
+            System.out.println("ReminderGetter: Getting reminders on behalf of " + (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("since").toString())));
-            System.out.println(statement);
+            System.out.println("ReminderGetter: statement: " + statement);
             ResultSet reminderRS = statement.executeQuery();
 
             // Disconnect connection with shortest lifespan possible
@@ -45,10 +46,14 @@ public class ReminderGetter {
                 }
             }
 
+            System.out.println(String.format("ReminderGetter: Returning %d reminders for %s",
+                    reminders.size(),
+                    ((Map<String,Object>) inputMap.get("context")).get("sub")));
+
             Reminder[] tempArray = new Reminder[reminders.size()];
             return new GetReminderResponse(reminders.toArray(tempArray));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ReminderGetter: Exception encountered: " + e.getMessage());
             return null;
         }
     }

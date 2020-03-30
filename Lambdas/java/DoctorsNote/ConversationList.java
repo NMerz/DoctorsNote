@@ -19,16 +19,20 @@ public class ConversationList implements RequestHandler<Map<String,Object> , Obj
         ListConversations listConversations = makeListConversations();
         ListConversations.ConversationListResponse response = listConversations.list(inputMap, context);
         if (response == null) {
+            System.out.println("ConversationList: ListConversations returned null");
             throw new RuntimeException("Server experienced an error");
         }
+        System.out.println("ConversationList: ListConversations returned valid response");
         return response;
     }
 
     public ListConversations makeListConversations() {
+        System.out.println("ConversationList: Instantiating ListConversations");
         return new ListConversations(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
+        System.out.println("ConversationList: Executing main() (THIS SHOULD NEVER HAPPEN)");
         throw new IllegalStateException();
     }
 }

@@ -26,11 +26,6 @@ public class MessageAdder {
 
     public AddMessageResponse add(Map<String,Object> inputMap, Context context) {
         try {
-            // Converting the passed JSON string into a POJO
-            Gson gson = new Gson();
-            //AddMessageRequest request = gson.fromJson(jsonString, AddMessage.AddMessageRequest.class);
-            // Establish connection with MariaDB
-            DBCredentialsProvider dbCP;
 
             // Write to database (note: recipientId is intentionally omitted since it is unnecessary for future ops)
             PreparedStatement statement = dbConnection.prepareStatement(addMessageFormatString);
@@ -38,7 +33,14 @@ public class MessageAdder {
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("senderId"));
             statement.setString(2, (new java.sql.Timestamp((new Date()).getTime())).toString());
             statement.setString(4, (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationId"));
-            statement.executeUpdate();
+            System.out.println("MessageAdder: statement: " + statement.toString());
+            int ret = statement.executeUpdate();
+
+            if (ret == 0) {
+                System.out.println("MessageAdder: Update successful");
+            } else {
+                System.out.println(String.format("MessageAdder: Update failed (%d)", ret));
+            }
 
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();
@@ -46,6 +48,7 @@ public class MessageAdder {
             // Serialize and return an empty response object
             return new AddMessageResponse();
         } catch (Exception e) {
+            System.out.println("MessageAdder: Exception encountered: " + e.toString());
             return null;
         }
     }

@@ -22,16 +22,21 @@ public class ReminderAdder {
 
     public ReminderAdder.AddReminderResponse add(Map<String, Object> inputMap, Context context) {
         try {
-            System.out.println("Adding reminder on behalf for " + ((Map<String,Object>) inputMap.get("context")).get("sub"));
+            System.out.println("ReminderAdder: Adding reminder on behalf for " + ((Map<String,Object>) inputMap.get("context")).get("sub"));
             PreparedStatement statement = dbConnection.prepareStatement(addReminderFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("remindee"));
             statement.setString(3, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setTimestamp(4, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("timeCreated").toString())));
             statement.setTimestamp(5, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("alertTime").toString())));
-            System.out.println(statement);
-            int res = statement.executeUpdate();
-            System.out.println("Update executed with return code " + res);
+            System.out.println("ReminderAdder: statement: " + statement);
+            int ret = statement.executeUpdate();
+
+            if (ret == 0) {
+                System.out.println("ReminderAdder: Update successful");
+            } else {
+                System.out.println(String.format("ReminderAdder: Update failed (%d)", ret));
+            }
 
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();
@@ -39,7 +44,7 @@ public class ReminderAdder {
             // Serialize and return an empty response object
             return new AddReminderResponse();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ReminderAdder: Exception encountered: " + e.getMessage());
             return null;
         }
     }

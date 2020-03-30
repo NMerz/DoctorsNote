@@ -19,16 +19,20 @@ public class GetMessages implements RequestHandler<Map<String,Object>, MessageGe
         MessageGetter messageGetter = makeMessageGetter();
         MessageGetter.GetMessagesResponse response = messageGetter.get(inputMap, context);
         if (response == null) {
+            System.out.println("GetMessages: MessageGetter returned null");
             throw new RuntimeException("Server experienced an error");
         }
+        System.out.println("GetMessages: MessageGetter returned valid response");
         return response;
     }
 
     public MessageGetter makeMessageGetter() {
+        System.out.println("GetMessages: Instantiating MessageGetter");
         return new MessageGetter(Connector.getConnection());
     }
 
     public static void main(String[] args) {
+        System.out.println("GetMessages: Executing main() (THIS SHOULD NEVER HAPPEN)");
         throw new IllegalStateException();
     }
 }
