@@ -919,14 +919,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NORMAL WORK HOURS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em5-A9-hg6">
-                                <rect key="frame" x="25" y="113" width="193" height="21"/>
+                                <rect key="frame" x="25" y="165" width="193" height="21"/>
                                 <accessibility key="accessibilityConfiguration" label="Work Hours Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PB-8b-HPz">
-                                <rect key="frame" x="40" y="144" width="364" height="21"/>
+                                <rect key="frame" x="40" y="196" width="364" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1364,6 +1364,8 @@
                     <connections>
                         <outlet property="bottomView" destination="Daq-kW-vLF" id="T7m-e6-fi5"/>
                         <outlet property="collectionView" destination="tUq-nf-bVE" id="bkr-wg-Nc5"/>
+                        <outlet property="messageText" destination="nAw-57-JVw" id="54y-kF-ONK"/>
+                        <outlet property="sendButton" destination="eWI-rZ-a9X" id="qxW-fU-ZHd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YEM-Ro-IEG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1495,6 +1497,6 @@
         <image name="person.fill" catalog="system" width="64" height="60"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sqe-bD-kpk"/>
+        <segue reference="cbR-Dz-3zz"/>
     </inferredMetricsTieBreakers>
 </document>

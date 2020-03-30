@@ -86,7 +86,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         if messageText.text == nil || messageText.text!.isEmpty || (messageText!.text?.data(using: .utf8)) == nil {
             return
         }
-        let newMessage = Message(messageID: -1, conversationID: 15, content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: conversationID!, content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
         print(newMessage.getBase64Content())
         let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
         if (err != nil) {
@@ -131,7 +131,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print("Shrinking to:" + String(quality))
             content = image.jpegData(compressionQuality: CGFloat(quality))!
         }
-        let newMessage = Message(messageID: -1, conversationID: 15, content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: conversationID!, content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
 
         //print(newMessage.getContent())
         let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
@@ -144,8 +144,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     func reloadMessages() {
         messagesShown += 1
         do {
-            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: 15, numberToRetrieve: messagesShown))
+            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversationID!, numberToRetrieve: messagesShown)
+            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversationID!, numberToRetrieve: messagesShown))
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")
