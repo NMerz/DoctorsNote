@@ -70,7 +70,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     override func viewWillAppear(_ animated: Bool) {
         // TODO: Update later
-        navigationItem.title = "Chat Title"
+        navigationItem.title = "Test Doctor"
     }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23

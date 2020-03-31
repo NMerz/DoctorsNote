@@ -23,9 +23,6 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let convo1 = Conversation(conversationID: 5, conversationPartner: User(uid: 4, firstName: "your mom", lastName: "", dateOfBirth: "", address: "", healthSystems: nil), lastMessageTime: Date(), unreadMessages: false)
-//        let convo2 = Conversation(conversationID: 5, conversationPartner: "Your Other Mom", lastMessageTime: Date(), unreadMessages: false)
-        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Chats"
@@ -40,7 +37,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         var tempList: [Conversation]?
         let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
         (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
-        // Filter conversations
+        
+        // Filter conversations to include only patient-doctor conversations
         conversationList = []
         if (tempList != nil && tempList!.count > 0) {
             for i in 0...tempList!.count - 1 {
@@ -54,19 +52,21 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     func updateSearchResults(for searchController: UISearchController) {
         filteredConversationList = conversationList!.filter({( conversation : Conversation) -> Bool in
             let searched = searchController.searchBar.text!.lowercased()
-            let authorizedConnector = Connector()
-             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
-            let processor = ConnectionProcessor(connector: authorizedConnector)
-            let (potentialUser, potentialError) = processor.processUser(url: "tdb", uid: conversation.getConverserID())
-            if potentialError != nil {
-                //TODO: handle this error
-                //Must return if this is reached!
-                return false
-            }
-            let user = potentialUser!
-            let inFirstName = user.getFirstName().contains(searched)
-            let inLastName = user.getLastName().contains(searched)
-            return (inFirstName || inLastName)
+            let inName = conversation.getConversationName().lowercased().contains(searched)
+            return inName
+//            let authorizedConnector = Connector()
+//             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+//            let processor = ConnectionProcessor(connector: authorizedConnector)
+//            let (potentialUser, potentialError) = processor.processUser(url: "tdb", uid: conversation.getConverserID())
+//            if potentialError != nil {
+//                //TODO: handle this error
+//                //Must return if this is reached!
+//                return false
+//            }
+//            let user = potentialUser!
+//            let inFirstName = user.getFirstName().contains(searched)
+//            let inLastName = user.getLastName().contains(searched)
+//            return (inFirstName || inLastName)
         })
         collectionView.reloadData()
     }
@@ -103,6 +103,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
+        cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
         //cell.conversationID = conversationList![indexPath.row].getConversationID()
         /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
@@ -156,7 +157,7 @@ class FriendCell: BaseCellC {
         return view
     }()
     
-    let nameLabel: UILabel = {
+    var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Doctor"
         label.font = UIFont.systemFont(ofSize: 18)
