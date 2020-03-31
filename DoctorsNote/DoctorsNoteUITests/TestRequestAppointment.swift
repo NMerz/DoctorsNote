@@ -30,40 +30,46 @@ class TestRequestAppointment: XCTestCase {
         tryLogout()
     }
 
-    func testDoctorProfile() throws {
+    func testRequestAppointment() throws {
         tryLogin()
 //        XCUIApplication().tables["Dropdown"]/*@START_MENU_TOKEN@*/.staticTexts["test convo"]/*[[".cells.staticTexts[\"test convo\"]",".staticTexts[\"test convo\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         
+//        let app = app2
+        app?.buttons["Calendar"].tap()
+        app?.navigationBars["Calendar"].buttons["AddRequest"].tap()
+        app?.buttons["Select Doctor"].tap()
         
-//        app?.tabBars.buttons["Profile"].tap()
-//        sleep(1)
-////        app?.collectionViews.cells.element(boundBy: 0).tap()
-////        sleep(1)
-//        app?.buttons["Calendar"].tap()
-//        sleep(1);
-//        app?.buttons["AddRequest"].tap()
-//        sleep(1);
-//        app?.buttons["Select Doctor"].tap()
-//        let tableView = app?.tables.containing(.table, identifier: "Dropdown")
-//        let firstCell = tableView!.cells.element(boundBy: 0)
-//        firstCell.tap()
-        
-        
-//        XCTAssert(app!.staticTexts["Work Hours Label"].exists)
+//        let app2 = app
+        app?.tables["Dropdown"]/*@START_MENU_TOKEN@*/.staticTexts["Agent Anderson"]/*[[".cells.staticTexts[\"Agent Anderson\"]",".staticTexts[\"Agent Anderson\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        sleep(1)
+        app?.textFields["Select date and time"].tap()
+        sleep(1)
+        app?.datePickers/*@START_MENU_TOKEN@*/.pickerWheels["Today"]/*[[".pickers.pickerWheels[\"Today\"]",".pickerWheels[\"Today\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.swipeUp()
+//        app?.datePickers.pickerWheels["AM"].swipeUp()
+        sleep(1)
+        app?.textFields["Enter details here"].tap()
+        app?.textFields["Enter details here"].typeText("test description")
+        sleep(1)
+        app?.buttons["Submit Appointment Request"].tap()
+        sleep(1)
+        XCUIApplication().buttons["Back to Calendar"].tap()
     }
     
     func tryLogin() {
         let emailField = app!.textFields["Email Field"]
         let passwordField = app!.secureTextFields["Password Field"]
         
-        emailField.tap()
-        emailField.typeText("hardin30@purdue.edu")
-        
-        passwordField.press(forDuration: 1.1)
-        passwordField.typeText("DoctorsNote1@")
-        app?.buttons["Log In"].tap()
-        sleep(2)
-        XCTAssertFalse(app!.buttons["Log In"].isHittable)
+        if (emailField.isHittable) {
+            emailField.tap()
+            emailField.typeText("hardin30@purdue.edu")
+            
+            passwordField.press(forDuration: 1.1)
+            passwordField.typeText("DoctorsNote1@")
+            
+            app?.staticTexts["Account Label"].tap()
+            app?.buttons["Log In"].tap()
+            sleep(2)
+        }
     }
     
     func tryLogout() {

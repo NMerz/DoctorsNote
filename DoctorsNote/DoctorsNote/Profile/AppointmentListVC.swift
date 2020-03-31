@@ -36,6 +36,14 @@ class AppointmentListVC: UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         // Reload appointment list data
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            appointmentList = try processor.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+        }
         appointmentTableView.reloadData()
     }
 
@@ -57,7 +65,7 @@ class AppointmentListVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
+        150
     }
     
     
