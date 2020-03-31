@@ -19,14 +19,10 @@ public class MessageGetter {
         try {
             // Reading from database
             PreparedStatement statement = dbConnection.prepareStatement(getMessagesFormatString);
-<<<<<<< HEAD
-            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationID"));
-            statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve"));
-            System.out.println("MessageGetter: statement: " + statement.toString());
-=======
             statement.setLong(1, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
             statement.setLong(2, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve").toString()));
->>>>>>> dev
+            System.out.println("MessageGetter: statement: " + statement.toString());
+
             ResultSet messageResult = statement.executeQuery();
 
             messageResult.getFetchSize();

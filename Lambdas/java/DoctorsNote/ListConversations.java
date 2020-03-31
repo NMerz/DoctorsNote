@@ -40,7 +40,6 @@ public class ListConversations {
             ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
 
             System.out.println("ListConversations: Getting conversations for " + context.getIdentity().getIdentityId());
-            ConversationListRequest request = new ConversationListRequest(userId);
 
             // Request necessary information from MariaDB and process into Conversation objects
             PreparedStatement getConversationStatement = dbConnection.prepareStatement(getConversationFormatString);
