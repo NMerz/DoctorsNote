@@ -37,7 +37,7 @@ public class EventGetter {
             // Processing results
             ArrayList<Event> events = new ArrayList<>();
             while (eventRS.next()) {
-                String appointmentID = eventRS.getString(1);
+                Long appointmentID = eventRS.getLong(1);
                 long timeScheduled = eventRS.getTimestamp(2).toInstant().toEpochMilli();
                 String withID = eventRS.getString(3);
                 String userID = eventRS.getString(4);
@@ -46,8 +46,8 @@ public class EventGetter {
 
                 events.add(new Event(appointmentID, timeScheduled, (withID.equals(userId) ? userID : withID), content, status));
 
-                eventRS.updateInt(5, 0);
-                eventRS.updateRow();
+                //eventRS.updateInt(5, 0);
+                //eventRS.updateRow();
             }
 
             System.out.println(String.format("EventGetter: Returning %d events for %s",
@@ -65,13 +65,13 @@ public class EventGetter {
     }
 
     public class Event {
-        private String appointmentID;
+        private long appointmentID;
         private long timeScheduled;
         private String withID;
         private String content;
         private int status;
 
-        public Event(String appointmentID, long timeScheduled, String withID, String content, int status) {
+        public Event(long appointmentID, long timeScheduled, String withID, String content, int status) {
             this.appointmentID = appointmentID;
             this.timeScheduled = timeScheduled;
             this.withID = withID;
@@ -79,11 +79,11 @@ public class EventGetter {
             this.status = status;
         }
 
-        public String getAppointmentID() {
+        public long getAppointmentID() {
             return appointmentID;
         }
 
-        public void setAppointmentID(String appointmentID) {
+        public void setAppointmentID(long appointmentID) {
             this.appointmentID = appointmentID;
         }
 

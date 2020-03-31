@@ -28,7 +28,7 @@ public class EventAdder {
             PreparedStatement statement = dbConnection.prepareStatement(addEventFormatString);
             statement.setTimestamp(1, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("timeScheduled").toString())));
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
-            statement.setString(3, (String)((Map<String,Object>) inputMap.get("body-json")).get("withId"));
+            statement.setString(3, (String)((Map<String,Object>) inputMap.get("body-json")).get("withID"));
             statement.setString(4, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setInt(5, -1);
             System.out.println("EventAdder: statement: " + statement);
