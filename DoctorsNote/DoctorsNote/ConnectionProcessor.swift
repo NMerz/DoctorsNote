@@ -316,7 +316,7 @@ class ConnectionProcessor {
     
     func processNewAppointment(url: String, appointment: Appointment) throws {
         var appointmentJSON = [String: Any]()
-        appointmentJSON["timeScheduled"] = appointment.getTimeScheduled().timeIntervalSince1970
+        appointmentJSON["timeScheduled"] = appointment.getTimeScheduled().timeIntervalSince1970 * 1000
         appointmentJSON["content"] = appointment.getContent()
         appointmentJSON["withID"] = appointment.getWithID()
         let data = try postData(urlString: url, dataJSON: appointmentJSON)
