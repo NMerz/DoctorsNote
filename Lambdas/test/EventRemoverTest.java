@@ -18,7 +18,7 @@ public class EventRemoverTest {
     private HashMap getSampleMap() {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
-        jsonBody.put("eventId", "102");
+        jsonBody.put("appointmentID", "102");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
         context.put("sub", "sub-id123");   // Note: not an accurate length for sample id
