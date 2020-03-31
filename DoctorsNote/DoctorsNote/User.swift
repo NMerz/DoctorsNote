@@ -38,15 +38,14 @@ class User {
     convenience init! (uid: String) {
         let connector = Connector()
         let connectionProcessor = ConnectionProcessor(connector: connector)
-        let (potentialUser, potentialError) = connectionProcessor.processUser(url: ConnectionProcessor.standardUrl(), uid: uid)
-        if (potentialError == nil && potentialUser != nil) {
-            let user = potentialUser!
+        do {
+            let user = try connectionProcessor.processUser(url: "tbd", uid: uid)
             self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), healthSystems: user.getHealthSystems())
+
+        } catch {
+            print("Convenience init failed")
+            self.init(uid: "-1", email: "", firstName: "", middleName: "", lastName: "", dateOfBirth: Date(), address: "", sex: "", phoneNumber: "", healthSystems: [HealthSystem]())
         }
-        //Below this is a temporary mock for functionality
-        let user = potentialUser!
-        self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), healthSystems: user.getHealthSystems())
-//        return nil
     }
     
     init(uid: String, dict: [String:String]) {

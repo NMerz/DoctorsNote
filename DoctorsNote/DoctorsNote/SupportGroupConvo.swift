@@ -82,8 +82,10 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
             let authorizedConnector = Connector()
              AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
             let processor = ConnectionProcessor(connector: authorizedConnector)
-            let (potentialUser, potentialError) = processor.processUser(url: "tdb", uid: conversation.getConverserID())
-            if potentialError != nil {
+            var potentialUser: User? = nil
+            do {
+                try potentialUser = processor.processUser(url: "tdb", uid: conversation.getConverserID())
+            } catch {
                 //TODO: handle this error
                 //Must return if this is reached!
                 return false

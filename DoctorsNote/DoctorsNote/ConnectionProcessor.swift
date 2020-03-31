@@ -175,9 +175,35 @@ class ConnectionProcessor {
         return (conversations, potentialError)
     }
     
-    func processUser(url: String, uid: String) -> (User?, ConnectionError?) {
-        //Placeholder
-            return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", healthSystems: [HealthSystem]()), nil)
+    func processUser(url: String, uid: String) throws -> User {
+        var userJSON = [String : Any]()
+        userJSON["uid"] = uid
+        //Not DOB and not SEX
+        //Not health system
+        
+        let user = try postData(urlString: url, dataJSON: userJSON)
+        if (user as? [String : Any?] == nil) {
+            print("User is wrong")
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        print((user["uid"]! as? String) != nil)
+        print((user["email"] as? String) != nil)
+        print((user["firstName"] as? String) != nil)
+        print((user["middleName"] as? String) != nil)
+        print((user["lastName"] as? String) != nil)
+        print((user["address"] as? String) != nil)
+        print((user["phoneNumber"] as? String) != nil)
+            if (((user["uid"]! as? String) != nil)
+            && ((user["email"] as? String) != nil)
+            && ((user["firstName"] as? String) != nil)
+            && ((user["middleName"] as? String) != nil)
+            && ((user["lastName"] as? String) != nil)
+            && ((user["address"] as? String) != nil)
+            && ((user["phoneNumber"] as? String) != nil)) {
+                return User(uid: user["uid"]! as! String, email: user["email"]! as! String, firstName: user["firstName"]! as! String, middleName: user["middleName"] as! String, lastName: user["lastName"] as! String, dateOfBirth: Date(), address: user["address"] as! String, sex: "Removed for privacy", phoneNumber: user["phoneNumber"] as! String, healthSystems: [HealthSystem]())
+            } else {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
     }
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
