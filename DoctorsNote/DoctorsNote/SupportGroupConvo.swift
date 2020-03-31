@@ -79,19 +79,8 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
     func updateSearchResults(for searchController: UISearchController) {
         filteredConversationList = conversationList!.filter({( conversation : Conversation) -> Bool in
             let searched = searchController.searchBar.text!.lowercased()
-            let authorizedConnector = Connector()
-             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
-            let processor = ConnectionProcessor(connector: authorizedConnector)
-            let (potentialUser, potentialError) = processor.processUser(url: "tdb", uid: conversation.getConverserID())
-            if potentialError != nil {
-                //TODO: handle this error
-                //Must return if this is reached!
-                return false
-            }
-            let user = potentialUser!
-            let inFirstName = user.getFirstName().contains(searched)
-            let inLastName = user.getLastName().contains(searched)
-            return (inFirstName || inLastName)
+            let inName = conversation.getConversationName().lowercased().contains(searched)
+            return inName
         })
         collectionView.reloadData()
     }
@@ -133,7 +122,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellS
         cell.delegate = self
-        cell.conversationID = 16
+        cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
         //cell.conversationID = conversationList![indexPath.row].getConversationID()
         /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
