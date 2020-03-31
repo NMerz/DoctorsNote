@@ -40,10 +40,11 @@ public class EventGetter {
                 String appointmentID = eventRS.getString(1);
                 long timeScheduled = eventRS.getTimestamp(2).toInstant().toEpochMilli();
                 String withID = eventRS.getString(3);
+                String userID = eventRS.getString(4);
                 int status = eventRS.getInt(5);
                 String content = eventRS.getString(6);
 
-                events.add(new Event(appointmentID, timeScheduled, withID, content, status));
+                events.add(new Event(appointmentID, timeScheduled, (withID.equals(userId) ? userID : withID), content, status));
 
                 eventRS.updateInt(5, 0);
                 eventRS.updateRow();
