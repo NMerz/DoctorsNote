@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class EventGetter {
-    private final String getEventsFormatString = "SELECT * FROM Calendar WHERE userID = ?;";
+    private final String getEventsFormatString = "SELECT * FROM Calendar WHERE withID = ? OR userID = ?;";
     Connection dbConnection;
 
     public EventGetter(Connection dbConnection) {
@@ -23,9 +23,12 @@ public class EventGetter {
 
     public GetEventsResponse get(Map<String, Object> inputMap, Context context) {
         try {
+            String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
+
             PreparedStatement statement = dbConnection.prepareStatement(getEventsFormatString);
-            System.out.println("EventGetter: Getting events on behalf of " + context.getIdentity().getIdentityId());
-            statement.setString(1, context.getIdentity().getIdentityId());
+            System.out.println("EventGetter: Getting events on behalf of " + userId);
+            statement.setString(1, userId);
+            statement.setString(2, userId);
             System.out.println("EventGetter: statement: " + statement);
             ResultSet eventRS = statement.executeQuery();
 
@@ -34,14 +37,17 @@ public class EventGetter {
             // Processing results
             ArrayList<Event> events = new ArrayList<>();
             while (eventRS.next()) {
-                String eventId = eventRS.getString(1);
-                long startTime = eventRS.getTimestamp(2).toInstant().getEpochSecond();
-                long endTime = eventRS.getTimestamp(3).toInstant().getEpochSecond();
-                String location = eventRS.getString(4);
-                String title = eventRS.getString(5);
-                String description = eventRS.getString(6);
+                String appointmentID = eventRS.getString(1);
+                long timeScheduled = eventRS.getTimestamp(2).toInstant().toEpochMilli();
+                String withID = eventRS.getString(3);
+                String userID = eventRS.getString(4);
+                int status = eventRS.getInt(5);
+                String content = eventRS.getString(6);
 
-                events.add(new Event(eventId, startTime, endTime, location, title, description));
+                events.add(new Event(appointmentID, timeScheduled, (withID.equals(userId) ? userID : withID), content, status));
+
+                eventRS.updateInt(5, 0);
+                eventRS.updateRow();
             }
 
             System.out.println(String.format("EventGetter: Returning %d events for %s",
@@ -59,68 +65,58 @@ public class EventGetter {
     }
 
     public class Event {
-        private String eventId;
-        private long startTime;
-        private long endTime;
-        private String location;
-        private String title;
-        private String description;
+        private String appointmentID;
+        private long timeScheduled;
+        private String withID;
+        private String content;
+        private int status;
 
-        public Event(String eventId, long startTime, long endTime, String location, String title, String description) {
-            this.eventId = eventId;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.location = location;
-            this.title = title;
-            this.description = description;
+        public Event(String appointmentID, long timeScheduled, String withID, String content, int status) {
+            this.appointmentID = appointmentID;
+            this.timeScheduled = timeScheduled;
+            this.withID = withID;
+            this.content = content;
+            this.status = status;
         }
 
-        public String getEventId() {
-            return eventId;
+        public String getAppointmentID() {
+            return appointmentID;
         }
 
-        public void setEventId(String eventId) {
-            this.eventId = eventId;
+        public void setAppointmentID(String appointmentID) {
+            this.appointmentID = appointmentID;
         }
 
-        public long getStartTime() {
-            return startTime;
+        public long getTimeScheduled() {
+            return timeScheduled;
         }
 
-        public void setStartTime(long startTime) {
-            this.startTime = startTime;
+        public void setTimeScheduled(long timeScheduled) {
+            this.timeScheduled = timeScheduled;
         }
 
-        public long getEndTime() {
-            return endTime;
+        public String getWithID() {
+            return withID;
         }
 
-        public void setEndTime(long endTime) {
-            this.endTime = endTime;
+        public void setWithID(String withID) {
+            this.withID = withID;
         }
 
-        public String getLocation() {
-            return location;
+        public String getContent() {
+            return content;
         }
 
-        public void setLocation(String location) {
-            this.location = location;
+        public void setContent(String content) {
+            this.content = content;
         }
 
-        public String getTitle() {
-            return title;
+        public int getStatus() {
+            return status;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 

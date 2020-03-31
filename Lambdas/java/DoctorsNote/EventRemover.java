@@ -13,7 +13,7 @@ import java.util.Map;
  */
 
 public class EventRemover {
-    private final String removeEventFormatString = "DELETE FROM Calendar WHERE eventID = ?;";
+    private final String removeEventFormatString = "DELETE FROM Calendar WHERE appointmentID = ?;";
     Connection dbConnection;
 
     public EventRemover(Connection dbConnection) {
@@ -26,7 +26,7 @@ public class EventRemover {
             System.out.println("EventRemover: Removing event on behalf of " + userId);
 
             PreparedStatement statement = dbConnection.prepareStatement(removeEventFormatString);
-            statement.setInt(1, Integer.parseInt((String)((Map<String,Object>) inputMap.get("body-json")).get("eventId")));
+            statement.setInt(1, Integer.parseInt((String)((Map<String,Object>) inputMap.get("body-json")).get("appointmentID")));
             System.out.println("EventRemover: statement: " + statement);
             int ret = statement.executeUpdate();
 

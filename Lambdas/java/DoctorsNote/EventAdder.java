@@ -13,7 +13,7 @@ import java.util.Map;
  */
 
 public class EventAdder {
-    private final String addEventFormatString = "INSERT INTO Calendar (startTime, endTime, location, title, description, userID) VALUES (?, ?, ?, ?, ?, ?);";
+    private final String addEventFormatString = "INSERT INTO Calendar (timeScheduled, content, withId, userId, status) VALUES (?, ?, ?, ?, ?);";
     Connection dbConnection;
 
     public EventAdder(Connection dbConnection) {
@@ -23,15 +23,14 @@ public class EventAdder {
     public AddEventResponse add(Map<String, Object> inputMap, Context context) {
         try {
             String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
-            System.out.println("EventAdder: Adding reminder on behalf of " + userId);
+            System.out.println("EventAdder: Adding event on behalf of " + userId);
 
             PreparedStatement statement = dbConnection.prepareStatement(addEventFormatString);
-            statement.setTimestamp(1, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("startTime").toString())));
-            statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("endTime").toString())));
-            statement.setString(3, (String)((Map<String,Object>) inputMap.get("body-json")).get("location"));
-            statement.setString(4, (String)((Map<String,Object>) inputMap.get("body-json")).get("title"));
-            statement.setString(5, (String)((Map<String,Object>) inputMap.get("body-json")).get("description"));
-            statement.setString(6, userId);
+            statement.setTimestamp(1, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("timeScheduled").toString())));
+            statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
+            statement.setString(3, (String)((Map<String,Object>) inputMap.get("body-json")).get("withId"));
+            statement.setString(4, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
+            statement.setInt(5, -1);
             System.out.println("EventAdder: statement: " + statement);
             int ret = statement.executeUpdate();
 

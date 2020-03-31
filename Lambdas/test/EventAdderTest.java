@@ -18,11 +18,9 @@ public class EventAdderTest {
     private HashMap getSampleMap() {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
-        jsonBody.put("startTime", 10L);
-        jsonBody.put("endTime", 20L);
-        jsonBody.put("location", "WLF");
-        jsonBody.put("title", "Doc talk");
-        jsonBody.put("description", "Chatting time");
+        jsonBody.put("content", "Sample content");
+        jsonBody.put("timeScheduled", 20L);
+        jsonBody.put("withID", "sample-id");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
         context.put("sub", "sub-id123"); //Note: not an accurate length for sample id
