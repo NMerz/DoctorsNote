@@ -96,6 +96,10 @@ class TestUserSignIn: XCTestCase {
     
     func testSignup() {
         
+        if (app!.buttons["Back"].isHittable) {
+            app!.buttons["Back"].tap()
+        }
+        
         app?.buttons["Request Button"].tap()
         
         let emailField = app!.textFields["Email Field"]
