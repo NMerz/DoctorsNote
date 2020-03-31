@@ -20,7 +20,7 @@ class AppointmentListVC: UITableViewController {
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
         do {
-            appointmentList = try processor.processAppointments(url: "tdb")
+            appointmentList = try processor.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
         } catch let error {
             print((error as! ConnectionError).getMessage())
         }

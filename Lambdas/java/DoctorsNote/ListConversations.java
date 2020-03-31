@@ -32,6 +32,12 @@ public class ListConversations {
         try {
             printMap(jsonString);
             String userId = (String)((Map<String,Object>)  jsonString.get("context")).get("sub");
+            for (String key : ((Map<String,Object>)jsonString.get("context")).keySet()) {
+                System.out.println("Key:" + key);
+                System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
+            }
+//            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
+            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
 
             System.out.println("ListConversations: Getting conversations for " + context.getIdentity().getIdentityId());
             ConversationListRequest request = new ConversationListRequest(userId);
