@@ -28,7 +28,7 @@ class TestSGInfo: XCTestCase {
         tryLogout()
     }
 
-    func testDoctorProfile() throws {
+    func testPrivacyInfo() throws {
         tryLogin()
         app?.tabBars.buttons["Support Groups"].tap()
         sleep(1)
