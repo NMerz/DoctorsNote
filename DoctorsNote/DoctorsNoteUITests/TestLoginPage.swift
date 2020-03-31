@@ -198,7 +198,23 @@ class TestUserSignIn: XCTestCase {
         app?.cells.element(boundBy: 0).tap()
         
         zipField.tap()
-        zipField.typeText("12345")
+        zipField.typeText("1234")
+        
+        // Hide keyboard
+        app?.staticTexts["City"].tap()
+        
+        forwardButton.tap()
+        
+        app!.swipeDown()
+        
+        sleep(2)
+        
+        app!.swipeUp()
+        
+        sleep(1)
+        
+        zipField.tap()
+        zipField.typeText("5")
         
         // Hide keyboard
         app?.staticTexts["City"].tap()
@@ -217,14 +233,17 @@ class TestUserSignIn: XCTestCase {
         
         // Enter information
         roleButton.tap()
+        sleep(3)
         closeButton.tap()
         XCTAssert(roleButton.title != "Select Role")
         
         hospitalButton.tap()
+        sleep(3)
         closeButton.tap()
         XCTAssert(hospitalButton.title != "Select Hospital")
         
         healthcareButton.tap()
+        sleep(3)
         closeButton.tap()
         XCTAssert(healthcareButton.title != "Select Healthcare Provider")
         

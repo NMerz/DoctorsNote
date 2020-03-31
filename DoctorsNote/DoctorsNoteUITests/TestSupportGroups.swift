@@ -39,9 +39,11 @@ class TestSupportGroups: XCTestCase {
         app?.buttons["Search Icon"].tap()
         app?.tables.cells.element(boundBy: 0).buttons["Information Icon"].tap()
         app?.buttons["Join Button"].tap()
+        sleep(4)
         app?.alerts.textFields["Display Name Field"].tap()
         app?.alerts.textFields["Display Name Field"].typeText("Test Display Name")
         app?.alerts.buttons["Set Name Button"].tap()
+        sleep(4)
         app?.alerts.buttons["Ok Button"].tap()
         app?.tabBars.buttons["Profile"].tap()
     }
