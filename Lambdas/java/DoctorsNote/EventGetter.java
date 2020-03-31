@@ -30,7 +30,6 @@ public class EventGetter {
             ResultSet eventRS = statement.executeQuery();
 
             // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
 
             // Processing results
             ArrayList<Event> events = new ArrayList<>();
@@ -48,6 +47,8 @@ public class EventGetter {
             System.out.println(String.format("EventGetter: Returning %d events for %s",
                     events.size(),
                     context.getIdentity().getIdentityId()));
+
+            dbConnection.close();
 
             Event[] tempArray = new Event[events.size()];
             return new GetEventsResponse(events.toArray(tempArray));
