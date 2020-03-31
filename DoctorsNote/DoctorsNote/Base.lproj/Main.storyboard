@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DoA-A8-DEq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DoA-A8-DEq">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -256,7 +256,7 @@
             </objects>
             <point key="canvasLocation" x="-3559.420289855073" y="1842.8571428571427"/>
         </scene>
-        <!--CalendarVC-->
+        <!--Ib Calendar Data Source-->
         <scene sceneID="YdV-5z-1vE">
             <objects>
                 <viewController title="CalendarVC" id="ot2-vW-eD3" customClass="CalendarVC" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
@@ -564,13 +564,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please provide any details for your doctor to review before the appointment." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TV-CB-qoz">
-                                <rect key="frame" x="30" y="363" width="354" height="48"/>
+                                <rect key="frame" x="30" y="362" width="354" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Select date and time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hEJ-n9-eFO">
-                                <rect key="frame" x="30" y="298" width="354" height="35"/>
+                                <rect key="frame" x="30" y="298" width="354" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -580,7 +580,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DDQ-Kn-gXd">
-                                <rect key="frame" x="30" y="485" width="354" height="40"/>
+                                <rect key="frame" x="30" y="484" width="354" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="Submit Appointment Request"/>
                                 <connections>
@@ -956,6 +956,7 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ukk-Vj-gK6">
                                 <rect key="frame" x="103" y="201" width="204" height="94"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Privacy Information"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Privacy Information"/>
                                 <connections>
@@ -1402,6 +1403,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sb5-Sm-3vc">
                                 <rect key="frame" x="29" y="75" width="348" height="238"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" label="Privacy Info Label"/>
                                 <string key="text">A support group is a tool to help people with similar health experiences convene. Please do not share any personal health information in a support group.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -1495,18 +1497,18 @@
             <point key="canvasLocation" x="1000.0000000000001" y="2603.5714285714284"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bubble.left.and.bubble.right.fill" catalog="system" width="64" height="48"/>
+        <image name="camera.fill" catalog="system" width="64" height="48"/>
+        <image name="chevron.left.circle.fill" catalog="system" width="64" height="60"/>
+        <image name="gear" catalog="system" width="64" height="58"/>
+        <image name="info.circle" catalog="system" width="64" height="60"/>
+        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
+        <image name="person.3.fill" catalog="system" width="71" height="34"/>
+        <image name="person.fill" catalog="system" width="64" height="60"/>
+        <image name="plus" catalog="system" width="64" height="56"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cbR-Dz-3zz"/>
     </inferredMetricsTieBreakers>
-    <resources>
-        <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>
-        <image name="camera.fill" catalog="system" width="128" height="96"/>
-        <image name="chevron.left.circle.fill" catalog="system" width="128" height="121"/>
-        <image name="gear" catalog="system" width="128" height="119"/>
-        <image name="info.circle" catalog="system" width="128" height="121"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
-        <image name="person.3.fill" catalog="system" width="128" height="61"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
-        <image name="plus" catalog="system" width="128" height="113"/>
-    </resources>
 </document>
