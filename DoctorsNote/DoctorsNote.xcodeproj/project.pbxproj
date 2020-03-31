@@ -52,6 +52,7 @@
 		B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F302408EDA200349316 /* PersonalInfoView.swift */; };
 		B54E4F392408EDA200349316 /* DOBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F312408EDA200349316 /* DOBView.swift */; };
 		B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */; };
+		B562CB972433857200EC6FD5 /* ReportUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B562CB962433857200EC6FD5 /* ReportUserViewController.swift */; };
 		B587B55A2429710C00B6BF0D /* EditReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B5592429710B00B6BF0D /* EditReminderVC.swift */; };
 		B587B55C2429711600B6BF0D /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B55B2429711600B6BF0D /* ReminderCell.swift */; };
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
@@ -137,6 +138,7 @@
 		B54E4F2E2408EDA200349316 /* PersonalInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonalInfoView.xib; sourceTree = "<group>"; };
 		B54E4F302408EDA200349316 /* PersonalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
 		B54E4F312408EDA200349316 /* DOBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOBView.swift; sourceTree = "<group>"; };
+		B562CB962433857200EC6FD5 /* ReportUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUserViewController.swift; sourceTree = "<group>"; };
 		B587B5592429710B00B6BF0D /* EditReminderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditReminderVC.swift; sourceTree = "<group>"; };
 		B587B55B2429711600B6BF0D /* ReminderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		B5AC8B342409CF13002E070D /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
@@ -336,6 +338,7 @@
 				B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */,
 				B82083D224039A2100CF41D0 /* SupportGroupForm.swift */,
 				B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */,
+				B562CB962433857200EC6FD5 /* ReportUserViewController.swift */,
 			);
 			path = SupportGroup;
 			sourceTree = "<group>";
@@ -639,6 +642,7 @@
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */,
 				9D137F3F242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */,
+				B562CB972433857200EC6FD5 /* ReportUserViewController.swift in Sources */,
 				B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */,
