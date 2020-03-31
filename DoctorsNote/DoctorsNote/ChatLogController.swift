@@ -145,6 +145,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print(potentialError?.getMessage())
         }
         dismiss(animated: false)
+        reloadMessages()
     }
     
     func reloadMessages() {
