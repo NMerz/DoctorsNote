@@ -8,10 +8,18 @@
 
 import UIKit
 import AWSMobileClient
+import EventKit
+import EventKitUI
+import PopupKit
 
-class AppointmentListVC: UITableViewController {
-
+class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
+    
+    var p: PopupView?
+    var selectedEvent: Appointment?
+    
     @IBOutlet var appointmentTableView: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Pending Appointments"
@@ -26,12 +34,6 @@ class AppointmentListVC: UITableViewController {
         }
         
         
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,61 +69,146 @@ class AppointmentListVC: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         150
     }
+
+    // Inspired by: https://www.ioscreator.com/tutorials/add-event-calendar-ios-tutorial
+    func insertEvent(store: EKEventStore) {
+        let calendar = store.defaultCalendarForNewEvents
+        let startDate = Date()
+        // 2 hours
+        let endDate = startDate.addingTimeInterval(2 * 60 * 60)
+            
+        // 4
+        let event = EKEvent(eventStore: store)
+        event.calendar = calendar
+            
+        event.title = "New Meeting"
+        event.startDate = startDate
+        event.endDate = endDate
+            
+        presentEventCalendarDetailModal(event: event, store: store)
+        // 5
+//        do {
+//            try store.save(event, span: .thisEvent)
+//        }
+//        catch {
+//           print("Error saving event in calendar")
+//        }
+        print("Saved to calendar!")
+    }
     
     
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let shareAction = UIContextualAction(style: .normal, title: "Export") { (_, _, completion) in
+            completion(true)
+            self.showInfo()
+        }
+        shareAction.backgroundColor = UIColor.systemBlue
+          
+        return UISwipeActionsConfiguration(actions: [shareAction])
     }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    
+    // Inspired by: https://medium.com/@fede_nieto/manage-calendar-events-with-eventkit-and-eventkitui-with-swift-74e1ecbe2524
+    func presentEventCalendarDetailModal(event: EKEvent, store: EKEventStore) {
+        let eventModalVC = EKEventEditViewController()
+        eventModalVC.event = event
+        eventModalVC.eventStore = store
+        eventModalVC.editViewDelegate = self
+        self.present(eventModalVC, animated: true, completion: nil)
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        controller.dismiss(animated: true, completion: nil)
     }
-    */
+    
+    func showInfo() {
+    
+        let width : Int = Int(self.view.frame.width - 20)
+        let height = 250
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
+        contentView.backgroundColor = UIColor.white
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
+        contentView.layer.mask = maskLayer
 
+        p = PopupView.init(contentView: contentView)
+        p?.maskType = .dimmed
+        
+        // Apple Calendar Export Button
+        let iCalButton = UIButton(frame: CGRect(x: width/2 - 90, y: 25, width: 180, height: 55))
+        iCalButton.setTitle("Apple Calendar", for: .normal)
+        iCalButton.backgroundColor = UIColor.systemBlue
+        let iCalLayer = CAShapeLayer()
+        iCalLayer.path = UIBezierPath(roundedRect: iCalButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        iCalButton.layer.mask = iCalLayer
+        iCalButton.accessibilityLabel = "Apple Calendar Button"
+        iCalButton.addTarget(self, action: #selector(addToAppleCalendar), for: .touchUpInside)
+        
+        // Google Calendar Export Button
+        let gCalButton = UIButton(frame: CGRect(x: width/2 - 90, y: 105, width: 180, height: 55))
+        gCalButton.setTitle("Google Calendar", for: .normal)
+        gCalButton.backgroundColor = UIColor.systemBlue
+        let gCalLayer = CAShapeLayer()
+        gCalLayer.path = UIBezierPath(roundedRect: iCalButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        gCalButton.layer.mask = gCalLayer
+        gCalButton.accessibilityLabel = "Google Calendar Button"
+        gCalButton.addTarget(self, action: #selector(addToGoogleCalendar), for: .touchUpInside)
+
+        // Close View Button
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 185, width: 90, height: 40))
+        closeButton.setTitle("Cancel", for: .normal)
+        closeButton.backgroundColor = UIColor.systemBlue
+        let layer = CAShapeLayer()
+        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        closeButton.layer.mask = layer
+        closeButton.accessibilityLabel = "Close Button"
+        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
+
+        // Add buttons to view
+        contentView.addSubview(iCalButton)
+        contentView.addSubview(gCalButton)
+        contentView.addSubview(closeButton)
+
+        // Present view
+        let xPos = self.view.frame.width / 2
+        let yPos = (self.view.frame.height / 2) - (CGFloat(height) / 2)
+        let location = CGPoint.init(x: xPos, y: yPos)
+        p?.showType = .slideInFromBottom
+        p?.maskType = .dimmed
+        p?.dismissType = .slideOutToBottom
+        p?.show(at: location, in: self.view)
+        
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    
+    @objc func dismissPopup(sender: UIButton!) {
+        p?.dismiss(animated: true)
     }
-    */
+    
+    @objc func addToAppleCalendar() {
+        let eventStore = EKEventStore()
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        switch EKEventStore.authorizationStatus(for: .event) {
+        case .authorized:
+            insertEvent(store: eventStore)
+            case .denied:
+                print("Access denied")
+            case .notDetermined:
+                eventStore.requestAccess(to: .event, completion:
+                  {[weak self] (granted: Bool, error: Error?) -> Void in
+                      if granted {
+                        self!.insertEvent(store: eventStore)
+                      } else {
+                            print("Access denied")
+                      }
+                })
+                default:
+                    print("Case default")
+        }
     }
-    */
-
+    
+    @objc func addToGoogleCalendar() {
+        
+    }
+    
 }

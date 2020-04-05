@@ -13,6 +13,7 @@ class CognitoHelper {
 
     public static let sharedHelper = CognitoHelper()
     public static var user: User?
+    public static var numFails: Int = 0
     
     func login(email: String, password: String, onDone: @escaping (_ success: Bool, _ err: AWSMobileClientError)->()) {
         AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
