@@ -249,6 +249,343 @@ class TestUserSignIn: XCTestCase {
         
     }
     
+    func testInvalidDOB() {
+        let firstNameField = app!.textFields["First Name Field"]
+        let middleNameField = app!.textFields["Middle Name Field"]
+        let lastNameField = app!.textFields["Last Name Field"]
+        let DOBButton = app!.buttons["DOB Button"]
+        let sexButton = app!.buttons["Sex Button"]
+        let phoneField = app!.textFields["Phone Field"]
+        let streetField = app!.textFields["Street Field"]
+        let cityField = app!.textFields["City Field"]
+        let stateButton = app!.buttons["State Button"]
+        let zipField = app!.textFields["ZIP Field"]
+        let closeButton = app!.buttons["Close Button"]
+        let forwardButton = app!.buttons["Forward"]
+        let errorLabel = app!.staticTexts["Error Label"]
+        
+        if (app!.textFields["Email Field"].exists) {
+            app?.textFields["Email Field"].tap()
+            app?.textFields["Email Field"].typeText("bbh@purdue.edu")
+            
+            app?.secureTextFields["Password Field"].tap()
+            app?.secureTextFields["Password Field"].typeText("DoctorsNote1@")
+            app?.staticTexts["Account Label"].tap()
+            
+            app?.buttons["Log In"].tap()
+        }
+        
+        // Check no entries filled
+        forwardButton.tap()
+        // Make sure we haven't move on to the next view
+        XCTAssert(errorLabel.label != "")
+        
+        // Check entries filled
+        firstNameField.tap()
+        firstNameField.typeText("First")
+        
+        middleNameField.tap()
+        middleNameField.typeText("Middle")
+        
+        lastNameField.tap()
+        lastNameField.typeText("Last")
+        
+        app?.swipeUp()
+        
+        sexButton.tap()
+        closeButton.tap()
+        
+        phoneField.tap()
+        phoneField.typeText("1234567890")
+        
+        streetField.tap()
+        streetField.typeText("Street")
+        
+        cityField.tap()
+        cityField.typeText("City")
+        
+        stateButton.tap()
+        app?.cells.element(boundBy: 0).tap()
+        
+        zipField.tap()
+        zipField.typeText("12345")
+        
+        // Hide keyboard
+        app?.staticTexts["City"].tap()
+        
+        forwardButton.tap()
+        
+    }
+    
+    func testInvalidSex() {
+        let firstNameField = app!.textFields["First Name Field"]
+        let middleNameField = app!.textFields["Middle Name Field"]
+        let lastNameField = app!.textFields["Last Name Field"]
+        let DOBButton = app!.buttons["DOB Button"]
+        let sexButton = app!.buttons["Sex Button"]
+        let phoneField = app!.textFields["Phone Field"]
+        let streetField = app!.textFields["Street Field"]
+        let cityField = app!.textFields["City Field"]
+        let stateButton = app!.buttons["State Button"]
+        let zipField = app!.textFields["ZIP Field"]
+        let closeButton = app!.buttons["Close Button"]
+        let forwardButton = app!.buttons["Forward"]
+        let errorLabel = app!.staticTexts["Error Label"]
+        
+        if (app!.textFields["Email Field"].exists) {
+            app?.textFields["Email Field"].tap()
+            app?.textFields["Email Field"].typeText("bbh@purdue.edu")
+            
+            app?.secureTextFields["Password Field"].tap()
+            app?.secureTextFields["Password Field"].typeText("DoctorsNote1@")
+            app?.staticTexts["Account Label"].tap()
+            
+            app?.buttons["Log In"].tap()
+        }
+        
+        // Check no entries filled
+        forwardButton.tap()
+        // Make sure we haven't move on to the next view
+        XCTAssert(errorLabel.label != "")
+        
+        // Check entries filled
+        firstNameField.tap()
+        firstNameField.typeText("First")
+        
+        middleNameField.tap()
+        middleNameField.typeText("Middle")
+        
+        lastNameField.tap()
+        lastNameField.typeText("Last")
+        
+        DOBButton.tap()
+        closeButton.tap()
+        
+        app?.swipeUp()
+        
+        phoneField.tap()
+        phoneField.typeText("1234567890")
+        
+        streetField.tap()
+        streetField.typeText("Street")
+        
+        cityField.tap()
+        cityField.typeText("City")
+        
+        stateButton.tap()
+        app?.cells.element(boundBy: 0).tap()
+        
+        zipField.tap()
+        zipField.typeText("12345")
+        
+        // Hide keyboard
+        app?.staticTexts["City"].tap()
+        
+        forwardButton.tap()
+    }
+    
+    func testInvalidState() {
+        let firstNameField = app!.textFields["First Name Field"]
+        let middleNameField = app!.textFields["Middle Name Field"]
+        let lastNameField = app!.textFields["Last Name Field"]
+        let DOBButton = app!.buttons["DOB Button"]
+        let sexButton = app!.buttons["Sex Button"]
+        let phoneField = app!.textFields["Phone Field"]
+        let streetField = app!.textFields["Street Field"]
+        let cityField = app!.textFields["City Field"]
+        let stateButton = app!.buttons["State Button"]
+        let zipField = app!.textFields["ZIP Field"]
+        let closeButton = app!.buttons["Close Button"]
+        let forwardButton = app!.buttons["Forward"]
+        let errorLabel = app!.staticTexts["Error Label"]
+        
+        if (app!.textFields["Email Field"].exists) {
+            app?.textFields["Email Field"].tap()
+            app?.textFields["Email Field"].typeText("bbh@purdue.edu")
+            
+            app?.secureTextFields["Password Field"].tap()
+            app?.secureTextFields["Password Field"].typeText("DoctorsNote1@")
+            app?.staticTexts["Account Label"].tap()
+            
+            app?.buttons["Log In"].tap()
+        }
+        
+        // Check no entries filled
+        forwardButton.tap()
+        // Make sure we haven't move on to the next view
+        XCTAssert(errorLabel.label != "")
+        
+        // Check entries filled
+        firstNameField.tap()
+        firstNameField.typeText("First")
+        
+        middleNameField.tap()
+        middleNameField.typeText("Middle")
+        
+        lastNameField.tap()
+        lastNameField.typeText("Last")
+        
+        DOBButton.tap()
+        closeButton.tap()
+        
+        app?.swipeUp()
+        
+        sexButton.tap()
+        closeButton.tap()
+        
+        phoneField.tap()
+        phoneField.typeText("1234567890")
+        
+        streetField.tap()
+        streetField.typeText("Street")
+        
+        cityField.tap()
+        cityField.typeText("City")
+        
+        zipField.tap()
+        zipField.typeText("1234")
+        
+        // Hide keyboard
+        app?.staticTexts["City"].tap()
+        
+        forwardButton.tap()
+        
+    }
+    
+    func testEmptyStreet() {
+        let firstNameField = app!.textFields["First Name Field"]
+        let middleNameField = app!.textFields["Middle Name Field"]
+        let lastNameField = app!.textFields["Last Name Field"]
+        let DOBButton = app!.buttons["DOB Button"]
+        let sexButton = app!.buttons["Sex Button"]
+        let phoneField = app!.textFields["Phone Field"]
+        let streetField = app!.textFields["Street Field"]
+        let cityField = app!.textFields["City Field"]
+        let stateButton = app!.buttons["State Button"]
+        let zipField = app!.textFields["ZIP Field"]
+        let closeButton = app!.buttons["Close Button"]
+        let forwardButton = app!.buttons["Forward"]
+        let errorLabel = app!.staticTexts["Error Label"]
+        
+        if (app!.textFields["Email Field"].exists) {
+            app?.textFields["Email Field"].tap()
+            app?.textFields["Email Field"].typeText("bbh@purdue.edu")
+            
+            app?.secureTextFields["Password Field"].tap()
+            app?.secureTextFields["Password Field"].typeText("DoctorsNote1@")
+            app?.staticTexts["Account Label"].tap()
+            
+            app?.buttons["Log In"].tap()
+        }
+        
+        // Check no entries filled
+        forwardButton.tap()
+        // Make sure we haven't move on to the next view
+        XCTAssert(errorLabel.label != "")
+        
+        // Check entries filled
+        firstNameField.tap()
+        firstNameField.typeText("First")
+        
+        middleNameField.tap()
+        middleNameField.typeText("Middle")
+        
+        lastNameField.tap()
+        lastNameField.typeText("Last")
+        
+        DOBButton.tap()
+        closeButton.tap()
+        
+        app?.swipeUp()
+        
+        sexButton.tap()
+        closeButton.tap()
+        
+        phoneField.tap()
+        phoneField.typeText("1234567890")
+        
+        cityField.tap()
+        cityField.typeText("City")
+        
+        stateButton.tap()
+        app?.cells.element(boundBy: 0).tap()
+        
+        zipField.tap()
+        zipField.typeText("12345")
+        
+        // Hide keyboard
+        app?.staticTexts["City"].tap()
+        
+        forwardButton.tap()
+    }
+    
+    func testEmptyCity() {
+        let firstNameField = app!.textFields["First Name Field"]
+        let middleNameField = app!.textFields["Middle Name Field"]
+        let lastNameField = app!.textFields["Last Name Field"]
+        let DOBButton = app!.buttons["DOB Button"]
+        let sexButton = app!.buttons["Sex Button"]
+        let phoneField = app!.textFields["Phone Field"]
+        let streetField = app!.textFields["Street Field"]
+        let cityField = app!.textFields["City Field"]
+        let stateButton = app!.buttons["State Button"]
+        let zipField = app!.textFields["ZIP Field"]
+        let closeButton = app!.buttons["Close Button"]
+        let forwardButton = app!.buttons["Forward"]
+        let errorLabel = app!.staticTexts["Error Label"]
+        
+        if (app!.textFields["Email Field"].exists) {
+            app?.textFields["Email Field"].tap()
+            app?.textFields["Email Field"].typeText("bbh@purdue.edu")
+            
+            app?.secureTextFields["Password Field"].tap()
+            app?.secureTextFields["Password Field"].typeText("DoctorsNote1@")
+            app?.staticTexts["Account Label"].tap()
+            
+            app?.buttons["Log In"].tap()
+        }
+        
+        // Check no entries filled
+        forwardButton.tap()
+        // Make sure we haven't move on to the next view
+        XCTAssert(errorLabel.label != "")
+        
+        // Check entries filled
+        firstNameField.tap()
+        firstNameField.typeText("First")
+        
+        middleNameField.tap()
+        middleNameField.typeText("Middle")
+        
+        lastNameField.tap()
+        lastNameField.typeText("Last")
+        
+        DOBButton.tap()
+        closeButton.tap()
+        
+        app?.swipeUp()
+        
+        sexButton.tap()
+        closeButton.tap()
+        
+        phoneField.tap()
+        phoneField.typeText("1234567890")
+        
+        streetField.tap()
+        streetField.typeText("Street")
+        
+        stateButton.tap()
+        app?.cells.element(boundBy: 0).tap()
+        
+        zipField.tap()
+        zipField.typeText("12345")
+        
+        // Hide keyboard
+        app?.staticTexts["City"].tap()
+        
+        forwardButton.tap()
+    }
+    
     func tryLogout() {
         if (app!.buttons["Log Out"].exists && app!.buttons["Log Out"].isHittable) {
             app?.buttons["Log Out"].tap()
