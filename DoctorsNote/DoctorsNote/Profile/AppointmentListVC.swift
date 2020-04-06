@@ -73,27 +73,19 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
     // Inspired by: https://www.ioscreator.com/tutorials/add-event-calendar-ios-tutorial
     func insertEvent(store: EKEventStore) {
         let calendar = store.defaultCalendarForNewEvents
-        let startDate = Date()
+        let startDate = selectedEvent?.getTimeScheduled()
         // 2 hours
-        let endDate = startDate.addingTimeInterval(2 * 60 * 60)
+        let endDate = startDate?.addingTimeInterval(60 * 60)
             
         // 4
         let event = EKEvent(eventStore: store)
         event.calendar = calendar
             
-        event.title = "New Meeting"
+        event.title = "Doctor Appointment"
         event.startDate = startDate
         event.endDate = endDate
             
         presentEventCalendarDetailModal(event: event, store: store)
-        // 5
-//        do {
-//            try store.save(event, span: .thisEvent)
-//        }
-//        catch {
-//           print("Error saving event in calendar")
-//        }
-        print("Saved to calendar!")
     }
     
     
@@ -104,6 +96,7 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
             self.showInfo()
         }
         shareAction.backgroundColor = UIColor.systemBlue
+        selectedEvent = appointmentList[indexPath.row]
           
         return UISwipeActionsConfiguration(actions: [shareAction])
     }
@@ -119,6 +112,7 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
     
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         controller.dismiss(animated: true, completion: nil)
+        p?.dismiss(animated: true)
     }
     
     func showInfo() {
@@ -208,7 +202,22 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
     }
     
     @objc func addToGoogleCalendar() {
-        
+        let date = selectedEvent?.getTimeScheduled()
+        let df = DateFormatter()
+        df.dateFormat = "yyyyMMdd'T'hhmmss'Z'"
+        df.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+        let stringDate = df.string(from: date!)
+        let urlString = "http://calendar.google.com/?action=create&title=Doctor+Appointment&dates=" + stringDate + "/" + stringDate
+        let url = URL(string: urlString)!
+        if UIApplication.shared.canOpenURL(url)
+        {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+
+         } else {
+            //redirect to safari because the user doesn't have Google Calendar
+            let safariString = "https://www.google.com/calendar/render?action=TEMPLATE&text=Doctor+Appointment&dates=" + stringDate + "/" + stringDate
+            UIApplication.shared.open(URL(string: safariString)!)
+        }
     }
     
 }
