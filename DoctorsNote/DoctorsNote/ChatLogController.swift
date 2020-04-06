@@ -170,7 +170,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         cellM.delegate = self
         let nextMessage = self.messages[messages.count - indexPath.row - 1]
         if nextMessage.getContentType() == 0 {
-            cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+            //cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+            cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
         } else if nextMessage.getContentType() == 1 {
             cellM.showOutgoingMessage(image: UIImage(data: nextMessage.getRawContent()) ?? UIImage())
         }
@@ -340,6 +341,85 @@ class FriendCellM: BaseCellM {
         message.layer.addSublayer(outgoingMessageLayer)
 
     }
+    
+    func showIncomingMessage(text: String) {
+        if labelView != nil {
+            labelView!.removeFromSuperview()
+        }
+        labelView =  UILabel()
+        let label = labelView!
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .black
+        label.text = text
+        
+        contentView.addSubview(label)
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        //label.rightAnchor.constraint(equalTo: message.rightAnchor, constant: -10).isActive = true
+        message.rightAnchor.constraint(equalTo: label.rightAnchor, constant: -10).isActive = true
+        contentView.topAnchor.constraint(equalTo: label.topAnchor, constant: -10).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant:  10).isActive = true
+
+        //message.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -10).isActive = true
+        label.leftAnchor.constraint(equalTo: message.leftAnchor, constant: 50).isActive = true
+        
+        let constraintRect = CGSize(width: 0.66 * message.frame.width,
+                                    height: .greatestFiniteMagnitude)
+        let boundingBox = text.boundingRect(with: constraintRect,
+                                            options: .usesLineFragmentOrigin,
+                                            attributes: [.font: label.font],
+                                            context: nil)
+        label.frame.size = CGSize(width: ceil(boundingBox.width), height: ceil(boundingBox.height))
+        
+        let bubbleSize = CGSize(width: label.frame.width + 28,
+                                     height: label.frame.height + 20)
+        
+        let width = bubbleSize.width
+        let height = bubbleSize.height
+        
+        let bezierPath = UIBezierPath()
+        /*bezierPath.move(to: CGPoint(x: width - 22, y: height))
+        bezierPath.addLine(to: CGPoint(x: 17, y: height))
+        bezierPath.addCurve(to: CGPoint(x: 0, y: height - 17), controlPoint1: CGPoint(x: 7.61, y: height), controlPoint2: CGPoint(x: 0, y: height - 7.61))
+        bezierPath.addLine(to: CGPoint(x: 0, y: 17))
+        bezierPath.addCurve(to: CGPoint(x: 17, y: 0), controlPoint1: CGPoint(x: 0, y: 7.61), controlPoint2: CGPoint(x: 7.61, y: 0))
+        bezierPath.addLine(to: CGPoint(x: width - 21, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: width - 4, y: 17), controlPoint1: CGPoint(x: width - 11.61, y: 0), controlPoint2: CGPoint(x: width - 4, y: 7.61))
+        bezierPath.addLine(to: CGPoint(x: width - 4, y: height - 11))
+        bezierPath.addCurve(to: CGPoint(x: width, y: height), controlPoint1: CGPoint(x: width - 4, y: height - 1), controlPoint2: CGPoint(x: width, y: height))
+        bezierPath.addLine(to: CGPoint(x: width + 0.05, y: height - 0.01))
+        bezierPath.addCurve(to: CGPoint(x: width - 11.04, y: height - 4.04), controlPoint1: CGPoint(x: width - 4.07, y: height + 0.43), controlPoint2: CGPoint(x: width - 8.16, y: height - 1.06))
+        bezierPath.addCurve(to: CGPoint(x: width - 22, y: height), controlPoint1: CGPoint(x: width - 16, y: height), controlPoint2: CGPoint(x: width - 19, y: height))
+        bezierPath.close()*/
+        //let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: 22, y: height))
+        bezierPath.addLine(to: CGPoint(x: width - 17, y: height))
+        bezierPath.addCurve(to: CGPoint(x: width, y: height - 17), controlPoint1: CGPoint(x: width - 7.61, y: height), controlPoint2: CGPoint(x: width, y: height - 7.61))
+        bezierPath.addLine(to: CGPoint(x: width, y: 17))
+        bezierPath.addCurve(to: CGPoint(x: width - 17, y: 0), controlPoint1: CGPoint(x: width, y: 7.61), controlPoint2: CGPoint(x: width - 7.61, y: 0))
+        bezierPath.addLine(to: CGPoint(x: 21, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: 4, y: 17), controlPoint1: CGPoint(x: 11.61, y: 0), controlPoint2: CGPoint(x: 4, y: 7.61))
+        bezierPath.addLine(to: CGPoint(x: 4, y: height - 11))
+        bezierPath.addCurve(to: CGPoint(x: 0, y: height), controlPoint1: CGPoint(x: 4, y: height - 1), controlPoint2: CGPoint(x: 0, y: height))
+        bezierPath.addLine(to: CGPoint(x: -0.05, y: height - 0.01))
+        bezierPath.addCurve(to: CGPoint(x: 11.04, y: height - 4.04), controlPoint1: CGPoint(x: 4.07, y: height + 0.43), controlPoint2: CGPoint(x: 8.16, y: height - 1.06))
+        bezierPath.addCurve(to: CGPoint(x: 22, y: height), controlPoint1: CGPoint(x: 16, y: height), controlPoint2: CGPoint(x: 19, y: height))
+        bezierPath.close()
+
+        
+        let outgoingMessageLayer = CAShapeLayer()
+        outgoingMessageLayer.path = bezierPath.cgPath
+        outgoingMessageLayer.frame = label.bounds
+        //outgoingMessageLayer.fillColor = UIColor.systemBlue.cgColor
+        outgoingMessageLayer.fillColor = UIColor.lightGray.cgColor
+        
+        message.layer.addSublayer(outgoingMessageLayer)
+
+    }
+    
+    
     
     func showOutgoingMessage(image: UIImage) {
         if labelView != nil {
