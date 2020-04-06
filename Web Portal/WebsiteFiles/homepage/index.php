@@ -2,6 +2,12 @@
 require '../vendor/autoload.php';
 use CoderCat\JWKToPEM\JWKConverter;
 
+//Redirect if not authenticated
+session_start();
+if ($_SESSION["status"] != "true") {
+    header("Location: https://doctorsnote.ddns.net/index.html");
+}
+
 //Go back to login if logout button is pressed
 if (isset($_POST['logout'])) {
     session_destroy();
@@ -44,11 +50,7 @@ try {
 
 
 <?php
-//Redirect if not authenticated
-session_start();
-if ($_SESSION["status"] != "true") {
-    header("Location: https://doctorsnote.ddns.net/index.html");
-}
+
 
 
 //Variables for Different ouputs
@@ -61,7 +63,9 @@ $pairingException = false;
 
 $unpairingDoesntExist = false;
 $unpairingSuccess = false;
+$unpairingException = false;
 
+$cognitoException = false;
 
 
 //Pairing update logic
@@ -77,14 +81,18 @@ if (isset($_POST['submitPair'])) {
             //test to see if the doctor and patient exist in cognito
             $bothExist = true;
             //doctor
-            $doctorToPair = $client->listUsers([
-                //TODO: add role
-                'AttributesToGet' => ['name', 'family_name', 'birthdate', 'custom:role'],
-                'Filter' => "username = \"". $doctorIDinputPair . "\"", //Can only filter on certain default attributes
-                'Limit' => 1,
-                //'PaginationToken' => '<string>',
-                'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
-            ]);
+            try {
+                $doctorToPair = $client->listUsers([
+                    //TODO: add role
+                    'AttributesToGet' => ['name', 'family_name', 'birthdate', 'custom:role'],
+                    'Filter' => "username = \"" . $doctorIDinputPair . "\"", //Can only filter on certain default attributes
+                    'Limit' => 1,
+                    //'PaginationToken' => '<string>',
+                    'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+                ]);
+            } catch (Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException $cognitoIdentityProviderException) {
+                $cognitoException = true;
+            }
 
             if (count($doctorToPair["Users"]) == 0 ||
                 ($doctorToPair["Users"][0]["Attributes"][2]["Value"] != "doctor") && $doctorToPair["Users"][0]["Attributes"][2]["Value"] != "Doctor") {
@@ -121,33 +129,39 @@ if (isset($_POST['submitPair'])) {
                 //foreach ($resultCheckDup as $conversation) {
 
                 //}
-                $pairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $patientIDinputPair . "\";";
-                $resultID = $pdo->query($pairString);
+                $resultID = $pdo->prepare('SELECT conversationID FROM Conversation_has_User WHERE userID = ?;');
+                $resultID->execute(array($patientIDinputPair));
+                //$pairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $patientIDinputPair . "\";";
+                //$resultID = $pdo->query($pairString);
                 $num = $resultID->rowCount();
-                echo $num;
+                //echo $num;
                 $numFound = 0;
                 $isDuplicate = 0;
                 while ($each = $resultID->fetch()) {
                     foreach ($each as $convoID) {
-                        $findPairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $doctorIDinputPair . "\" AND conversationID = " . $convoID . ";";
-                        $matchedDoctor = $pdo->query($findPairString);
+                        $matchedDoctor = $pdo->prepare('SELECT conversationID FROM Conversation_has_User WHERE userID = ? AND conversationID = ?');
+                        $matchedDoctor->execute(array($doctorIDinputPair, $convoID));
+                        //$findPairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $doctorIDinputPair . "\" AND conversationID = " . $convoID . ";";
+                        //$matchedDoctor = $pdo->query($findPairString);
+                        $isSupportGroup = $pdo->prepare('SELECT * FROM Conversation_has_User WHERE conversationID = ?;');
                         while($eachDoctorConvoID = $matchedDoctor->fetch()) {
-                            echo $eachDoctorConvoID["conversationID"];
-                            $isSupportGroupString = "SELECT * FROM Conversation_has_User WHERE conversationID = " . $eachDoctorConvoID["conversationID"] . ";";
-                            $isSupportGroup = $pdo->query($isSupportGroupString);
+                            //echo $eachDoctorConvoID["conversationID"];
+                            $isSupportGroup->execute(array($eachDoctorConvoID["conversationID"]));
+                            //$isSupportGroupString = "SELECT * FROM Conversation_has_User WHERE conversationID = " . $eachDoctorConvoID["conversationID"] . ";";
+                            //$isSupportGroup = $pdo->query($isSupportGroupString);
                             if ($isSupportGroup->rowCount() == 2) {
                                 //Found a duplicate that is not a support group
                                 $isDuplicate = 1;
                             }
                         }
 
-                        $numFound += $matchedDoctor->rowCount();
+                        //$numFound += $matchedDoctor->rowCount();
                         //echo $matchedDoctor->fetch()["conversationID"];
 
 
                     }
                 }
-                echo $numFound;
+                //echo $numFound;
 
                 if ($isDuplicate == 0) {
                     $pdo->query("INSERT INTO Conversation (status)
@@ -155,10 +169,14 @@ if (isset($_POST['submitPair'])) {
                     $lastID = $pdo->lastInsertId();
 
                     //Add corresponding Conversation_has_User rows
-                    $pdo->query("INSERT INTO Conversation_has_User (conversationID, userID)
-                            VALUES (\"$lastID\", \"$doctorIDinputPair\");");
-                    $pdo->query("INSERT INTO Conversation_has_User (conversationID, userID)
-                            VALUES (\"$lastID\", \"$patientIDinputPair\");");
+                    $temp = $pdo->prepare('INSERT INTO Conversation_has_User (conversationID, userID)
+                            VALUES (?, ?);');
+                    $temp->execute(array($lastID, $doctorIDinputPair));
+                    $temp->execute(array($lastID, $patientIDinputPair));
+                    //$pdo->query("INSERT INTO Conversation_has_User (conversationID, userID)
+                    //        VALUES (\"$lastID\", \"$doctorIDinputPair\");");
+                    //$pdo->query("INSERT INTO Conversation_has_User (conversationID, userID)
+                    //        VALUES (\"$lastID\", \"$patientIDinputPair\");");
 
 
                     $pairingSuccess = true;
@@ -170,13 +188,8 @@ if (isset($_POST['submitPair'])) {
             }
         }
     }
-    catch (PDOException $e) {
-        if ($e->errorInfo[1] == 1062) {
-            $pairingException = true;
-        } else {
-            $pairingException = true;
-
-        }
+    catch (Exception $e) {
+        $pairingException = true;
     }
 }
 
@@ -189,48 +202,55 @@ if (isset($_POST['submitUnpair'])) {
     $patientIDinputUnpair = $_POST['patientIDinputUnpair'];
 
 
-    //try {
-    if (isset($doctorIDinputUnpair) && trim($doctorIDinputUnpair) != ''
-        && isset($patientIDinputUnpair) && trim($patientIDinputUnpair) != '') {
-        $unpairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $patientIDinputUnpair . "\";";
-        $resultID = $pdo->query($unpairString);
-        $num = $resultID->rowCount();
-        while ($each = $resultID->fetch()) {
-            foreach ($each as $convoID) {
-                $findPairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $doctorIDinputUnpair . "\" AND conversationID = " . $convoID . ";";
-                $matchedDoctor = $pdo->query($findPairString);
-                //echo $matchedDoctor->fetch()["conversationID"];
+    try {
+        if (isset($doctorIDinputUnpair) && trim($doctorIDinputUnpair) != ''
+            && isset($patientIDinputUnpair) && trim($patientIDinputUnpair) != '') {
+            $resultID = $pdo->prepare('SELECT conversationID FROM Conversation_has_User WHERE userID =  ? ;');
+            $resultID->execute(array($patientIDinputUnpair));
+            //$unpairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $patientIDinputUnpair . "\";";
+            //$resultID = $pdo->query($unpairString);
+            $num = $resultID->rowCount();
+            //echo $num;
+            while ($each = $resultID->fetch()) {
+                foreach ($each as $convoID) {
+                    $matchedDoctor = $pdo->prepare('SELECT conversationID FROM Conversation_has_User WHERE userID = ? AND conversationID = ?;');
+                    $matchedDoctor->execute(array($doctorIDinputUnpair, $convoID));
+                    //$findPairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $doctorIDinputUnpair . "\" AND conversationID = " . $convoID . ";";
+                    //$matchedDoctor = $pdo->query($findPairString);
+                    //echo $matchedDoctor->fetch()["conversationID"];
 
-                while ($LineToRemove = $matchedDoctor->fetch()) {
-                    $idToRemove = $LineToRemove["conversationID"];
-                    $isSupportGroupString = "SELECT * FROM Conversation_has_User WHERE conversationID = " . $idToRemove . ";";
-                    $isSupportGroup = $pdo->query($isSupportGroupString);
-                    if ($isSupportGroup->rowCount() <= 2) {
-                        echo $idToRemove;
-                        $stringRemovePair = "DELETE FROM Conversation_has_User WHERE conversationID = " . $idToRemove . ";";
-                        $conversationRemoveString = "DELETE FROM Conversation WHERE conversationID = " . $idToRemove . ";";
-                        $pdo->query($stringRemovePair);
-                        $pdo->query($conversationRemoveString);
+                    while ($LineToRemove = $matchedDoctor->fetch()) {
+                        $idToRemove = $LineToRemove["conversationID"];
+                        $isSupportGroup = $pdo->prepare('SELECT * FROM Conversation_has_User WHERE conversationID = ?;');
+                        $isSupportGroup->execute(array($idToRemove));
+                        //$isSupportGroupString = "SELECT * FROM Conversation_has_User WHERE conversationID = " . $idToRemove . ";";
+                        //$isSupportGroup = $pdo->query($isSupportGroupString);
+                        if ($isSupportGroup->rowCount() <= 2) {
+                            //echo $idToRemove;
+                            $temp = $pdo->prepare('DELETE FROM Conversation_has_User WHERE conversationID = ?;');
+                            $temp->execute(array($idToRemove));
+                            $temp = $pdo->prepare('DELETE FROM Conversation WHERE conversationID = ?;');
+                            $temp->execute(array($idToRemove));
+                            //$stringRemovePair = "DELETE FROM Conversation_has_User WHERE conversationID = " . $idToRemove . ";";
+                            //$conversationRemoveString = "DELETE FROM Conversation WHERE conversationID = " . $idToRemove . ";";
+                            //$pdo->query($stringRemovePair);
+                            //$pdo->query($conversationRemoveString);
+                        }
                     }
                 }
             }
-        }
 
-        if ($num < 1) {
-            $unpairingDoesntExist = true;
-        }
-        else {
-            $unpairingSuccess = true;
+            if ($num < 1) {
+                $unpairingDoesntExist = true;
+            }
+            else {
+                $unpairingSuccess = true;
+            }
         }
     }
-    //}
-    /*catch (PDOException $e) {
-      if ($e->errorInfo[1] == 1062) {
-        echo "<h4>Oops! Something went wrong, please try again.</h4>";
-      } else {
-        echo "<h4>Something went wrong, make sure both the doctor and patient exist.</h4>";
-      }
-    }*/
+    catch (Exception $e) {
+        $unpairingException = true;
+    }
 }
 ?>
 
@@ -300,14 +320,15 @@ if (isset($_POST['submitUnpair'])) {
 
 
 
+try {
+    $resultPatient = $client->listUsers([
+        'AttributesToGet' => ['name', 'family_name', 'birthdate', 'gender', 'custom:role'],
+        'Filter' => "status = \"Enabled\"",
+        //'Limit' => <integer>,
+        //'PaginationToken' => '<string>',
+        'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+    ]);
 
-$resultPatient = $client->listUsers([
-    'AttributesToGet' => ['name', 'family_name', 'birthdate', 'gender', 'custom:role'],
-    'Filter' => "status = \"Enabled\"",
-    //'Limit' => <integer>,
-    //'PaginationToken' => '<string>',
-    'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
-]);
 
 
   foreach ($resultPatient["Users"] as $row) {
@@ -323,6 +344,9 @@ $resultPatient = $client->listUsers([
 
     }
   }
+} catch (Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException $cognitoIdentityProviderException) {
+    echo "<h4>Error! Cognito user detected with incomplete info. Please contact the Developers.</h4>";
+}
 
 ?>
 								</tr>
@@ -360,25 +384,29 @@ $resultPatient = $client->listUsers([
 
 <?php
 
-$resultDoctor = $client->listUsers([
-    'AttributesToGet' => ['name', 'family_name', 'email', 'address', 'middle_name', 'custom:role'], //TODO: fix these attributes. In particular, middle name should be replaced by the custom role
-    'Filter' => "status = \"Enabled\"", //Can only filter on certain default attributes
-    //'Limit' => <integer>,
-    //'PaginationToken' => '<string>',
-    'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
-]);
-  //if ($row["Attributes"][2]["Value"] != "Doctor") {
-  foreach ($resultDoctor["Users"] as $row) {
-    if (sizeof($row["Attributes"]) == 6 && ($row["Attributes"][3]["Value"] == "doctor" || $row["Attributes"][3]["Value"] == "Doctor")){
-      echo "<tr class=\"row100 head\">
-              <td class=\"cell100 column1\">". $row["Username"] ."</td>
-              <td class=\"cell100 column2\">". $row["Attributes"][1]["Value"] ." ". $row["Attributes"][4]["Value"] ."</td>
-              <td class=\"cell100 column3\">". $row["Attributes"][5]["Value"] ."</td>
-              <td class=\"cell100 column4\">". $row["Attributes"][0]["Value"] ."</td>
+try {
+    $resultDoctor = $client->listUsers([
+        'AttributesToGet' => ['name', 'family_name', 'email', 'address', 'middle_name', 'custom:role'], //TODO: fix these attributes. In particular, middle name should be replaced by the custom role
+        'Filter' => "status = \"Enabled\"", //Can only filter on certain default attributes
+        //'Limit' => <integer>,
+        //'PaginationToken' => '<string>',
+        'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
+    ]);
+    //if ($row["Attributes"][2]["Value"] != "Doctor") {
+    foreach ($resultDoctor["Users"] as $row) {
+        if (sizeof($row["Attributes"]) == 6 && ($row["Attributes"][3]["Value"] == "doctor" || $row["Attributes"][3]["Value"] == "Doctor")) {
+            echo "<tr class=\"row100 head\">
+              <td class=\"cell100 column1\">" . $row["Username"] . "</td>
+              <td class=\"cell100 column2\">" . $row["Attributes"][1]["Value"] . " " . $row["Attributes"][4]["Value"] . "</td>
+              <td class=\"cell100 column3\">" . $row["Attributes"][5]["Value"] . "</td>
+              <td class=\"cell100 column4\">" . $row["Attributes"][0]["Value"] . "</td>
             </tr>";
+        }
     }
-  }
-//}
+
+} catch (Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException $cognitoIdentityProviderException) {
+    echo "<h4>Error! Cognito user detected with incomplete info. Please contact the Developers.</h4>";
+}
 
 ?>
 								</tr>
@@ -431,10 +459,9 @@ $resultConvos = $pdo->query("SELECT conversationID FROM DoctorsNote.Conversation
   //for each conversationID, get the two userIDs if they exist
   while($each = $resultConvos->fetch()) {
       foreach($each as $convoID) {
-          //echo $convoID . "\n";
-          $queryString = "SELECT UserID FROM Conversation_has_User WHERE conversationID = ";
-          $queryString .= $convoID;
-          $resultPair = $pdo->query($queryString);
+          //echo $convoID . "\n
+          $resultPair = $pdo->prepare('SELECT UserID FROM Conversation_has_User WHERE conversationID = ?');
+          $resultPair->execute(array($convoID));
 
           if ($resultPair->rowCount() == 2) {
               $users = $resultPair->fetchAll();
@@ -589,10 +616,13 @@ $resultConvos = $pdo->query("SELECT conversationID FROM DoctorsNote.Conversation
   echo "<input class='submit' type='submit' name='submitUnpair' value='update' />";
   echo "</form> <br>";
 
-  if ($unpairingDoesntExist) {
+  if ($unpairingException) {
+      echo "<h4>Error with ID formatting, un-pairing failed</h4>";
+  }
+  else if ($unpairingDoesntExist) {
       echo "<h4>Doctor-Patient pairing doesn't exist!</h4>";
   }
-  if ($unpairingSuccess) {
+  else if ($unpairingSuccess) {
       echo "<h4>Success!</h4>";
   }
 
