@@ -22,6 +22,8 @@ class TestRequestAppointment: XCTestCase {
         app?.launch()
         app?.activate()
         
+        tryLogout()
+        
     }
 
     override func tearDown() {
