@@ -409,6 +409,7 @@
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yGO-dO-CKh">
                                 <rect key="frame" x="20" y="632" width="374" height="40"/>
+                                <accessibility key="accessibilityConfiguration" label="Pending"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="View Pending Appointments"/>
                                 <connections>

@@ -22,7 +22,6 @@ class TestRequestAppointment: XCTestCase {
         app?.launch()
         app?.activate()
         
-        tryLogout()
     }
 
     override func tearDown() {
@@ -53,6 +52,27 @@ class TestRequestAppointment: XCTestCase {
         app?.buttons["Submit Appointment Request"].tap()
         sleep(1)
         XCUIApplication().buttons["Back to Calendar"].tap()
+    }
+    
+    func testAppleCalendarExport() {
+        tryLogin()
+        app?.buttons["Calendar"].tap()
+        app?.buttons["Pending"].tap()
+        app?.tables.cells.element(boundBy: 0).swipeLeft()
+        app?.buttons["Export"].tap()
+        app?.buttons["Apple Calendar Button"].tap()
+        app?.navigationBars.buttons.element(boundBy: 0).tap()
+        
+    }
+    
+    func testGoogleCalendarExport() {
+        tryLogin()
+        app?.buttons["Calendar"].tap()
+        app?.buttons["Pending"].tap()
+        app?.tables.cells.element(boundBy: 0).swipeLeft()
+        app?.buttons["Export"].tap()
+        app?.buttons["Google Calendar Button"].tap()
+        
     }
     
     func tryLogin() {

@@ -62,6 +62,7 @@
 		B5AE734E24156C5B00A9CDAE /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */; };
 		B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */; };
+		B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -668,6 +669,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */,
 				B51C6A24242C577300048BCF /* (null) in Sources */,
 				B51C6A25242C577300048BCF /* Message.swift in Sources */,
 				B51C6A26242C577300048BCF /* Reminder.swift in Sources */,
