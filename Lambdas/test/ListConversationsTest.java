@@ -92,6 +92,25 @@ public class ListConversationsTest {
     }
 
     @Test()
+    public void testConnectionRobustness() throws SQLException {
+        HashMap completeMap = getSampleMap();
+
+        // Mocking necessary connection elements
+        PreparedStatement psMock = Mockito.mock(PreparedStatement.class);
+        ResultSet rsMock = Mockito.mock(ResultSet.class);
+        Mockito.when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(psMock);
+        Mockito.when(psMock.executeQuery()).thenReturn(rsMock);
+        Mockito.when(rsMock.next()).thenThrow(new SQLException());
+
+        ListConversations listConversations = new ListConversations(connectionMock);
+        ListConversations.ConversationListResponse response = listConversations.list(completeMap, contextMock);
+        Assert.assertNull(response);
+
+        // Asserts that close() has been called at least once
+        Mockito.verify(connectionMock).close();
+    }
+
+    @Test()
     public void testCompleteInputOneToOneResult() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {

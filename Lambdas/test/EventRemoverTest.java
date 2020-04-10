@@ -64,6 +64,22 @@ public class EventRemoverTest {
     }
 
     @Test()
+    public void testConnectionRobustness() throws SQLException {
+        HashMap incompleteMap = getSampleMap();
+
+        // Mocking necessary connection elements
+        PreparedStatement statementMock = Mockito.mock(PreparedStatement.class);
+        when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(statementMock);
+        when(statementMock.executeUpdate()).thenThrow(new SQLException());
+
+        EventRemover eventRemover = new EventRemover(connectionMock);
+        Assert.assertNull(eventRemover.remove(incompleteMap, mock(Context.class)));
+
+        // Asserts that close() has been called at least once
+        Mockito.verify(connectionMock).close();
+    }
+
+    @Test()
     public void testCompleteInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         try {

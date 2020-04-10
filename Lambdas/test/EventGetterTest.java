@@ -79,6 +79,24 @@ public class EventGetterTest {
     }
 
     @Test()
+    public void testConnectionRobustness() throws SQLException {
+        HashMap completeMap = getSampleMap();
+
+        // Mocking necessary connection elements
+        PreparedStatement psMock = mock(PreparedStatement.class);
+        ResultSet rsMock = mock(ResultSet.class);
+        when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(psMock);
+        when(psMock.executeQuery()).thenReturn(rsMock);
+        when(rsMock.next()).thenThrow(new SQLException());
+
+        EventGetter eventGetter = new EventGetter(connectionMock);
+        Assert.assertNull(eventGetter.get(completeMap, contextMock));
+
+        // Asserts that close() has been called at least once
+        Mockito.verify(connectionMock).close();
+    }
+
+    @Test()
     public void testCompleteInput() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {

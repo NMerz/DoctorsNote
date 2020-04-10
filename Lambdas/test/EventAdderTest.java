@@ -66,6 +66,22 @@ public class EventAdderTest {
     }
 
     @Test()
+    public void testConnectionRobustness() throws SQLException {
+        HashMap incompleteMap = getSampleMap();
+
+        // Mocking necessary connection elements
+        PreparedStatement statementMock = Mockito.mock(PreparedStatement.class);
+        when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(statementMock);
+        when(statementMock.executeUpdate()).thenThrow(new SQLException());
+
+        EventAdder eventAdder = new EventAdder(connectionMock);
+        Assert.assertNull(eventAdder.add(incompleteMap, mock(Context.class)));
+
+        // Asserts that close() has been called at least once
+        Mockito.verify(connectionMock).close();
+    }
+
+    @Test()
     public void testCompleteInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         try {
