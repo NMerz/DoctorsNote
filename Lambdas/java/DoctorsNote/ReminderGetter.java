@@ -10,6 +10,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class ReminderGetter {
         this.dbConnection = dbConnection;
     }
 
-    public GetReminderResponse get(Map<String, Object> inputMap, Context context) {
+    public GetReminderResponse get(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(getRemindersFormatString);
             System.out.println("ReminderGetter: Getting reminders on behalf of " + (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
@@ -53,13 +54,13 @@ public class ReminderGetter {
                     reminders.size(),
                     ((Map<String,Object>) inputMap.get("context")).get("sub")));
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
             Reminder[] tempArray = new Reminder[reminders.size()];
             return new GetReminderResponse(reminders.toArray(tempArray));
         } catch (Exception e) {
             System.out.println("ReminderGetter: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

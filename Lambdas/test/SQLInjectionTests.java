@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import static org.mockito.Mockito.mock;
@@ -15,7 +16,7 @@ import static org.mockito.Mockito.mock;
 
 public class SQLInjectionTests {
     @Test()
-    public void testStackingQueries() {
+    public void testStackingQueries() throws SQLException {
         HashMap<String, Object> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("content", "Sample content");
@@ -23,7 +24,7 @@ public class SQLInjectionTests {
         jsonBody.put("withID", "sample-id");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
-        context.put("sub", "sub-id123; DROP Calendar;--");    // <<<<< Malicious Value
+        context.put("sub", "sub-id123; DROP TABLE Bait;--");    // <<<<< Malicious Value
         topMap.put("context", context);
         topMap.put("context", context);
 
@@ -36,7 +37,7 @@ public class SQLInjectionTests {
     }
 
     @Test()
-    public void testConditionalInjection() {
+    public void testConditionalInjection() throws SQLException {
         HashMap<String, Object> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("since", 1L);
@@ -54,7 +55,7 @@ public class SQLInjectionTests {
     }
 
     @Test()
-    public void testUnionInjection() {
+    public void testUnionInjection() throws SQLException {
         HashMap<String, Object> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("since", 1L);
@@ -72,7 +73,7 @@ public class SQLInjectionTests {
     }
 
     @Test()
-    public void testHavingInjection() {
+    public void testHavingInjection() throws SQLException {
         HashMap<String, Object> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("since", 1L);
@@ -90,7 +91,7 @@ public class SQLInjectionTests {
     }
 
     @Test()
-    public void testOrderByInjection() {
+    public void testOrderByInjection() throws SQLException {
         HashMap<String, Object> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("since", 1L);

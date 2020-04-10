@@ -10,6 +10,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class BaitGetter {
         this.dbConnection = dbConnection;
     }
 
-    public GetBaitsResponse get(Map<String, Object> inputMap, Context context) {
+    public GetBaitsResponse get(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
 
@@ -53,13 +54,13 @@ public class BaitGetter {
             System.out.println(String.format("BaitGetter: Returning %d baits",
                     baits.size()));
 
-            dbConnection.close();
-
             Bait[] tempArray = new Bait[baits.size()];
             return new GetBaitsResponse(baits.toArray(tempArray));
         } catch (Exception e) {
             System.out.println("BaitGetter: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class EventAdder {
         this.dbConnection = dbConnection;
     }
 
-    public AddEventResponse add(Map<String, Object> inputMap, Context context) {
+    public AddEventResponse add(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
             System.out.println("EventAdder: Adding event on behalf of " + userId);
@@ -40,14 +41,13 @@ public class EventAdder {
                 System.out.println(String.format("EventAdder: Update failed (%d)", ret));
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Serialize and return an empty response object
             return new AddEventResponse();
         } catch (Exception e) {
             System.out.println("EventAdder: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

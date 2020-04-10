@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class EventRemover {
         this.dbConnection = dbConnection;
     }
 
-    public RemoveEventResponse remove(Map<String, Object> inputMap, Context context) {
+    public RemoveEventResponse remove(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
             System.out.println("EventRemover: Removing event on behalf of " + userId);
@@ -36,14 +37,13 @@ public class EventRemover {
                 System.out.println(String.format("EventRemover: Update failed (%d)", ret));
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Serialize and return an empty response object
             return new RemoveEventResponse();
         } catch (Exception e) {
             System.out.println("EventRemover: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -19,7 +20,7 @@ public class ReminderRemover {
         this.dbConnection = dbConnection;
     }
 
-    public RemoveReminderResponse remove(Map<String, Object> inputMap, Context context) {
+    public RemoveReminderResponse remove(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             System.out.println("ReminderRemover: Preparing to remove reminder with id " + ((Map<String,Object>) inputMap.get("body-json")).get("reminderID"));
             PreparedStatement statement = dbConnection.prepareStatement(removeReminderFormatString);
@@ -33,14 +34,13 @@ public class ReminderRemover {
                 System.out.println(String.format("ReminderRemover: Update failed (%d)", ret));
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Serialize and return an empty response object
             return new RemoveReminderResponse();
         } catch (Exception e) {
             System.out.println("ReminderRemover: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

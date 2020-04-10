@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class ReminderAdder {
         this.dbConnection = dbConnection;
     }
 
-    public ReminderAdder.AddReminderResponse add(Map<String, Object> inputMap, Context context) {
+    public ReminderAdder.AddReminderResponse add(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             System.out.println("ReminderAdder: Adding reminder on behalf of " + ((Map<String,Object>) inputMap.get("context")).get("sub"));
             PreparedStatement statement = dbConnection.prepareStatement(addReminderFormatString);
@@ -40,15 +41,13 @@ public class ReminderAdder {
                 System.out.println(String.format("ReminderAdder: Update failed (%d)", ret));
             }
 
-
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Serialize and return an empty response object
             return new AddReminderResponse();
         } catch (Exception e) {
             System.out.println("ReminderAdder: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

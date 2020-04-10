@@ -43,13 +43,13 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         EventGetter eventGetter = new EventGetter(connectionMock);
         Assert.assertEquals(null, eventGetter.get(new HashMap<>(), contextMock));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("context");
         EventGetter eventGetter = new EventGetter(connectionMock);
@@ -57,7 +57,7 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("since", "1");
         EventGetter eventGetter = new EventGetter(connectionMock);
@@ -65,7 +65,7 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         EventGetter eventGetter = new EventGetter(connectionMock);
         try {
@@ -79,7 +79,25 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testConnectionRobustness() throws SQLException {
+        HashMap completeMap = getSampleMap();
+
+        // Mocking necessary connection elements
+        PreparedStatement psMock = mock(PreparedStatement.class);
+        ResultSet rsMock = mock(ResultSet.class);
+        when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(psMock);
+        when(psMock.executeQuery()).thenReturn(rsMock);
+        when(rsMock.next()).thenThrow(new SQLException());
+
+        EventGetter eventGetter = new EventGetter(connectionMock);
+        Assert.assertNull(eventGetter.get(completeMap, contextMock));
+
+        // Asserts that close() has been called at least once
+        Mockito.verify(connectionMock).close();
+    }
+
+    @Test()
+    public void testCompleteInput() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements
