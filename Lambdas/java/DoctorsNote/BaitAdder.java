@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class BaitAdder {
         this.dbConnection = dbConnection;
     }
 
-    public AddBaitResponse add(Map<String, Object> inputMap, Context context) {
+    public AddBaitResponse add(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
             System.out.println("BaitAdder: Adding bait on behalf of " + userId);
@@ -40,14 +41,13 @@ public class BaitAdder {
                 System.out.println(String.format("BaitAdder: Update failed (%d)", ret));
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Serialize and return an empty response object
             return new AddBaitResponse();
         } catch (Exception e) {
             System.out.println("BaitAdder: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

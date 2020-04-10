@@ -4,6 +4,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Map;
@@ -14,7 +15,7 @@ public class ReminderPurger {
 
     public ReminderPurger(Connection dbConnection) { this.dbConnection = dbConnection; }
 
-    public PurgeReminderResponse purge(Map<String, Object> inputMap, Context context) {
+    public PurgeReminderResponse purge(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             long currentEpochTime = Instant.now().getEpochSecond();
             // Note: There are ~604800 seconds in a week (leap second precision not necessary here)
@@ -31,14 +32,13 @@ public class ReminderPurger {
                 System.out.println(String.format("ReminderPurger: Update failed (%d)", ret));
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Serialize and return an empty response object
             return new PurgeReminderResponse();
         } catch (Exception e) {
             System.out.println("ReminderPurger: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

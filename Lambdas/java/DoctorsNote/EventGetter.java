@@ -10,6 +10,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class EventGetter {
         this.dbConnection = dbConnection;
     }
 
-    public GetEventsResponse get(Map<String, Object> inputMap, Context context) {
+    public GetEventsResponse get(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
             String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
 
@@ -54,13 +55,13 @@ public class EventGetter {
                     events.size(),
                     context.getIdentity().getIdentityId()));
 
-            dbConnection.close();
-
             Event[] tempArray = new Event[events.size()];
             return new GetEventsResponse(events.toArray(tempArray));
         } catch (Exception e) {
             System.out.println("EventGetter: Exception encountered: " + e.getMessage());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

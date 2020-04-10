@@ -2,6 +2,8 @@ package DoctorsNote;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -19,14 +21,20 @@ public class AddMessage implements RequestHandler<Map<String,Object>, MessageAdd
     @Override
     public MessageAdder.AddMessageResponse handleRequest(Map<String,Object> inputMap, Context context) {
 
-        MessageAdder messageAdder = makeMessageAdder();
-        MessageAdder.AddMessageResponse response = messageAdder.add(inputMap, context);
-        if (response == null) {
-            System.out.println("AddMessage: MessageAdder returned null");
-            throw new RuntimeException("Server experienced an error");
+        try {
+            MessageAdder messageAdder = makeMessageAdder();
+            MessageAdder.AddMessageResponse response = messageAdder.add(inputMap, context);
+            if (response == null) {
+                System.out.println("AddMessage: MessageAdder returned null");
+                throw new RuntimeException("Server experienced an error");
+            }
+            System.out.println("AddMessage: MessageAdder returned valid response");
+            return response;
+        }  catch (SQLException e) {
+            // This should only execute if closing the connection failed
+            System.out.println("AddMessage: Could not close the database connection");
+            return null;
         }
-        System.out.println("AddMessage: MessageAdder returned valid response");
-        return response;
     }
 
     public MessageAdder makeMessageAdder() {

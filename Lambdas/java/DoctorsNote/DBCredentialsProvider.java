@@ -40,6 +40,8 @@ public class DBCredentialsProvider {
             DBName = br.readLine().split(delimeter)[1];
             DBDriver = br.readLine().split(delimeter)[1];
 
+            br.close();
+
             DBUrl = DBProvider + DBEndpoint + ":" + DBPort + "/" + DBName;
         }
         catch(IOException e){

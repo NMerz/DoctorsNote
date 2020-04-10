@@ -27,13 +27,13 @@ public class EventRemoverTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         EventRemover eventRemover = new EventRemover(connectionMock);
         Assert.assertEquals(null, eventRemover.remove(new HashMap<>(), mock(Context.class)));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("eventID");
         EventRemover eventRemover = new EventRemover(connectionMock);
@@ -41,7 +41,7 @@ public class EventRemoverTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("eventID", null);
         EventRemover eventRemover = new EventRemover(connectionMock);
@@ -49,7 +49,7 @@ public class EventRemoverTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("eventID");
         EventRemover eventRemover = new EventRemover(connectionMock);
@@ -64,7 +64,7 @@ public class EventRemoverTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testCompleteInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         try {
             when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(Mockito.mock(PreparedStatement.class));

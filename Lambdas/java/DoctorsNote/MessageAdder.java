@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class MessageAdder {
 
     public MessageAdder(Connection dbConnection) { this.dbConnection = dbConnection; }
 
-    public AddMessageResponse add(Map<String,Object> inputMap, Context context) {
+    public AddMessageResponse add(Map<String,Object> inputMap, Context context) throws SQLException {
         try {
             for (String key : ((Map<String,Object>)inputMap.get("context")).keySet()) {
                 System.out.println("Key:" + key);
@@ -51,14 +52,13 @@ public class MessageAdder {
                 System.out.println(String.format("MessageAdder: Update failed (%d)", ret));
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Serialize and return an empty response object
             return new AddMessageResponse();
         } catch (Exception e) {
             System.out.println("MessageAdder: Exception encountered: " + e.toString());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

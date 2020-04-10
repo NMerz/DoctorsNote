@@ -43,13 +43,13 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         EventGetter eventGetter = new EventGetter(connectionMock);
         Assert.assertEquals(null, eventGetter.get(new HashMap<>(), contextMock));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("context");
         EventGetter eventGetter = new EventGetter(connectionMock);
@@ -57,7 +57,7 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("since", "1");
         EventGetter eventGetter = new EventGetter(connectionMock);
@@ -65,7 +65,7 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         EventGetter eventGetter = new EventGetter(connectionMock);
         try {
@@ -79,7 +79,7 @@ public class EventGetterTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testCompleteInput() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements
