@@ -16,6 +16,11 @@ import AWSCognito
 import AWSMobileClient
 import UserNotifications
 
+import CryptoKit
+import CommonCrypto
+
+
+
 extension AWSMobileClientError {
     var message: String {
     switch self {
@@ -86,6 +91,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let saltString = "username"
+        let saltData = saltString.data(using: .utf8)!
+        let passwordString = "abcd"
+        let password = passwordString.data(using: .utf8)!
+        print (SHA512.hash(data: password))
+        print (SHA512.hash(data: password))
+        print ((SHA512.hash(data: password).underestimatedCount))
+        var newKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 256)
+        var saltValue = [UInt8]()
+        for char in saltString.cString(using: .utf8)! {
+            saltValue.append(UInt8(char))
+        }
+        print(saltValue)
+        print(CCKeyDerivationPBKDF(CCPBKDFAlgorithm(kCCPBKDF2), passwordString, passwordString.count, saltValue, saltString.count, CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA512), 200000, newKey, 256))
+        print(newKey.pointee)
+        print(newKey.advanced(by: 255).pointee)
+        print(String(data: Data(bytes: newKey, count: 256), encoding: .utf8))
+
+        
+        
+        
+        
         requestNotificationAuthorization(application: application)
         
         // Override point for customization after application launch.
