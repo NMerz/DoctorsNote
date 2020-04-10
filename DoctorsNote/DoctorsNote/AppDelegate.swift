@@ -104,10 +104,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             saltValue.append(UInt8(char))
         }
         print(saltValue)
+        
         print(CCKeyDerivationPBKDF(CCPBKDFAlgorithm(kCCPBKDF2), passwordString, passwordString.count, saltValue, saltString.count, CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA512), 200000, newKey, 256))
         print(newKey.pointee)
         print(newKey.advanced(by: 255).pointee)
         print(String(data: Data(bytes: newKey, count: 256), encoding: .utf8))
+        let attributes =
+        [ kSecAttrKeyType:               kSecAttrKeyTypeRSA,
+            kSecAttrKeySizeInBits:         2048
+            ] as [CFString : Any];
+        let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))
+        let publicKey = SecKeyCopyPublicKey(privateKey!)
+        print((SecKeyCopyExternalRepresentation(privateKey!, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))! as! Data).base64EncodedString())
+        print((SecKeyCopyExternalRepresentation(publicKey!, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))! as! Data).base64EncodedString())
+        let localAESKey = Data(bytes: newKey, count: 256)
+        print(localAESKey.base64EncodedString())
 
         
         
