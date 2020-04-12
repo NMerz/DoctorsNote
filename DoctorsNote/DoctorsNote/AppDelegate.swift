@@ -112,7 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let attributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
             kSecAttrKeySizeInBits: 2048,
             kSecAttrKeyClass: kSecAttrKeyClassPrivate
-            ] as [CFString : Any];
+            ] as [CFString : Any]
         let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))!
         let publicKey = SecKeyCopyPublicKey(privateKey)
         var error: Unmanaged<CFError>?
@@ -129,7 +129,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         toEncrypt.reserveCapacity(toEncrypt.count / 128 * 128 + 128)
         let encrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: (toEncrypt.count / 128 * 128 + 128))
         var bytesEncrypted = 0
-        let encryptReturn = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), newKey, kCCKeySizeAES256, saltValue, toEncrypt, toEncrypt.count / 128 * 128 + 128, encrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted)
+        var AESKey = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 256)
+        localAESKey.copyBytes(to: AESKey)
+        let encryptReturn = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, saltValue, toEncrypt, toEncrypt.count / 128 * 128 + 128, encrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted) //String(data: localAESKey, encoding: .utf8) is untested. Used to be just newKey
         print (Data(base64Encoded: toEncrypt)!.base64EncodedString())
         print("Encypted Return:")
         print(encryptReturn)

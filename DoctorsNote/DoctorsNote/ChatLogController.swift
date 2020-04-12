@@ -53,7 +53,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         // Do any additional setup after loading the view.
         messagesShown = 20;
         do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown) ?? messages)
+            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data())) ?? messages) //TODO: Fill in cipher parameters
             print(messages)
         } catch let error {
             print ((error as! ConnectionError).getMessage())
@@ -91,7 +91,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         }
         let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
         print(newMessage.getBase64Content())
-        let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data()))
         if (err != nil) {
             let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -140,7 +140,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
 
         //print(newMessage.getContent())
-        let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
+        let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data()))
         if (potentialError != nil) {
             print(potentialError?.getMessage())
         }
@@ -151,8 +151,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     func reloadMessages() {
         messagesShown += 1
         do {
-            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown)
-            print(try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown))
+            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data()))
+            print(messages)
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")

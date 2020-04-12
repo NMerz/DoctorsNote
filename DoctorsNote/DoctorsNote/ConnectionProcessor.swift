@@ -162,10 +162,11 @@ class ConnectionProcessor {
            // let conversation = conversationList[conversationKey] as! [String : Any?]
             print(conversation["conversationID"] as? Int)
             print(conversation["converserID"] as? String)
+            print(conversation["publicKey"] as? String)
             print(conversation["conversationName"] as? String)
             print(conversation["lastMessageTime"] as? TimeInterval)
             print(conversation["status"] as? Int)
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["publicKey"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
                 let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int)
                 conversations.append(newConversation)
             } else {
@@ -185,7 +186,7 @@ class ConnectionProcessor {
         return (Conversation(conversationID: -1, converserID: "-1", conversationName: "placeholder retrieval", lastMessageTime: Date(), status: -999), nil)
     }
     
-    func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
+    func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, cipher: MessageCipher, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
         var messageJSON = [String : Any]()
         messageJSON["conversationID"] = conversationID
         messageJSON["numberToRetrieve"] = numberToRetrieve
@@ -212,6 +213,17 @@ class ConnectionProcessor {
             print((message["contentType"] as? Int) != nil)
             print((message["sender"] as? String) != nil)
             if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
+                let encryptedMessage = String(data: Data(base64Encoded: (message["content"] as! String))!, encoding: .utf8)!
+                let messageBase64: String
+                do {
+                    messageBase64 = try cipher.decrypt(toDecrypt: encryptedMessage)
+                } catch let error as CipherError {
+                    throw ConnectionError(message: error.getMessage())
+                }
+                print(Data(base64Encoded: messageBase64) != nil)
+                if Data(base64Encoded: messageBase64) != nil {
+                    throw ConnectionError(message: "Message JSON field did not meet encryption, encoding, and/or formatting requirements")
+                }
                 let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String))
                 messages.append(newMessage)
             } else {
@@ -223,10 +235,16 @@ class ConnectionProcessor {
     
     //TODO: Finer processing/passing of any errors returned by server to UI
     //  - Need to discuss this with team
-    func processNewMessage(url: String, message: Message) -> ConnectionError? {
+    func processNewMessage(url: String, message: Message, cipher: MessageCipher) -> ConnectionError? {
         var messageJSON = [String: Any]()
         messageJSON["conversationID"] = message.getConversationID()
-        messageJSON["content"] = message.getBase64Content()
+        let encryptedContent: Data
+        do {
+            encryptedContent = try cipher.encrypt(toEncrypt: message.getBase64Content())
+        } catch let error {
+            return ConnectionError(message: (error as! CipherError).getMessage())
+        }
+        messageJSON["content"] = encryptedContent.base64EncodedString()
         messageJSON["contentType"] = message.getContentType()
         do {
             let data = try postData(urlString: url, dataJSON: messageJSON)
@@ -368,6 +386,34 @@ class ConnectionProcessor {
             }
         }
         return appointments
+    }
+    
+    //Returns the two encryptions of the private key (base64) data (in base64 format)
+    //Note: exact formatting may change and this method should make no assumptions nor do validation
+    func retrieveEncryptedPrivateKeys(url: String) throws -> (String, String) {
+        let emptyJSON = [String: Any]()
+        let data = try postData(urlString: url, dataJSON: emptyJSON)
+        if data.first?.value as? [String : Any?] == nil {
+            throw ConnectionError(message: "Incorrect JSON format -- expected single level dictionary object")
+        }
+        let keyJSON = data.first?.value as! [String : Any?]
+        if keyJSON["privateKeyP"] as? String == nil || keyJSON["privateKeyS"] as? String == nil {
+            throw ConnectionError(message: "At least one JSON field was missing or in an incorrect format")
+        }
+        return (keyJSON["privateKeyP"] as! String, keyJSON["privateKeyS"] as! String)
+    }
+    
+    func postKeys(url: String, privateKeyP: String , privateKeyS: String, publicKey: String) throws {
+        var keyJSON = [String: Any]()
+        keyJSON["privateKeyP"] = privateKeyP
+        keyJSON["privateKeyS"] = privateKeyS
+        keyJSON["publicKey"] = publicKey
+
+        let data = try postData(urlString: url, dataJSON: keyJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
     }
 }
 
