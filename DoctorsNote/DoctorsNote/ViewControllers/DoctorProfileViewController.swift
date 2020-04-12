@@ -11,6 +11,7 @@ import UIKit
 class DoctorProfileViewController: UIViewController {
 
     @IBOutlet weak var hoursLabel: UILabel!
+    @IBOutlet weak var deleteMessageLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,7 @@ class DoctorProfileViewController: UIViewController {
         
         // FIXME: Actually implement
         self.hoursLabel.text = ""
+        self.deleteMessageLabel.text = "Messages sent in DoctorsNote will be deleted after a certain amount of time."
     }
     
 
