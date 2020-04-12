@@ -1,12 +1,12 @@
 <?php
 require '../vendor/autoload.php';
-use CoderCat\JWKToPEM\JWKConverter;
+//use CoderCat\JWKToPEM\JWKConverter;
 
 //Redirect if not authenticated
 session_start();
-if ($_SESSION["status"] != "true") {
-    header("Location: https://doctorsnote.ddns.net/index.html");
-}
+//if ($_SESSION["status"] != "true") {
+    //header("Location: https://doctorsnote.ddns.net/index.html");
+//}
 
 //Go back to login if logout button is pressed
 if (isset($_POST['logout'])) {
@@ -289,9 +289,17 @@ if (isset($_POST['submitUnpair'])) {
 </head>
 <body>
 
-<h1>DoctorsNote Web Portal</h1>
+<div class="header">
+    <a href="https://doctorsnote.ddns.net/homepage/index.php" class="logo">DoctorsNote</a>
+    <div class="header-right">
+        <a class="active" href="https://doctorsnote.ddns.net/homepage/index.php">Home</a>
+        <!TODO: alter href to be online!>
+        <a href="https://doctorsnote.ddns.net/homepage/accountManagement.php">Account Management</a>
+        <a href="http://localhost/WebsiteFiles/homepage/transcripts.php">Transcripts</a>
+    </div>
+</div>
 
-<div></div>
+
 <h2>List of Patients</h2>
 <div class="limiter">
 		<div class="container-table100">
@@ -358,8 +366,8 @@ try {
 		</div>
 	</div>
 
-<h2>List of Doctors</h2>
 
+<h2>List of Doctors</h2>
 <div class="limiter">
 		<div class="container-table100">
 			<div class="wrap-table100">
@@ -419,9 +427,7 @@ try {
 	</div>
 
 
-
 <h2>List of Doctor-Patient Pairings</h2>
-
 <div class="limiter">
 		<div class="container-table100">
 			<div class="wrap-table100">
@@ -510,54 +516,6 @@ $resultConvos = $pdo->query("SELECT conversationID FROM DoctorsNote.Conversation
       echo "<div/>";
   }
 
-
-
-/*
-
-  while ($row = $resultPair-> fetch()) {
-    //get the doctor info from cognito
-    $resultDoctor = $client->listUsers([
-      'AttributesToGet' => ['name', 'family_name'],
-      'Filter' => "username = \"". $row["doctorID"] . "\"", //Can only filter on certain default attributes
-      'Limit' => 1,
-      //'PaginationToken' => '<string>',
-      'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
-      ]);
-
-    // echo $resultDoctor . "\n"; //testing
-
-
-     //get the patient info from cognito
-     $resultPatient = $client->listUsers([
-      'AttributesToGet' => ['name', 'family_name', 'birthdate'],
-      'Filter' => "username = \"". $row["patientID"] . "\"", //Can only filter on certain default attributes
-      'Limit' => 1,
-      //'PaginationToken' => '<string>',
-      'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
-     ]);
-
-
-     if (sizeof($resultPatient["Users"]) >= 1 && sizeof($resultDoctor["Users"]) >= 1) {
-
-       $DoctorAttr = $resultDoctor["Users"][0]["Attributes"];
-       $PatientAttr = $resultPatient["Users"][0]["Attributes"];
-
-       if (sizeof($DoctorAttr) == 2 && sizeof($PatientAttr) == 3) {
-
-      echo "<tr class=\"row100 head\">
-              <td class=\"cell100 column1\">". $row["doctorID"] ."</td>
-                <td class=\"cell100 column2\">". $DoctorAttr[0]["Value"] ." ". $DoctorAttr[1]["Value"]  ."</td>
-                <td class=\"cell100 column3\">". $row["patientID"] ."</td>
-                <td class=\"cell100 column4\">"."</td>
-                <td class=\"cell100 column5\">". $PatientAttr[1]["Value"] ." ". $PatientAttr[2]["Value"]  ."</td>
-                <td class=\"cell100 column6\">". $PatientAttr[0]["Value"] ."</td>
-            </tr>";
-       }
-     }
-  }
-
-*/
-
 ?>
 								</tr>
 							</tbody>
@@ -568,17 +526,20 @@ $resultConvos = $pdo->query("SELECT conversationID FROM DoctorsNote.Conversation
 		</div>
 	</div>
 
+
+<div class="row">
+    <div class="column">
+  <h2>Doctor-Patient Pairing</h2>
+  <br>
+  <form class='form' method='post'>
+  <label for='doctorIDinputPair' class='labelNice'>Doctor ID:</label>
+        <input class='input' name='doctorIDinputPair'/>
+  <label for='patientIDinputPair' class = 'labelNice'>Patient ID:</label>
+        <input class='input' name='patientIDinputPair'/>
+  <input class='submit' type='submit' name='submitPair' value='update' />
+  </form> <br>
+
 <?php
-  echo "<h2>Insert Doctor ID and Patient ID for Pairing</h2>";
-  echo "<br>";
-  echo "<form class='form' method='post'>";
-  echo "<label for='doctorIDinputPair' class='labelNice'>Doctor ID:</label>
-        <input class='input' name='doctorIDinputPair'/>";
-  echo "<label for='patientIDinputPair' class = 'labelNice'>Patient ID:</label>
-        <input class='input' name='patientIDinputPair'/>";
-  //echo "<br />";
-  echo "<input class='submit' type='submit' name='submitPair' value='update' />";
-  echo "</form> <br>";
 
   if ($doctorDoesntExist) {
       echo "<h4>Pairing unsuccessful, make sure the doctor exists.</h4>";
@@ -602,19 +563,27 @@ $resultConvos = $pdo->query("SELECT conversationID FROM DoctorsNote.Conversation
 
 ?>
 
-<br />
+
+<br/>
+    </div>
+
+    <div class="column">
+
+
+        <h2>Doctor-Patient Unpairing</h2>
+        <br>
+        <form class='form' method='post'>
+        <label for='doctorIDinputUnpair' class='labelNice'>Doctor ID:</label>
+        <input class='input' name='doctorIDinputUnpair'/>
+
+        <label for='patientIDinputUnpair' class = 'labelNice'>Patient ID:</label>
+        <input class='input' name='patientIDinputUnpair'/>
+
+        <input class='submit' type='submit' name='submitUnpair' value='update' />
+        </form>
+        <br>
 
 <?php
-  echo "<h2>Insert Doctor ID and Patient ID for Un-Pairing</h2>";
-  echo "<br>";
-  echo "<form class='form' method='post'>";
-  echo "<label for='doctorIDinputUnpair' class='labelNice'>Doctor ID:</label>
-        <input class='input' name='doctorIDinputUnpair'/>";
-  echo "<label for='patientIDinputUnpair' class = 'labelNice'>Patient ID:</label>
-        <input class='input' name='patientIDinputUnpair'/>";
-  //echo "<br />";
-  echo "<input class='submit' type='submit' name='submitUnpair' value='update' />";
-  echo "</form> <br>";
 
   if ($unpairingException) {
       echo "<h4>Error with ID formatting, un-pairing failed</h4>";
@@ -626,15 +595,19 @@ $resultConvos = $pdo->query("SELECT conversationID FROM DoctorsNote.Conversation
       echo "<h4>Success!</h4>";
   }
 
-
-  echo "<br/>
-   <h5>Please </h5>";
-  echo "<form class='form' method='post' onsubmit='setTimeout(window.location.reload, 200)'>";
-echo "<input class='submit' type='submit' name='logout' value='logout' onclick='window.location.reload() '/>";
-echo "</form>";
-  echo "<h5>before you leave the page</h5>";
 ?>
-<br>
+    </div>
+</div>
+
+<div>
+    <br/>
+    <h5>Please </h5>
+    <form class='form' method='post' onsubmit='setTimeout(window.location.reload, 200)'>
+    <input class='submit' type='submit' name='logout' value='logout' onclick='window.location.reload() '/>
+    </form>
+    <h5>before you leave the page</h5>
+    <br>
+</div>
 
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
