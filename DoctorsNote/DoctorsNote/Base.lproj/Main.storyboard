@@ -924,14 +924,23 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Message deletion reminder" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGi-o3-Dev">
+                                <rect key="frame" x="40" y="386" width="297" height="132"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="MGi-o3-Dev" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="25" id="0g3-b4-GE5"/>
                             <constraint firstItem="6PB-8b-HPz" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="40" id="3TB-fS-64Y"/>
                             <constraint firstItem="Em5-A9-hg6" firstAttribute="top" secondItem="Nrx-Ek-xhV" secondAttribute="top" constant="25" id="Hog-OX-OqU"/>
+                            <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="MGi-o3-Dev" secondAttribute="trailing" constant="25" id="ToX-RT-pKX"/>
                             <constraint firstItem="Em5-A9-hg6" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="25" id="aPF-th-R96"/>
                             <constraint firstItem="6PB-8b-HPz" firstAttribute="top" secondItem="Em5-A9-hg6" secondAttribute="bottom" constant="10" id="h4x-kg-nVI"/>
                             <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="6PB-8b-HPz" secondAttribute="trailing" constant="10" id="qT1-ps-xjB"/>
+                            <constraint firstItem="MGi-o3-Dev" firstAttribute="top" secondItem="6PB-8b-HPz" secondAttribute="bottom" constant="40" id="uJu-8t-gjJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nrx-Ek-xhV"/>
                     </view>
@@ -939,6 +948,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="cyx-fw-ASD"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteMessageLabel" destination="MGi-o3-Dev" id="eU7-Zq-Wgy"/>
                         <outlet property="hoursLabel" destination="6PB-8b-HPz" id="2FP-xA-pAy"/>
                     </connections>
                 </viewController>
