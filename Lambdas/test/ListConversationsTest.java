@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 
 public class ListConversationsTest {
@@ -32,7 +33,7 @@ public class ListConversationsTest {
         HashMap<String, Object> jsonBody = new HashMap();
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
-        context.put("dn-user-id", "dn-id123"); //Note: not an accurate length for sample id
+        context.put("sub", "sub-id123"); //Note: not an accurate length for sample id
         topMap.put("context", context);
         return topMap;
     }
@@ -54,7 +55,7 @@ public class ListConversationsTest {
     @Test()
     public void testBadInput() {
         HashMap incompleteMap = getSampleMap();
-        ((HashMap) incompleteMap.get("context")).put("dn-user-id", 1);
+        ((HashMap) incompleteMap.get("context")).put("sub", 1);
         ListConversations listConversations = new ListConversations(connectionMock);
         Assert.assertEquals(null, listConversations.list(incompleteMap, contextMock));
     }
@@ -74,7 +75,7 @@ public class ListConversationsTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testCompleteInputNoResults() {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements
@@ -88,5 +89,58 @@ public class ListConversationsTest {
         }
         ListConversations listConversations = new ListConversations(connectionMock);
         Assert.assertNotNull(listConversations.list(completeMap, contextMock));
+    }
+
+    @Test()
+    public void testCompleteInputOneToOneResult() {
+        HashMap completeMap = getSampleMap();
+        try {
+            // Mocking necessary connection elements
+            PreparedStatement psMock = Mockito.mock(PreparedStatement.class);
+            ResultSet rsMock = Mockito.mock(ResultSet.class);
+            Mockito.when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(psMock);
+            Mockito.when(psMock.executeQuery()).thenReturn(rsMock);
+            Mockito.when(rsMock.next())
+                    .thenReturn(true)
+                    .thenReturn(false)
+                    .thenReturn(true)
+                    .thenReturn(false);
+            Mockito.when(rsMock.getString(1)).thenReturn("12345").thenReturn("test-id").thenReturn("test-name");
+            Mockito.when(rsMock.getTimestamp(2)).thenReturn(new Timestamp(1L));
+            Mockito.when(rsMock.getInt(3)).thenReturn(0);
+        } catch (SQLException e) {
+            Assert.fail();
+        }
+        ListConversations listConversations = new ListConversations(connectionMock);
+        ListConversations.ConversationListResponse response = listConversations.list(completeMap, contextMock);
+        Assert.assertNotNull(response);
+        Assert.assertEquals("test-id", response.getConversationList()[0].getConverserID());
+    }
+
+    @Test()
+    public void testCompleteInputSupportGroupResult() {
+        HashMap completeMap = getSampleMap();
+        try {
+            // Mocking necessary connection elements
+            PreparedStatement psMock = Mockito.mock(PreparedStatement.class);
+            ResultSet rsMock = Mockito.mock(ResultSet.class);
+            Mockito.when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(psMock);
+            Mockito.when(psMock.executeQuery()).thenReturn(rsMock);
+            Mockito.when(rsMock.next())
+                    .thenReturn(true)
+                    .thenReturn(false)
+                    .thenReturn(true)
+                    .thenReturn(true)
+                    .thenReturn(false);
+            Mockito.when(rsMock.getString(1)).thenReturn("12345").thenReturn("test-id").thenReturn("test-id2").thenReturn("test-name");
+            Mockito.when(rsMock.getTimestamp(2)).thenReturn(new Timestamp(1L));
+            Mockito.when(rsMock.getInt(3)).thenReturn(0);
+        } catch (SQLException e) {
+            Assert.fail();
+        }
+        ListConversations listConversations = new ListConversations(connectionMock);
+        ListConversations.ConversationListResponse response = listConversations.list(completeMap, contextMock);
+        Assert.assertNotNull(response);
+        Assert.assertEquals("N/A", response.getConversationList()[0].getConverserID());
     }
 }

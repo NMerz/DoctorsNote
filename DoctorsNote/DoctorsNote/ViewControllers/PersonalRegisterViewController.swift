@@ -124,10 +124,12 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             stateButton.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
+        var changed = false
         if (isPhoneFormatted) {
             phoneField.layer.borderColor = UIColor.systemBlue.cgColor
         } else {
             phoneField.layer.borderColor = UIColor.systemRed.cgColor
+            changed = true
             errorLabel.text = "Error: Phone number must be sequence of 10 digits"
         }
         
@@ -136,7 +138,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         } else {
             zipField.layer.borderColor = UIColor.systemRed.cgColor
             // Only add this error if another one doesn't exist
-            if (errorLabel.text == "") {
+            if (!changed) {
                 errorLabel.text = "Error: ZIP must be a sequence of 5 digits"
             }
         }
@@ -391,6 +393,15 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             return
         } else {
             errorLabel.text = ""
+        }
+        
+        CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["custom:work_hours":""]) { (success, errMessage) in
+            if (!success) {
+                DispatchQueue.main.async {
+                    self.errorLabel.text = errMessage
+                }
+                return
+            }
         }
         
         CognitoHelper.sharedHelper.setHealthcareInformation(role: role!, hospital: hospital!, hospitalWebsite: hospitalWebsite!, healthcareProvider: provider!, healthcareWebsite: providerWebsite!, onDone: { (success, errMessage) in

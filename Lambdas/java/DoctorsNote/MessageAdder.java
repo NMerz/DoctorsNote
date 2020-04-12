@@ -35,14 +35,21 @@ public class MessageAdder {
                 System.out.println("Key:" + key);
                 System.out.println(((Map<String,Object>)inputMap.get("body-json")).get(key));
             }
+            // Write to database (note: recipientId is intentionally omitted since it is unnecessary for future ops)
             PreparedStatement statement = dbConnection.prepareStatement(addMessageFormatString);
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("content"));
             statement.setString(2, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setTimestamp(3, new java.sql.Timestamp(Instant.now().toEpochMilli()));
             statement.setLong(4, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
             statement.setLong(5, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("contentType").toString()));
-            System.out.println(statement);
-            statement.executeUpdate();
+            System.out.println("MessageAdder: statement: " + statement.toString());
+            int ret = statement.executeUpdate();
+
+            if (ret == 0) {
+                System.out.println("MessageAdder: Update successful");
+            } else {
+                System.out.println(String.format("MessageAdder: Update failed (%d)", ret));
+            }
 
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();
@@ -50,6 +57,7 @@ public class MessageAdder {
             // Serialize and return an empty response object
             return new AddMessageResponse();
         } catch (Exception e) {
+            System.out.println("MessageAdder: Exception encountered: " + e.toString());
             return null;
         }
     }

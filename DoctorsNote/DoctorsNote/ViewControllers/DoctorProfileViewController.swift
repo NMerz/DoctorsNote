@@ -18,15 +18,7 @@ class DoctorProfileViewController: UIViewController {
         self.navigationController?.navigationItem.backBarButtonItem?.title = "Back"
         
         // FIXME: Actually implement
-        CognitoHelper.sharedHelper.getWorkHours(doctor: User.init(uid: "1234")) { (success, hours) in
-            if (success) {
-                DispatchQueue.main.async {
-                    self.hoursLabel.text = hours
-                }
-            } else {
-                print(hours)
-            }
-        }
+        self.hoursLabel.text = ""
     }
     
 

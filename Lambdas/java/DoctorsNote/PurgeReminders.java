@@ -23,16 +23,20 @@ public class PurgeReminders implements RequestHandler<Map<String,Object>, Remind
         ReminderPurger purger = makeReminderPurger();
         ReminderPurger.PurgeReminderResponse response = purger.purge(inputMap, context);
         if (response == null) {
+            System.out.println("PurgeReminders: ReminderPurger returned null");
             throw new RuntimeException("Server experienced an error");
         }
+        System.out.println("PurgeReminders: ReminderPurger returned valid response");
         return response;
     }
 
     public ReminderPurger makeReminderPurger() {
+        System.out.println("PurgeReminders: Instantiating ReminderPurger");
         return new ReminderPurger(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
+        System.out.println("PurgeReminders: Executing main() (THIS SHOULD NEVER HAPPEN)");
         throw new IllegalStateException();
     }
 }

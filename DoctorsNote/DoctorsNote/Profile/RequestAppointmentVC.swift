@@ -164,7 +164,7 @@ class RequestAppointmentVC: UIViewController, UITableViewDelegate, UITableViewDa
         // AppointmentID?
         self.appointment = Appointment(appointmentID: 0, content: detailField.text!, timeScheduled: self.date, withID: thisId!)
         do {
-            try processor?.processNewAppointment(url: "tdb", appointment: appointment!)
+            try processor?.processNewAppointment(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentadd", appointment: appointment!)
             
         } catch let error {
             print((error as! ConnectionError).getMessage())

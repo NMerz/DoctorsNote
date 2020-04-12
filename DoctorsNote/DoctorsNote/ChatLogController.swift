@@ -49,7 +49,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         collectionView!.collectionViewLayout = layout
 
         let testString = "Hello, \nWorld!\n test"
-        let testMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (testString.data(using: .utf8))!, contentType: 0)
+        let testMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (testString.data(using: .utf8))!, contentType: 0, numFails: CognitoHelper.numFails)
         // Do any additional setup after loading the view.
         messagesShown = 20;
         do {
@@ -70,7 +70,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     override func viewWillAppear(_ animated: Bool) {
         // TODO: Update later
-        navigationItem.title = "Chat Title"
+        navigationItem.title = "Test Doctor"
     }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23
@@ -89,15 +89,19 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         if messageText.text == nil || messageText.text!.isEmpty || (messageText!.text?.data(using: .utf8)) == nil {
             return
         }
-        let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (messageText!.text?.data(using: .utf8))!, contentType: 0, numFails: CognitoHelper.numFails)
         print(newMessage.getBase64Content())
         let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
         if (err != nil) {
+            CognitoHelper.numFails += 1
             let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
             alertController.addAction(okAction)
             // Turn this into a reminder eventually because it takes so long to determine that the message failed to send.
             self.present(alertController, animated: true, completion: nil)
+        } else {
+            // Reset the number of failed sends to 0
+            CognitoHelper.numFails = 0
         }
         reloadMessages()
         print("Pressed2")
@@ -137,7 +141,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             content = image.jpegData(compressionQuality: CGFloat(quality))!
             print(content.base64EncodedString().count)
         }
-        let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
+        let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: content, contentType: 1, numFails: CognitoHelper.numFails)
 
         //print(newMessage.getContent())
         let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage)
@@ -145,6 +149,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print(potentialError?.getMessage())
         }
         dismiss(animated: false)
+        reloadMessages()
     }
     
     func reloadMessages() {

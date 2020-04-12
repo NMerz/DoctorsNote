@@ -8,8 +8,20 @@ import java.util.Properties;
 
 public class Connector {
     public static Connection getConnection() {
+        return getConnection(null);
+    }
+
+    public static Connection getConnection(String path) {
         try {
-            DBCredentialsProvider dbCP = new DBCredentialsProvider();
+            System.out.println("Connector: Instantiating a new database connection");
+            DBCredentialsProvider dbCP;
+
+            if (path == null) {
+                dbCP = new DBCredentialsProvider();
+            } else {
+                dbCP = new DBCredentialsProvider(path);
+            }
+
             Class.forName(dbCP.getDBDriver());     // Loads and registers the driver
             Properties properties = new Properties();
             properties.setProperty("user", dbCP.getDBUsername());
@@ -21,7 +33,10 @@ public class Connector {
 
             return DriverManager.getConnection(dbCP.getDBURL(), properties);
         } catch (IOException | SQLException | ClassNotFoundException e) {
+            System.out.println("Connector: Connection failed: " + e.toString());
             throw new NullPointerException("Failed to load connection");
+        } finally {
+            System.out.println("Connector: Connection successful");
         }
     }
 }

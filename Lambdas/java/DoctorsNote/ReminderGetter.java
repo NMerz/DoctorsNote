@@ -10,7 +10,6 @@ import com.amazonaws.services.lambda.runtime.Context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,9 +24,11 @@ public class ReminderGetter {
     public GetReminderResponse get(Map<String, Object> inputMap, Context context) {
         try {
             PreparedStatement statement = dbConnection.prepareStatement(getRemindersFormatString);
+            System.out.println("ReminderGetter: Getting reminders on behalf of " + (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             statement.setString(1, (String)((Map<String,Object>) inputMap.get("context")).get("sub"));
             //statement.setTimestamp(2, new Timestamp(Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("sinceWhen").toString())));
-            System.out.println(statement);
+            System.out.println("ReminderGetter: statement: " + statement);
+
             ResultSet reminderRS = statement.executeQuery();
 
 
@@ -48,12 +49,16 @@ public class ReminderGetter {
 //                }
             }
 
+            System.out.println(String.format("ReminderGetter: Returning %d reminders for %s",
+                    reminders.size(),
+                    ((Map<String,Object>) inputMap.get("context")).get("sub")));
+
             // Disconnect connection with shortest lifespan possible
             dbConnection.close();
             Reminder[] tempArray = new Reminder[reminders.size()];
             return new GetReminderResponse(reminders.toArray(tempArray));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("ReminderGetter: Exception encountered: " + e.getMessage());
             return null;
         }
     }

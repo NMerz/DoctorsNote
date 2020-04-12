@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 class RequestAppointmentConfirmationVC: UIViewController {
 //    var form: AppointmentForm?
     var appointment: Appointment?
     var docName: String?
     @IBOutlet weak var appointmentConfirmationLabel: UILabel!
+    
+    var processor: ConnectionProcessor?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +37,15 @@ class RequestAppointmentConfirmationVC: UIViewController {
         
         // pop to CalendarVC class
         navigationController?.popToViewController(ofClass: CalendarVC.self)
+        
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            appointmentList = try processor.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+        }
 
         for appointment in appointmentList {
             print(appointment.getContent())

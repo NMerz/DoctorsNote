@@ -37,6 +37,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         // Remove permanent data, should I do this here?
 //        resetDefaults()
         

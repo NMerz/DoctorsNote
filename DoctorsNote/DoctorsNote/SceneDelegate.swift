@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -14,9 +15,47 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        // If this scene's self.window is nil then set a new UIWindow object to it.
+        self.window = self.window ?? UIWindow()
+            
+
+        if (AWSMobileClient.default().isSignedIn) {
+            let group = DispatchGroup()
+            group.enter()
+            var setup = false
+
+            // avoid deadlocks by not using .main queue here
+            CognitoHelper.sharedHelper.isUserSetUp { (setUp) in
+                if (setUp) {
+                    DispatchQueue.global(qos: .default).async {
+                        // User has all properties set
+                        setup = true
+                        group.leave()
+                    }
+                } else {
+                    DispatchQueue.global(qos: .default).async {
+                        // User needs to finish creating profile
+                        group.leave()
+                    }
+                }
+            }
+
+            // wait ...
+            group.wait()
+            if (setup) {
+                self.window!.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateInitialViewController()
+            } else {
+                self.window!.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
+            }
+        } else {
+            self.window!.rootViewController = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController()
+        }
+        
+        // Make this scene's window be visible.
+        self.window!.makeKeyAndVisible()
+        guard let _ = (scene as? UIWindowScene) else { return }
+        
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

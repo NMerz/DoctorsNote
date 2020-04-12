@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
 		44732400243184900026DA34 /* SupportGroupConvo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447323FF243184900026DA34 /* SupportGroupConvo.swift */; };
+		4473240424339A9B0026DA34 /* TestSGInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4473240324339A9B0026DA34 /* TestSGInfo.swift */; };
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
 		7D9A08E16AAE07409B3B517C /* Pods_DoctorsNote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */; };
 		9D137F3F242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D137F3E242BAB6E00A0B0AB /* ConnectionProcessor.swift */; };
@@ -52,6 +53,7 @@
 		B54E4F382408EDA200349316 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F302408EDA200349316 /* PersonalInfoView.swift */; };
 		B54E4F392408EDA200349316 /* DOBView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54E4F312408EDA200349316 /* DOBView.swift */; };
 		B54E4F3A2408EEA900349316 /* SearchGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */; };
+		B562CB972433857200EC6FD5 /* ReportUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B562CB962433857200EC6FD5 /* ReportUserViewController.swift */; };
 		B587B55A2429710C00B6BF0D /* EditReminderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B5592429710B00B6BF0D /* EditReminderVC.swift */; };
 		B587B55C2429711600B6BF0D /* ReminderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B587B55B2429711600B6BF0D /* ReminderCell.swift */; };
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
@@ -60,6 +62,7 @@
 		B5AE734E24156C5B00A9CDAE /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */; };
 		B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */; };
+		B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -99,6 +102,7 @@
 		24F61D7A5EA743CE919A6270 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		447323FF243184900026DA34 /* SupportGroupConvo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupConvo.swift; sourceTree = "<group>"; };
+		4473240324339A9B0026DA34 /* TestSGInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSGInfo.swift; sourceTree = "<group>"; };
 		6740B3FFB6664955BB5D35CC /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
 		6AD397D1E99E16E4D6AE39F6 /* Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.release.xcconfig"; sourceTree = "<group>"; };
 		87122CD23068385D7B24E2A2 /* Pods-DoctorsNote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote.release.xcconfig"; path = "Target Support Files/Pods-DoctorsNote/Pods-DoctorsNote.release.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 		B54E4F2E2408EDA200349316 /* PersonalInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonalInfoView.xib; sourceTree = "<group>"; };
 		B54E4F302408EDA200349316 /* PersonalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
 		B54E4F312408EDA200349316 /* DOBView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOBView.swift; sourceTree = "<group>"; };
+		B562CB962433857200EC6FD5 /* ReportUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUserViewController.swift; sourceTree = "<group>"; };
 		B587B5592429710B00B6BF0D /* EditReminderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditReminderVC.swift; sourceTree = "<group>"; };
 		B587B55B2429711600B6BF0D /* ReminderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReminderCell.swift; sourceTree = "<group>"; };
 		B5AC8B342409CF13002E070D /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
@@ -279,6 +284,7 @@
 				B5AE73482415698600A9CDAE /* TestLoginPage.swift */,
 				B51C6A1F242C551F00048BCF /* TestChatView.swift */,
 				B8FC537224326C28000500E2 /* TestRequestAppointment.swift */,
+				4473240324339A9B0026DA34 /* TestSGInfo.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -336,6 +342,7 @@
 				B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */,
 				B82083D224039A2100CF41D0 /* SupportGroupForm.swift */,
 				B87E49002408B2AB000E6ABC /* RequestGroupConfirmationVC.swift */,
+				B562CB962433857200EC6FD5 /* ReportUserViewController.swift */,
 			);
 			path = SupportGroup;
 			sourceTree = "<group>";
@@ -639,6 +646,7 @@
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */,
 				9D137F3F242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */,
+				B562CB972433857200EC6FD5 /* ReportUserViewController.swift in Sources */,
 				B87E49042408F462000E6ABC /* RemindersVC.swift in Sources */,
 				B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */,
 				B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */,
@@ -661,6 +669,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */,
 				B51C6A24242C577300048BCF /* (null) in Sources */,
 				B51C6A25242C577300048BCF /* Message.swift in Sources */,
 				B51C6A26242C577300048BCF /* Reminder.swift in Sources */,
@@ -686,6 +695,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B51C6A20242C551F00048BCF /* TestChatView.swift in Sources */,
+				4473240424339A9B0026DA34 /* TestSGInfo.swift in Sources */,
 				B8FC537324326C28000500E2 /* TestRequestAppointment.swift in Sources */,
 				B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */,
 				B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */,

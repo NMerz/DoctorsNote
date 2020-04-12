@@ -177,7 +177,7 @@ class ConnectionProcessor {
     
     func processUser(url: String, uid: String) -> (User?, ConnectionError?) {
         //Placeholder
-            return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", healthSystems: [HealthSystem]()), nil)
+        return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", role: "Patient", healthSystems: [HealthSystem](), workHours: ""), nil)
     }
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
@@ -212,7 +212,8 @@ class ConnectionProcessor {
             print((message["contentType"] as? Int) != nil)
             print((message["sender"] as? String) != nil)
             if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
-                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String))
+                let numFails = CognitoHelper.numFails
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String), numFails: numFails)
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -316,7 +317,7 @@ class ConnectionProcessor {
     
     func processNewAppointment(url: String, appointment: Appointment) throws {
         var appointmentJSON = [String: Any]()
-        appointmentJSON["timeScheduled"] = appointment.getTimeScheduled().timeIntervalSince1970
+        appointmentJSON["timeScheduled"] = appointment.getTimeScheduled().timeIntervalSince1970 * 1000
         appointmentJSON["content"] = appointment.getContent()
         appointmentJSON["withID"] = appointment.getWithID()
         let data = try postData(urlString: url, dataJSON: appointmentJSON)

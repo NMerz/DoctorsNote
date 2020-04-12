@@ -13,6 +13,7 @@ class CognitoHelper {
 
     public static let sharedHelper = CognitoHelper()
     public static var user: User?
+    public static var numFails: Int = 0
     
     func login(email: String, password: String, onDone: @escaping (_ success: Bool, _ err: AWSMobileClientError)->()) {
         AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
@@ -54,36 +55,6 @@ class CognitoHelper {
         // Clear old user
         CognitoHelper.user = User(uid: "-1")
     }
-
-    func getWorkHours(doctor: User, onDone: @escaping (_ success: Bool, _ message: String)->Void) {
-        // Check if user is doctor
-        //onDone("", NSError(domain: "Error: Requested user is not a doctor.", code: 1, userInfo: [:]))
-        // Get doctor's work hours
-        AWSMobileClient.default().getUserAttributes { (attr, err) in
-            if let err = err as? AWSMobileClientError {
-                onDone(false, err.message)
-            } else {
-                if let hours = attr!["custom:work_hours"] {
-                    onDone(true, hours)
-                } else {
-                    onDone(false, "Error: Cannot get work hours attribute.")
-                }
-            }
-        }
-    }
-    
-    func updateWorkHours(doctor: User, workHours: String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
-        // Check if user is a doctor
-        
-        // Set work hours
-        AWSMobileClient.default().updateUserAttributes(attributeMap: ["custom:work_hours" : workHours]) { (details, err) in
-            if let err = err as? AWSMobileClientError {
-                onDone(false, err.message)
-            } else {
-                onDone(true, "")
-            }
-        }
-    }
     
     func updateAttributes(attributeMap: [String:String], onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
         AWSMobileClient.default().updateUserAttributes(attributeMap: attributeMap) { (details, err) in
@@ -98,9 +69,6 @@ class CognitoHelper {
         }
         if let middleName = attributeMap["middle_name"] {
             CognitoHelper.user?.setMiddleName(middleName: middleName)
-        }
-        if let lastName = attributeMap["family_name"] {
-            CognitoHelper.user?.setLastName(lastName: lastName)
         }
         if let lastName = attributeMap["family_name"] {
             CognitoHelper.user?.setLastName(lastName: lastName)
@@ -120,6 +88,9 @@ class CognitoHelper {
         if let email = attributeMap["email"] {
             CognitoHelper.user?.setEmail(email: email)
         }
+        if let workHours = attributeMap["custom:work_hours"] {
+            CognitoHelper.user?.setWorkHours(workHours: workHours)
+        }
     }
     
     func setHealthcareInformation(role:String, hospital:String, hospitalWebsite: String, healthcareProvider: String, healthcareWebsite:String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
@@ -135,6 +106,7 @@ class CognitoHelper {
             }
         }
         CognitoHelper.user?.setHealthSystem(hospital: hospital, hospitalWebsite: hospitalWebsite, healthcareProvider: healthcareProvider, healthcareWebsite: healthcareWebsite)
+        CognitoHelper.user?.setRole(role: role)
     }
     
     func setDisplayName(displayName: String, onDone: @escaping (Bool)->Void) {
