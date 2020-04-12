@@ -181,7 +181,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             else {
-                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: nextMessage.getSender().getFirstName())
             }
             //cellM.showIncomingMessage(text: "test")
         } else if nextMessage.getContentType() == 1 {
@@ -286,6 +286,7 @@ class FriendCellM: BaseCellM {
         
         contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40).isActive = true
         contentView.addSubview(message)
+        contentView.addSubview(uname)
         
         message.translatesAutoresizingMaskIntoConstraints = false
         
@@ -297,6 +298,11 @@ class FriendCellM: BaseCellM {
     }
     
     var message: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    var uname: UIView = {
         let view = UIView()
         return view
     }()
@@ -361,10 +367,22 @@ class FriendCellM: BaseCellM {
 
     }
     
-    func showIncomingMessage(text: String) {
+    func showIncomingMessage(text: String, cname: String) {
         if labelView != nil {
             labelView!.removeFromSuperview()
         }
+        
+        print(cname)
+        let nameView = UILabel()
+        let name = nameView
+        name.numberOfLines = 0
+        name.font = UIFont.systemFont(ofSize: 14)
+        name.textColor = .red
+        name.text = cname
+        uname.addSubview(name)
+        contentView.addSubview(name)
+        
+        
         labelView =  UILabel()
         let label = labelView!
         label.numberOfLines = 0
@@ -421,7 +439,9 @@ class FriendCellM: BaseCellM {
         outgoingMessageLayer.frame = label.bounds
         //outgoingMessageLayer.fillColor = UIColor.systemBlue.cgColor
         outgoingMessageLayer.fillColor = UIColor.lightGray.cgColor
-        
+        let nameLayer = CAShapeLayer()
+        nameLayer.frame = name.bounds
+        uname.layer.addSublayer(nameLayer)
         message.layer.addSublayer(outgoingMessageLayer)
 
     }
