@@ -52,7 +52,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOSPITAL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2QP-ak-dks">
-                    <rect key="frame" x="5" y="305" width="83" height="20"/>
+                    <rect key="frame" x="5" y="305" width="404" height="20"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -118,7 +118,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HEALTH INSURANCE PROVIDER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yw5-rV-FBM">
-                    <rect key="frame" x="5" y="365" width="256" height="20"/>
+                    <rect key="frame" x="5" y="365" width="404" height="20"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -132,20 +132,6 @@
                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xi1-oI-RgM">
-                    <rect key="frame" x="266" y="365.5" width="20" height="19"/>
-                    <state key="normal" backgroundImage="chevron.right.circle.fill" catalog="system"/>
-                    <connections>
-                        <action selector="goToHealthcareWebsite:" destination="-1" eventType="touchUpInside" id="3p3-3r-Rjq"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66c-3k-2dt">
-                    <rect key="frame" x="93" y="305.5" width="20" height="19"/>
-                    <state key="normal" backgroundImage="chevron.right.circle.fill" catalog="system"/>
-                    <connections>
-                        <action selector="goToHospitalWebsite:" destination="-1" eventType="touchUpInside" id="VQR-g5-Gsn"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -158,13 +144,12 @@
                 <constraint firstItem="1T0-7l-l6O" firstAttribute="leading" secondItem="ORH-NH-5pf" secondAttribute="leading" id="61q-JB-clk"/>
                 <constraint firstItem="CZm-AO-LzC" firstAttribute="leading" secondItem="ORH-NH-5pf" secondAttribute="leading" id="8p1-fG-Gzn"/>
                 <constraint firstItem="ORH-NH-5pf" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="25" id="A9g-zZ-1Fk"/>
-                <constraint firstItem="66c-3k-2dt" firstAttribute="centerY" secondItem="2QP-ak-dks" secondAttribute="centerY" id="DV4-Ek-h2b"/>
+                <constraint firstItem="Yw5-rV-FBM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="Bya-AZ-ihb"/>
                 <constraint firstAttribute="trailing" secondItem="1T0-7l-l6O" secondAttribute="trailing" constant="10" id="DX1-qG-Ues"/>
                 <constraint firstItem="Aqf-VT-0xC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="Eh0-Kd-lRM"/>
                 <constraint firstItem="u3R-Xb-bQb" firstAttribute="leading" secondItem="ORH-NH-5pf" secondAttribute="leading" id="F9o-91-Q37"/>
                 <constraint firstItem="iqX-Ht-ioW" firstAttribute="height" secondItem="Aqf-VT-0xC" secondAttribute="height" id="FSt-zY-SeS"/>
                 <constraint firstItem="iqX-Ht-ioW" firstAttribute="top" secondItem="CZm-AO-LzC" secondAttribute="bottom" constant="10" id="H1e-1c-z39"/>
-                <constraint firstItem="Yw5-rV-FBM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="Jhq-6b-tqZ"/>
                 <constraint firstItem="BSA-9g-FYe" firstAttribute="top" secondItem="ORH-NH-5pf" secondAttribute="bottom" constant="10" id="KOv-kx-QQF"/>
                 <constraint firstItem="Aqf-VT-0xC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="NQH-iK-vvt"/>
                 <constraint firstItem="FrL-e2-IFK" firstAttribute="height" secondItem="Aqf-VT-0xC" secondAttribute="height" id="PAv-vr-nP5"/>
@@ -173,16 +158,15 @@
                 <constraint firstItem="u3R-Xb-bQb" firstAttribute="top" secondItem="iqX-Ht-ioW" secondAttribute="bottom" constant="5" id="QqV-fH-7QX"/>
                 <constraint firstItem="lcK-1u-41A" firstAttribute="leading" secondItem="ORH-NH-5pf" secondAttribute="leading" id="SPo-ac-bvr"/>
                 <constraint firstItem="CZm-AO-LzC" firstAttribute="top" secondItem="HqO-qj-7rK" secondAttribute="bottom" constant="5" id="SpG-7R-1yH"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2QP-ak-dks" secondAttribute="trailing" constant="5" id="TlG-Ye-Xtf"/>
                 <constraint firstItem="Yw5-rV-FBM" firstAttribute="top" secondItem="lcK-1u-41A" secondAttribute="bottom" constant="10" id="UyB-H4-BCJ"/>
                 <constraint firstItem="HqO-qj-7rK" firstAttribute="height" secondItem="Aqf-VT-0xC" secondAttribute="height" id="b0Q-tM-qy3"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="BSA-9g-FYe" secondAttribute="trailing" constant="5" id="bBK-7a-50H"/>
                 <constraint firstItem="u53-G2-5B5" firstAttribute="leading" secondItem="ORH-NH-5pf" secondAttribute="leading" id="bG4-W0-h1C"/>
-                <constraint firstItem="Xi1-oI-RgM" firstAttribute="centerY" secondItem="Yw5-rV-FBM" secondAttribute="centerY" id="cFW-fK-rdH"/>
                 <constraint firstItem="BSA-9g-FYe" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="cZG-qe-y5a"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="u53-G2-5B5" secondAttribute="trailing" constant="10" id="cba-6a-qXN"/>
                 <constraint firstItem="lcK-1u-41A" firstAttribute="top" secondItem="2QP-ak-dks" secondAttribute="bottom" constant="5" id="cuB-tC-MZc"/>
                 <constraint firstItem="u53-G2-5B5" firstAttribute="top" secondItem="BSA-9g-FYe" secondAttribute="bottom" constant="5" id="eIO-ru-zdT"/>
-                <constraint firstItem="Xi1-oI-RgM" firstAttribute="leading" secondItem="Yw5-rV-FBM" secondAttribute="trailing" constant="5" id="ebM-2q-5Bu"/>
                 <constraint firstItem="2QP-ak-dks" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="f3g-wM-t3K"/>
                 <constraint firstItem="FrL-e2-IFK" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="hl2-DO-8DB"/>
                 <constraint firstItem="BSA-9g-FYe" firstAttribute="height" secondItem="Aqf-VT-0xC" secondAttribute="height" id="iZ8-KA-IuA"/>
@@ -193,20 +177,17 @@
                 <constraint firstItem="HqO-qj-7rK" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="qds-dI-tHh"/>
                 <constraint firstAttribute="trailing" secondItem="ORH-NH-5pf" secondAttribute="trailing" constant="15" id="rFv-Fx-g46"/>
                 <constraint firstAttribute="trailing" secondItem="lcK-1u-41A" secondAttribute="trailing" constant="10" id="rNy-TL-nbU"/>
-                <constraint firstItem="66c-3k-2dt" firstAttribute="leading" secondItem="2QP-ak-dks" secondAttribute="trailing" constant="5" id="sW2-4v-RfZ"/>
                 <constraint firstAttribute="trailing" secondItem="CZm-AO-LzC" secondAttribute="trailing" constant="10" id="tTj-mc-LBf"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Aqf-VT-0xC" secondAttribute="trailing" constant="5" id="uFl-Mu-zOM"/>
                 <constraint firstItem="tTx-CE-EAG" firstAttribute="leading" secondItem="ORH-NH-5pf" secondAttribute="leading" id="wCC-Zj-JO3"/>
                 <constraint firstItem="iqX-Ht-ioW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="xqi-hQ-MU4"/>
                 <constraint firstItem="2QP-ak-dks" firstAttribute="top" secondItem="tTx-CE-EAG" secondAttribute="bottom" constant="10" id="yG2-cs-hzZ"/>
                 <constraint firstItem="Yw5-rV-FBM" firstAttribute="height" secondItem="Aqf-VT-0xC" secondAttribute="height" id="yGJ-5p-HCr"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Yw5-rV-FBM" secondAttribute="trailing" constant="5" id="zCk-yN-0v9"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <point key="canvasLocation" x="144.92753623188406" y="56.584821428571423"/>
         </view>
     </objects>
-    <resources>
-        <image name="chevron.right.circle.fill" catalog="system" width="64" height="60"/>
-    </resources>
 </document>

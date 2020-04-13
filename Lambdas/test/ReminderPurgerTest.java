@@ -25,7 +25,7 @@ public class ReminderPurgerTest {
     }
 
     @Test()
-    public void testConnectionError() throws SQLException {
+    public void testConnectionError() {
         HashMap incompleteMap = getSampleMap();
         ReminderPurger reminderPurger = new ReminderPurger(connectionMock);
         try {
@@ -39,7 +39,7 @@ public class ReminderPurgerTest {
     }
 
     @Test()
-    public void testCompleteInput() throws SQLException {
+    public void testCompleteInput() {
         HashMap incompleteMap = getSampleMap();
         try {
             when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(Mockito.mock(PreparedStatement.class));

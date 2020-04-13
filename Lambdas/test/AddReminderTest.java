@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import static org.mockito.Mockito.doReturn;
@@ -27,7 +26,7 @@ public class AddReminderTest {
     }
 
     @Test
-    public void testValidReturn() throws SQLException {
+    public void testValidReturn() {
         ReminderAdder.AddReminderResponse responseMock = Mockito.mock(ReminderAdder.AddReminderResponse.class);
         when(reminderAdderMock.add(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
@@ -35,7 +34,7 @@ public class AddReminderTest {
     }
 
     @Test
-    public void testInvalidReturn() throws SQLException {
+    public void testInvalidReturn() {
         when(reminderAdderMock.add(Mockito.anyMap(), Mockito.any())).thenReturn(null);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
 
