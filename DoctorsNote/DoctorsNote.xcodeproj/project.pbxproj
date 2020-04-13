@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
+		44549FF12443DBA8006BDC0A /* TestDeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44549FF02443DBA8006BDC0A /* TestDeleteUser.swift */; };
 		44732400243184900026DA34 /* SupportGroupConvo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447323FF243184900026DA34 /* SupportGroupConvo.swift */; };
 		4473240424339A9B0026DA34 /* TestSGInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4473240324339A9B0026DA34 /* TestSGInfo.swift */; };
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
@@ -102,6 +103,7 @@
 		088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F61D7A5EA743CE919A6270 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		44549FF02443DBA8006BDC0A /* TestDeleteUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDeleteUser.swift; sourceTree = "<group>"; };
 		447323FF243184900026DA34 /* SupportGroupConvo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupConvo.swift; sourceTree = "<group>"; };
 		4473240324339A9B0026DA34 /* TestSGInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSGInfo.swift; sourceTree = "<group>"; };
 		6740B3FFB6664955BB5D35CC /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				B8FC537224326C28000500E2 /* TestRequestAppointment.swift */,
 				4473240324339A9B0026DA34 /* TestSGInfo.swift */,
 				B8EBD4172443D42C00C83A81 /* TestPurgeMessageLabel.swift */,
+				44549FF02443DBA8006BDC0A /* TestDeleteUser.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -703,6 +706,7 @@
 				B8EBD4182443D42C00C83A81 /* TestPurgeMessageLabel.swift in Sources */,
 				B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */,
 				B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */,
+				44549FF12443DBA8006BDC0A /* TestDeleteUser.swift in Sources */,
 				B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
