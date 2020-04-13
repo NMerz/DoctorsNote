@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import static org.mockito.Mockito.doReturn;
@@ -27,7 +26,7 @@ public class GetMessagesTest {
     }
 
     @Test
-    public void testValidReturn() throws SQLException {
+    public void testValidReturn() {
         MessageGetter.GetMessagesResponse responseMock = Mockito.mock(MessageGetter.GetMessagesResponse.class);
         when(messageGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(responseMock);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
@@ -35,7 +34,7 @@ public class GetMessagesTest {
     }
 
     @Test
-    public void testInvalidReturn() throws SQLException {
+    public void testInvalidReturn() {
         when(messageGetterMock.get(Mockito.anyMap(), Mockito.any())).thenReturn(null);
         HashMap<String, Object> inputMap = new HashMap<String, Object>();
 

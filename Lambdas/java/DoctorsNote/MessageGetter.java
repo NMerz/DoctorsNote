@@ -5,69 +5,65 @@ import com.amazonaws.services.lambda.runtime.Context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
 public class MessageGetter {
-    private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender, contentType FROM Message" +
+    private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender FROM Message" +
             " WHERE conversationID = ? ORDER BY timeCreated DESC LIMIT ?;";
     Connection dbConnection;
 
     public MessageGetter(Connection dbConnection) { this.dbConnection = dbConnection; }
 
-    public GetMessagesResponse get(Map<String,Object> inputMap, Context context) throws SQLException {
+    public GetMessagesResponse get(Map<String,Object> inputMap, Context context) {
         try {
+            System.out.println("Getting messages");
+
+            // Establish connection with MariaDB
+            DBCredentialsProvider dbCP;
+
             // Reading from database
             PreparedStatement statement = dbConnection.prepareStatement(getMessagesFormatString);
-            statement.setLong(1, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
-            statement.setLong(2, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve").toString()));
-            System.out.println("MessageGetter: statement: " + statement.toString());
-
+            statement.setString(1, (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationID"));
+            statement.setString(2, (String)((Map<String,Object>) inputMap.get("body-json")).get("numberToRetrieve"));
             ResultSet messageResult = statement.executeQuery();
-
-            messageResult.getFetchSize();
 
             // Processing results
             ArrayList<Message> messages = new ArrayList<>();
             while (messageResult.next()) {
                 String content = messageResult.getString(1);
-                long messageId = messageResult.getLong(2);
-                long timeSent = messageResult.getTimestamp(3).toInstant().toEpochMilli();
+                String messageId = messageResult.getString(2);
+                long timeSent = messageResult.getTimestamp(3).toInstant().getEpochSecond();
                 String sender = messageResult.getString(4);
-                long contentType = messageResult.getLong(5);
 
                 if (timeSent >= 0) {
-                    messages.add(new Message(content, contentType, messageId, timeSent, sender));
+                    messages.add(new Message(content, messageId, timeSent, sender));
                 }
             }
 
-            System.out.println(String.format("MessageGetter: Returning %d messages for conversationID %s",
-                    messages.size(),
-                    ((Map<String,Object>) inputMap.get("body-json")).get("conversationID")));
+            // Disconnect connection with shortest lifespan possible
+            dbConnection.close();
+
             Message[] tempArray = new Message[messages.size()];
             GetMessagesResponse response = new GetMessagesResponse(messages.toArray(tempArray));
 
             return response;
         } catch (Exception e) {
-            System.out.println("MessageGetter: Exception encountered: " + e.toString());
             return null;
-        } finally {
-            dbConnection.close();
         }
     }
 
     private class GetMessagesRequest {
-        private Long conversationId;
+        private String conversationId;
         private int nMessages;
         private int startIndex;
         private long sinceWhen;
 
-        public Long getConversationId() {
+        public String getConversationId() {
             return conversationId;
         }
 
-        public void setConversationId(Long conversationId) {
+        public void setConversationId(String conversationId) {
             this.conversationId = conversationId;
         }
 
@@ -98,14 +94,12 @@ public class MessageGetter {
 
     private class Message {
         private String content;
-        private long contentType;
-        private long messageID;
+        private String messageID;
         private long timeSent;
         private String sender;
 
-        public Message(String content, long contentType, long messageId, long timeSent, String sender) {
+        public Message(String content, String messageId, long timeSent, String sender) {
             this.content = content;
-            this.contentType = contentType;
             this.messageID = messageId;
             this.timeSent = timeSent;
             this.sender = sender;
@@ -119,11 +113,11 @@ public class MessageGetter {
             this.content = content;
         }
 
-        public Long getMessageId() {
+        public String getMessageId() {
             return messageID;
         }
 
-        public void setMessageId(Long messageId) {
+        public void setMessageId(String messageId) {
             this.messageID = messageId;
         }
 
@@ -141,14 +135,6 @@ public class MessageGetter {
 
         public void setSender(String sender) {
             this.sender = sender;
-        }
-
-        public long getContentType() {
-            return contentType;
-        }
-
-        public void setContentType(long contentType) {
-            this.contentType = contentType;
         }
     }
 

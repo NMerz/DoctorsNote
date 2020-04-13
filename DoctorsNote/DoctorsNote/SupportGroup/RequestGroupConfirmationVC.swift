@@ -10,7 +10,7 @@ import UIKit
 
 class RequestGroupConfirmationVC: UIViewController {
     
-    var form: SupportGroupForm?
+    var form: Form?
     @IBOutlet weak var requestConfirmationLabel: UILabel!
     
     override func viewDidLoad() {

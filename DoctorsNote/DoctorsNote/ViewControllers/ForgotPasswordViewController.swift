@@ -31,11 +31,8 @@ class ForgotPasswordViewController: UIViewController {
     
     @IBAction func recover(_ sender: Any) {
         
-        if (emailField.isEmpty()) {
-            return
+        if (emailField.isEmpty()) {            return
         }
-        
-        dismissKeyboard()
         
         let width : Int = Int(self.view.frame.width - 20)
         let height = 200
@@ -59,7 +56,6 @@ class ForgotPasswordViewController: UIViewController {
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         closeButton.layer.mask = layer
-        closeButton.accessibilityLabel = "Close Button"
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         
         contentView.addSubview(closeButton)

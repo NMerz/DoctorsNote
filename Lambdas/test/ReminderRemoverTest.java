@@ -27,13 +27,13 @@ public class ReminderRemoverTest {
     }
 
     @Test()
-    public void testEmptyInputs() throws SQLException {
+    public void testEmptyInputs() {
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
         Assert.assertEquals(null, reminderRemover.remove(new HashMap<>(), mock(Context.class)));
     }
 
     @Test()
-    public void testMissingInput() throws SQLException {
+    public void testMissingInput() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("reminderID");
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
@@ -41,7 +41,7 @@ public class ReminderRemoverTest {
     }
 
     @Test()
-    public void testBadInput() throws SQLException {
+    public void testBadInput() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("reminderID", null);
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
@@ -49,7 +49,7 @@ public class ReminderRemoverTest {
     }
 
     @Test()
-    public void testConnectionError() throws SQLException {
+    public void testConnectionError() {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("reminderID");
         ReminderRemover reminderRemover = new ReminderRemover(connectionMock);
@@ -64,7 +64,7 @@ public class ReminderRemoverTest {
     }
 
     @Test()
-    public void testCompleteInput() throws SQLException {
+    public void testCompleteInput() {
         HashMap incompleteMap = getSampleMap();
         try {
             when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(Mockito.mock(PreparedStatement.class));
