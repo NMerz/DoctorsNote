@@ -92,23 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let saltString = "username"
-        let saltData = saltString.data(using: .utf8)!
         let passwordString = "abcd"
-        let password = passwordString.data(using: .utf8)!
-        print (SHA512.hash(data: password))
-        print (SHA512.hash(data: password))
-        print ((SHA512.hash(data: password).underestimatedCount))
-        var newKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 256)
-        var saltValue = [UInt8]()
-        for char in saltString.cString(using: .utf8)! {
-            saltValue.append(UInt8(char))
-        }
-        print(saltValue)
-        
-        print(CCKeyDerivationPBKDF(CCPBKDFAlgorithm(kCCPBKDF2), passwordString, passwordString.count, saltValue, saltString.count, CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA512), 200000, newKey, 256))
-        print(newKey.pointee)
-        print(newKey.advanced(by: 255).pointee)
-        print(String(data: Data(bytes: newKey, count: 256), encoding: .utf8))
         let attributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
             kSecAttrKeySizeInBits: 2048,
             kSecAttrKeyClass: kSecAttrKeyClassPrivate
@@ -121,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(error)
         print(privateKeyExport.base64EncodedString())
         print((SecKeyCopyExternalRepresentation(publicKey!, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))! as Data).base64EncodedString())
-        let localAESKey = Data(bytes: newKey, count: 256)
+        let localAESKey = LocalCipher.init().getAESFromPass(password: passwordString, username: saltString)//Data(bytes: newKey, count: 256)
         print(localAESKey.base64EncodedString())
         var toEncrypt = privateKeyExport.base64EncodedString()
         print("key size")
@@ -131,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var bytesEncrypted = 0
         var AESKey = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 256)
         localAESKey.copyBytes(to: AESKey)
-        let encryptReturn = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, saltValue, toEncrypt, toEncrypt.count / 128 * 128 + 128, encrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted) //String(data: localAESKey, encoding: .utf8) is untested. Used to be just newKey
+        let encryptReturn = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, toEncrypt, toEncrypt, toEncrypt.count / 128 * 128 + 128, encrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted) //the first toEncrypt is functioning as the IV (salt?)
         print (Data(base64Encoded: toEncrypt)!.base64EncodedString())
         print("Encypted Return:")
         print(encryptReturn)
@@ -139,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let encryptedText = Data(bytes: encrypted, count: (toEncrypt.count / 128 * 128 + 128))
         print(encryptedText.base64EncodedString())
         let decrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: (toEncrypt.count / 128 * 128 + 128))
-        let decryptReturn = CCCrypt(CCOperation(kCCDecrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), newKey, kCCKeySizeAES256, saltValue, encrypted, (toEncrypt.count / 128 * 128 + 128), decrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted) //Note: this currently takes a nonbase64 data object, but the return from the API will be in base64. I just have to remember to use the base64 interpretation on it
+        let decryptReturn = CCCrypt(CCOperation(kCCDecrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, toEncrypt, encrypted, (toEncrypt.count / 128 * 128 + 128), decrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted) //Note: this currently takes a nonbase64 data object, but the return from the API will be in base64. I just have to remember to use the base64 interpretation on it
         //To expand on the above: Export -> Base64->encode->base64->store->retrieve->non-base64->decode->nonbase64->import
         
         print("Decrypt return:")

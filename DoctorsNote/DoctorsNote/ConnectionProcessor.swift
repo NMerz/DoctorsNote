@@ -80,8 +80,10 @@ class ConnectionProcessor {
             }
         }
         catch {
+            if String(data: data!, encoding: .utf8) == "null" {
+                return (nil, ConnectionError(message: "Null response"))
+            }
             return (nil, ConnectionError(message: "Malformed response body"))
-            
         }
         //print(type(of: jsonData!))
         //print(jsonData!)
@@ -392,11 +394,12 @@ class ConnectionProcessor {
     //Note: exact formatting may change and this method should make no assumptions nor do validation
     func retrieveEncryptedPrivateKeys(url: String) throws -> (String, String) {
         let emptyJSON = [String: Any]()
-        let data = try postData(urlString: url, dataJSON: emptyJSON)
-        if data.first?.value as? [String : Any?] == nil {
-            throw ConnectionError(message: "Incorrect JSON format -- expected single level dictionary object")
-        }
-        let keyJSON = data.first?.value as! [String : Any?]
+        let data: [String : Any]
+        data = try postData(urlString: url, dataJSON: emptyJSON)
+//        if data.first?.value as? [String : Any?] == nil {
+//            throw ConnectionError(message: "Incorrect JSON format -- expected single level dictionary object")
+//        }
+        let keyJSON = data//data.first?.value as! [String : Any?]
         if keyJSON["privateKeyP"] as? String == nil || keyJSON["privateKeyS"] as? String == nil {
             throw ConnectionError(message: "At least one JSON field was missing or in an incorrect format")
         }
