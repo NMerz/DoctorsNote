@@ -41,13 +41,19 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
         // Reload appointment list data
         var connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
-        let processor = ConnectionProcessor(connector: connector)
+        processor = ConnectionProcessor(connector: connector)
         do {
-            appointmentList = try processor.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
+            appointmentList = try processor!.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
         } catch let error {
             print((error as! ConnectionError).getMessage())
         }
         appointmentTableView.reloadData()
+        
+//        print("Appointments: ")
+//        for appointment in appointmentList {
+//            print(appointment.getContent())
+//        }
+//        print("End appointments")
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -76,8 +82,8 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
 
         let deleteAction = UIContextualAction(style: .normal, title:  "Delete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             do {
-                // TODO: fix url
-                try self.processor?.processDeleteAppointment(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentdelete", appointment: appointment)
+                // TODO: processor doesn't seem to be deleting
+                try self.processor!.processDeleteAppointment(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentdelete", appointment: appointment)
 
             } catch let error {
                 print((error as! ConnectionError).getMessage())
@@ -86,6 +92,10 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
             appointmentList.remove(at: indexPath.row)
             self.appointmentTableView.deleteRows(at: [indexPath], with: .fade)
             self.appointmentTableView.reloadData()
+            print("deleted appointment")
+            for appointment in appointmentList {
+                print(appointment.getContent())
+            }
             success(true)
         })
         deleteAction.backgroundColor = .red
