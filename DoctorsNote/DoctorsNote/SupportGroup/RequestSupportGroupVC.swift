@@ -25,13 +25,13 @@ class RequestSupportGroupVC: UIViewController, UITableViewDelegate, UITableViewD
     
     var hospitalList = [String]()
     
-    var form: Form?
+    var form: SupportGroupForm?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Request New Group"
         // Do any additional setup after loading the view.
-        self.form = Form()
+        self.form = SupportGroupForm()
         self.hideKeyboardWhenTappedAround()
         dropdownTableView.delegate = self
         dropdownTableView.dataSource = self
@@ -78,7 +78,7 @@ class RequestSupportGroupVC: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBAction func onClickHospitalDropdown(_ sender: Any) {
         // Connect hospital list to API later
-        hospitalList = ["IU Health", "Mercy West Hospital", "Grey Sloan Memorial Hospital"]
+        hospitalList = ["IU Health", "IU Arnett", "Hoag Hospital"]
         selectedButton = hospitalDropdownButton
         addTransparentView(frames: hospitalDropdownButton.frame)
     }

@@ -8,6 +8,7 @@
 
 import UIKit
 import PopupKit
+import AWSMobileClient
 
 class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpdating {
     
@@ -97,19 +98,24 @@ class SearchGroupCell: UITableViewCell {
         let messageLabel = UILabel(frame: CGRect(x: 20, y: messageOffset, width: width - 40, height: 25))
         nameLabel.text = "## Members"
     
-        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
-        closeButton.setTitle("Done", for: .normal)
+        let closeButton = UIButton(frame: CGRect(x: width/2 + 10, y: height - 75, width: 90, height: 40))
+        closeButton.setTitle("Cancel", for: .normal)
         closeButton.backgroundColor = UIColor.systemBlue
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         closeButton.layer.mask = layer
+        closeButton.accessibilityLabel = "Close Button"
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
 
         
-        let joinButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
+        let joinButton = UIButton(frame: CGRect(x: width/2 - 90 - 10, y: height - 75, width: 90, height: 40))
+        joinButton.setTitle("Join", for: .normal)
+        joinButton.backgroundColor = UIColor.systemBlue
         let joinLayer = CAShapeLayer()
         joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         joinButton.layer.mask = joinLayer
+        joinButton.accessibilityLabel = "Join Button"
+        joinButton.addTarget(self, action: #selector(setDisplayName), for: .touchUpInside)
 
         contentView.addSubview(joinButton)
         contentView.addSubview(closeButton)
@@ -126,9 +132,63 @@ class SearchGroupCell: UITableViewCell {
     }
     
     @objc func dismissPopup(sender: UIButton!) {
-        p?.dismissType = .slideOutToBottom
         p?.dismiss(animated: true)
     }
 
+    @objc func setDisplayName(sender: UIButton!) {
+        let alertController = UIAlertController(title: "Display Name", message: "You must set a name you like displayed for other group members to see.", preferredStyle: .alert)
+        // ADD SOME SORT OF CHECKING TO ENSURE THAT THE NAME IS NOT ALREADY TAKEN.....
+        // ERROR CHECKING TO KNOW IF IT IS THERE OWN NAME.
+        let setNameAction = UIAlertAction(title: "Set Name", style: .default) { (action) in
+            CognitoHelper.sharedHelper.setDisplayName(displayName: alertController.textFields![0].text!) { (success) in
+                if (success) {
+                    self.p?.dismiss(animated: true)
+                    self.showJoinAlert()
+                } else {
+                    // Do something on error
+                }
+            }
+        }
+        setNameAction.accessibilityLabel = "Set Name Button"
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        cancelAction.accessibilityLabel = "Cancel Button"
+        alertController.addAction(setNameAction)
+        alertController.addAction(cancelAction)
+        setNameAction.isEnabled = false
+        
+        alertController.addTextField { (textField) in
+            textField.accessibilityLabel = "Display Name Field"
+            textField.placeholder = "Enter Display Name"
+            
+            // This segment of code borrowed from:
+            // https://gist.github.com/TheCodedSelf/c4f3984dd9fcc015b3ab2f9f60f8ad51
+            
+            NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: textField, queue: OperationQueue.main, using:
+                {_ in
+                    // Being in this block means that something fired the UITextFieldTextDidChange notification.
+                    
+                    // Access the textField object from alertController.addTextField(configurationHandler:) above and get the character count of its non whitespace characters
+                    let textCount = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0
+                    let textIsNotEmpty = textCount > 0
+                    
+                    // If the text contains non whitespace characters, enable the OK Button
+                    setNameAction.isEnabled = textIsNotEmpty
+                
+            })
+            
+        }
+        
+        self.delegate!.present(alertController, animated: true, completion: nil)
+    }
+    
+    func showJoinAlert() {
+        let joinAlert = UIAlertController(title: "Support Groups Notice", message: "Support groups are public forums. Do not post anything that you feel should not be shared with other group members.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        okAction.accessibilityLabel = "Ok Button"
+        joinAlert.addAction(okAction)
+        DispatchQueue.main.async {
+            self.delegate!.present(joinAlert, animated: true, completion: nil)
+        }
+    }
     
 }

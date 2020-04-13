@@ -5,20 +5,21 @@
 //  Created by Nathan Merz on 2/19/20.
 //  Copyright © 2020 Nathan Merz. All rights reserved.
 //
-
 import Foundation
 
 class Conversation {
-    private let conversationPartner: User
+    private let converserID: String
     private let conversationID: Int
+    private var conversationName: String
     private var lastMessageTime: Date
-    private var unreadMessages: Bool
+    private var status: Int
     
-    init(conversationID: Int, conversationPartner: User, lastMessageTime: Date, unreadMessages: Bool) {
+    init(conversationID: Int, converserID: String, conversationName: String, lastMessageTime: Date, status: Int) {
         self.conversationID = conversationID
-        self.conversationPartner = conversationPartner
+        self.converserID = converserID
+        self.conversationName = conversationName
         self.lastMessageTime = lastMessageTime
-        self.unreadMessages = unreadMessages
+        self.status = status
     }
     
     convenience init? (conversationID: Int) {
@@ -27,11 +28,11 @@ class Conversation {
         let (potentialConversation, potentialError) = connectionProcessor.processConversation(url: ConnectionProcessor.standardUrl(), conversationID: conversationID)
         if (potentialError == nil && potentialConversation != nil) {
             let conversation = potentialConversation!
-            self.init (conversationID: conversationID, conversationPartner: conversation.getConversationPartner(), lastMessageTime: conversation.getLastMessageTime(), unreadMessages: conversation.getUnreadMessages())
+            self.init (conversationID: conversationID, converserID: conversation.getConverserID(), conversationName: conversation.getConversationName(), lastMessageTime: conversation.getLastMessageTime(), status: conversation.getStatus())
         }
         //Below this is a temporary mock for functionality
         let conversation = potentialConversation!
-        self.init (conversationID: conversationID, conversationPartner: conversation.getConversationPartner(), lastMessageTime: conversation.getLastMessageTime(), unreadMessages: conversation.getUnreadMessages())
+        self.init (conversationID: conversationID, converserID: conversation.getConverserID(), conversationName: conversation.getConversationName(), lastMessageTime: conversation.getLastMessageTime(), status: conversation.getStatus())
         //return nil
     }
     
@@ -39,15 +40,19 @@ class Conversation {
         return conversationID
     }
     
-    func getConversationPartner() -> User {
-        return conversationPartner
+    func getConverserID() -> String {
+        return converserID
+    }
+    
+    func getConversationName() -> String {
+        return conversationName
     }
     
     func getLastMessageTime() -> Date {
         return lastMessageTime
     }
     
-    func getUnreadMessages() -> Bool {
-        return unreadMessages
+    func getStatus() -> Int {
+        return status
     }
 }

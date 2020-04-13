@@ -8,6 +8,8 @@
 import JTAppleCalendar
 import UIKit
 
+var appointmentList = [Appointment]()
+
 class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalendarViewDelegate {
 
     @IBOutlet var calendarView: JTAppleCalendarView!
@@ -19,7 +21,7 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
         calendarView.scrollDirection = .horizontal
         calendarView.scrollingMode   = .stopAtEachCalendarFrame
         calendarView.showsHorizontalScrollIndicator = false
-
+        
         // Do any additional setup after loading the view.
     }
     
@@ -30,9 +32,10 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
         formatter.dateFormat = "yyyy MM dd"
 
         let startDate = formatter.date(from: "2020 01 01")!
-        let endDate = Date()
+        // End date is a year from today
+        let endDate = Calendar.current.date(byAdding: .year, value: 1, to: Date())
         return ConfigurationParameters(startDate: startDate,
-                                       endDate: endDate,
+                                       endDate: endDate!,
                                        generateInDates: .forAllMonths,
                                        generateOutDates: .tillEndOfGrid)
     }
@@ -98,7 +101,7 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
     // Month header functions
     func calendar(_ calendar: JTAppleCalendarView, headerViewForDateRange range: (start: Date, end: Date), at indexPath: IndexPath) -> JTAppleCollectionReusableView {
         let formatter = DateFormatter()  // Declare this outside, to avoid instancing this heavy class multiple times.
-        formatter.dateFormat = "MMM"
+        formatter.dateFormat = "MMM yyyy"
         
         let header = calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "dateHeader", for: indexPath) as! DateHeader
         header.monthLabel.text = formatter.string(from: range.start)
@@ -106,7 +109,7 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
     }
 
     func calendarSizeForMonths(_ calendar: JTAppleCalendarView?) -> MonthSize? {
-        return MonthSize(defaultSize: 50)
+        return MonthSize(defaultSize: 85) // 50
     }
 
 }

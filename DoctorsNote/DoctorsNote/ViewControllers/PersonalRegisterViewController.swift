@@ -14,258 +14,7 @@ import PopupKit
 //
 //
 //
-class AccountRegisterViewController: UIViewController {
-    
-    @IBOutlet weak var emailField: CustomTextField!
-    @IBOutlet weak var passwordField: CustomTextField!
-    @IBOutlet weak var confirmField: CustomTextField!
-    @IBOutlet weak var errorLabel: UILabel!
-    
-    var p: PopupView?
-    var activityIndicator = UIActivityIndicatorView()
-    
-    override func viewDidLoad() {
-        self.navigationItem.hidesBackButton = true
-        super.viewDidLoad()
-        activityIndicator.center = self.view.center
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.style = .gray
-        view.addSubview(activityIndicator)
-        // TODO: REMOVE LATER
-        AWSMobileClient.default().signOut()
-    }
-    
-    @IBAction func goBack(_ sender: Any) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @IBAction func goForward(_ sender: Any) {
-        if (fieldsCorrect()) {
-            self.activityIndicator.startAnimating()
-            // Sign up user with attributes to be added in the next controller
-            AWSMobileClient.default().signUp(username: emailField.text!, password: passwordField.text!, userAttributes: ["name":"", "middle_name":"", "family_name":"", "gender":"", "birthdate":"", "address":"", "phone_number":""]) { (res, err) in
-                if let err = err as? AWSMobileClientError {
-                    switch err {
-                    case .usernameExists, .invalidPassword:
-                        DispatchQueue.main.async {
-                            self.activityIndicator.stopAnimating()
-                            self.errorLabel.text = "Error: " + err.message
-                        }
-                        return
-                    default:
-                        print("\(err.message)")
-                    }
-                }
-                DispatchQueue.main.async {
-                    self.errorLabel.text = ""
-                    self.activityIndicator.stopAnimating()
-                    self.performSegue(withIdentifier: "show_verification", sender: self)
-                    return
-                }
-            }
-        }
-    }
-    
-    func showPopup(_ message: String) {
-        let width : Int = Int(self.view.frame.width - 20)
-        let height = 200
-
-        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
-        contentView.backgroundColor = UIColor.white
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
-        contentView.layer.mask = maskLayer
-
-        p = PopupView.init(contentView: contentView)
-        p?.maskType = .dimmed
-
-        let label = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
-        label.text = message
-        label.numberOfLines = 5
-
-        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
-        closeButton.setTitle("Done", for: .normal)
-        closeButton.backgroundColor = UIColor.systemBlue
-        let layer = CAShapeLayer()
-        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
-        closeButton.layer.mask = layer
-        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
-
-        contentView.addSubview(closeButton)
-        contentView.addSubview(label)
-
-        let xPos = self.view.frame.width / 2
-        let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
-        let location = CGPoint.init(x: xPos, y: yPos)
-        p?.showType = .slideInFromBottom
-        p?.maskType = .dimmed
-        p?.dismissType = .slideOutToBottom
-        p?.show(at: location, in: self.navigationController!.view)
-    }
-        
-    func fieldsCorrect() -> Bool {
-        let emailEmpty = emailField.isEmpty()
-        let emailValid = emailField.isValidEmail()
-        let passwordEmpty = passwordField.isEmpty()
-        let confirmEmpty = confirmField.isEmpty()
-        let passwordsEqual = (passwordField.text! == confirmField.text!)
-        if (passwordsEqual) {
-            errorLabel.text = ""
-        } else {
-            errorLabel.text = "Error: Password entries do not match."
-        }
-        
-        return (!emailEmpty && !passwordEmpty && !confirmEmpty && emailValid && passwordsEqual)
-    }
-    
-    @objc func dismissPopup(sender: UIButton!) {
-        p?.dismissType = .slideOutToBottom
-        p?.dismiss(animated: true)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nextVC = segue.destination as! ConfirmAccountViewController
-        nextVC.email = emailField.text!
-    }
-    
-    @IBAction func hasCode(_ sender: Any) {
-        self.performSegue(withIdentifier: "show_verification", sender: self)
-    }
-    
-
-}
-
-
-
-
-
-
-
-
-
-class ConfirmAccountViewController: UIViewController {
-    
-    @IBOutlet weak var errorLabel: UILabel!
-    @IBOutlet weak var emailLabel: UILabel!
-    @IBOutlet weak var emailField: CustomTextField!
-    @IBOutlet weak var codeField: CustomTextField!
-    @IBOutlet weak var createButton: UIButton!
-    
-    var email: String?
-    var p: PopupView?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.navigationItem.hidesBackButton = true
-        
-        if (email != "") {
-            emailLabel.isHidden = true
-            emailField.isHidden = true
-            
-            emailLabel.isEnabled = false
-            emailField.isEnabled = false
-        }
-        
-        let requestLayer = CAShapeLayer()
-        requestLayer.path = UIBezierPath(roundedRect: createButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
-        createButton.layer.mask = requestLayer
-        
-    }
-    
-    @IBAction func createUser(_ sender: Any) {
-        // Verify code
-            
-        var emailEmpty = true
-        var emailValid = false
-        if (email == "") {
-            // Email has not been passed to this controller
-            email = emailField.text!
-            emailEmpty = emailField.isEmpty()
-            emailValid = emailField.isValidEmail()
-        } else {
-            emailEmpty = false
-            emailValid = true
-        }
-        
-        let codeEmpty = codeField.isEmpty()
-        
-        if (!emailValid || emailEmpty || codeEmpty) {
-            self.errorLabel.textColor = UIColor.black
-            self.errorLabel.text = "Enter the verification code emailed to you below."
-            return
-        }
-        
-        AWSMobileClient.default().confirmSignUp(username: email!, confirmationCode: codeField.text!) { (res, err) in
-            if let err = err as? AWSMobileClientError {
-                DispatchQueue.main.async {
-                    self.errorLabel.textColor = UIColor.systemRed
-                    self.errorLabel.text = err.message
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.showPopup()
-                }
-            }
-        }
-    }
-    
-    func showPopup() {
-        let width : Int = Int(self.view.frame.width - 20)
-        let height = 200
-
-        let contentView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: width, height: height))
-        contentView.backgroundColor = UIColor.white
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = UIBezierPath(roundedRect: contentView.bounds, cornerRadius: 38.5).cgPath
-        contentView.layer.mask = maskLayer
-
-        p = PopupView.init(contentView: contentView)
-        p?.maskType = .dimmed
-
-        let label = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
-        label.text = "Account has been created! Sign in to finish setting up your profile."
-        label.numberOfLines = 5
-
-        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: height - 75, width: 90, height: 40))
-        closeButton.setTitle("Done", for: .normal)
-        closeButton.backgroundColor = UIColor.systemBlue
-        let layer = CAShapeLayer()
-        layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
-        closeButton.layer.mask = layer
-        closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
-
-        contentView.addSubview(closeButton)
-        contentView.addSubview(label)
-
-        let xPos = self.view.frame.width / 2
-        let yPos = self.view.frame.height - (CGFloat(height) / 2) - 10
-        let location = CGPoint.init(x: xPos, y: yPos)
-        p?.showType = .slideInFromBottom
-        p?.maskType = .dimmed
-        p?.dismissType = .slideOutToBottom
-        p?.show(at: location, in: self.navigationController!.view)
-    }
-        
-    @objc func dismissPopup(sender: UIButton!) {
-        p?.dismissType = .slideOutToBottom
-        p?.dismiss(animated: true)
-        self.navigationController?.popToRootViewController(animated: true)
-    }
-    
-    @IBAction func goBack(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    
-}
-
-
-
-//
-//
-//
-class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet weak var firstNameField: CustomTextField!
     @IBOutlet weak var middleNameField: CustomTextField!
@@ -275,8 +24,9 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBOutlet weak var phoneField: CustomTextField!
     @IBOutlet weak var streetField: CustomTextField!
     @IBOutlet weak var cityField: CustomTextField!
-    @IBOutlet weak var stateField: CustomTextField!
+    @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var zipField: CustomTextField!
+    @IBOutlet weak var errorLabel: UILabel!
     
     var p: PopupView?
     var DOBPicker: UIDatePicker?
@@ -284,6 +34,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     
     var DOB: String = ""
     var sex: String = ""
+    var state: String = ""
     
     let sexes = ["Male", "Female"]
     
@@ -292,38 +43,50 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         
         self.navigationItem.hidesBackButton = true
         
+        stateButton.layer.borderColor = UIColor.systemBlue.cgColor
         DOBButton.layer.borderColor = UIColor.systemBlue.cgColor
         sexButton.layer.borderColor = UIColor.systemBlue.cgColor
         
+        stateButton.layer.borderWidth = 2
         DOBButton.layer.borderWidth = 2
         sexButton.layer.borderWidth = 2
         
+        stateButton.layer.cornerRadius = DefinedValues.fieldRadius
         DOBButton.layer.cornerRadius = DefinedValues.fieldRadius
         sexButton.layer.cornerRadius = DefinedValues.fieldRadius
+        
+        hideKeyboardWhenTappedAround()
         
     }
     
     @IBAction func goBack(_ sender: Any) {
+        if (CognitoHelper.sharedHelper.isLoggedIn()) {
+            CognitoHelper.sharedHelper.logout()
+        }
         self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func goForward(_ sender: Any) {
         if (fieldsCorrect()) {
-            // TODO ADD PHONE NUMBER VALIDATION
-            let address = streetField.text! + " " + cityField.text! + " " + stateField.text! + " " + zipField.text!
+            var address = streetField.text! + " " + cityField.text! + " " + stateButton.titleLabel!.text!
+            address += " " + zipField.text!
             let phone = "+1" + phoneField.text!
-            AWSMobileClient.default().updateUserAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleNameField.text!, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
+            var middleName = middleNameField.text!
+            // This is a workaround since we accidently set up middle name as a required attribute in Cognito
+            if (middleName == "") {
+                middleName = "<empty>"
+            }
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")
                 } else {
                     print("Info updated correctly!")
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "show_third", sender: self)
+                    }
                 }
             }
             
-            
-            
-            
-            self.performSegue(withIdentifier: "show_third", sender: self)
         }
     }
     
@@ -333,8 +96,9 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let phone = phoneField.isEmpty()
         let street = streetField.isEmpty()
         let city = cityField.isEmpty()
-        let state = stateField.isEmpty()
         let zip = zipField.isEmpty()
+        let isPhoneFormatted = checkPhoneFormat()
+        let isZIPFormatted = checkZipFormat()
         
         var DOBFilled = true
         if (DOB == "") {
@@ -352,9 +116,37 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             sexButton.layer.borderColor = UIColor.systemBlue.cgColor
         }
         
-        if (first || last || phone || street || city || state || zip || !DOBFilled || !sexFilled) {
+        var stateFilled = true
+        if (state == "") {
+            stateButton.layer.borderColor = UIColor.systemRed.cgColor
+            stateFilled = false
+        } else {
+            stateButton.layer.borderColor = UIColor.systemBlue.cgColor
+        }
+        
+        var changed = false
+        if (isPhoneFormatted) {
+            phoneField.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            phoneField.layer.borderColor = UIColor.systemRed.cgColor
+            changed = true
+            errorLabel.text = "Error: Phone number must be sequence of 10 digits"
+        }
+        
+        if (isZIPFormatted) {
+            zipField.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            zipField.layer.borderColor = UIColor.systemRed.cgColor
+            // Only add this error if another one doesn't exist
+            if (!changed) {
+                errorLabel.text = "Error: ZIP must be a sequence of 5 digits"
+            }
+        }
+        
+        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted) {
             return false
         }
+        errorLabel.text = ""
         return true
     }
     
@@ -400,6 +192,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         closeButton.layer.mask = layer
+        closeButton.accessibilityLabel = "Close Button"
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         closeButton.tag = tag
         
@@ -418,6 +211,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         p?.maskType = .dimmed
         p?.dismissType = .slideOutToBottom
         p?.show(at: location, in: self.navigationController!.view)
+        dismissKeyboard()
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -449,9 +243,74 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             p?.dismiss(animated: true)
         }
     }
+    
+    func checkPhoneFormat() -> Bool {
+        let phoneRegex = "[0-9]{10}"
+        let validatePhone = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
+        let isValidPhone = validatePhone.evaluate(with: phoneField.text!)
+        return isValidPhone
+    }
+    
+    func checkZipFormat() -> Bool {
+        let zipRegex = "[0-9]{5}"
+        let validateZIP = NSPredicate(format: "SELF MATCHES %@", zipRegex)
+        let isValidZIP = validateZIP.evaluate(with: zipField.text!)
+        return isValidZIP
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "popover_segue" {
+                let popoverViewController = segue.destination
+                popoverViewController.modalPresentationStyle = .popover
+                popoverViewController.presentationController?.delegate = self
+         }
+    }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
 
     
 }
+
+class StateTableViewController: UITableViewController {
+    
+    
+    let states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "state_cell")
+        cell.textLabel?.text = states[indexPath.row]
+        
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        50
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let delegate = self.popoverPresentationController?.delegate as! PersonalRegisterViewController
+        delegate.state = (tableView.cellForRow(at: indexPath)?.textLabel?.text!)!
+        delegate.stateButton.setTitle(delegate.state, for: .normal)
+        self.dismiss(animated: true)
+    }
+    
+    
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -460,18 +319,27 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
 //
 class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
-    @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var selectRoleButton: UIButton!
     @IBOutlet weak var selectHospitalButton: UIButton!
     @IBOutlet weak var selectHealthcareButton: UIButton!
-
+    @IBOutlet weak var requestButton: UIButton!
+    @IBOutlet weak var errorLabel: UILabel!
+    
     var p: PopupView?
     var picker: UIPickerView?
     // To be gathered later from the database
     let hospitals = ["IU Health Arnett Hospital", "Franciscan Health Lafayette East"]
+    let hospitalWebsites = ["https://iuhealth.org/find-locations/iu-health-arnett-hospital", "https://www.franciscanhealth.org/healthcare-facilities/franciscan-health-lafayette-east-62"]
     var hospital: String?
+    var hospitalWebsite: String?
     
     let providers = ["Humana", "Aetna", "Other"]
+    let providerWebsites = ["https://humana.com", "https://aetna.com", ""]
     var provider: String?
+    var providerWebsite: String?
+    
+    let roles = ["Doctor", "Patient"]
+    var role: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -482,20 +350,31 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         requestLayer.path = UIBezierPath(roundedRect: requestButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         requestButton.layer.mask = requestLayer
         
+        selectRoleButton.layer.cornerRadius = DefinedValues.fieldRadius
         selectHospitalButton.layer.cornerRadius = DefinedValues.fieldRadius
         selectHealthcareButton.layer.cornerRadius = DefinedValues.fieldRadius
         
-         selectHospitalButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
-         selectHospitalButton.layer.borderWidth = 2
-         selectHealthcareButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
-         selectHealthcareButton.layer.borderWidth = 2
+        selectRoleButton.layer.borderColor = navigationController?.navigationBar.tintColor.cgColor
+        selectRoleButton.layer.borderWidth = 2
+        selectHospitalButton.layer.borderColor = UIColor.systemBlue.cgColor
+        selectHospitalButton.layer.borderWidth = 2
+        selectHealthcareButton.layer.borderColor = UIColor.systemBlue.cgColor
+        selectHealthcareButton.layer.borderWidth = 2
         
+        hideKeyboardWhenTappedAround()
     }
     
     @IBAction func requestAccount(_ sender: Any) {
         
+        let roleSelected = (role != nil)
         let hospitalSelected = (hospital != nil)
         let providerSelected = (provider != nil)
+        
+        if (roleSelected) {
+            selectRoleButton.layer.borderColor = UIColor.systemBlue.cgColor
+        } else {
+            selectRoleButton.layer.borderColor = UIColor.systemRed.cgColor
+        }
         
         if (hospitalSelected) {
             selectHospitalButton.layer.borderColor = UIColor.systemBlue.cgColor
@@ -509,48 +388,23 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             selectHealthcareButton.layer.borderColor = UIColor.systemRed.cgColor
         }
         
-        if (!hospitalSelected || !providerSelected) {
+        if (!roleSelected || !hospitalSelected || !providerSelected) {
+            errorLabel.text = "Error: You must fill all required information"
             return
+        } else {
+            errorLabel.text = ""
         }
         
-        self.performSegue(withIdentifier: "finish", sender: self)
+        CognitoHelper.sharedHelper.setHealthcareInformation(role: role!, hospital: hospital!, hospitalWebsite: hospitalWebsite!, healthcareProvider: provider!, healthcareWebsite: providerWebsite!, onDone: { (success, errMessage) in
+            DispatchQueue.main.async {
+                self.errorLabel.text = errMessage
+                if (success) {
+                    self.performSegue(withIdentifier: "finish", sender: self)
+                }
+            }
+        })
         
-        //AWSMobileClient.default().signUp(username: emailField.text!, password: passwordField.text!, userAttributes: ["name":"", "middle_name":"", "family_name":"", "gender":"", "birthdate":"06/19/2001", "address":"3980 N Graham Rd Madison IN 47250", "phone_number":"+18128017698"]) { (result, err) in
-        //            if let err = err as? AWSMobileClientError {
-        //                print("\(err.message)")
-        //            } else {
-        //                print("User signed up successfully.")
-        //            }
-        //        }
-        
-    //        AWSMobileClient.default().signOut()
-    //        AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
-    //            if let err = err as? AWSMobileClientError {
-    //                print("\(err.message)")
-    //            } else {
-    //                print("user signed in ")
-    //            }
-    //        }
-            
-            //let main = UIStoryboard(name: "Main", bundle: nil)
-            //let mainVC = main.instantiateInitialViewController()!
-            //let presentationStyle : UIModalPresentationStyle = .overCurrentContext
-            //self.modalPresentationStyle = presentationStyle
-    //        AWSMobileClient.default().confirmSignIn(challengeResponse: "809614") { (signInResult, error) in
-    //            if let error = error as? AWSMobileClientError {
-    //                print("\(error.message)")
-    //            } else if let signInResult = signInResult {
-    //                switch (signInResult.signInState) {
-    //                case .signedIn:
-    //                    print("User is signed in.")
-    //
-    //                default:
-    //                    print("\(signInResult.signInState.rawValue)")
-    //                }
-    //            }
-    //        }
-        
-        }
+    }
     
     @IBAction func selectHospital(_ sender: Any) {
         pressButton(tag: 1)
@@ -558,6 +412,10 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     
     @IBAction func selectProvider(_ sender: Any) {
         pressButton(tag: 2)
+    }
+    
+    @IBAction func selectRole(_ sender: Any) {
+        pressButton(tag: 3)
     }
     
     func pressButton(tag: Int) {
@@ -592,6 +450,7 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         let layer = CAShapeLayer()
         layer.path = UIBezierPath(roundedRect: closeButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         closeButton.layer.mask = layer
+        closeButton.accessibilityLabel = "Close Button"
         closeButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         
         contentView.addSubview(closeButton)
@@ -603,6 +462,7 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         p?.maskType = .dimmed
         p?.dismissType = .slideOutToBottom
         p?.show(at: location, in: (self.view)!)
+        dismissKeyboard()
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -619,6 +479,9 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
         else if (pickerView.tag == 2) {
             return providers.count
         }
+        else if (pickerView.tag == 3) {
+            return roles.count
+        }
         return 0
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -630,18 +493,27 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             let row = providers[row]
             return row
         }
+        else if (pickerView.tag == 3) {
+            let row = roles[row]
+            return row
+        }
         return ""
     }
     
     @objc func dismissPopup(sender: UIButton!) {
         if (picker?.tag == 1) {
             hospital = hospitals[(picker?.selectedRow(inComponent: 0))!]
-            
+            hospitalWebsite = hospitalWebsites[(picker?.selectedRow(inComponent: 0))!]
             selectHospitalButton.setTitle(hospital, for: .normal)
         }
         else if (picker?.tag == 2) {
             provider = providers[(picker?.selectedRow(inComponent: 0))!]
+            providerWebsite = providerWebsites[(picker?.selectedRow(inComponent: 0))!]
             selectHealthcareButton.setTitle(provider, for: .normal)
+        }
+        else if (picker?.tag == 3) {
+            role = roles[(picker?.selectedRow(inComponent: 0))!]
+            selectRoleButton.setTitle(role, for: .normal)
         }
         p?.dismissType = .slideOutToBottom
         p?.dismiss(animated: true)
@@ -734,7 +606,7 @@ class CustomTextField: UITextField {
     }
     
     func isEmpty() -> Bool {
-        if (self.text == "") {
+        if (self.text!.isEmpty) {
             self.layer.borderColor = UIColor.systemRed.cgColor
             return true
         } else {

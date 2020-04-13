@@ -18,17 +18,14 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     private var conversationList: [Conversation]?
     private var filteredConversationList: [Conversation]?
     let searchController = UISearchController(searchResultsController: nil)
+    var selectedConversation: Conversation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let convo1 = Conversation(conversationID: 5, conversationPartner: User(uid: 4, firstName: "your mom", lastName: "", dateOfBirth: "", address: "", healthSystems: nil), lastMessageTime: Date(), unreadMessages: false)
-//        let convo2 = Conversation(conversationID: 5, conversationPartner: "Your Other Mom", lastMessageTime: Date(), unreadMessages: false)
-        navigationItem.title = "Recent"
-        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Points"
+        searchController.searchBar.placeholder = "Search Chats"
         navigationItem.searchController = searchController
         
         collectionView.backgroundColor = UIColor.white
@@ -37,20 +34,39 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         
          let authorizedConnector = Connector()
          AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+        var tempList: [Conversation]?
         let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
-        (conversationList, _) = processor.processConversationList(url: "https://ro9koaka0l.execute-api.us-east-2.amazonaws.com/deploy/APITest") //{
-        //}
-        //print(conversationList)
-        //print(conversationList?.count)
-        //super.present(MessageCollectionVC(), animated: true)
+        (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
+        
+        // Filter conversations to include only patient-doctor conversations
+        conversationList = []
+        if (tempList != nil && tempList!.count > 0) {
+            for i in 0...tempList!.count - 1 {
+                if (tempList![i].getConverserID() != "N/A") {
+                    conversationList?.append(tempList![i])
+                }
+            }
+        }
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         filteredConversationList = conversationList!.filter({( conversation : Conversation) -> Bool in
             let searched = searchController.searchBar.text!.lowercased()
-            let inFirstName = conversation.getConversationPartner().getFirstName().contains(searched)
-            let inLastName = conversation.getConversationPartner().getLastName().contains(searched)
-            return (inFirstName || inLastName)
+            let inName = conversation.getConversationName().lowercased().contains(searched)
+            return inName
+//            let authorizedConnector = Connector()
+//             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+//            let processor = ConnectionProcessor(connector: authorizedConnector)
+//            let (potentialUser, potentialError) = processor.processUser(url: "tdb", uid: conversation.getConverserID())
+//            if potentialError != nil {
+//                //TODO: handle this error
+//                //Must return if this is reached!
+//                return false
+//            }
+//            let user = potentialUser!
+//            let inFirstName = user.getFirstName().contains(searched)
+//            let inLastName = user.getLastName().contains(searched)
+//            return (inFirstName || inLastName)
         })
         collectionView.reloadData()
     }
@@ -74,10 +90,10 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
             return filteredConversationList!.count
         } else {
             if let l = conversationList {
-                //print(l.count)
+                print("Count is: ", l.count)
                 return l.count
             } else {
-                //print("NO ELEMENTS!")
+                print("NO ELEMENTS!")
                 return 0
             }
         }
@@ -87,7 +103,9 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
-        cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()
+        cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
+        //cell.conversationID = conversationList![indexPath.row].getConversationID()
+        /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
 //        let df = DateFormatter()
 //        let calendar = Calendar.current
@@ -102,19 +120,28 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         return cell
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedConversation = conversationList![indexPath.row]
+        self.performSegue(withIdentifier: "open_chat", sender: self)
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        //return CGSizeMake(view.frame.width, 100)
         return CGSize(width: view.frame.width, height: 100.0)
     }
     
-//    func switchVC(ViewController: UIViewController) {
-//        self.present(UIViewController(), animated: true)
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "open_chat") {
+            let dest = segue.destination as! ChatLogController
+            dest.conversation = selectedConversation
+        }
+    }
+    
 }
 
 class FriendCell: BaseCellC {
     
     var delegate: ConversationViewController?
+    var conversationID: Int?
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -130,7 +157,7 @@ class FriendCell: BaseCellC {
         return view
     }()
     
-    let nameLabel: UILabel = {
+    var nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Doctor"
         label.font = UIFont.systemFont(ofSize: 18)
@@ -184,8 +211,6 @@ class FriendCell: BaseCellC {
     
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if(sender.state == .ended) {
-            //print("Success!")
-            //self.delegate!.performSegue(withIdentifier: "show_chat", sender: self.delegate!)
             self.delegate!.performSegue(withIdentifier: "open_chat", sender: self.delegate!)
         }
     }
@@ -193,7 +218,6 @@ class FriendCell: BaseCellC {
     private func setupContainerView() {
         let containerView = UIView()
         addSubview(containerView)
-        //        addConstraintsWithFormat(format: "H:|-90-[v0]|", views: containerView)
         addConstraintsWithFormat(format: "H:|-90-[v0]|", views: containerView)
         addConstraintsWithFormat(format: "V:[v0(50)]", views: containerView)
         addConstraint(NSLayoutConstraint(item: containerView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
@@ -212,8 +236,8 @@ class FriendCell: BaseCellC {
         containerView.addConstraintsWithFormat(format: "V:|[v0(24)]", views: timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:[v0(20)]|", views: hasReadImageView)
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
-        self.addGestureRecognizer(tapRecognizer)
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+//        self.addGestureRecognizer(tapRecognizer)
 
     }
     

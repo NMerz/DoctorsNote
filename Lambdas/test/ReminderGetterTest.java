@@ -43,13 +43,13 @@ public class ReminderGetterTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         ReminderGetter reminderGetter = new ReminderGetter(connectionMock);
         Assert.assertEquals(null, reminderGetter.get(new HashMap<>(), contextMock));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("context");
         ReminderGetter reminderGetter = new ReminderGetter(connectionMock);
@@ -57,7 +57,7 @@ public class ReminderGetterTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("since", "1");
         ReminderGetter reminderGetter = new ReminderGetter(connectionMock);
@@ -65,7 +65,7 @@ public class ReminderGetterTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ReminderGetter reminderGetter = new ReminderGetter(connectionMock);
         try {
@@ -79,7 +79,7 @@ public class ReminderGetterTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testCompleteInput() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements

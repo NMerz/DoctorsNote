@@ -28,7 +28,9 @@ public class DBCredentialsProvider {
     public DBCredentialsProvider(String tsvFilePath) throws IOException {
         try {
             this.tsvFilePath = tsvFilePath;
+            System.out.println("DBCredentialsProvider: Attempting to access DBCredentials.tsv");
             BufferedReader br = new BufferedReader(new FileReader(tsvFilePath));
+            System.out.println("DBCredentialsProvider: Access attempt successful");
 
             DBProvider = br.readLine().split(delimeter)[1];
             DBEndpoint = br.readLine().split(delimeter)[1];
@@ -38,10 +40,15 @@ public class DBCredentialsProvider {
             DBName = br.readLine().split(delimeter)[1];
             DBDriver = br.readLine().split(delimeter)[1];
 
+            br.close();
+
             DBUrl = DBProvider + DBEndpoint + ":" + DBPort + "/" + DBName;
         }
         catch(IOException e){
+            System.out.println("DBCredentialsProvider: Instantiation failed");
             throw new IOException("Unable to read DBCredentials.tsv");
+        } finally {
+            System.out.println("DBCredentialsProvider: Instantiation successful");
         }
     }
 

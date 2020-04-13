@@ -3,6 +3,7 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -17,20 +18,30 @@ import java.util.Map;
 public class GetReminders implements RequestHandler<Map<String,Object>, ReminderGetter.GetReminderResponse> {
     @Override
     public ReminderGetter.GetReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        // Establish connection with MariaDB
-        ReminderGetter getter = makeReminderGetter();
-        ReminderGetter.GetReminderResponse response = getter.get(inputMap, context);
-        if (response == null) {
-            throw new RuntimeException("Server experienced an error");
+        try {
+            // Establish connection with MariaDB
+            ReminderGetter getter = makeReminderGetter();
+            ReminderGetter.GetReminderResponse response = getter.get(inputMap, context);
+            if (response == null) {
+                System.out.println("GetReminders: ReminderGetter returned null");
+                throw new RuntimeException("Server experienced an error");
+            }
+            System.out.println("GetReminders: ReminderGetter returned valid response");
+            return response;
+        } catch (SQLException e) {
+            // This should only execute if closing the connection failed
+            System.out.println("GetReminders: Could not close the database connection");
+            return null;
         }
-        return response;
     }
 
     public ReminderGetter makeReminderGetter() {
+        System.out.println("GetReminders: Instantiating ReminderGetter");
         return new ReminderGetter(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
+        System.out.println("GetReminders: Executing main() (THIS SHOULD NEVER HAPPEN)");
         throw new IllegalStateException();
     }
 }

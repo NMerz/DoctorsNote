@@ -7,7 +7,7 @@
 		<key>AWSAuthCore.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>1</integer>
+			<integer>0</integer>
 		</dict>
 		<key>AWSAuthUI-AWSAuthUI.xcscheme_^#shared#^_</key>
 		<dict>
@@ -129,6 +129,11 @@
 			<key>orderHint</key>
 			<integer>24</integer>
 		</dict>
+		<key>JTAppleCalendar.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>Pods-DoctorsNote-DoctorsNoteUITests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
@@ -143,6 +148,11 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>28</integer>
+		</dict>
+		<key>PopupKit.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>29</integer>
 		</dict>
 	</dict>
 </dict>
