@@ -3,6 +3,7 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -18,20 +19,30 @@ public class AddReminder implements RequestHandler<Map<String,Object>, ReminderA
 
     @Override
     public ReminderAdder.AddReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        // Establish connection with MariaDB
-        ReminderAdder adder = makeReminderAdder();
-        ReminderAdder.AddReminderResponse response = adder.add(inputMap, context);
-        if (response == null) {
-            throw new RuntimeException("Server experienced an error");
+        try {
+            // Establish connection with MariaDB
+            ReminderAdder adder = makeReminderAdder();
+            ReminderAdder.AddReminderResponse response = adder.add(inputMap, context);
+            if (response == null) {
+                System.out.println("AddReminder: ReminderAdder returned null");
+                throw new RuntimeException("Server experienced an error");
+            }
+            System.out.println("AddReminder: ReminderAdder returned valid response");
+            return response;
+        }  catch (SQLException e) {
+            // This should only execute if closing the connection failed
+            System.out.println("AddReminder: Could not close the database connection");
+            return null;
         }
-        return response;
     }
 
     public ReminderAdder makeReminderAdder() {
+        System.out.println("AddReminder: Instantiating ReminderAdder");
         return new ReminderAdder(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
+        System.out.println("AddReminder: Executing main() (THIS SHOULD NEVER HAPPEN)");
         throw new IllegalStateException();
     }
 }

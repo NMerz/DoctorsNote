@@ -19,8 +19,9 @@ public class MessageAdderTest {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("content", "Test Message");
-        jsonBody.put("senderId", "0000000001");
-        jsonBody.put("conversationId", "0000000001");
+        jsonBody.put("contentType", 0L);
+//        jsonBody.put("senderId", "0000000001");
+        jsonBody.put("conversationID", 1L);
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
         context.put("sub", "sub-id123"); //Note: not an accurate length for sample id
@@ -29,13 +30,13 @@ public class MessageAdderTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         MessageAdder messageAdder = new MessageAdder(connectionMock);
         Assert.assertEquals(null, messageAdder.add(new HashMap<>(), mock(Context.class)));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("content");
         MessageAdder messageAdder = new MessageAdder(connectionMock);
@@ -43,7 +44,7 @@ public class MessageAdderTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("content", 1);
         MessageAdder messageAdder = new MessageAdder(connectionMock);
@@ -51,7 +52,7 @@ public class MessageAdderTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("content");
         MessageAdder messageAdder = new MessageAdder(connectionMock);
@@ -66,7 +67,7 @@ public class MessageAdderTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testCompleteInput() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(Mockito.mock(PreparedStatement.class));
