@@ -744,6 +744,28 @@
                                                 <color key="textColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Please enter a security question and answer." textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wAM-cX-FTA">
+                                                <rect key="frame" x="37" y="880" width="352" height="21"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="33" id="KzV-V5-RVb"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Security Question" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rBh-ln-aPa" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="902" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="ZIP Field"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="postal-code"/>
+                                            </textField>
+                                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Answer" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yu3-Tz-9BK" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="945" width="364" height="55"/>
+                                                <accessibility key="accessibilityConfiguration" label="ZIP Field"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" textContentType="postal-code"/>
+                                            </textField>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
@@ -752,6 +774,7 @@
                                             <constraint firstItem="CvY-jQ-o0o" firstAttribute="centerX" secondItem="xtU-ML-a1V" secondAttribute="centerX" id="19k-W0-mF6"/>
                                             <constraint firstAttribute="trailing" secondItem="TAR-oI-vBc" secondAttribute="trailing" constant="20" id="3QB-Tw-JyH"/>
                                             <constraint firstItem="Ybw-Dy-eZ5" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="4Qi-H2-Enj"/>
+                                            <constraint firstItem="rBh-ln-aPa" firstAttribute="top" secondItem="wAM-cX-FTA" secondAttribute="bottom" constant="7" id="6B1-72-bcG"/>
                                             <constraint firstItem="2E9-3Q-mIC" firstAttribute="leading" secondItem="xtU-ML-a1V" secondAttribute="leading" constant="25" id="6GO-cQ-6re"/>
                                             <constraint firstItem="KZv-hu-UTp" firstAttribute="top" secondItem="Y2M-IN-0z6" secondAttribute="bottom" constant="15" id="6pN-qe-7iY"/>
                                             <constraint firstItem="CvY-jQ-o0o" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="6qc-ib-CxT"/>
@@ -760,6 +783,7 @@
                                             <constraint firstItem="TAR-oI-vBc" firstAttribute="leading" secondItem="xtU-ML-a1V" secondAttribute="leading" constant="20" id="9IC-iU-Ngq"/>
                                             <constraint firstItem="LzI-yU-42I" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="9P6-fX-LQI"/>
                                             <constraint firstItem="Xf4-Kc-gsX" firstAttribute="top" secondItem="UsH-AU-kKA" secondAttribute="bottom" constant="15" id="A07-qA-LTH"/>
+                                            <constraint firstAttribute="trailing" secondItem="yu3-Tz-9BK" secondAttribute="trailing" constant="20" id="Ako-nB-2QE"/>
                                             <constraint firstItem="ceg-Fb-4Ub" firstAttribute="leading" secondItem="KK4-gB-HlE" secondAttribute="leading" constant="-10" id="BWe-8q-w5m"/>
                                             <constraint firstItem="L5o-uo-fgT" firstAttribute="top" secondItem="2E9-3Q-mIC" secondAttribute="bottom" constant="15" id="CAs-Z2-zlF"/>
                                             <constraint firstItem="UsH-AU-kKA" firstAttribute="top" secondItem="L5o-uo-fgT" secondAttribute="bottom" constant="-7" id="CdP-Bj-d6v"/>
@@ -780,21 +804,26 @@
                                             <constraint firstItem="UsH-AU-kKA" firstAttribute="leading" secondItem="L5o-uo-fgT" secondAttribute="leading" constant="-10" id="Rxn-9J-muH"/>
                                             <constraint firstItem="BIV-Ih-dVR" firstAttribute="top" secondItem="KZv-hu-UTp" secondAttribute="bottom" constant="-7" id="UFG-tB-hN0"/>
                                             <constraint firstItem="Y2M-IN-0z6" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="VII-ze-cuu"/>
+                                            <constraint firstAttribute="trailing" secondItem="rBh-ln-aPa" secondAttribute="trailing" constant="20" id="W1e-yp-h13"/>
                                             <constraint firstItem="PXN-Bp-ekb" firstAttribute="top" secondItem="xtU-ML-a1V" secondAttribute="top" constant="40" id="X3h-On-c9c"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="Zae-I4-yWR"/>
                                             <constraint firstAttribute="height" constant="1000" id="Zno-rS-E9O"/>
                                             <constraint firstItem="BIV-Ih-dVR" firstAttribute="trailing" secondItem="2E9-3Q-mIC" secondAttribute="trailing" id="aUy-6A-wB7"/>
                                             <constraint firstItem="D2P-ey-dmP" firstAttribute="leading" secondItem="cfu-tU-ihU" secondAttribute="leading" constant="10" id="aj5-VV-QHE"/>
                                             <constraint firstItem="LzI-yU-42I" firstAttribute="top" secondItem="dxg-en-OFU" secondAttribute="bottom" constant="-7" id="azd-jT-5G0"/>
+                                            <constraint firstItem="wAM-cX-FTA" firstAttribute="top" secondItem="LzI-yU-42I" secondAttribute="bottom" constant="15" id="b4K-8U-oy8"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="bTr-k6-Qeg"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="top" secondItem="D2P-ey-dmP" secondAttribute="bottom" constant="-7" id="bfT-fU-sI7"/>
                                             <constraint firstItem="ceg-Fb-4Ub" firstAttribute="leading" secondItem="2E9-3Q-mIC" secondAttribute="leading" id="br6-de-gHU"/>
                                             <constraint firstItem="Ybw-Dy-eZ5" firstAttribute="top" secondItem="Xf4-Kc-gsX" secondAttribute="bottom" constant="-7" id="cDA-VV-7T1"/>
                                             <constraint firstItem="TAR-oI-vBc" firstAttribute="top" secondItem="xtU-ML-a1V" secondAttribute="top" id="ccC-en-QQa"/>
+                                            <constraint firstItem="rBh-ln-aPa" firstAttribute="leading" secondItem="xtU-ML-a1V" secondAttribute="leading" constant="20" id="dH8-Ru-Q6U"/>
                                             <constraint firstItem="BIV-Ih-dVR" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="dwc-fM-c1K"/>
                                             <constraint firstItem="cfu-tU-ihU" firstAttribute="centerX" secondItem="xtU-ML-a1V" secondAttribute="centerX" id="eB3-Sp-kqW"/>
                                             <constraint firstItem="611-VX-Zz1" firstAttribute="top" secondItem="Ybw-Dy-eZ5" secondAttribute="bottom" constant="15" id="eTR-aj-reo"/>
+                                            <constraint firstItem="yu3-Tz-9BK" firstAttribute="leading" secondItem="xtU-ML-a1V" secondAttribute="leading" constant="20" id="eiU-rP-bSy"/>
                                             <constraint firstItem="kdd-C2-cIP" firstAttribute="top" secondItem="cfu-tU-ihU" secondAttribute="bottom" constant="15" id="emP-jF-XQE"/>
+                                            <constraint firstItem="yu3-Tz-9BK" firstAttribute="top" secondItem="rBh-ln-aPa" secondAttribute="bottom" constant="7" id="enB-KS-0K8"/>
                                             <constraint firstItem="2E9-3Q-mIC" firstAttribute="centerX" secondItem="xtU-ML-a1V" secondAttribute="centerX" id="eqJ-l5-v41"/>
                                             <constraint firstItem="2E9-3Q-mIC" firstAttribute="top" secondItem="PXN-Bp-ekb" secondAttribute="bottom" constant="-7" id="fbN-Ko-5ht"/>
                                             <constraint firstItem="Y2M-IN-0z6" firstAttribute="height" secondItem="2E9-3Q-mIC" secondAttribute="height" id="jD1-WQ-Ch6"/>
@@ -895,7 +924,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J2f-iB-dnC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2308.695652173913" y="56.919642857142854"/>
+            <point key="canvasLocation" x="2307.2463768115945" y="56.919642857142854"/>
         </scene>
         <!--Healthcare Information-->
         <scene sceneID="TrS-in-a6P">
@@ -1064,7 +1093,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kOf-f9-Y5d" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="25" y="366" width="364" height="55"/>
+                                <rect key="frame" x="25" y="366" width="352.5" height="55"/>
                                 <accessibility key="accessibilityConfiguration" label="Verification Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="XHZ-NY-Vs3"/>
@@ -1083,7 +1112,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the verification code emailed to you." lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J5k-0k-fcp">
-                                <rect key="frame" x="30" y="150" width="374" height="24"/>
+                                <rect key="frame" x="30" y="150" width="362.5" height="24"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
@@ -1101,7 +1130,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PYp-zK-PqW" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="25" y="279" width="364" height="55"/>
+                                <rect key="frame" x="25" y="279" width="352.5" height="55"/>
                                 <accessibility key="accessibilityConfiguration" label="Email Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="e9M-Cl-n8b"/>
@@ -1120,7 +1149,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9LF-Er-Ega" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="25" y="453" width="364" height="55"/>
+                                <rect key="frame" x="25" y="453" width="352.5" height="55"/>
                                 <accessibility key="accessibilityConfiguration" label="New Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="nnb-Az-VBn"/>
@@ -1139,7 +1168,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm New Password" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ngC-yl-WEO" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="25" y="540" width="364" height="55"/>
+                                <rect key="frame" x="25" y="540" width="352.5" height="55"/>
                                 <accessibility key="accessibilityConfiguration" label="Confirm New Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="k83-CF-LaF"/>
@@ -1157,8 +1186,27 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Security Question" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IUc-yN-rXs">
+                                <rect key="frame" x="35" y="610" width="332.5" height="24"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="210" id="lQc-XR-cym"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your security question answer" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XAa-LP-toe" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
+                                <rect key="frame" x="20" y="644" width="206" height="55"/>
+                                <accessibility key="accessibilityConfiguration" label="Confirm New Field"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="Jqe-3H-BHs"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
+                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="euT-4G-Yt7">
-                                <rect key="frame" x="107" y="610" width="200" height="40"/>
+                                <rect key="frame" x="101.5" y="719" width="200" height="40"/>
                                 <color key="backgroundColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <accessibility key="accessibilityConfiguration" label="Reset Button"/>
                                 <constraints>
@@ -1180,6 +1228,8 @@
                             <constraint firstItem="ngC-yl-WEO" firstAttribute="top" secondItem="yhU-W7-KBZ" secondAttribute="bottom" constant="-7" id="070-S8-0bz"/>
                             <constraint firstItem="YU8-Z6-zNy" firstAttribute="bottom" secondItem="fAR-0d-xEw" secondAttribute="bottom" constant="10" id="0Bf-Cv-zvW"/>
                             <constraint firstItem="9LF-Er-Ega" firstAttribute="leading" secondItem="kx9-Jr-b3P" secondAttribute="leading" constant="-10" id="0T9-fs-bc8"/>
+                            <constraint firstItem="IUc-yN-rXs" firstAttribute="top" secondItem="ngC-yl-WEO" secondAttribute="bottom" constant="15" id="3Z7-qO-Pjd"/>
+                            <constraint firstItem="XAa-LP-toe" firstAttribute="leading" secondItem="YU8-Z6-zNy" secondAttribute="leading" constant="20" id="5ty-rG-ILP"/>
                             <constraint firstItem="yhU-W7-KBZ" firstAttribute="top" secondItem="9LF-Er-Ega" secondAttribute="bottom" constant="15" id="6CB-w1-wp1"/>
                             <constraint firstItem="fAR-0d-xEw" firstAttribute="leading" secondItem="YU8-Z6-zNy" secondAttribute="leading" constant="10" id="8As-Rm-pGH"/>
                             <constraint firstItem="8i7-pH-Uxa" firstAttribute="top" secondItem="PYp-zK-PqW" secondAttribute="bottom" constant="15" id="9m3-hl-a98"/>
@@ -1187,10 +1237,11 @@
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="leading" secondItem="PYp-zK-PqW" secondAttribute="leading" id="BU9-Ko-5HZ"/>
                             <constraint firstItem="ngC-yl-WEO" firstAttribute="leading" secondItem="yhU-W7-KBZ" secondAttribute="leading" constant="-10" id="DdG-vn-biV"/>
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="leading" secondItem="8i7-pH-Uxa" secondAttribute="leading" constant="-10" id="J7O-b2-G0A"/>
-                            <constraint firstItem="euT-4G-Yt7" firstAttribute="top" secondItem="ngC-yl-WEO" secondAttribute="bottom" constant="15" id="JpN-mL-kR1"/>
+                            <constraint firstItem="IUc-yN-rXs" firstAttribute="leading" secondItem="YU8-Z6-zNy" secondAttribute="leading" constant="35" id="Lkg-tf-qJb"/>
                             <constraint firstItem="ngC-yl-WEO" firstAttribute="trailing" secondItem="kOf-f9-Y5d" secondAttribute="trailing" id="Ne7-yl-gZV"/>
                             <constraint firstItem="YU8-Z6-zNy" firstAttribute="trailing" secondItem="kOf-f9-Y5d" secondAttribute="trailing" constant="25" id="PIx-tv-9IP"/>
                             <constraint firstItem="kx9-Jr-b3P" firstAttribute="top" secondItem="kOf-f9-Y5d" secondAttribute="bottom" constant="15" id="TRo-kS-xSA"/>
+                            <constraint firstItem="euT-4G-Yt7" firstAttribute="top" secondItem="XAa-LP-toe" secondAttribute="bottom" constant="20" id="VzI-nx-WTl"/>
                             <constraint firstItem="9LF-Er-Ega" firstAttribute="leading" secondItem="kOf-f9-Y5d" secondAttribute="leading" id="W7M-nd-9Vx"/>
                             <constraint firstItem="euT-4G-Yt7" firstAttribute="centerX" secondItem="C8b-Ha-qjL" secondAttribute="centerX" id="WNv-tg-XYE"/>
                             <constraint firstItem="9LF-Er-Ega" firstAttribute="top" secondItem="kx9-Jr-b3P" secondAttribute="bottom" constant="-7" id="Yj4-0A-iGa"/>
@@ -1200,9 +1251,11 @@
                             <constraint firstItem="ngC-yl-WEO" firstAttribute="leading" secondItem="kOf-f9-Y5d" secondAttribute="leading" id="eoh-9l-0tL"/>
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="leading" secondItem="YU8-Z6-zNy" secondAttribute="leading" constant="25" id="fHq-rc-aLp"/>
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="trailing" secondItem="PYp-zK-PqW" secondAttribute="trailing" id="ggc-Ep-5aP"/>
+                            <constraint firstItem="YU8-Z6-zNy" firstAttribute="trailing" secondItem="IUc-yN-rXs" secondAttribute="trailing" constant="35" id="kxU-Zz-sro"/>
                             <constraint firstItem="PYp-zK-PqW" firstAttribute="top" secondItem="3nM-EQ-iWh" secondAttribute="bottom" constant="-7" id="n4F-qI-ksd"/>
                             <constraint firstItem="PYp-zK-PqW" firstAttribute="leading" secondItem="3nM-EQ-iWh" secondAttribute="leading" constant="-10" id="p0O-I2-gex"/>
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="top" secondItem="8i7-pH-Uxa" secondAttribute="bottom" constant="-7" id="p9F-Ba-uGA"/>
+                            <constraint firstItem="XAa-LP-toe" firstAttribute="top" secondItem="IUc-yN-rXs" secondAttribute="bottom" constant="10" id="svb-q2-pq5"/>
                             <constraint firstItem="J5k-0k-fcp" firstAttribute="leading" secondItem="YU8-Z6-zNy" secondAttribute="leading" constant="30" id="uNt-7N-nk6"/>
                             <constraint firstItem="9LF-Er-Ega" firstAttribute="trailing" secondItem="kOf-f9-Y5d" secondAttribute="trailing" id="vCZ-uG-xCU"/>
                         </constraints>
