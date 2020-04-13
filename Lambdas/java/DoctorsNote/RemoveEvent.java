@@ -3,6 +3,7 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -18,15 +19,21 @@ public class RemoveEvent implements RequestHandler<Map<String,Object>, EventRemo
 
     @Override
     public EventRemover.RemoveEventResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        // Establish connection with MariaDB
-        EventRemover remover = makeEventRemover();
-        EventRemover.RemoveEventResponse response = remover.remove(inputMap, context);
-        if (response == null) {
-            System.out.println("RemoveEvent: EventRemover returned null");
-            throw new RuntimeException("Server experienced an error");
+        try {
+            // Establish connection with MariaDB
+            EventRemover remover = makeEventRemover();
+            EventRemover.RemoveEventResponse response = remover.remove(inputMap, context);
+            if (response == null) {
+                System.out.println("RemoveEvent: EventRemover returned null");
+                throw new RuntimeException("Server experienced an error");
+            }
+            System.out.println("RemoveEvent: EventRemover returned valid response");
+            return response;
+        } catch (SQLException e) {
+            // This should only execute if closing the connection failed
+            System.out.println("RemoveEvent: Could not close the database connection");
+            return null;
         }
-        System.out.println("RemoveEvent: EventRemover returned valid response");
-        return response;
     }
 
     public EventRemover makeEventRemover() {

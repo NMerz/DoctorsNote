@@ -3,6 +3,7 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -18,15 +19,21 @@ import java.util.Map;
 public class GetEvents implements RequestHandler<Map<String,Object>, EventGetter.GetEventsResponse> {
     @Override
     public EventGetter.GetEventsResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        // Establish connection with MariaDB
-        EventGetter getter = makeEventGetter();
-        EventGetter.GetEventsResponse response = getter.get(inputMap, context);
-        if (response == null) {
-            System.out.println("GetEvents: EventGetter returned null");
-            throw new RuntimeException("Server experienced an error");
+        try {
+            // Establish connection with MariaDB
+            EventGetter getter = makeEventGetter();
+            EventGetter.GetEventsResponse response = getter.get(inputMap, context);
+            if (response == null) {
+                System.out.println("GetEvents: EventGetter returned null");
+                throw new RuntimeException("Server experienced an error");
+            }
+            System.out.println("GetEvents: EventGetter returned valid response");
+            return response;
+        }  catch (SQLException e) {
+            // This should only execute if closing the connection failed
+            System.out.println("GetEvents: Could not close the database connection");
+            return null;
         }
-        System.out.println("GetEvents: EventGetter returned valid response");
-        return response;
     }
 
     public EventGetter makeEventGetter() {

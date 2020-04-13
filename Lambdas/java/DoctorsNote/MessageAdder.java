@@ -3,8 +3,10 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
 
+import javax.jnlp.UnavailableServiceException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
@@ -21,11 +23,13 @@ import java.util.Map;
  */
 public class MessageAdder {
     private final String addMessageFormatString = "INSERT INTO Message (content, sender, timeCreated, conversationID, contentType) VALUES (?, ?, ?, ?, ?);";
+    private final String incrementMessagesSentString = "UPDATE Metrics SET value = value + 1 WHERE name = 'messagesSent';";
+    private final String incrementMessagesFailedString = "UPDATE Metrics SET value = value + ? WHERE name = 'messagesFailed';";
     Connection dbConnection;
 
     public MessageAdder(Connection dbConnection) { this.dbConnection = dbConnection; }
 
-    public AddMessageResponse add(Map<String,Object> inputMap, Context context) {
+    public AddMessageResponse add(Map<String,Object> inputMap, Context context) throws SQLException {
         try {
             for (String key : ((Map<String,Object>)inputMap.get("context")).keySet()) {
                 System.out.println("Key:" + key);
@@ -47,18 +51,36 @@ public class MessageAdder {
 
             if (ret == 0) {
                 System.out.println("MessageAdder: Update successful");
+
+                System.out.println("MessageAdder: Incrementing metric messagesSent by 1");
+                PreparedStatement messagesSentStatement = dbConnection.prepareStatement(incrementMessagesSentString);
+                messagesSentStatement.executeUpdate();
+
+                int nFailures;
+
+                try {
+                    nFailures = Integer.parseInt((String)((Map<String,Object>) inputMap.get("body-json")).get("numFails"));
+                } catch (Exception e) {
+                    nFailures = 0;
+                }
+
+                System.out.println("MessageAdder: Incrementing metric messagesFailed by " + nFailures);
+
+                PreparedStatement messagesFailureStatement = dbConnection.prepareStatement(incrementMessagesFailedString);
+                messagesFailureStatement.setInt(1, nFailures);
+                messagesFailureStatement.executeUpdate();
             } else {
                 System.out.println(String.format("MessageAdder: Update failed (%d)", ret));
+                throw new UnavailableServiceException("Unable to update database");
             }
-
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
 
             // Serialize and return an empty response object
             return new AddMessageResponse();
         } catch (Exception e) {
             System.out.println("MessageAdder: Exception encountered: " + e.toString());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

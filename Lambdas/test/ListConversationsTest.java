@@ -39,13 +39,13 @@ public class ListConversationsTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         ListConversations listConversations = new ListConversations(connectionMock);
         Assert.assertEquals(null, listConversations.list(new HashMap<>(), contextMock));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("context");
         ListConversations listConversations = new ListConversations(connectionMock);
@@ -53,7 +53,7 @@ public class ListConversationsTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("context")).put("sub", 1);
         ListConversations listConversations = new ListConversations(connectionMock);
@@ -61,7 +61,7 @@ public class ListConversationsTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ListConversations listConversations = new ListConversations(connectionMock);
         try {
@@ -75,7 +75,7 @@ public class ListConversationsTest {
     }
 
     @Test()
-    public void testCompleteInputNoResults() {
+    public void testCompleteInputNoResults() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements
@@ -92,7 +92,26 @@ public class ListConversationsTest {
     }
 
     @Test()
-    public void testCompleteInputOneToOneResult() {
+    public void testConnectionRobustness() throws SQLException {
+        HashMap completeMap = getSampleMap();
+
+        // Mocking necessary connection elements
+        PreparedStatement psMock = Mockito.mock(PreparedStatement.class);
+        ResultSet rsMock = Mockito.mock(ResultSet.class);
+        Mockito.when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(psMock);
+        Mockito.when(psMock.executeQuery()).thenReturn(rsMock);
+        Mockito.when(rsMock.next()).thenThrow(new SQLException());
+
+        ListConversations listConversations = new ListConversations(connectionMock);
+        ListConversations.ConversationListResponse response = listConversations.list(completeMap, contextMock);
+        Assert.assertNull(response);
+
+        // Asserts that close() has been called at least once
+        Mockito.verify(connectionMock).close();
+    }
+
+    @Test()
+    public void testCompleteInputOneToOneResult() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements
@@ -118,7 +137,7 @@ public class ListConversationsTest {
     }
 
     @Test()
-    public void testCompleteInputSupportGroupResult() {
+    public void testCompleteInputSupportGroupResult() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements
