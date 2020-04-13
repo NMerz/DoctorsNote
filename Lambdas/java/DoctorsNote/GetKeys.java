@@ -33,7 +33,7 @@ public class GetKeys implements RequestHandler<Map<String,Object>, KeyGetter.Get
             System.out.println("GetKeys: (Presumably) Could not close the database connection");
             return null;
         } catch (KeyGetter.GetKeysException e) {
-            System.out.println("GetKeys: KeyGetter returned the error: " + e.getMessage());
+            System.out.println("GetKeys: KeyGetter returned the error: " + e.toString());
             throw new RuntimeException("Server experienced an error: " + e.getMessage());
         }
     }

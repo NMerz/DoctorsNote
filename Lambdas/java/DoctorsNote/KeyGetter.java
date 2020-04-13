@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class KeyGetter {
-    private final String getMessagesFormatString = "SELECT encryptedKey1, encryptedKey2 FROM UserKeys" +
+    private final String getKeysFormatString = "SELECT encryptedKey1, encryptedKey2 FROM UserKeys" +
             " WHERE userID = ?;";
     Connection dbConnection;
 
@@ -17,27 +17,26 @@ public class KeyGetter {
 
     public GetKeysResponse get(Map<String,Object> inputMap, Context context) throws SQLException, GetKeysException {
         try {
-            String userID = (String)((Map<String,Object>)  inputMap.get("context")).get("sub");
+            String userID = ((Map<String,Object>)  inputMap.get("context")).get("sub").toString();
+            System.out.println("UserID:" + userID);
             // Reading from database
-            PreparedStatement statement = dbConnection.prepareStatement(getMessagesFormatString);
+            PreparedStatement statement = dbConnection.prepareStatement(getKeysFormatString);
             statement.setString(1, userID);
             System.out.println("KeyGetter: statement: " + statement.toString());
 
             ResultSet keyResult = statement.executeQuery();
-
-            if (keyResult.getFetchSize() > 1) {
-                throw new GetKeysException("Error: more than one row of key entries found!");
-            }
-
             // Processing results
             if (keyResult.next()) {
                 String privateKeyP = keyResult.getString(1);
                 String privateKeyS = keyResult.getString(2);
+                if (keyResult.next()) {
+                    throw new GetKeysException("Error: more than one row of key entries found!");
+                }
                 return new GetKeysResponse(privateKeyP, privateKeyS);
             }
             return null;
         } catch (Exception e) {
-            System.out.println("MessageGetter: Exception encountered: " + e.toString());
+            System.out.println("KeyGetter: Exception encountered: " + e.toString());
             throw new GetKeysException(e.getMessage());
         } finally {
             dbConnection.close();
