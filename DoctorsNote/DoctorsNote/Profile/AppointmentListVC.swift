@@ -19,6 +19,7 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
     
     @IBOutlet var appointmentTableView: UITableView!
     
+    var processor: ConnectionProcessor?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +27,9 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
         
         var connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
-        let processor = ConnectionProcessor(connector: connector)
+        processor = ConnectionProcessor(connector: connector)
         do {
-            appointmentList = try processor.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
+            appointmentList = try processor!.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
         } catch let error {
             print((error as! ConnectionError).getMessage())
         }
@@ -65,6 +66,48 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
         cell.setAppointment(appointment: appointment)
         return cell
     }
+    
+    // Delete appointment swipe right
+    // Inspired by https://developerslogblog.wordpress.com/2017/06/28/ios-11-swipe-leftright-in-uitableviewcell/
+    // and https://www.hackingwithswift.com/example-code/uikit/how-to-swipe-to-delete-uitableviewcells
+    override func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let appointment = appointmentList[indexPath.row]
+
+        let deleteAction = UIContextualAction(style: .normal, title:  "Delete", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            do {
+                // TODO: fix url
+                try self.processor?.processDeleteAppointment(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentdelete", appointment: appointment)
+
+            } catch let error {
+                print((error as! ConnectionError).getMessage())
+            }
+
+            appointmentList.remove(at: indexPath.row)
+            self.appointmentTableView.deleteRows(at: [indexPath], with: .fade)
+            self.appointmentTableView.reloadData()
+            success(true)
+        })
+        deleteAction.backgroundColor = .red
+    
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    
+    }
+    
+    // Delete appointment
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        let appointment = appointmentList[indexPath.row]
+//
+//        do {
+//            try processor?.processDeleteAppointment(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentdelete", appointment: appointment)
+//
+//        } catch let error {
+//            print((error as! ConnectionError).getMessage())
+//        }
+//
+//        appointmentList.remove(at: indexPath.row)
+//        appointmentTableView.reloadData()
+//    }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         150

@@ -14,6 +14,12 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
 
     @IBOutlet var calendarView: JTAppleCalendarView!
     
+    var eventDateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MMM-yyyy"
+        return formatter
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Calendar"
@@ -57,12 +63,23 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
         cell.dateLabel.text = cellState.text
         handleCellTextColor(cell: cell, cellState: cellState)
         handleCellSelected(cell: cell, cellState: cellState)
+        handleCellEvents(cell: cell, cellState: cellState)
         
         // optional hide month
         if cellState.dateBelongsTo == .thisMonth {
            cell.isHidden = false
         } else {
            cell.isHidden = true
+        }
+    }
+    
+    func handleCellEvents(cell: DateCell, cellState: CellState) {
+//        let dateString = eventDateFormatter.string(from: cellState.date)
+        for appointment in appointmentList {
+            let diff = Calendar.current.dateComponents([.day], from: appointment.getTimeScheduled(), to: cellState.date)
+            if diff.day == 0 {
+                cell.dateLabel.textColor = UIColor.red
+            }
         }
     }
     
