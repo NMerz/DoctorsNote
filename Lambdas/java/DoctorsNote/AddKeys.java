@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /*
- * A Lambda handler for getting the two encryptions of the private  for a user.
+ * A Lambda handler for adding the two encryptions of the private key and the corresponding public key for a user.
  *
  * Expects: Any valid input map; a context validated by Cognito
  * Returns: A response object containing encryption1 (String), encryption2 (String)
@@ -15,32 +15,34 @@ import java.util.Map;
  * Error Handling: Rethrows any lower level error for log printing and return code setting
  */
 
-public class GetKeys implements RequestHandler<Map<String,Object>, KeyGetter.GetKeysResponse> {
+
+
+public class AddKeys implements RequestHandler<Map<String,Object>, KeyAdder.AddKeysResponse> {
     @Override
-    public KeyGetter.GetKeysResponse handleRequest(Map<String,Object> inputMap, Context context) {
+    public KeyAdder.AddKeysResponse handleRequest(Map<String,Object> inputMap, Context context) {
         try {
-            KeyGetter keyGetter = makeKeyGetter();
-            KeyGetter.GetKeysResponse response = keyGetter.get(inputMap, context);
+            KeyAdder keyadder = makeKeyAdder();
+            KeyAdder.AddKeysResponse response = keyadder.get(inputMap, context);
             if (response == null) {
-                System.out.println("GetKeys: KeyGetter returned null");
+                System.out.println("AddKeys: KeyAdder returned null");
                 return null;
             } else {
-                System.out.println("GetKeys: KeyGetter returned valid response");
+                System.out.println("AddKeys: KeyAdder returned valid response");
                 return response;
             }
         } catch (SQLException e) {
             // This should only execute if closing the connection failed
-            System.out.println("GetKeys: (Presumably) Could not close the database connection");
+            System.out.println("AddKeys: (Presumably) Could not close the database connection");
             return null;
-        } catch (KeyGetter.GetKeysException e) {
-            System.out.println("GetKeys: KeyGetter returned the error: " + e.toString());
+        } catch (KeyAdder.AddKeysException e) {
+            System.out.println("AddKeys: KeyAdder returned the error: " + e.toString());
             throw new RuntimeException("Server experienced an error: " + e.getMessage());
         }
     }
 
-    public KeyGetter makeKeyGetter() {
-        System.out.println("GetKeys: Instantiating KeyGetter");
-        return new KeyGetter(Connector.getConnection());
+    public KeyAdder makeKeyAdder() {
+        System.out.println("AddKeys: Instantiating KeyAdder");
+        return new KeyAdder(Connector.getConnection());
     }
 
     public static void main(String[] args) throws IllegalStateException {
