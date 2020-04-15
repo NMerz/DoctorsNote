@@ -3,7 +3,7 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
 
-import javax.jnlp.UnavailableServiceException;
+import javax.naming.ServiceUnavailableException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -49,7 +49,7 @@ public class MessageAdder {
             System.out.println("MessageAdder: statement: " + statement.toString());
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret == 1) {
                 System.out.println("MessageAdder: Update successful");
 
                 System.out.println("MessageAdder: Incrementing metric messagesSent by 1");
@@ -71,7 +71,7 @@ public class MessageAdder {
                 messagesFailureStatement.executeUpdate();
             } else {
                 System.out.println(String.format("MessageAdder: Update failed (%d)", ret));
-                throw new UnavailableServiceException("Unable to update database");
+                throw new ServiceUnavailableException("Unable to update database");
             }
 
             // Serialize and return an empty response object
