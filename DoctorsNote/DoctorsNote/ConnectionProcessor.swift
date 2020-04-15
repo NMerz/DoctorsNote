@@ -229,6 +229,7 @@ class ConnectionProcessor {
         messageJSON["conversationID"] = message.getConversationID()
         messageJSON["content"] = message.getBase64Content()
         messageJSON["contentType"] = message.getContentType()
+        messageJSON["numFails"] = message.getNumFails()
         do {
             let data = try postData(urlString: url, dataJSON: messageJSON)
             if data.count != 0 {
