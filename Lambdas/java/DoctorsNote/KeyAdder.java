@@ -37,7 +37,7 @@ public class KeyAdder {
                 System.out.println(String.format("KeyAdder: Update failed (%d)", ret));
             }
 
-            return null;
+            return new AddKeysResponse();
         } catch (Exception e) {
             System.out.println("KeyAdder: Exception encountered: " + e.toString());
             throw new AddKeysException(e.getMessage());
