@@ -53,10 +53,22 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         // Do any additional setup after loading the view.
         messagesShown = 20;
         do {
-            messages = try (connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data())) ?? messages) //TODO: Fill in cipher parameters
+            if conversation?.getConverserID() == "N/A" {
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown)
+
+            } else {
+                let cipher = LocalCipher()
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID())))
+            }
             print(messages)
+        } catch let error as CipherError {
+            print ((error).getMessage())
+            print("Cipher ERROR!!!!!!!!!!!!")
         } catch let error {
             print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        } catch let error {
+            print (error.localizedDescription)
             print("ERROR!!!!!!!!!!!!")
         }
         
@@ -91,16 +103,42 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         }
         let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (messageText!.text?.data(using: .utf8))!, contentType: 0)//TODO: Needs conversationID to be passed in dynamically based on the current conversation
         print(newMessage.getBase64Content())
-        let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data()))
-        if (err != nil) {
-            let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            alertController.addAction(okAction)
-            // Turn this into a reminder eventually because it takes so long to determine that the message failed to send.
-            self.present(alertController, animated: true, completion: nil)
-        }
+        sendMessage(toSend: newMessage)
+        
         reloadMessages()
         print("Pressed2")
+    }
+    
+    func sendMessage(toSend: Message) {
+        if conversation?.getConverserID() != "N/A" {
+            do {
+                let cipher = try MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: LocalCipher().getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()))
+                let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: toSend, numFails: 0, cipher: cipher, publicKeyExternalBase64: conversation?.getConverserPublicKey(), adminPublicKeyExternalBase64: conversation?.getAdminPublicKey())
+                if (err != nil) {
+                    throw err!
+                }
+            } catch let error {
+                if error as? ConnectionError != nil {
+                    print((error as! ConnectionError).getMessage())
+                } else {
+                    print("Error: " + error.localizedDescription)
+                }
+                let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                // Turn this into a reminder eventually because it takes so long to determine that the message failed to send.
+                self.present(alertController, animated: true, completion: nil)
+            }
+        } else {
+            let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: toSend, numFails: 0)
+            if (err != nil) {
+                let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                alertController.addAction(okAction)
+                // Turn this into a reminder eventually because it takes so long to determine that the message failed to send.
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
     
     //Credit for how to set up the ImagePickerDelagate goes to: https://www.youtube.com/watch?v=v8r_wD_P3B8
@@ -138,24 +176,31 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print(content.base64EncodedString().count)
         }
         let newMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: content, contentType: 1) //TODO: Needs conversationID to be passed in dynamically based on the current conversation
-
-        //print(newMessage.getContent())
-        let potentialError = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: newMessage, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data()))
-        if (potentialError != nil) {
-            print(potentialError?.getMessage())
-        }
+        
+        sendMessage(toSend: newMessage)
+        
         dismiss(animated: false)
         reloadMessages()
     }
     
     func reloadMessages() {
         messagesShown += 1
-        do {
-            messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: "replaceMe", localAESKey: Data()))
-            print(messages)
-        } catch let error {
-            print ((error as! ConnectionError).getMessage())
-            print("ERROR!!!!!!!!!!!!")
+        if conversation?.getConverserID() != "N/A" {
+            do {
+                let cipher = LocalCipher()
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID())))
+                print(messages)
+            } catch let error {
+                print (error.localizedDescription)
+                print("ERROR!!!!!!!!!!!!")
+            }
+        } else {
+            do {
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown)
+            } catch let error {
+                print (error.localizedDescription)
+                print("ERROR!!!!!!!!!!!!")
+            }
         }
         //collectionView.removeFromSuperview()
         collectionView.reloadData()

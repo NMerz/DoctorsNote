@@ -9,32 +9,34 @@
 import Foundation
 import CryptoKit
 import CommonCrypto
+import AWSMobileClient
 
 class MessageCipher {
     private let localAESKey: Data
     
-    private var saltValue: [UInt8]
+    private var ivValue: String
     
+    //Export -> Base64->encode->base64->store->retrieve->non-base64->decode->nonbase64->import
     private var privateKey: SecKey? = nil
-    private var publicKey: SecKey? = nil
     
-    init(uniqueID: String, localAESKey: Data) {
+    init(uniqueID: String, localAESKey: Data) throws {
         self.localAESKey = localAESKey
-        saltValue = [UInt8]()
-        for char in uniqueID.cString(using: .utf8)! {
-            saltValue.append(UInt8(char))
-        }
+        ivValue = uniqueID
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        let (passwordPrivateKey, _) = try processor.retrieveEncryptedPrivateKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/retrievekeys")
+        try setPrivateKey(encryptedPrivateKey: passwordPrivateKey)
     }
     
     //Input: Private key data in base64 format -> encrypted -> base64 String
     public func setPrivateKey(encryptedPrivateKey: String) throws {
-        if Data(base64Encoded: encryptedPrivateKey) == nil {
-            throw CipherError(message: "Input key is note base64 encoded")
-        }
-        let toDecryptData = Data(base64Encoded: encryptedPrivateKey)!
-        let toDecrypt = String(data: toDecryptData, encoding: .utf8)!
         
-        let baseDecrypt = try decodePrivateKey(toDecrypt: toDecrypt)
+        //let toDecryptData = Data(base64Encoded: encryptedPrivateKey)!
+        //let toDecrypt = String(data: toDecryptData, encoding: .utf8)!
+        
+        //let baseDecrypt = try decodePrivateKey(toDecrypt: toDecrypt)
+        let baseDecrypt = try decodePrivateKey(toDecrypt: encryptedPrivateKey)
         let decryptedText = Data(base64Encoded: baseDecrypt)!
         print(decryptedText.base64EncodedString())
         var unmanagedError: Unmanaged<CFError>? = nil
@@ -47,33 +49,68 @@ class MessageCipher {
     }
     
     public func decodePrivateKey(toDecrypt: String) throws -> String  {
-        let decrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: (toDecrypt.count / 128 * 128 + 128))
+        if Data(base64Encoded: toDecrypt) == nil {
+            throw CipherError(message: "Input key is note base64 encoded")
+        }
+        let toDecryptData = Data(base64Encoded: toDecrypt)
+        if toDecryptData == nil {
+            print("Not base64 encoded")
+        }
+        var toDecryptRaw = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: (toDecrypt.count / 128 * 128 + 128) * 4)
+        toDecryptData!.copyBytes(to: toDecryptRaw, from: nil)
+        let decrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: (toDecrypt.count / 128 * 128 + 128) * 4)
         var bytesEncrypted = 0
         var AESKey = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 256)
         localAESKey.copyBytes(to: AESKey)
-        let decryptReturn = CCCrypt(CCOperation(kCCDecrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, saltValue, toDecrypt, (toDecrypt.count / 128 * 128 + 128), decrypted,  (toDecrypt.count / 128 * 128 + 128), &bytesEncrypted) //Note: this currently takes a nonbase64 data object, but the return from the API will be in base64. I just have to remember to use the base64 interpretation on it
-        //To expand on the above: Export -> Base64->encode->base64->store->retrieve->non-base64->decode->nonbase64->import
+        print("Pre decryption and decoding: ")
+        print (toDecrypt)
+        print(toDecrypt.utf8CString.count)
+        let decryptReturn = CCCrypt(CCOperation(kCCDecrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, ivValue, toDecryptRaw.baseAddress, [UInt8](toDecryptData!).count, decrypted,  (toDecrypt.count / 128 * 128 + 128) * 4, &bytesEncrypted)
         
-        print("Decrypt return:")
-        print(decryptReturn)
-        let decryptedText = Data(bytes: decrypted, count: toDecrypt.count)
-        
-        print(decryptedText.base64EncodedString())
-        return String(data:decryptedText, encoding: .utf8)!
+        let decryptedText = Data(bytes: decrypted, count: bytesEncrypted)
+        //let unencodedText = Data(base64Encoded: decryptedText)
+        print("decoded private key: " + decryptedText.base64EncodedString())
+//        print(decryptedText.base64EncodedString())
+        //return String(data:decryptedText, encoding: .utf8)!
+        return decryptedText.base64EncodedString()
     }
     
-    public func decrypt(toDecrypt: String) throws -> String  {
+    public func decrypt(toDecrypt: Data) throws -> String  {
         if privateKey == nil {
             throw CipherError(message: "Private key not set.")
         }
-        return String(data: SecKeyCreateDecryptedData(privateKey!, .rsaEncryptionOAEPSHA512, toDecrypt as! CFData, nil)! as Data, encoding: .utf8)!
+        print(toDecrypt.base64EncodedString())
+        let unencryptedData = SecKeyCreateDecryptedData(privateKey!, .rsaEncryptionOAEPSHA512, toDecrypt as CFData, nil)
+        return String(data: unencryptedData! as Data, encoding: .utf8)!
     }
     
-    public func encrypt(toEncrypt: String) throws -> Data {
-        if publicKey == nil {
-            throw CipherError(message: "Public key not set.")
+    public func encrypt(toEncrypt: String, publicKeyExternalBase64: String? = nil) throws -> Data {
+        let publicKeyExternalRepresentation: Data
+        if publicKeyExternalBase64 != nil {
+            if Data(base64Encoded: publicKeyExternalBase64!) == nil {
+                throw CipherError(message: "Input key is not base64 encoded")
+            }
+            publicKeyExternalRepresentation = Data(base64Encoded: publicKeyExternalBase64!)!
+        } else {
+            if privateKey == nil {
+                throw CipherError(message: "Private key must be set to encrypt messages for self")
+            }
+            publicKeyExternalRepresentation = SecKeyCopyExternalRepresentation(SecKeyCopyPublicKey(privateKey!)!, nil)! as Data
+            let encrypted = SecKeyCreateEncryptedData(SecKeyCopyPublicKey(privateKey!)!, .rsaEncryptionOAEPSHA512, toEncrypt.data(using: .utf8)! as CFData, nil)! as Data
+            print("immediate decryption: ")
+            print(try decrypt(toDecrypt: encrypted))
         }
-        return SecKeyCreateEncryptedData(privateKey!, .rsaEncryptionOAEPSHA512, toEncrypt as! CFData, nil)! as Data
+        var unmanagedError: Unmanaged<CFError>? = nil
+        let attributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
+        kSecAttrKeySizeInBits: 2048,
+        kSecAttrKeyClass: kSecAttrKeyClassPublic
+        ] as [CFString : Any]
+        let publicKey = SecKeyCreateWithData(publicKeyExternalRepresentation as CFData, attributes as CFDictionary, UnsafeMutablePointer<Unmanaged<CFError>?>(&unmanagedError))
+        if publicKey == nil {
+            throw CipherError(message: "Public key not recoverable.")
+        }
+        let encrypted = SecKeyCreateEncryptedData(publicKey!, .rsaEncryptionOAEPSHA512, toEncrypt.data(using: .utf8)! as CFData, nil)! as Data
+        return encrypted
     }
 
 }

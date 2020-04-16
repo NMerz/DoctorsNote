@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MessageGetter {
-    private final String getMessagesFormatString = "SELECT content, messageID, timeCreated, sender, contentType FROM Message" +
+    private final String getMessagesFormatString = "SELECT messageID, timeCreated, sender, contentType, senderContent, receiverContent FROM Message" +
             " WHERE conversationID = ? ORDER BY timeCreated DESC LIMIT ?;";
     Connection dbConnection;
 
@@ -18,6 +18,7 @@ public class MessageGetter {
 
     public GetMessagesResponse get(Map<String,Object> inputMap, Context context) throws SQLException {
         try {
+            String currentUser = ((Map<String,Object>) inputMap.get("context")).get("sub").toString();
             // Reading from database
             PreparedStatement statement = dbConnection.prepareStatement(getMessagesFormatString);
             statement.setLong(1, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("conversationID").toString()));
@@ -31,14 +32,19 @@ public class MessageGetter {
             // Processing results
             ArrayList<Message> messages = new ArrayList<>();
             while (messageResult.next()) {
-                String content = messageResult.getString(1);
-                long messageId = messageResult.getLong(2);
-                long timeSent = messageResult.getTimestamp(3).toInstant().toEpochMilli();
-                String sender = messageResult.getString(4);
-                long contentType = messageResult.getLong(5);
+                long messageId = messageResult.getLong(1);
+                long timeSent = messageResult.getTimestamp(2).toInstant().toEpochMilli();
+                String sender = messageResult.getString(3);
+                long contentType = messageResult.getLong(4);
+                String senderContent = messageResult.getString(5);
+                String receiverContent = messageResult.getString(5);
 
                 if (timeSent >= 0) {
-                    messages.add(new Message(content, contentType, messageId, timeSent, sender));
+                    if (currentUser == sender) {
+                        messages.add(new Message(senderContent, contentType, messageId, timeSent, sender));
+                    } else {
+                        messages.add(new Message(receiverContent, contentType, messageId, timeSent, sender));
+                    }
                 }
             }
 

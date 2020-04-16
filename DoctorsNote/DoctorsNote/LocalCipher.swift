@@ -11,14 +11,9 @@ import CryptoKit
 import CommonCrypto
 
 class LocalCipher {
-        
     public func getAESFromPass(password: String, username: String) -> Data {
         let newKey = UnsafeMutablePointer<UInt8>.allocate(capacity: 256)
-        var saltValue = [UInt8]()
-        for char in username.cString(using: .utf8)! {
-            saltValue.append(UInt8(char))
-        }
-        CCKeyDerivationPBKDF(CCPBKDFAlgorithm(kCCPBKDF2), password, password.count, saltValue, username.count, CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA512), 200000, newKey, 256)
+        CCKeyDerivationPBKDF(CCPBKDFAlgorithm(kCCPBKDF2), password, password.count, username, username.count, CCPseudoRandomAlgorithm(kCCPRFHmacAlgSHA512), 200000, newKey, 256)
         let localAESKey = Data(bytes: newKey, count: 256)
         return localAESKey
     }
@@ -41,6 +36,7 @@ class LocalCipher {
     public func generateKetSet(password: String, securityQuestionAnswers: [String], username: String) -> (Data, Data, Data) {
         let passwordAESKey = getAESFromPass(password: password, username: username)
         let (privateKeyExport, publicKeyExport) = generateKeyPair()
+        print("privateKeyExport: " + privateKeyExport.base64EncodedString())
         let passwordEncryptedPrivateKey = encryptKeyWithAES(keyExport: privateKeyExport, AESKey: passwordAESKey, iv: username)
         let securityAESKey = getAESFromSecurityQuestions(securityQuestionAnswers: securityQuestionAnswers, username: username)
         let secuiryQuestionEncryptedPrivateKey = encryptKeyWithAES(keyExport: privateKeyExport, AESKey: securityAESKey, iv: username)
@@ -48,11 +44,11 @@ class LocalCipher {
     }
     
     private func generateKeyPair() -> (Data, Data) {
-        let attributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
+        let privateKeyAttributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
         kSecAttrKeySizeInBits: 2048,
         kSecAttrKeyClass: kSecAttrKeyClassPrivate
         ] as [CFString : Any]
-        let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))!
+        let privateKey = SecKeyCreateRandomKey(privateKeyAttributes as CFDictionary, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))!
         var error: Unmanaged<CFError>?
         let cfExportPrivate = SecKeyCopyExternalRepresentation(privateKey, &error)!
         let privateKeyExport = (cfExportPrivate as Data)
@@ -63,17 +59,23 @@ class LocalCipher {
     }
     
     private func encryptKeyWithAES(keyExport: Data, AESKey: Data, iv: String) -> Data {
-        var toEncrypt = keyExport.base64EncodedString()
+        //var toEncrypt = keyExport.base64EncodedString()
+        var toEncrypt = [UInt8](keyExport)
         toEncrypt.reserveCapacity(toEncrypt.count / 128 * 128 + 128)
         let encrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: (toEncrypt.count / 128 * 128 + 128))
         var bytesEncrypted = 0
         let AESKeyUnsafe = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 256)
         _ = AESKey.copyBytes(to: AESKeyUnsafe)
+        print("Pre encryption")
+        print(String(bytes: toEncrypt, encoding: .utf8))
         let encryptReturn = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKeyUnsafe.baseAddress, kCCKeySizeAES256, iv, toEncrypt, toEncrypt.count / 128 * 128 + 128, encrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted)
         if encryptReturn != 0 {
             print("Encryption for key failed with return: " + encryptReturn.description)
         }
         let encryptedKey = Data(bytes: encrypted, count: (toEncrypt.count / 128 * 128 + 128))
+        print("Post encryption and encoding:")
+        print(encryptedKey.base64EncodedString())
         return encryptedKey
     }
+    
 }

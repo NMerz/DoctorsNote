@@ -42,7 +42,8 @@ class ProfileViewController: UIViewController {
         var processor2 = ConnectionProcessor(connector: connector2)
         do {
             let cipher = LocalCipher()
-            let (keyP, keyS, keyPub) = cipher.generateKetSet(password: "coolPass!1", securityQuestionAnswers: ["answer1", "answer2"], username: "abcd")
+            print("username: " + (CognitoHelper.user?.getUID())!)
+            let (keyP, keyS, keyPub) = cipher.generateKetSet(password: "pass", securityQuestionAnswers: ["answer1", "answer2"], username: (CognitoHelper.user?.getUID())!)
             try processor2.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: keyP.base64EncodedString(), privateKeyS: keyS.base64EncodedString(), publicKey: keyPub.base64EncodedString())
             //try processor2.processDeleteAppointment(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentdelete", appointment: Appointment(appointmentID: 25, content: "blah", timeScheduled: Date(), withID: "blah"))
             do {

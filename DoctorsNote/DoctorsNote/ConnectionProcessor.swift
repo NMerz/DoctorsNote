@@ -164,12 +164,14 @@ class ConnectionProcessor {
            // let conversation = conversationList[conversationKey] as! [String : Any?]
             print(conversation["conversationID"] as? Int)
             print(conversation["converserID"] as? String)
-            print(conversation["publicKey"] as? String)
+            print(conversation["converserPublicKey"] as? String)
+            print(conversation["adminPublicKey"] as? String)
             print(conversation["conversationName"] as? String)
             print(conversation["lastMessageTime"] as? TimeInterval)
             print(conversation["status"] as? Int)
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["publicKey"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int)
+            print((conversation["status"] as? Int) != nil)
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["converserPublicKey"] as? String) != nil) && ((conversation["adminPublicKey"] as? String) != nil) &&  ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, converserPublicKey: conversation["converserPublicKey"] as! String, adminPublicKey: conversation["adminPublicKey"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int)
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -185,10 +187,10 @@ class ConnectionProcessor {
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
         //Placeholder
-        return (Conversation(conversationID: -1, converserID: "-1", conversationName: "placeholder retrieval", lastMessageTime: Date(), status: -999), nil)
+        return (Conversation(conversationID: -1, converserID: "-1", converserPublicKey: "don't use me", adminPublicKey: "don't use me either", conversationName: "placeholder retrieval", lastMessageTime: Date(), status: -999), nil)
     }
     
-    func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, cipher: MessageCipher, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
+    func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, cipher: MessageCipher? = nil, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
         var messageJSON = [String : Any]()
         messageJSON["conversationID"] = conversationID
         messageJSON["numberToRetrieve"] = numberToRetrieve
@@ -215,18 +217,22 @@ class ConnectionProcessor {
             print((message["contentType"] as? Int) != nil)
             print((message["sender"] as? String) != nil)
             if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
-                let encryptedMessage = String(data: Data(base64Encoded: (message["content"] as! String))!, encoding: .utf8)!
                 let messageBase64: String
+                if cipher != nil {
                 do {
-                    messageBase64 = try cipher.decrypt(toDecrypt: encryptedMessage)
+                    let rawMessage = Data(base64Encoded: (message["content"] as! String))!
+                    messageBase64 = try cipher!.decrypt(toDecrypt: rawMessage)
                 } catch let error as CipherError {
                     throw ConnectionError(message: error.getMessage())
                 }
+                } else {
+                    messageBase64 = (message["recieverContent"] as! String)
+                }
                 print(Data(base64Encoded: messageBase64) != nil)
-                if Data(base64Encoded: messageBase64) != nil {
+                if Data(base64Encoded: messageBase64) == nil {
                     throw ConnectionError(message: "Message JSON field did not meet encryption, encoding, and/or formatting requirements")
                 }
-                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String))
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: messageBase64)!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String))
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -237,17 +243,36 @@ class ConnectionProcessor {
     
     //TODO: Finer processing/passing of any errors returned by server to UI
     //  - Need to discuss this with team
-    func processNewMessage(url: String, message: Message, cipher: MessageCipher) -> ConnectionError? {
+    func processNewMessage(url: String, message: Message, numFails: Int, cipher: MessageCipher? = nil, publicKeyExternalBase64: String? = nil, adminPublicKeyExternalBase64: String? = nil) -> ConnectionError? {
         var messageJSON = [String: Any]()
         messageJSON["conversationID"] = message.getConversationID()
-        let encryptedContent: Data
-        do {
-            encryptedContent = try cipher.encrypt(toEncrypt: message.getBase64Content())
-        } catch let error {
-            return ConnectionError(message: (error as! CipherError).getMessage())
+        if cipher != nil && publicKeyExternalBase64 != nil && adminPublicKeyExternalBase64 != nil {
+            var encryptedContent: Data
+            do {
+                encryptedContent = try cipher!.encrypt(toEncrypt: message.getBase64Content())
+            } catch let error {
+                return ConnectionError(message: (error as! CipherError).getMessage())
+            }
+            messageJSON["senderContent"] = encryptedContent.base64EncodedString()
+            do {
+                encryptedContent = try cipher!.encrypt(toEncrypt: message.getBase64Content(), publicKeyExternalBase64: publicKeyExternalBase64!)
+            } catch let error {
+                return ConnectionError(message: (error as! CipherError).getMessage())
+            }
+            messageJSON["receiverContent"] = encryptedContent.base64EncodedString()
+            do {
+                encryptedContent = try cipher!.encrypt(toEncrypt: message.getBase64Content(), publicKeyExternalBase64: adminPublicKeyExternalBase64!)
+            } catch let error {
+                return ConnectionError(message: (error as! CipherError).getMessage())
+            }
+            messageJSON["adminContent"] = encryptedContent.base64EncodedString()
+        } else {
+            messageJSON["senderContent"] = message.getBase64Content()
+            messageJSON["receiverContent"] = message.getBase64Content()
+            messageJSON["adminContent"] = message.getBase64Content()
         }
-        messageJSON["content"] = encryptedContent.base64EncodedString()
         messageJSON["contentType"] = message.getContentType()
+        messageJSON["numFails"] = numFails
         do {
             let data = try postData(urlString: url, dataJSON: messageJSON)
             if data.count != 0 {

@@ -16,7 +16,8 @@ import java.util.Map;
 public class ListConversations {
     private final String getConversationFormatString = "SELECT conversationID FROM Conversation_has_User WHERE userID = ? ;";
     private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID = ? ;";
-    private final String getNameTimeAndStatusFormatString = "SELECT conversationName, lastMessageTime, status " +
+    private final String getConverserPublicKeyFormatString = "SELECT publicKey FROM UserKeys WHERE userID = ? ;";
+    private final String getDetailsFormatString = "SELECT conversationName, lastMessageTime, status, adminPublicKey " +
             "FROM Conversation WHERE conversationID = ?;";
     Connection dbConnection;
 
@@ -40,7 +41,7 @@ public class ListConversations {
 //            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
             ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
 
-            System.out.println("ListConversations: Getting conversations for " + context.getIdentity().getIdentityId());
+            System.out.println("ListConversations: Getting conversations for " + ((Map<String,Object>)  jsonString.get("context")).get("sub").toString());
 
             // Request necessary information from MariaDB and process into Conversation objects
             PreparedStatement getConversationStatement = dbConnection.prepareStatement(getConversationFormatString);
@@ -77,28 +78,43 @@ public class ListConversations {
                     continue;
                 }
 
-                PreparedStatement getDataStatement = dbConnection.prepareStatement(getNameTimeAndStatusFormatString);
+                PreparedStatement getDataStatement = dbConnection.prepareStatement(getDetailsFormatString);
                 getDataStatement.setString(1, conversationId);
                 System.out.println("ListConversations: getDataStatement: " + getDataStatement.toString());
-                ResultSet nameAndTimeRS = getDataStatement.executeQuery();
-                nameAndTimeRS.next();
-                String conversationName = nameAndTimeRS.getString(1);
+                ResultSet attributesRS = getDataStatement.executeQuery();
+                attributesRS.next();
+                String conversationName = attributesRS.getString(1);
                 //long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
-                long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().toEpochMilli();
-                int status = nameAndTimeRS.getInt(3);
+                long lastMessageTime = attributesRS.getTimestamp(2).toInstant().toEpochMilli();
+                int status = attributesRS.getInt(3);
+                String adminPublicKey = attributesRS.getString(4);
                 String converserIdString;
-                System.out.println("ListConversations: converserIds at line 84: " + converserIds.toString());
+                String converserPublicKey;
+                System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 // For difference between one to one convos and support groups
                 if (converserIds.size() == 1) {
                     converserIdString = converserIds.get(0);
+                    PreparedStatement getPublicKeyStatement = dbConnection.prepareStatement(getConverserPublicKeyFormatString);
+                    getPublicKeyStatement.setString(1, converserIdString);
+                    ResultSet publicKeyRS = getPublicKeyStatement.executeQuery();
+                    if (publicKeyRS.next()) {
+                        converserPublicKey = publicKeyRS.getString(1);
+                        if (publicKeyRS.next()) {
+                            throw new ConversationListException("More than one public key available for converser " + converserIdString);
+                        }
+                    } else {
+                        throw new ConversationListException("No public key available for converser " + converserIdString);
+                    }
                 } else {
                     converserIdString = "N/A";
+                    converserPublicKey = "N/A";
+                    adminPublicKey = "N/A";
                 }
 
                 System.out.println("ListConversations: converserIdString at line 93: " + converserIdString);
 
-                conversations.add(new Conversation(conversationName, conversationId, converserIdString, status, lastMessageTime));
+                conversations.add(new Conversation(conversationName, conversationId, converserPublicKey, adminPublicKey, converserIdString, status, lastMessageTime));
             }
 
             // Sort Conversation objects (-1 is to reverse the order to have newest times first)
@@ -141,13 +157,17 @@ public class ListConversations {
     public class Conversation {
         private String conversationName;
         private int conversationID;
+        private String converserPublicKey;
+        private String adminPublicKey;
         private String converserID;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
 
-        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime) {
+        public Conversation(String conversationName, String conversationID, String converserPublicKey, String adminPublicKey, String converserID, int status, long lastMessageTime) {
             this.conversationName = conversationName;
             this.conversationID = Integer.parseInt(conversationID);
+            this.converserPublicKey = converserPublicKey;
+            this.adminPublicKey = adminPublicKey;
             this.converserID = converserID;
             this.status = status;
             this.lastMessageTime = lastMessageTime;
@@ -192,6 +212,22 @@ public class ListConversations {
         public void setLastMessageTime(long lastMessageTime) {
             this.lastMessageTime = lastMessageTime;
         }
+
+        public String getConverserPublicKey() {
+            return converserPublicKey;
+        }
+
+        public void setConverserPublicKey(String converserPublicKey) {
+            this.converserPublicKey = converserPublicKey;
+        }
+
+        public String getAdminPublicKey() {
+            return adminPublicKey;
+        }
+
+        public void setAdminPublicKey(String adminPublicKey) {
+            this.adminPublicKey = adminPublicKey;
+        }
     }
 
     public class ConversationListResponse {
@@ -207,6 +243,18 @@ public class ListConversations {
 
         public void setConversationList(Conversation[] conversationList) {
             this.conversationList = conversationList;
+        }
+    }
+
+    public class ConversationListException extends Exception {
+        String message;
+        ConversationListException(String message) {
+            this.message = message;
+        }
+
+        @Override
+        public String getMessage() {
+            return message;
         }
     }
 }
