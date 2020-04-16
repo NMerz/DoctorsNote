@@ -38,7 +38,7 @@ class MessageCipher {
         //let baseDecrypt = try decodePrivateKey(toDecrypt: toDecrypt)
         let baseDecrypt = try decodePrivateKey(toDecrypt: encryptedPrivateKey)
         let decryptedText = Data(base64Encoded: baseDecrypt)!
-        print(decryptedText.base64EncodedString())
+//        print(decryptedText.base64EncodedString())
         var unmanagedError: Unmanaged<CFError>? = nil
         let attributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
         kSecAttrKeySizeInBits: 2048,
@@ -62,14 +62,14 @@ class MessageCipher {
         var bytesEncrypted = 0
         var AESKey = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 256)
         localAESKey.copyBytes(to: AESKey)
-        print("Pre decryption and decoding: ")
-        print (toDecrypt)
-        print(toDecrypt.utf8CString.count)
+//        print("Pre decryption and decoding: ")
+//        print (toDecrypt)
+//        print(toDecrypt.utf8CString.count)
         let decryptReturn = CCCrypt(CCOperation(kCCDecrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, ivValue, toDecryptRaw.baseAddress, [UInt8](toDecryptData!).count, decrypted,  (toDecrypt.count / 128 * 128 + 128) * 4, &bytesEncrypted)
         
         let decryptedText = Data(bytes: decrypted, count: bytesEncrypted)
         //let unencodedText = Data(base64Encoded: decryptedText)
-        print("decoded private key: " + decryptedText.base64EncodedString())
+//        print("decoded private key: " + decryptedText.base64EncodedString())
 //        print(decryptedText.base64EncodedString())
         //return String(data:decryptedText, encoding: .utf8)!
         return decryptedText.base64EncodedString()
@@ -79,8 +79,8 @@ class MessageCipher {
         if privateKey == nil {
             throw CipherError(message: "Private key not set.")
         }
-        print(toDecrypt.base64EncodedString())
-        let unencryptedData = SecKeyCreateDecryptedData(privateKey!, .rsaEncryptionOAEPSHA512, toDecrypt as CFData, nil)
+//        print(toDecrypt.base64EncodedString())
+        let unencryptedData = SecKeyCreateDecryptedData(privateKey!, .rsaEncryptionOAEPSHA512AESGCM, toDecrypt as CFData, nil)
         return String(data: unencryptedData! as Data, encoding: .utf8)!
     }
     
@@ -96,9 +96,13 @@ class MessageCipher {
                 throw CipherError(message: "Private key must be set to encrypt messages for self")
             }
             publicKeyExternalRepresentation = SecKeyCopyExternalRepresentation(SecKeyCopyPublicKey(privateKey!)!, nil)! as Data
-            let encrypted = SecKeyCreateEncryptedData(SecKeyCopyPublicKey(privateKey!)!, .rsaEncryptionOAEPSHA512, toEncrypt.data(using: .utf8)! as CFData, nil)! as Data
-            print("immediate decryption: ")
-            print(try decrypt(toDecrypt: encrypted))
+//            let data = toEncrypt.data(using: .utf8)! as CFData
+//            var unmanagedError: Unmanaged<CFError>? = nil
+//            let encrypted = SecKeyCreateEncryptedData(SecKeyCopyPublicKey(privateKey!)!, .rsaEncryptionOAEPSHA512AESGCM, data, &unmanagedError) as Data?
+//            print(unmanagedError.debugDescription)
+//            print("immediate decryption: ")
+//            //print(try decrypt(toDecrypt: encrypted!))
+            
         }
         var unmanagedError: Unmanaged<CFError>? = nil
         let attributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
@@ -109,7 +113,7 @@ class MessageCipher {
         if publicKey == nil {
             throw CipherError(message: "Public key not recoverable.")
         }
-        let encrypted = SecKeyCreateEncryptedData(publicKey!, .rsaEncryptionOAEPSHA512, toEncrypt.data(using: .utf8)! as CFData, nil)! as Data
+        let encrypted = SecKeyCreateEncryptedData(publicKey!, .rsaEncryptionOAEPSHA512AESGCM, toEncrypt.data(using: .utf8)! as CFData, nil)! as Data
         return encrypted
     }
 
