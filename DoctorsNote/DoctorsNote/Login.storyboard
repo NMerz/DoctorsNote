@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Login Nav Controller-->
         <scene sceneID="uax-2w-4pG">
             <objects>
-                <navigationController id="z7p-Al-zsI" sceneMemberID="viewController">
+                <navigationController id="z7p-Al-zsI" customClass="LoginNavController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="fkp-cZ-D8L">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -21,7 +21,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5xk-aL-EWR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-859" y="57"/>
+            <point key="canvasLocation" x="-878" y="57"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="kb5-pM-GSx">
@@ -145,13 +145,13 @@
                         <outlet property="passwordField" destination="g5d-gX-faI" id="DnX-mf-N15"/>
                         <outlet property="thisView" destination="AOK-ai-NaH" id="bfG-a7-73t"/>
                         <outlet property="view" destination="AOK-ai-NaH" id="9A4-h1-Pn0"/>
-                        <segue destination="x1W-gb-Cct" kind="presentation" identifier="go_to_main" modalPresentationStyle="overFullScreen" id="bIQ-PC-edH"/>
+                        <segue destination="x1W-gb-Cct" kind="presentation" identifier="go_to_main" customClass="ManualSegue" customModule="DoctorsNote" customModuleProvider="target" modalPresentationStyle="overCurrentContext" id="bIQ-PC-edH"/>
                         <segue destination="gpj-CC-1S8" kind="show" identifier="show_profile_setup" id="HPT-wq-egn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3Z-kz-1rq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-107.24637681159422" y="56.919642857142854"/>
+            <point key="canvasLocation" x="-86" y="57"/>
         </scene>
         <!--Recover Password-->
         <scene sceneID="I4w-ry-rQH">

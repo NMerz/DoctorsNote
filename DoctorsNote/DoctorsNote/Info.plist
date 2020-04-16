@@ -64,5 +64,7 @@
 	<string>Light</string>
 	<key>NSCameraUsageDescription</key>
 	<string>DoctorsNote requires access to your phone’s camera.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>DoctorsNote requires access to your calendar.</string>
 </dict>
 </plist>

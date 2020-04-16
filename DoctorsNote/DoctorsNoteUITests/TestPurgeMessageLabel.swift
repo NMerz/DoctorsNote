@@ -1,17 +1,17 @@
 //
-//  TestSupportGroups.swift
+//  TestPurgeMessageLabel.swift
 //  DoctorsNoteUITests
 //
-//  Created by Benjamin Hardin on 3/23/20.
+//  Created by Ariana Zhu on 4/12/20.
 //  Copyright © 2020 Team7. All rights reserved.
 //
 
 import XCTest
 
-class TestSupportGroups: XCTestCase {
+class TestPurgeMessageLabel: XCTestCase {
 
     var app: XCUIApplication?
-    
+
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
@@ -21,6 +21,9 @@ class TestSupportGroups: XCTestCase {
         self.app = XCUIApplication()
         app?.launch()
         app?.activate()
+        
+        tryLogout()
+        
     }
 
     override func tearDown() {
@@ -28,34 +31,14 @@ class TestSupportGroups: XCTestCase {
         tryLogout()
     }
 
-    func testJoinPrompts() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        
+    func testPurgeMessageLabel() throws {
         tryLogin()
         
-        // Navigate to support groups page
-        app?.tabBars.buttons["Support Groups"].tap()
-        app?.buttons["Search Icon"].tap()
-        app?.tables.cells.element(boundBy: 0).buttons["Information Icon"].tap()
-        app?.buttons["Join Button"].tap()
-        sleep(4)
-        app?.alerts.textFields["Display Name Field"].tap()
-        app?.alerts.textFields["Display Name Field"].typeText("Test Display Name")
-        app?.alerts.buttons["Set Name Button"].tap()
-        sleep(4)
-        app?.alerts.buttons["Ok Button"].tap()
-        app?.tabBars.buttons["Profile"].tap()
-    }
-    
-    func testDeleteSupportGroupMessage() {
-        tryLogin()
-        app?.tabBars.buttons["Support Groups"].tap()
-        sleep(1)
-        app?.collectionViews.cells.element(boundBy: 0).tap()
-        sleep(1)
-        app?.collectionViews.cells.element(boundBy: 0).press(forDuration: 2)
-        app?.menuItems["Delete"].tap()
+        let app = XCUIApplication()
+        app.tabBars.buttons["Chats"].tap()
+        app.collectionViews/*@START_MENU_TOKEN@*/.staticTexts["12:05 pm"]/*[[".cells.staticTexts[\"12:05 pm\"]",".staticTexts[\"12:05 pm\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.navigationBars["Test Doctor"].buttons["Info Button"].tap()
+        
     }
     
     func tryLogin() {
@@ -68,10 +51,10 @@ class TestSupportGroups: XCTestCase {
             
             passwordField.press(forDuration: 1.1)
             passwordField.typeText("DoctorsNote1@")
+            
             app?.staticTexts["Account Label"].tap()
             app?.buttons["Log In"].tap()
             sleep(2)
-            //XCTAssertFalse(app!.buttons["Log In"].isHittable)
         }
     }
     

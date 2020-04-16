@@ -104,3 +104,18 @@ class LoginViewController: UIViewController {
     }
     
 }
+
+// Inspired by: https://stackoverflow.com/questions/30794076/correct-way-of-removing-deleting-a-view-viewcontroller-from-the-stack-after-se
+class ManualSegue: UIStoryboardSegue {
+
+  override func perform() {
+    source.present(destination, animated: true) {
+        self.source.navigationController!.popToRootViewController(animated: false)
+        UIApplication.shared.delegate?.window??.rootViewController = self.destination.navigationController
+    }
+  }
+}
+
+class LoginNavController: UINavigationController {
+    
+}

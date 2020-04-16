@@ -20,9 +20,11 @@ class User {
     private var address: String
     private var sex: String
     private var phoneNumber: String
+    private var role: String
     private var healthSystems: [HealthSystem]
+    private var workHours: String
     
-    init (uid: String, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, healthSystems: [HealthSystem]) {
+    init (uid: String, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, role: String, healthSystems: [HealthSystem], workHours: String) {
         self.uid = uid
         self.email = email
         self.firstName = firstName
@@ -30,9 +32,11 @@ class User {
         self.lastName = lastName
         self.dateOfBirth = dateOfBirth
         self.address = address
+        self.role = role
         self.healthSystems = healthSystems
         self.sex = sex
         self.phoneNumber = phoneNumber
+        self.workHours = workHours
     }
     
     convenience init! (uid: String) {
@@ -41,11 +45,11 @@ class User {
         let (potentialUser, potentialError) = connectionProcessor.processUser(url: ConnectionProcessor.standardUrl(), uid: uid)
         if (potentialError == nil && potentialUser != nil) {
             let user = potentialUser!
-            self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), healthSystems: user.getHealthSystems())
+            self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), role: user.getRole(), healthSystems: user.getHealthSystems(), workHours: user.getWorkHours())
         }
         //Below this is a temporary mock for functionality
         let user = potentialUser!
-        self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), healthSystems: user.getHealthSystems())
+        self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), role: user.getRole(), healthSystems: user.getHealthSystems(), workHours: user.getWorkHours())
 //        return nil
     }
     
@@ -65,12 +69,18 @@ class User {
         self.address = dict["address"]!
         self.sex = dict["gender"]!
         self.phoneNumber = dict["phone_number"]!
+        self.role = dict["custom:role"]!
         let hospital = dict["custom:hospital"]!
         let hospitalWebsite = dict["custom:hospital_website"]!
         let healthcareProvider = dict["custom:healthcare_provider"]!
         let healthcareWebsite = dict["custom:healthcare_website"]!
         let system = HealthSystem(hospital: hospital, hospitalWebsite: hospitalWebsite, healthcareProvider: healthcareProvider, healthcareWebsite: healthcareWebsite)
         self.healthSystems = [system]
+        if let hours = dict["custom:work_hours"] {
+            self.workHours = hours
+        } else {
+            self.workHours = ""
+        }
     }
     
     func getUID() -> String {
@@ -115,8 +125,16 @@ class User {
         return phoneNumber
     }
     
+    func getRole() -> String {
+        return role
+    }
+    
     func getHealthSystems() -> [HealthSystem] {
         return healthSystems
+    }
+    
+    func getWorkHours() -> String {
+        return workHours
     }
     
     func setEmail(email: String) {
@@ -161,8 +179,16 @@ class User {
         return dateFormatter.date(from: DOB)!
     }
     
+    func setRole(role: String) {
+        self.role = role
+    }
+    
     func setHealthSystem(hospital: String, hospitalWebsite: String, healthcareProvider: String, healthcareWebsite: String) {
         self.healthSystems = [HealthSystem(hospital: hospital, hospitalWebsite: hospitalWebsite, healthcareProvider: healthcareProvider, healthcareWebsite: healthcareWebsite)]
+    }
+    
+    func setWorkHours(workHours: String) {
+        self.workHours = workHours
     }
     
 }

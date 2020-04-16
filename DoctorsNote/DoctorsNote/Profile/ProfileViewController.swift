@@ -37,6 +37,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         // Remove permanent data, should I do this here?
 //        resetDefaults()
         
@@ -169,7 +170,7 @@ class ProfileViewController: UIViewController {
         p = PopupView.init(contentView: contentView)
         p?.maskType = .dimmed
         
-        let reportButton = UIButton(frame: CGRect(x: 25, y: 25, width: width - 50, height: 55))
+        let reportButton = UIButton(frame: CGRect(x: 25, y: 10, width: width - 50, height: 40))
         let reportLayer = CAShapeLayer()
         reportLayer.path = UIBezierPath(roundedRect: reportButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         reportButton.layer.mask = reportLayer
@@ -177,8 +178,16 @@ class ProfileViewController: UIViewController {
         reportButton.setTitle("Report an issue", for: .normal)
         reportButton.accessibilityIdentifier = "Report Button"
         reportButton.addTarget(self, action: #selector(sendReport), for: .touchUpInside)
+        
+        let deleteButton = UIButton(frame:CGRect(x:width/2 - 75, y: 60, width: 150, height: 40))
+        deleteButton.setTitle("Delete Account", for: .normal)
+        deleteButton.backgroundColor = UIColor.systemRed
+        let deleteLayer = CAShapeLayer()
+        deleteLayer.path = UIBezierPath(roundedRect: deleteButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
+        deleteButton.layer.mask = deleteLayer
+        //action to delete user and go to login screen
     
-        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 105, width: 90, height: 40))
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 110, width: 90, height: 40))
         closeButton.setTitle("Done", for: .normal)
         closeButton.backgroundColor = UIColor.systemBlue
         let layer = CAShapeLayer()
@@ -188,6 +197,7 @@ class ProfileViewController: UIViewController {
 
         contentView.addSubview(reportButton)
         contentView.addSubview(closeButton)
+        contentView.addSubview(deleteButton)
 
         let xPos = self.view.frame.width / 2
         let yPos = self.view.frame.height - CGFloat(height) + (tabBarController?.tabBar.frame.height)! - 20

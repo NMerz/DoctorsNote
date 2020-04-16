@@ -13,14 +13,16 @@ class Message {
     private var content: Data
     private var contentType: Int //0=text; 1=image
     private var sender: User
+    private var numFails: Int // Number of messages that have failed to send sent the last message was sent
 
-    init(messageID: Int, conversationID: Int, content: Data, contentType: Int, sender: User = User(uid: "-1")) {//TODO: This is a place holder. User -1 needs to be replace with the current user's own.
+    init(messageID: Int, conversationID: Int, content: Data, contentType: Int, sender: User = User(uid: "-1"), numFails: Int) {//TODO: This is a place holder. User -1 needs to be replace with the current user's own.
         self.messageID = messageID
         self.conversationID = conversationID
         print(content.base64EncodedString().count)
         self.content = content
         self.contentType = contentType
         self.sender = sender
+        self.numFails = numFails
     }
 
     func getMessageID() -> Int {
@@ -45,5 +47,9 @@ class Message {
 
     func getSender() -> User {
         return sender
+    }
+    
+    func getNumFails() -> Int {
+        return numFails
     }
 }

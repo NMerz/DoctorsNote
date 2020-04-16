@@ -395,6 +395,15 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
             errorLabel.text = ""
         }
         
+        CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["custom:work_hours":""]) { (success, errMessage) in
+            if (!success) {
+                DispatchQueue.main.async {
+                    self.errorLabel.text = errMessage
+                }
+                return
+            }
+        }
+        
         CognitoHelper.sharedHelper.setHealthcareInformation(role: role!, hospital: hospital!, hospitalWebsite: hospitalWebsite!, healthcareProvider: provider!, healthcareWebsite: providerWebsite!, onDone: { (success, errMessage) in
             DispatchQueue.main.async {
                 self.errorLabel.text = errMessage
