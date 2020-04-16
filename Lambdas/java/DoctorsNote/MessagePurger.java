@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.Map;
 
 public class MessagePurger {
-    private final String purgeMessageFormatString = "DELETE FROM Message WHERE timeCreated < ?;";
+    private final String purgeMessageFormatString = "DELETE FROM Message WHERE messageID >= 0 AND timeCreated < ?;";
     Connection dbConnection;
 
     public MessagePurger(Connection dbConnection) { this.dbConnection = dbConnection; }
@@ -23,7 +23,8 @@ public class MessagePurger {
             System.out.println("MessagePurger: Purging messages older than " + fourWeeksAgoEpochTime);
 
             PreparedStatement statement = dbConnection.prepareStatement(purgeMessageFormatString);
-            statement.setTimestamp(1, new Timestamp(fourWeeksAgoEpochTime));
+            statement.setTimestamp(1, new Timestamp(fourWeeksAgoEpochTime * 1000L));
+            System.out.println("MessagePurger: statement: " + statement);
             int ret = statement.executeUpdate();
 
             if (ret == 0) {
