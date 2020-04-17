@@ -7,12 +7,17 @@
 //
 import JTAppleCalendar
 import UIKit
+import AWSMobileClient
+
 
 var appointmentList = [Appointment]()
 
 class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalendarViewDelegate {
 
     @IBOutlet var calendarView: JTAppleCalendarView!
+    
+    var processor: ConnectionProcessor?
+
     
     var eventDateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -27,6 +32,15 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
         calendarView.scrollDirection = .horizontal
         calendarView.scrollingMode   = .stopAtEachCalendarFrame
         calendarView.showsHorizontalScrollIndicator = false
+        
+        var connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        processor = ConnectionProcessor(connector: connector)
+        do {
+            appointmentList = try processor!.processAppointments(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentlist")
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+        }
         
         // Do any additional setup after loading the view.
     }
@@ -76,9 +90,15 @@ class CalendarVC: UIViewController, JTAppleCalendarViewDataSource, JTAppleCalend
     func handleCellEvents(cell: DateCell, cellState: CellState) {
 //        let dateString = eventDateFormatter.string(from: cellState.date)
         for appointment in appointmentList {
-            let diff = Calendar.current.dateComponents([.day], from: appointment.getTimeScheduled(), to: cellState.date)
+            var appointmentDate = Calendar.current.startOfDay(for: appointment.getTimeScheduled())
+            var calendarDate = Calendar.current.startOfDay(for: cellState.date)
+            let diff = Calendar.current.dateComponents([.day], from: appointmentDate, to: calendarDate)
             if diff.day == 0 {
                 cell.dateLabel.textColor = UIColor.red
+                print("appointment date")
+                print(appointment.getTimeScheduled())
+                print("calendar date")
+                print(cellState.date)
             }
         }
     }
