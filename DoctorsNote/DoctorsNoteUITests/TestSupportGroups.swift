@@ -48,6 +48,16 @@ class TestSupportGroups: XCTestCase {
         app?.tabBars.buttons["Profile"].tap()
     }
     
+    func testDeleteSupportGroupMessage() {
+        tryLogin()
+        app?.tabBars.buttons["Support Groups"].tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).press(forDuration: 2)
+        app?.menuItems["Delete"].tap()
+    }
+    
     func tryLogin() {
         let emailField = app!.textFields["Email Field"]
         let passwordField = app!.secureTextFields["Password Field"]

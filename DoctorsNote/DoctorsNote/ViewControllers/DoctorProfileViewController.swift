@@ -20,7 +20,7 @@ class DoctorProfileViewController: UIViewController {
         
         // FIXME: Actually implement
         self.hoursLabel.text = ""
-        self.deleteMessageLabel.text = "Messages sent in DoctorsNote will be deleted after a certain amount of time."
+        self.deleteMessageLabel.text = "Messages sent in DoctorsNote will be deleted after four weeks."
     }
     
 
