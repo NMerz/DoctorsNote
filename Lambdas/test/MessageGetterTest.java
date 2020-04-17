@@ -47,7 +47,7 @@ public class MessageGetterTest {
     }
 
     @Test()
-    public void testBadInput() throws SQLException { //TODO: This test fails for the wrong reason. The sub field isn't actually used. I think it is failing due to not having the connectionMock interactions defined
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("context")).put("sub", 1);
         MessageGetter messageGetter = new MessageGetter(connectionMock);
