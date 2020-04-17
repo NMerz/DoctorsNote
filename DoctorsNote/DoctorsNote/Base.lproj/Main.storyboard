@@ -415,7 +415,7 @@
                                 <rect key="frame" x="20" y="632" width="374" height="40"/>
                                 <accessibility key="accessibilityConfiguration" label="Pending"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                <state key="normal" title="View Pending Appointments"/>
+                                <state key="normal" title="View Appointments"/>
                                 <connections>
                                     <segue destination="8ZG-ZQ-VdB" kind="show" id="btf-lT-HBh"/>
                                 </connections>
