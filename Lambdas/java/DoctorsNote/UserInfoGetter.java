@@ -2,7 +2,6 @@ package DoctorsNote;
 
 /*
  * Logic to process getting user info from AWS Cognito.
- * NOTE: The passed connection will be closed
  */
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -11,6 +10,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserRequest;
 import com.amazonaws.services.cognitoidp.model.AdminGetUserResult;
+import com.amazonaws.services.cognitoidp.model.AttributeType;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder;
 
@@ -37,15 +37,18 @@ public class UserInfoGetter {
             AdminGetUserResult adminGetUserResult = client.adminGetUser(adminGetUserRequest);
             System.out.println("UserInfoGetter: User information received");
 
-            // To get indices, run in debugging mode and look at the list itself;
-            // indices are consistent until changes are made to Cognito
+            HashMap<String, String> resultMap = new HashMap<>();
+            for (AttributeType a : adminGetUserResult.getUserAttributes()) {
+                resultMap.put(a.getName(), a.getValue());
+            }
+
             UserInfoResponse response = new UserInfoResponse();
-            response.setAddress(adminGetUserResult.getUserAttributes().get(1).getValue());
-            response.setEmail(adminGetUserResult.getUserAttributes().get(10).getValue());
-            response.setFirstName(adminGetUserResult.getUserAttributes().get(7).getValue());
-            response.setMiddleName(adminGetUserResult.getUserAttributes().get(6).getValue());
-            response.setLastName(adminGetUserResult.getUserAttributes().get(9).getValue());
-            response.setPhoneNumber(adminGetUserResult.getUserAttributes().get(8).getValue());
+            response.setAddress(resultMap.get("address"));
+            response.setEmail(resultMap.get("email"));
+            response.setPhoneNumber(resultMap.get("phone_number"));
+            response.setFirstName(resultMap.get("name"));
+            response.setMiddleName(resultMap.get("middle_name").equals("<empty>") ? "" : resultMap.get("middle_name"));
+            response.setLastName(resultMap.get("family_name"));
 
             System.out.println("UserInfoGetter: Info retrieved correctly; returning valid response");
             return response;
@@ -123,18 +126,5 @@ public class UserInfoGetter {
         public void setPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
         }
-    }
-
-    public static void main(String[] args) {
-        HashMap<String, Object> topMap = new HashMap();
-        HashMap<String, Object> jsonBody = new HashMap();
-        jsonBody.put("uid", "6f290288-afe5-4912-b200-204709232288");
-        topMap.put("body-json", jsonBody);
-        HashMap<String, Object> context = new HashMap();
-        context.put("sub", "0000000001"); //Note: not an accurate length for sample id
-        topMap.put("context", context);
-
-        UserInfoGetter getter = new UserInfoGetter();
-        getter.get(topMap, null);
     }
 }
