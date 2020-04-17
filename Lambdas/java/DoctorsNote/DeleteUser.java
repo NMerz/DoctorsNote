@@ -18,7 +18,7 @@ public class DeleteUser implements RequestHandler<Map<String,Object>, UserDelete
     @Override
     public UserDeleter.DeleteUserResponse handleRequest(Map<String,Object> inputMap, Context context) {
         UserDeleter deleter = makeUserDeleter();
-        UserDeleter.DeleteUserResponse response = deleter.get(inputMap, context);
+        UserDeleter.DeleteUserResponse response = deleter.delete(inputMap, context);
         if (response == null) {
             System.out.println("DeleteUser: UserDeleter returned null");
             throw new RuntimeException("Server experienced an error");

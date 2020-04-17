@@ -16,7 +16,7 @@ import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProviderClientBuilder
 import java.util.Map;
 
 public class UserDeleter {
-    public DeleteUserResponse get(Map<String, Object> inputMap, Context context) {
+    public DeleteUserResponse delete(Map<String, Object> inputMap, Context context) {
         try {
             String username = (String)((Map<String,Object>) inputMap.get("body-json")).get("uid");
             System.out.println("UserDeleter: Deleting user " + username);
