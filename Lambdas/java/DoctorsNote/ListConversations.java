@@ -1,5 +1,6 @@
 package DoctorsNote;
 
+import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -82,23 +83,41 @@ public class ListConversations {
                 long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().toEpochMilli();
                 int status = nameAndTimeRS.getInt(3);
                 String converserIdString, converserName;
+                String[] converserNames;
                 System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 // For difference between one to one convos and support groups
                 if (converserIds.size() == 1) {
+                    converserNames = new String[]{};
                     converserIdString = converserIds.get(0);
-
                     UserInfoGetter getter = new UserInfoGetter();
-                    UserInfoGetter.UserInfoResponse response = getter.get(getUserInfoMap(converserIdString, userId), context);
 
-                    converserName = String.format("%s %s", response.getFirstName(), response.getLastName());
+                    try {
+                        UserInfoGetter.UserInfoResponse response = getter.get(getUserInfoMap(converserIdString, userId), context);
+                        converserName = String.format("%s %s", response.getFirstName(), response.getLastName());
+                    } catch (NullPointerException e) {
+                        converserName = converserIdString;
+                    }
                 } else {
                     converserName = "N/A";
+                    UserInfoGetter getter = new UserInfoGetter();
+                    UserInfoGetter.UserInfoResponse response;
+                    ArrayList<String> nameList = new ArrayList<>();
+                    for (String s : converserIds) {
+                        try {
+                            response = getter.get(getUserInfoMap(s, userId), context);
+                            nameList.add(String.format("%s %s", response.getFirstName(), response.getLastName()));
+                        } catch (NullPointerException e) {
+                            System.out.println("ListConversations: User " + s + " not found");
+                        }
+                    }
+
+                    converserNames = nameList.toArray(new String[nameList.size()]);
                 }
 
                 System.out.println("ListConversations: converserName: " + converserName);
 
-                conversations.add(new Conversation(conversationName, conversationId, converserName, status, lastMessageTime));
+                conversations.add(new Conversation(conversationName, conversationId, converserName, status, lastMessageTime, converserNames));
             }
 
             // Sort Conversation objects (-1 is to reverse the order to have newest times first)
@@ -155,13 +174,15 @@ public class ListConversations {
         private String converserID;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
+        private String[] converserNames;        // Only for support groups; should be empty for one-to-ones
 
-        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime) {
+        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime, String[] converserNames) {
             this.conversationName = conversationName;
             this.conversationID = Integer.parseInt(conversationID);
             this.converserID = converserID;
             this.status = status;
             this.lastMessageTime = lastMessageTime;
+            this.converserNames = converserNames;
         }
 
         public String getConversationName() {
@@ -174,6 +195,18 @@ public class ListConversations {
 
         public int getConversationID() {
             return conversationID;
+        }
+
+        public void setConversationID(int conversationID) {
+            this.conversationID = conversationID;
+        }
+
+        public String[] getConverserNames() {
+            return converserNames;
+        }
+
+        public void setConverserNames(String[] converserNames) {
+            this.converserNames = converserNames;
         }
 
         public void setConversationID(String conversationID) {
