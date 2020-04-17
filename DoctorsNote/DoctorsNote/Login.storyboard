@@ -915,6 +915,8 @@
                         <outlet property="lastNameField" destination="Ybw-Dy-eZ5" id="oYl-kt-toY"/>
                         <outlet property="middleNameField" destination="UsH-AU-kKA" id="kyy-Eh-sB9"/>
                         <outlet property="phoneField" destination="BIV-Ih-dVR" id="7Uq-qW-djH"/>
+                        <outlet property="securityAnswer" destination="yu3-Tz-9BK" id="EqS-VO-0Iz"/>
+                        <outlet property="securityQuestion" destination="rBh-ln-aPa" id="W40-z7-Fuk"/>
                         <outlet property="sexButton" destination="Y2M-IN-0z6" id="Htg-Aa-bD9"/>
                         <outlet property="stateButton" destination="ceg-Fb-4Ub" id="W2z-R7-lGu"/>
                         <outlet property="streetField" destination="cfu-tU-ihU" id="IjH-Pd-4yI"/>
@@ -1197,7 +1199,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your security question answer" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XAa-LP-toe" customClass="CustomTextField" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="20" y="644" width="206" height="55"/>
+                                <rect key="frame" x="20" y="644" width="362.5" height="55"/>
                                 <accessibility key="accessibilityConfiguration" label="Confirm New Field"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="Jqe-3H-BHs"/>
@@ -1252,6 +1254,7 @@
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="leading" secondItem="YU8-Z6-zNy" secondAttribute="leading" constant="25" id="fHq-rc-aLp"/>
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="trailing" secondItem="PYp-zK-PqW" secondAttribute="trailing" id="ggc-Ep-5aP"/>
                             <constraint firstItem="YU8-Z6-zNy" firstAttribute="trailing" secondItem="IUc-yN-rXs" secondAttribute="trailing" constant="35" id="kxU-Zz-sro"/>
+                            <constraint firstItem="YU8-Z6-zNy" firstAttribute="trailing" secondItem="XAa-LP-toe" secondAttribute="trailing" constant="20" id="my3-Hg-BMd"/>
                             <constraint firstItem="PYp-zK-PqW" firstAttribute="top" secondItem="3nM-EQ-iWh" secondAttribute="bottom" constant="-7" id="n4F-qI-ksd"/>
                             <constraint firstItem="PYp-zK-PqW" firstAttribute="leading" secondItem="3nM-EQ-iWh" secondAttribute="leading" constant="-10" id="p0O-I2-gex"/>
                             <constraint firstItem="kOf-f9-Y5d" firstAttribute="top" secondItem="8i7-pH-Uxa" secondAttribute="bottom" constant="-7" id="p9F-Ba-uGA"/>
@@ -1270,11 +1273,13 @@
                         <outlet property="errorLabel" destination="J5k-0k-fcp" id="76K-Xa-UwY"/>
                         <outlet property="newPasswordField" destination="9LF-Er-Ega" id="RGm-7l-MYu"/>
                         <outlet property="resetButton" destination="euT-4G-Yt7" id="WBJ-Nj-gcK"/>
+                        <outlet property="securityAnswer" destination="XAa-LP-toe" id="6I9-DO-fRa"/>
+                        <outlet property="securityQuestionLabel" destination="IUc-yN-rXs" id="Oc9-bS-udQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GkT-7q-eRt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="670" y="877"/>
+            <point key="canvasLocation" x="669.56521739130437" y="876.5625"/>
         </scene>
         <!--State Table View Controller-->
         <scene sceneID="cX2-h9-M5g">

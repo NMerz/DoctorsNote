@@ -10,6 +10,8 @@ import UIKit
 import AWSCognito
 import AWSMobileClient
 import PopupKit
+import CryptoKit
+import CryptoSwift
 
 //
 //
@@ -27,6 +29,10 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var zipField: CustomTextField!
     @IBOutlet weak var errorLabel: UILabel!
+    
+    @IBOutlet weak var securityQuestion: CustomTextField!
+    @IBOutlet weak var securityAnswer: CustomTextField!
+    
     
     var p: PopupView?
     var DOBPicker: UIDatePicker?
@@ -76,7 +82,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             if (middleName == "") {
                 middleName = "<empty>"
             }
-            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion":hashQuestion(securityQuestion: securityQuestion.text!), "custom:securityanswer":hashAnswer(securityAnswer: securityAnswer.text!)]) { (details, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")
                 } else {
@@ -90,6 +96,25 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         }
     }
     
+    // TODO where to unhash
+    func hashQuestion(securityQuestion: String) -> String {
+        return Data(securityQuestion.utf8).base64EncodedString()
+    }
+    
+    func unhashQuestion(hashedQuestion: String) -> String {
+        let data = Data(base64Encoded: hashedQuestion)!
+        return String(data: data, encoding: .utf8)!
+    }
+    
+    func hashAnswer(securityAnswer: String) -> String {
+        return Data(securityAnswer.utf8).base64EncodedString()
+    }
+    
+    func unhashAnswer(hashedAnswer: String) -> String {
+        let data = Data(base64Encoded: hashedAnswer)!
+        return String(data: data, encoding: .utf8)!
+    }
+    
     func fieldsCorrect() ->Bool {
         let first = firstNameField.isEmpty()
         let last = lastNameField.isEmpty()
@@ -99,6 +124,9 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let zip = zipField.isEmpty()
         let isPhoneFormatted = checkPhoneFormat()
         let isZIPFormatted = checkZipFormat()
+        
+        let question = securityQuestion.isEmpty()
+        let answer = securityAnswer.isEmpty()
         
         var DOBFilled = true
         if (DOB == "") {
@@ -143,7 +171,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             }
         }
         
-        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted) {
+        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted || question || answer) {
             return false
         }
         errorLabel.text = ""

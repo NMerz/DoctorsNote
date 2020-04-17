@@ -121,12 +121,19 @@ class PasswordCodeViewController: UIViewController {
     @IBOutlet weak var newPasswordField: CustomTextField!
     @IBOutlet weak var confirmField: CustomTextField!
     
+    @IBOutlet weak var securityQuestionLabel: UILabel!
+    @IBOutlet weak var securityAnswer: CustomTextField!
+    
+    
     var email: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = true
+        
+        // TODO how to get user info here
+//        securityQuestionLabel.text =
         
         if (email != "") {
             emailField.isHidden = true
