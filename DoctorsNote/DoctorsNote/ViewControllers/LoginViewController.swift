@@ -59,6 +59,8 @@ class LoginViewController: UIViewController {
         }
         errorLabel.text = ""
         
+        let defaults = UserDefaults.standard
+        defaults.set(passwordField.text!, forKey: "newPassword")
         CognitoHelper.sharedHelper.login(email: emailField.text!, password: passwordField.text!) { (success, err) -> (Void) in
             if (!success) {
                 DispatchQueue.main.async {
