@@ -132,8 +132,7 @@ class PasswordCodeViewController: UIViewController {
         
         self.navigationItem.hidesBackButton = true
         
-        // TODO how to get user info here
-//        securityQuestionLabel.text =
+        securityQuestionLabel.text = CognitoHelper.user!.getSecurityQuestion()
         
         if (email != "") {
             emailField.isHidden = true
@@ -168,7 +167,11 @@ class PasswordCodeViewController: UIViewController {
         let confirmEmpty = confirmField.isEmpty()
         let passwordsEqual = (self.newPasswordField.text! == self.confirmField.text!)
         
-        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid) {
+        // TODO test this
+        let hashedAnswer = self.securityAnswer.text!.hash()
+        let securityAnswerMatch = (hashedAnswer == CognitoHelper.user!.getSecurityAnswer())
+        
+        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid || !securityAnswerMatch) {
             return
         }
         

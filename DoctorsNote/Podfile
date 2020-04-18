@@ -32,8 +32,6 @@ target 'DoctorsNote' do
   # Library for calendar
   pod 'JTAppleCalendar', '~> 7.1'
 
-  pod 'CryptoSwift', '~> 1.0'
-
   target 'DoctorsNoteTests' do
     inherit! :search_paths
     # Pods for testing

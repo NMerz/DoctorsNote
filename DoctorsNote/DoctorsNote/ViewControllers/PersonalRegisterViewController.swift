@@ -11,7 +11,7 @@ import AWSCognito
 import AWSMobileClient
 import PopupKit
 import CryptoKit
-import CryptoSwift
+//#import <CommonCrypto/CommonHMAC.h>
 
 //
 //
@@ -82,7 +82,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             if (middleName == "") {
                 middleName = "<empty>"
             }
-            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion":hashQuestion(securityQuestion: securityQuestion.text!), "custom:securityanswer":hashAnswer(securityAnswer: securityAnswer.text!)]) { (details, err) in
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion":securityQuestion.text!.hash(), "custom:securityanswer":securityAnswer.text!.hash()]) { (details, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")
                 } else {
@@ -94,25 +94,6 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             }
             
         }
-    }
-    
-    // TODO where to unhash
-    func hashQuestion(securityQuestion: String) -> String {
-        return Data(securityQuestion.utf8).base64EncodedString()
-    }
-    
-    func unhashQuestion(hashedQuestion: String) -> String {
-        let data = Data(base64Encoded: hashedQuestion)!
-        return String(data: data, encoding: .utf8)!
-    }
-    
-    func hashAnswer(securityAnswer: String) -> String {
-        return Data(securityAnswer.utf8).base64EncodedString()
-    }
-    
-    func unhashAnswer(hashedAnswer: String) -> String {
-        let data = Data(base64Encoded: hashedAnswer)!
-        return String(data: data, encoding: .utf8)!
     }
     
     func fieldsCorrect() ->Bool {
@@ -332,14 +313,35 @@ class StateTableViewController: UITableViewController {
 }
 
 
+// Inspired by Stack Overflow answer https://stackoverflow.com/questions/38559763/how-to-use-sha256-with-saltsome-key-in-swift
+//extension Data {
+//    var hexString: String {
+//        return map { String(format: "%02hhx", $0) }.joined()
+//    }
+//
+//    var sha256: Data {
+//        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+//        self.withUnsafeBytes({
+//            _ = CC_SHA256($0, CC_LONG(self.count), &digest)
+//        })
+//        return Data(bytes: digest)
+//    }
+//}
 
-
-
-
-
-
-
-
+extension String {
+//    // salt is user's family name
+//    func my_hash(salt: String) -> String {
+//        let data = (self + salt).data(using: .utf8)!.sha256
+//        return String(decoding: data, as: UTF8.self)
+//    }
+    
+    // Inspired by https://www.hackingwithswift.com/example-code/cryptokit/how-to-calculate-the-sha-hash-of-a-string-or-data-instance
+    func hash() -> String {
+        let inputData = Data(self.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+    }
+}
 
 
 //
@@ -558,11 +560,6 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     }
 
 }
-
-
-
-
-
 
 
 
