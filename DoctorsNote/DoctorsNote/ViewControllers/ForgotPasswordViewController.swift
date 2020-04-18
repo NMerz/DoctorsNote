@@ -121,12 +121,19 @@ class PasswordCodeViewController: UIViewController {
     @IBOutlet weak var newPasswordField: CustomTextField!
     @IBOutlet weak var confirmField: CustomTextField!
     
+    @IBOutlet weak var securityQuestionLabel: UILabel!
+    @IBOutlet weak var securityAnswer: CustomTextField!
+    
+    
     var email: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = true
+        
+        // TODO CognitoHelper.user isn't getting anything?
+        securityQuestionLabel.text = CognitoHelper.user?.getSecurityQuestion() ?? "_security question_"
         
         if (email != "") {
             emailField.isHidden = true
@@ -161,7 +168,9 @@ class PasswordCodeViewController: UIViewController {
         let confirmEmpty = confirmField.isEmpty()
         let passwordsEqual = (self.newPasswordField.text! == self.confirmField.text!)
         
-        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid) {
+        let answersEqual = (self.securityAnswer.text!.my_hash() == CognitoHelper.user?.getSecurityAnswer())
+        
+        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid || !answersEqual) {
             return
         }
         

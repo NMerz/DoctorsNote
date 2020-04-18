@@ -25,6 +25,9 @@ class LoginViewController: UIViewController {
         if (CognitoHelper.sharedHelper.isLoggedIn()) {
             decideNextController()
         }
+        
+        // Set up security question/answer if not set up yet
+//        AWSMobileClient.default().updateUserAttributes(attributeMap: ["custom:securityquestion":"Type 'answer'", "custom:securityanswer":"answer".my_hash()], completionHandler: <#([UserCodeDeliveryDetails]?, Error?) -> Void#>)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)

@@ -10,7 +10,7 @@ import UIKit
 import AWSCognito
 import AWSMobileClient
 import PopupKit
-
+import CryptoKit
 //
 //
 //
@@ -27,6 +27,10 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var zipField: CustomTextField!
     @IBOutlet weak var errorLabel: UILabel!
+    
+    @IBOutlet weak var securityQuestion: CustomTextField!
+    @IBOutlet weak var securityAnswer: CustomTextField!
+    
     
     var p: PopupView?
     var DOBPicker: UIDatePicker?
@@ -76,7 +80,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             if (middleName == "") {
                 middleName = "<empty>"
             }
-            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion":securityQuestion.text!, "custom:securityanswer":securityAnswer.text!.my_hash()]) { (details, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")
                 } else {
@@ -99,6 +103,8 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let zip = zipField.isEmpty()
         let isPhoneFormatted = checkPhoneFormat()
         let isZIPFormatted = checkZipFormat()
+        let question = securityQuestion.isEmpty()
+        let answer = securityAnswer.isEmpty()
         
         var DOBFilled = true
         if (DOB == "") {
@@ -143,7 +149,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             }
         }
         
-        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted) {
+        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted || question || answer) {
             return false
         }
         errorLabel.text = ""
@@ -271,6 +277,14 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     }
 
     
+}
+
+extension String {
+    func my_hash() -> String {
+        let inputData = Data(self.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+    }
 }
 
 class StateTableViewController: UITableViewController {
