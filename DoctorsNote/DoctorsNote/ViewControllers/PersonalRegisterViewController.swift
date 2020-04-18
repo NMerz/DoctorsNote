@@ -80,9 +80,10 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             if (middleName == "") {
                 middleName = "<empty>"
             }
-            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion":securityQuestion.text!, "custom:securityanswer":securityAnswer.text!.my_hash()]) { (details, err) in
-                if let err = err as? AWSMobileClientError {
-                    print("\(err.message)")
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion2":securityQuestion.text!, "custom:securityanswer":securityAnswer.text!.my_hash()]) { (success, err) in
+                if (!success) {
+                    self.errorLabel.text = err
+                    print("\(err)")
                 } else {
                     print("Info updated correctly!")
                     DispatchQueue.main.async {

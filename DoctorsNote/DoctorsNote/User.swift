@@ -86,7 +86,7 @@ class User {
         } else {
             self.workHours = ""
         }
-        self.securityQuestion = dict["custom:securityquestion"] ?? "Type 'answer'"
+        self.securityQuestion = dict["custom:securityquestion2"] ?? "Type 'answer'"
         self.securityAnswer = dict["custom:securityanswer"] ?? "answer".my_hash()
     }
     

@@ -84,6 +84,7 @@ class LoginViewController: UIViewController {
                     self.performSegue(withIdentifier: "go_to_main", sender: self)
                 }
             } else {
+                
                 DispatchQueue.main.async {
                     // User needs to finish creating profile
                     self.performSegue(withIdentifier: "show_profile_setup", sender: self)
@@ -117,8 +118,4 @@ class ManualSegue: UIStoryboardSegue {
         UIApplication.shared.delegate?.window??.rootViewController = self.destination.navigationController
     }
   }
-}
-
-class LoginNavController: UINavigationController {
-    
 }
