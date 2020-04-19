@@ -4,9 +4,9 @@ require '../vendor/autoload.php';
 
 //Redirect if not authenticated
 session_start();
-//if ($_SESSION["status"] != "true") {
-    //header("Location: https://doctorsnote.ddns.net/index.html");
-//}
+if ($_SESSION["status"] != "true") {
+    header("Location: https://doctorsnote.ddns.net/index.html");
+}
 
 //Go back to login if logout button is pressed
 if (isset($_POST['logout'])) {
@@ -64,6 +64,10 @@ if (isset($_POST['submitDoctor'])) {
     $addPhonenumber = $_POST['phonenumber'];
     $addAddress = $_POST['address'];
     $addBirthdate = $_POST['birthdate'];
+    $addHealthProvider = $_POST['health_provider'];
+    $addHealthWebsite = $_POST['health_website'];
+    $addHospital = $_POST['hospital'];
+    $addHospitalWebsite = $_POST['hospital_website'];
 
     if (isset($addUsername) && trim($addUsername) != ''
         && isset($addFirstname) && trim($addFirstname) != ''
@@ -72,7 +76,12 @@ if (isset($_POST['submitDoctor'])) {
         && isset($addGender) && trim($addGender) != ''
         && isset($addPhonenumber) && trim($addPhonenumber) != ''
         && isset($addAddress) && trim($addAddress) != ''
-        && isset($addBirthdate) && trim($addBirthdate) != '') {
+        && isset($addBirthdate) && trim($addBirthdate) != ''
+        && isset($addHealthProvider) && trim($addHealthProvider) != ''
+        && isset($addHealthWebsite) && trim($addHealthWebsite) != ''
+        && isset($addHospital) && trim($addHospital) != ''
+        && isset($addHospitalWebsite) && trim($addHospitalWebsite) != ''
+    ) {
 
         //echo "<h4>Success!</h4>";
         //echo "<h4>" . $addMiddlename . "</h4>";
@@ -92,7 +101,11 @@ if (isset($_POST['submitDoctor'])) {
                     ["Name" => "phone_number", "Value" => "+1" . $addPhonenumber],
                     ["Name" => "address", "Value" => $addAddress],
                     ["Name" => "birthdate", "Value" => $addBirthdate],
-                    ["Name" => "custom:role", "Value" => "doctor"]
+                    ["Name" => "custom:role", "Value" => "doctor"],
+                    ["Name" => "custom:healthcare_provider", "Value" => $addHealthProvider],
+                    ["Name" => "custom:healthcare_website", "Value" => $addHealthWebsite],
+                    ["Name" => "custom:hospital", "Value" => $addHospital],
+                    ["Name" => "custom:hospital_website", "Value" => $addHospitalWebsite]
                 ],
                 "Username" => $addUsername,
                 "UserPoolId" => "us-east-2_Cobrg1kBn",
@@ -352,6 +365,18 @@ if (isset($_POST['disableDoctor'])) {
             <label for="birthdate" class="labelNice">Birthdate</label>
             <input type="date" class="input" id="birthdate" name="birthdate" placeholder="yyyy-mm-dd">
 
+            <label for="health_provider" class="labelNice">Healthcare Provider</label>
+            <input type="text" class="input" id="health_provider" name="health_provider">
+
+            <label for="health_website" class="labelNice">Healthcare Provider Website</label>
+            <input type="text" class="input" id="health_website" name="health_website">
+
+            <label for="hospital" class="labelNice">Hospital</label>
+            <input type="text" class="input" id="hospital" name="hospital">
+
+            <label for="hospital_website" class="labelNice">Hospital Website</label>
+            <input type="text" class="input" id="hospital_website" name="hospital_website">
+
             <input type="submit" class="submit" name="submitDoctor" value="Create Doctor"/>
         </form>
 
@@ -394,6 +419,10 @@ if (isset($_POST['disableDoctor'])) {
         ?>
 
 
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <br/>
         <br/>
         <br/>

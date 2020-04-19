@@ -4,9 +4,9 @@ require '../vendor/autoload.php';
 
 //Redirect if not authenticated
 session_start();
-//if ($_SESSION["status"] != "true") {
-    //header("Location: https://doctorsnote.ddns.net/index.html");
-//}
+if ($_SESSION["status"] != "true") {
+    header("Location: https://doctorsnote.ddns.net/index.html");
+}
 
 //Go back to login if logout button is pressed
 if (isset($_POST['logout'])) {
@@ -312,9 +312,9 @@ if (isset($_POST['submitUnpair'])) {
 								<tr class="row100 head">
 									<th class="cell100 column1">UserID</th>
 									<th class="cell100 column2">Name</th>
-									<th class="cell100 column3">Username</th>
-									<th class="cell100 column4">Birth Date</th>
-									<th class="cell100 column5">Gender</th>
+									<!--<th class="cell100 column3">Username</th>-->
+									<th class="cell100 column3">Birth Date</th>
+									<th class="cell100 column4">Gender</th>
 								</tr>
 							</thead>
 						</table>
@@ -346,9 +346,8 @@ try {
       echo "<tr class=\"row100 head\">
               <td class=\"cell100 column1\">". $row["Username"] ."</td>
               <td class=\"cell100 column2\">". $row["Attributes"][2]["Value"] ." ". $row["Attributes"][4]["Value"] ."</td>
-              <td class=\"cell100 column3\"> - </td>
-              <td class=\"cell100 column4\">". $row["Attributes"][0]["Value"] ."</td>
-              <td class=\"cell100 column5\">". $row["Attributes"][1]["Value"] ."</td>
+              <td class=\"cell100 column3\">". $row["Attributes"][0]["Value"] ."</td>
+              <td class=\"cell100 column4\">". $row["Attributes"][1]["Value"] ."</td>
             </tr>";
 
     }
@@ -440,9 +439,9 @@ try {
 									<th class="cell100 column1">Doctor ID</th>
 									<th class="cell100 column2">Doctor Name</th>
 									<th class="cell100 column3">Patient ID</th>
-									<th class="cell100 column4">Patient Username</th>
-                  <th class="cell100 column5">Patient Name</th>
-									<th class="cell100 column6">Patient Birth Date</th>
+									<!--<th class="cell100 column4">Patient Username</th>-->
+                  <th class="cell100 column4">Patient Name</th>
+									<th class="cell100 column5">Patient Birth Date</th>
 								</tr>
 							</thead>
 						</table>
@@ -507,9 +506,8 @@ $resultConvos = $pdo->query("SELECT conversationID FROM DoctorsNote.Conversation
                           <td class=\"cell100 column1\">" . $doctor["UserID"] . "</td>
                           <td class=\"cell100 column2\">" . $doctorAttr[1]["Value"] . " " . $doctorAttr[3]["Value"] . "</td>
                           <td class=\"cell100 column3\">" . $patient["UserID"] . "</td>
-                          <td class=\"cell100 column4\">" . "</td>
-                          <td class=\"cell100 column5\">" . $patientAttr[1]["Value"] . " " . $patientAttr[3]["Value"] . "</td>
-                          <td class=\"cell100 column6\">" . $patientAttr[0]["Value"] . "</td>
+                          <td class=\"cell100 column4\">" . $patientAttr[1]["Value"] . " " . $patientAttr[3]["Value"] . "</td>
+                          <td class=\"cell100 column5\">" . $patientAttr[0]["Value"] . "</td>
                         </tr>";
               }
           }
