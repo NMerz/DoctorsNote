@@ -4,9 +4,9 @@ require '../vendor/autoload.php';
 
 //Redirect if not authenticated
 session_start();
-if ($_SESSION["status"] != "true") {
-    header("Location: https://doctorsnote.ddns.net/index.html");
-}
+//if ($_SESSION["status"] != "true") {
+    //header("Location: https://doctorsnote.ddns.net/index.html");
+//}
 
 //Go back to login if logout button is pressed
 if (isset($_POST['logout'])) {
@@ -218,6 +218,7 @@ if (isset($_POST['submitUnpair'])) {
                     //$findPairString = "SELECT conversationID FROM Conversation_has_User WHERE userID = \"" . $doctorIDinputUnpair . "\" AND conversationID = " . $convoID . ";";
                     //$matchedDoctor = $pdo->query($findPairString);
                     //echo $matchedDoctor->fetch()["conversationID"];
+
 
                     while ($LineToRemove = $matchedDoctor->fetch()) {
                         $idToRemove = $LineToRemove["conversationID"];

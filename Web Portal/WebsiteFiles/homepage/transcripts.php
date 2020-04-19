@@ -4,9 +4,9 @@ require '../vendor/autoload.php';
 
 //Redirect if not authenticated
 session_start();
-if ($_SESSION["status"] != "true") {
-    header("Location: https://doctorsnote.ddns.net/index.html");
-}
+//if ($_SESSION["status"] != "true") {
+    //header("Location: https://doctorsnote.ddns.net/index.html");
+//}
 
 //Go back to login if logout button is pressed
 if (isset($_POST['logout'])) {
@@ -57,8 +57,32 @@ if (isset($_POST['submitTrans'])) {
     if (isset($doctorIDinputTrans) && trim($doctorIDinputTrans) != ''
         && isset($patientIDinputTrans) && trim($patientIDinputTrans) != '') {
 
-        echo "<h4>" . $doctorIDinputTrans . "</h4>";
-        echo "<h4>" . $patientIDinputTrans . "</h4>";
+        //echo "<h4>" . $doctorIDinputTrans . "</h4>";
+        //echo "<h4>" . $patientIDinputTrans . "</h4>";
+
+        $resultID = $pdo->prepare('SELECT conversationID FROM Conversation_has_User WHERE userID =  ? ;');
+        $resultID->execute(array($patientIDinputTrans));
+        $num = $resultID->rowCount();
+        //echo $num;
+        while ($each = $resultID->fetch()) {
+            foreach ($each as $convoID) {
+                $matchedDoctor = $pdo->prepare('SELECT conversationID FROM Conversation_has_User WHERE userID = ? AND conversationID = ?;');
+                $matchedDoctor->execute(array($doctorIDinputTrans, $convoID));
+
+                $conversationsToDisplay = $matchedDoctor->fetchAll();
+                foreach($conversationsToDisplay as $conversation) {
+                    $messagesToDisplay = $pdo->prepare('SELECT receiverContent FROM Message WHERE conversationID = ? ORDER BY timeCreated ASC');
+                    $messagesToDisplay->execute(array($conversation["conversationID"]));
+
+                    //=======================The array $messagesToDisplay is the array containing all the message contents, ordered by date created=========================//
+                    foreach($messagesToDisplay->fetchAll() as $indMessage) {
+                        echo $indMessage["receiverContent"] . "\n";
+                    }
+                    //======================================================================================================================================================//
+                }
+
+            }
+        }
     }
 }
 

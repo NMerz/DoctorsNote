@@ -4,9 +4,9 @@ require '../vendor/autoload.php';
 
 //Redirect if not authenticated
 session_start();
-if ($_SESSION["status"] != "true") {
-    header("Location: https://doctorsnote.ddns.net/index.html");
-}
+//if ($_SESSION["status"] != "true") {
+    //header("Location: https://doctorsnote.ddns.net/index.html");
+//}
 
 //Go back to login if logout button is pressed
 if (isset($_POST['logout'])) {
