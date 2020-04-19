@@ -112,21 +112,105 @@ if (isset($_POST['submitDoctor'])) {
 
 
 $foundDeleteException = -1;
+$deleteNotDoctor = 0;
 if (isset($_POST['deleteDoctor'])) {
     $deleteDoctor = $_POST['usernameDelete'];
 
     $foundDeleteException = 0;
     if (isset($deleteDoctor) && trim($deleteDoctor) != '') {
         try {
-            $deletedDoctor = $client->adminDeleteUser([
-               "Username" => $deleteDoctor,
+            //Test if the user is a doctor
+            $filter = "username = \"" . $deleteDoctor . "\"";
+            $isDoctor = $client->listUsers([
+                "AttributesToGet" => ['custom:role'],
+                "Filter" => $filter,
+                "Limit" => 1,
                 "UserPoolId" => "us-east-2_Cobrg1kBn"
             ]);
+            if ($isDoctor["Users"][0]["Attributes"][0]["Value"] != "doctor" && $isDoctor["Users"][0]["Attributes"][0]["Value"] != "Doctor") {
+                //Not a doctor
+                $deleteNotDoctor = 1;
+            } else {
+                //Disable doctor
+                $deletedDoctor = $client->adminDeleteUser([
+                    "Username" => $deleteDoctor,
+                    "UserPoolId" => "us-east-2_Cobrg1kBn"
+                ]);
+            }
         } catch (\Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException $cognitoIdentityProviderException) {
             $foundDeleteException = 1;
         }
     }
 }
+
+
+//==============================Logic for Enabling/Disabling Doctors================================//
+$foundEnableException = -1;
+$enableNotDoctor = 0;
+if (isset($_POST['enableDoctor'])) {
+    $enableDoctor = $_POST['usernameEnable'];
+
+    $foundEnableException = 0;
+    if (isset($enableDoctor) && trim($enableDoctor) != '') {
+
+        try {
+            //Test if the user is a doctor
+            $filter = "username = \"" . $enableDoctor . "\"";
+            $isDoctor = $client->listUsers([
+                "AttributesToGet" => ['custom:role'],
+                "Filter" => $filter,
+                "Limit" => 1,
+                "UserPoolId" => "us-east-2_Cobrg1kBn"
+            ]);
+            if ($isDoctor["Users"][0]["Attributes"][0]["Value"] != "doctor" && $isDoctor["Users"][0]["Attributes"][0]["Value"] != "Doctor") {
+                //Not a doctor
+                $enableNotDoctor = 1;
+            } else {
+                //Disable doctor
+                $enableDoctor = $client->adminEnableUser([
+                    "Username" => $enableDoctor,
+                    "UserPoolId" => "us-east-2_Cobrg1kBn"
+                ]);
+            }
+        } catch (\Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException $cognitoIdentityProviderException) {
+            $foundEnableException = 1;
+        }
+    }
+}
+
+$foundDisableException = -1;
+$disableNotDoctor = 0;
+if (isset($_POST['disableDoctor'])) {
+    $disableDoctor = $_POST['usernameDisable'];
+
+    $foundDisableException = 0;
+    if (isset($disableDoctor) && trim($disableDoctor) != '') {
+
+        try {
+            //Test if the user is a doctor
+            $filter = "username = \"" . $disableDoctor . "\"";
+            $isDoctor = $client->listUsers([
+                "AttributesToGet" => ['custom:role'],
+                "Filter" => $filter,
+                "Limit" => 1,
+                "UserPoolId" => "us-east-2_Cobrg1kBn"
+            ]);
+            if ($isDoctor["Users"][0]["Attributes"][0]["Value"] != "doctor" && $isDoctor["Users"][0]["Attributes"][0]["Value"] != "Doctor") {
+                //Not a doctor
+                $disableNotDoctor = 1;
+            } else {
+                //Disable doctor
+                $disableDoctor = $client->adminDisableUser([
+                    "Username" => $disableDoctor,
+                    "UserPoolId" => "us-east-2_Cobrg1kBn"
+                ]);
+            }
+        } catch (\Aws\CognitoIdentityProvider\Exception\CognitoIdentityProviderException $cognitoIdentityProviderException) {
+            $foundDisableException = 1;
+        }
+    }
+}
+
 ?>
 
 <!doctype html>
@@ -182,6 +266,7 @@ if (isset($_POST['deleteDoctor'])) {
                             <th class="cell100 column2">Name</th>
                             <th class="cell100 column3">System ID</th>
                             <th class="cell100 column4">Location</th>
+                            <th class="cell100 column5">Status</th>
                         </tr>
                         </thead>
                     </table>
@@ -197,19 +282,26 @@ if (isset($_POST['deleteDoctor'])) {
                             try {
                                 $resultDoctor = $client->listUsers([
                                     'AttributesToGet' => ['name', 'family_name', 'email', 'address', 'middle_name', 'custom:role'], //TODO: fix these attributes. In particular, middle name should be replaced by the custom role
-                                    'Filter' => "status = \"Enabled\"", //Can only filter on certain default attributes
+                                    //'Filter' => "status = \"Enabled\"", //Can only filter on certain default attributes
                                     //'Limit' => <integer>,
                                     //'PaginationToken' => '<string>',
                                     'UserPoolId' => 'us-east-2_Cobrg1kBn', // REQUIRED
                                 ]);
                                 //if ($row["Attributes"][2]["Value"] != "Doctor") {
                                 foreach ($resultDoctor["Users"] as $row) {
-                                    if (sizeof($row["Attributes"]) == 6 && ($row["Attributes"][3]["Value"] == "doctor" || $row["Attributes"][3]["Value"] == "Doctor")) {
+                                    if (/*sizeof($row["Attributes"]) == 6 &&*/ ($row["Attributes"][3]["Value"] == "doctor" || $row["Attributes"][3]["Value"] == "Doctor")) {
                                         echo "<tr class=\"row100 head\">
                                               <td class=\"cell100 column1\">" . $row["Username"] . "</td>
                                               <td class=\"cell100 column2\">" . $row["Attributes"][1]["Value"] . " " . $row["Attributes"][4]["Value"] . "</td>
                                               <td class=\"cell100 column3\">" . $row["Attributes"][5]["Value"] . "</td>
                                               <td class=\"cell100 column4\">" . $row["Attributes"][0]["Value"] . "</td>
+                                              <td class=\"cell100 column5\">";
+                                              if ($row["Enabled"]) {
+                                                  echo "Enabled";
+                                              } else {
+                                                  echo "Disabled";
+                                              }
+                                              echo "</td>
                                               </tr>";
                                     }
                                 }
@@ -292,7 +384,9 @@ if (isset($_POST['deleteDoctor'])) {
         </form>
 
         <?php
-            if ($foundDeleteException == 1) {
+            if ($deleteNotDoctor) {
+                echo "<h4>User is not a doctor!</h4>";
+            } else if ($foundDeleteException == 1) {
                 echo "<h4>" . $cognitoIdentityProviderException["message"] . "</h4>";
             } else if ($foundDeleteException == 0) {
                 echo "<h4>Doctor Account Successfully Deleted!</h4>";
@@ -305,7 +399,46 @@ if (isset($_POST['deleteDoctor'])) {
         <br/>
 
 <!--===========================Disabling/Enabling Doctor Accounts============================-->
-        <h2>Enable/Disable Doctor Accounts</h2>
+        <h2>Enable Doctor Account</h2>
+        <br/>
+        <form class="form" method="post">
+            <label for="usernameEnable" class="labelNice">Doctor ID</label>
+            <input type="text" class="input" id="usernameEnable" name="usernameEnable">
+
+            <input type="submit" class="submit" name="enableDoctor" value="Enable Doctor"/>
+        </form>
+
+        <?php
+            if ($enableNotDoctor) {
+                echo "<h4>User is not a doctor!</h4>";
+            } else if ($foundEnableException == 1) {
+                echo "<h4>" . $cognitoIdentityProviderException["message"] . "</h4>";
+            } else if ($foundEnableException == 0) {
+                echo "<h4>Doctor Account Successfully Enabled!</h4>";
+            }
+        ?>
+
+        <br/>
+        <br/>
+
+        <h2>Disable Doctor Account</h2>
+        <br/>
+        <form class="form" method="post">
+            <label for="usernameDisable" class="labelNice">Doctor ID</label>
+            <input type="text" class="input" id="usernameDisable" name="usernameDisable">
+
+            <input type="submit" class="submit" name="disableDoctor" value="Disable Doctor"/>
+        </form>
+
+        <?php
+        if ($disableNotDoctor) {
+            echo "<h4>User is not a doctor!</h4>";
+        } else if ($foundDisableException == 1) {
+            echo "<h4>" . $cognitoIdentityProviderException["message"] . "</h4>";
+        } else if ($foundDisableException == 0) {
+            echo "<h4>Doctor Account Successfully Disabled!</h4>";
+        }
+        ?>
 
     </div>
 
