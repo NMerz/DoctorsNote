@@ -77,6 +77,14 @@ class TestRequestAppointment: XCTestCase {
         
     }
     
+    func testAppointmentDelete() {
+        tryLogin()
+        app?.buttons["Calendar"].tap()
+        app?.buttons["Pending"].tap()
+        app?.tables.cells.element(boundBy: 0).swipeRight()
+        XCTAssertTrue(app!.buttons["Delete"].exists)
+    }
+    
     func tryLogin() {
         let emailField = app!.textFields["Email Field"]
         let passwordField = app!.secureTextFields["Password Field"]

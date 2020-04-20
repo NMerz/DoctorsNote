@@ -31,6 +31,10 @@ class Appointment {
         return content
     }
     
+    func setContent(content: String) {
+        self.content = content
+    }
+    
     func getTimeScheduled() -> Date {
         return timeScheduled
     }
@@ -47,6 +51,11 @@ class Appointment {
         return status
     }
     
+    func setStatus(newStatus: Int) {
+        self.status = newStatus
+    }
+    
+//    not needed
     func approveAppointment() {
         if status == 0 {
             status = 1

@@ -82,7 +82,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jv0-xE-D1Q">
-                                <rect key="frame" x="150" y="623" width="114" height="36"/>
+                                <rect key="frame" x="167.5" y="625.5" width="79" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Calendar"/>
                                 <connections>
@@ -90,11 +90,11 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V1e-MI-kWw" customClass="PersonalInfoView" customModule="DoctorsNote" customModuleProvider="target">
-                                <rect key="frame" x="20" y="160" width="374" height="443"/>
+                                <rect key="frame" x="20" y="150" width="374" height="455.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a3k-Yh-seN">
-                                <rect key="frame" x="20" y="669" width="374" height="124"/>
+                                <rect key="frame" x="20" y="671.5" width="374" height="121.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Reminders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ws-0H-VaZ">
                                         <rect key="frame" x="20" y="15" width="334" height="24"/>
@@ -103,13 +103,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nnt-aD-uUB">
-                                        <rect key="frame" x="20" y="44" width="334" height="24"/>
-                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
+                                        <rect key="frame" x="20" y="44" width="334" height="21.5"/>
+                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VJ-be-CxQ">
-                                        <rect key="frame" x="20" y="73" width="334" height="36"/>
+                                        <rect key="frame" x="20" y="70.5" width="334" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal" title="View Reminders"/>
                                         <connections>
@@ -124,7 +124,7 @@
                                     <constraint firstAttribute="trailing" secondItem="2VJ-be-CxQ" secondAttribute="trailing" constant="20" id="Gf2-e0-VKf"/>
                                     <constraint firstItem="Nnt-aD-uUB" firstAttribute="leading" secondItem="a3k-Yh-seN" secondAttribute="leading" constant="20" id="Kim-tB-Gsn"/>
                                     <constraint firstItem="6Ws-0H-VaZ" firstAttribute="top" secondItem="a3k-Yh-seN" secondAttribute="top" constant="15" id="Ozi-gU-CXi"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="Sgj-XL-kx3"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="Sgj-XL-kx3"/>
                                     <constraint firstAttribute="trailing" secondItem="6Ws-0H-VaZ" secondAttribute="trailing" constant="20" id="WXu-fp-xAU"/>
                                     <constraint firstAttribute="trailing" secondItem="Nnt-aD-uUB" secondAttribute="trailing" constant="20" id="Yd4-In-5Cj"/>
                                     <constraint firstAttribute="bottom" secondItem="2VJ-be-CxQ" secondAttribute="bottom" constant="15" id="YtD-hW-BUy"/>
@@ -135,15 +135,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="jv0-xE-D1Q" firstAttribute="centerX" secondItem="KHq-gX-5s0" secondAttribute="centerX" id="QwL-Xq-XVp"/>
                             <constraint firstItem="jv0-xE-D1Q" firstAttribute="top" secondItem="V1e-MI-kWw" secondAttribute="bottom" constant="20" id="gAz-X0-Q4d"/>
                             <constraint firstItem="a3k-Yh-seN" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="20" id="iah-WZ-HJz"/>
                             <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="V1e-MI-kWw" secondAttribute="trailing" constant="20" id="mEo-PJ-3j1"/>
                             <constraint firstItem="a3k-Yh-seN" firstAttribute="top" secondItem="jv0-xE-D1Q" secondAttribute="bottom" constant="10" id="o7J-1s-TiM"/>
-                            <constraint firstItem="V1e-MI-kWw" firstAttribute="top" secondItem="iHi-vc-bhP" secondAttribute="top" constant="20" id="oRw-pX-ptM"/>
-                            <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="jv0-xE-D1Q" secondAttribute="trailing" constant="150" id="pdy-qm-Km1"/>
+                            <constraint firstItem="V1e-MI-kWw" firstAttribute="top" secondItem="iHi-vc-bhP" secondAttribute="top" constant="10" id="oRw-pX-ptM"/>
                             <constraint firstItem="iHi-vc-bhP" firstAttribute="bottom" secondItem="a3k-Yh-seN" secondAttribute="bottom" constant="20" id="qKq-4N-Ov9"/>
                             <constraint firstItem="V1e-MI-kWw" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="20" id="qLi-ML-DWg"/>
-                            <constraint firstItem="jv0-xE-D1Q" firstAttribute="leading" secondItem="iHi-vc-bhP" secondAttribute="leading" constant="150" id="xk7-2u-0p1"/>
                             <constraint firstItem="iHi-vc-bhP" firstAttribute="trailing" secondItem="a3k-Yh-seN" secondAttribute="trailing" constant="20" id="yvr-KE-OcO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="iHi-vc-bhP"/>
@@ -916,14 +915,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NORMAL WORK HOURS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em5-A9-hg6">
-                                <rect key="frame" x="25" y="113" width="193" height="21"/>
+                                <rect key="frame" x="25" y="165" width="193" height="21"/>
                                 <accessibility key="accessibilityConfiguration" label="Work Hours Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PB-8b-HPz">
-                                <rect key="frame" x="40" y="144" width="364" height="21"/>
+                                <rect key="frame" x="40" y="196" width="364" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1593,7 +1592,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="sqe-bD-kpk"/>
+        <segue reference="cbR-Dz-3zz"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>
