@@ -133,7 +133,6 @@ class ProfileViewController: UIViewController {
             // Fails to store message on server
             print((error as! ConnectionError).getMessage())
         }
-
         
         //personalInfoView.layer.mask = mask
         remindersPreviewView.bringSubviewToFront(viewRemindersButton)

@@ -389,26 +389,25 @@ class ConnectionProcessor {
         return nil
     }
     
-    func processUserInformation(url: String, uid: String) throws -> User? {
+    func processUserInformation(uid: String) throws -> User? {
         var userJSON = [String: Any]()
         userJSON["uid"] = uid
+        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/GetUserInfo"
         let userData = try postData(urlString: url, dataJSON: userJSON)
-        if (userData.first?.value as? NSArray == nil) {
-            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        if (userData.count == 0) {
+            throw ConnectionError(message: "Unable to find user")
         }
         
-        for userDict in (userData.first?.value as! NSArray) {
-            if (userDict as? [String : Any?] == nil) {
-                throw ConnectionError(message: "At least one JSON field was an incorrect format")
-            }
-            let user = userDict as! [String : Any?]
-            if (((user["email"]) as? String) != nil && ((user["firstName"]) as? String) != nil && ((user["middleName"]) as? String) != nil && ((user["lastName"]) as? String) != nil && ((user["address"]) as? String) != nil && ((user["phoneNumber"]) as? String) != nil) {
-                // WARNING: Not all fields are filled in since some information private/not necessary
-                let user = User(uid: uid, email: user["email"] as! String, firstName: user["firstName"] as! String, middleName: user["middleName"] as! String, lastName: user["lastName"] as! String, dateOfBirth: Date(), address: user["adress"] as! String, sex: "", phoneNumber: user["phoneNumber"] as! String, role: "", healthSystems: [HealthSystem(hospital: "", hospitalWebsite: "", healthcareProvider: "", healthcareWebsite: "")], workHours: "")
-                return user
-            } else {
-                throw ConnectionError(message: "At least one JSON field was an incorrect format")
-            }
+        if (userData as? [String : Any?] == nil) {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        let user = userData as! [String : Any?]
+        if (((user["email"]) as? String) != nil && ((user["firstName"]) as? String) != nil && ((user["middleName"]) as? String) != nil && ((user["lastName"]) as? String) != nil && ((user["address"]) as? String) != nil && ((user["phoneNumber"]) as? String) != nil) {
+            // WARNING: Not all fields are filled in since some information private/not necessary
+            let user = User(uid: uid, email: user["email"] as! String, firstName: user["firstName"] as! String, middleName: user["middleName"] as! String, lastName: user["lastName"] as! String, dateOfBirth: Date(), address: user["address"] as! String, sex: "", phoneNumber: user["phoneNumber"] as! String, role: "", healthSystems: [HealthSystem(hospital: "", hospitalWebsite: "", healthcareProvider: "", healthcareWebsite: "")], workHours: "")
+            return user
+        } else {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
         }
         return nil
     }
