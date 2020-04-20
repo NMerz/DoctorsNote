@@ -11,6 +11,7 @@ import UIKit
 class DoctorProfileViewController: UIViewController {
 
     @IBOutlet weak var hoursLabel: UILabel!
+    @IBOutlet weak var deleteMessageLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,15 +19,8 @@ class DoctorProfileViewController: UIViewController {
         self.navigationController?.navigationItem.backBarButtonItem?.title = "Back"
         
         // FIXME: Actually implement
-        CognitoHelper.sharedHelper.getWorkHours(doctor: User.init(uid: "1234")) { (success, hours) in
-            if (success) {
-                DispatchQueue.main.async {
-                    self.hoursLabel.text = hours
-                }
-            } else {
-                print(hours)
-            }
-        }
+        self.hoursLabel.text = ""
+        self.deleteMessageLabel.text = "Messages sent in DoctorsNote will be deleted after a certain amount of time."
     }
     
 

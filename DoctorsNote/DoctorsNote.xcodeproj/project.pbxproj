@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		442F306623F883A8001EBC3C /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 442F306523F883A8001EBC3C /* ConversationViewController.swift */; };
+		44549FF12443DBA8006BDC0A /* TestDeleteUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44549FF02443DBA8006BDC0A /* TestDeleteUser.swift */; };
 		44732400243184900026DA34 /* SupportGroupConvo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447323FF243184900026DA34 /* SupportGroupConvo.swift */; };
 		4473240424339A9B0026DA34 /* TestSGInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4473240324339A9B0026DA34 /* TestSGInfo.swift */; };
 		6C5E1BFDED7C4C82B2C7C9A3 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 6740B3FFB6664955BB5D35CC /* awsconfiguration.json */; };
@@ -65,6 +66,7 @@
 		B5AE734E24156C5B00A9CDAE /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */; };
 		B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */; };
+		B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6AFD5242996B9002AB699 /* TestSupportGroups.swift */; };
 		B82083CB24033A1E00CF41D0 /* SupportGroupMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */; };
 		B82083D1240399F400CF41D0 /* RequestSupportGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82083D0240399F400CF41D0 /* RequestSupportGroupVC.swift */; };
@@ -79,6 +81,7 @@
 		B885DAD92415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B885DAD82415BF5E00DF5D29 /* RequestAppointmentConfirmationVC.swift */; };
 		B8866F002409796800C6149F /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8866EFF2409796800C6149F /* CalendarVC.swift */; };
 		B8E3BA29242C258900820F05 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3BA28242C258900820F05 /* Appointment.swift */; };
+		B8EBD4182443D42C00C83A81 /* TestPurgeMessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EBD4172443D42C00C83A81 /* TestPurgeMessageLabel.swift */; };
 		B8FC537324326C28000500E2 /* TestRequestAppointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8FC537224326C28000500E2 /* TestRequestAppointment.swift */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +106,7 @@
 		088EB1EC7F4D13A2DF69F93C /* Pods_DoctorsNote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F61D7A5EA743CE919A6270 /* amplifyxc.config */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyxc.config; path = ./amplifyxc.config; sourceTree = "<group>"; };
 		442F306523F883A8001EBC3C /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		44549FF02443DBA8006BDC0A /* TestDeleteUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDeleteUser.swift; sourceTree = "<group>"; };
 		447323FF243184900026DA34 /* SupportGroupConvo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportGroupConvo.swift; sourceTree = "<group>"; };
 		4473240324339A9B0026DA34 /* TestSGInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSGInfo.swift; sourceTree = "<group>"; };
 		6740B3FFB6664955BB5D35CC /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = ./awsconfiguration.json; sourceTree = "<group>"; };
@@ -167,6 +171,7 @@
 		B8866EFF2409796800C6149F /* CalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
 		B8E3BA2024282A2D00820F05 /* NotificationPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPublisher.swift; sourceTree = "<group>"; };
 		B8E3BA28242C258900820F05 /* Appointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appointment.swift; sourceTree = "<group>"; };
+		B8EBD4172443D42C00C83A81 /* TestPurgeMessageLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPurgeMessageLabel.swift; sourceTree = "<group>"; };
 		B8FC537224326C28000500E2 /* TestRequestAppointment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestRequestAppointment.swift; sourceTree = "<group>"; };
 		D6F1A60D0FD3CCB8BB833746 /* Pods_DoctorsNote_DoctorsNoteUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoctorsNote_DoctorsNoteUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDBDB216632600534E2591BD /* Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; path = "Target Support Files/Pods-DoctorsNote-DoctorsNoteUITests/Pods-DoctorsNote-DoctorsNoteUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -291,6 +296,8 @@
 				B51C6A1F242C551F00048BCF /* TestChatView.swift */,
 				B8FC537224326C28000500E2 /* TestRequestAppointment.swift */,
 				4473240324339A9B0026DA34 /* TestSGInfo.swift */,
+				B8EBD4172443D42C00C83A81 /* TestPurgeMessageLabel.swift */,
+				44549FF02443DBA8006BDC0A /* TestDeleteUser.swift */,
 			);
 			path = DoctorsNoteUITests;
 			sourceTree = "<group>";
@@ -677,6 +684,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */,
 				B51C6A24242C577300048BCF /* (null) in Sources */,
 				B51C6A25242C577300048BCF /* Message.swift in Sources */,
 				B51C6A26242C577300048BCF /* Reminder.swift in Sources */,
@@ -705,8 +713,10 @@
 				B51C6A20242C551F00048BCF /* TestChatView.swift in Sources */,
 				4473240424339A9B0026DA34 /* TestSGInfo.swift in Sources */,
 				B8FC537324326C28000500E2 /* TestRequestAppointment.swift in Sources */,
+				B8EBD4182443D42C00C83A81 /* TestPurgeMessageLabel.swift in Sources */,
 				B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */,
 				B5E6AFD6242996B9002AB699 /* TestSupportGroups.swift in Sources */,
+				44549FF12443DBA8006BDC0A /* TestDeleteUser.swift in Sources */,
 				B52ABE8C23F5B874007B3D6A /* DoctorsNoteUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

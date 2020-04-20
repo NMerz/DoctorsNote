@@ -1,5 +1,6 @@
 package DoctorsNote;
 
+import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ListConversations {
@@ -30,18 +31,12 @@ public class ListConversations {
         System.out.println("ListConversations: Input Map: " + gsonString);
     }
 
-    public ConversationListResponse list(Map<String,Object> jsonString, Context context) throws SQLException {
+    public ConversationListResponse list(Map<String,Object> inputMap, Context context) throws SQLException {
         try {
-            printMap(jsonString);
-            String userId = (String)((Map<String,Object>)  jsonString.get("context")).get("sub");
-            for (String key : ((Map<String,Object>)jsonString.get("context")).keySet()) {
-                System.out.println("Key:" + key);
-                System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
-            }
-//            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
-            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
+            String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
+            printMap(inputMap);
 
-            System.out.println("ListConversations: Getting conversations for " + ((Map<String,Object>)  jsonString.get("context")).get("sub").toString());
+            System.out.println("ListConversations: Getting conversations for " + userId);
 
             // Request necessary information from MariaDB and process into Conversation objects
             PreparedStatement getConversationStatement = dbConnection.prepareStatement(getConversationFormatString);
@@ -72,7 +67,7 @@ public class ListConversations {
                     }
                 }
 
-                System.out.println("ListConversations: converserIds at line 67: " + converserIds.toString());
+                System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 if (converserIds.size() == 0) {
                     continue;
@@ -90,10 +85,13 @@ public class ListConversations {
                 String adminPublicKey = attributesRS.getString(4);
                 String converserIdString;
                 String converserPublicKey;
+                String converserName;
+                String[] converserNames;
                 System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 // For difference between one to one convos and support groups
                 if (converserIds.size() == 1) {
+                    converserNames = new String[]{};
                     converserIdString = converserIds.get(0);
                     PreparedStatement getPublicKeyStatement = dbConnection.prepareStatement(getConverserPublicKeyFormatString);
                     getPublicKeyStatement.setString(1, converserIdString);
@@ -106,15 +104,39 @@ public class ListConversations {
                     } else {
                         throw new ConversationListException("No public key available for converser " + converserIdString);
                     }
+                    UserInfoGetter getter = new UserInfoGetter();
+
+                    try {
+                        UserInfoGetter.UserInfoResponse response = getter.get(getUserInfoMap(converserIdString, userId), context);
+                        converserName = String.format("%s %s", response.getFirstName(), response.getLastName());
+                    } catch (NullPointerException e) {
+                        converserName = converserIdString;
+                    }
+                    conversationName = converserName;
                 } else {
                     converserIdString = "N/A";
                     converserPublicKey = "N/A";
                     adminPublicKey = "N/A";
+                    converserName = "N/A";
+                    UserInfoGetter getter = new UserInfoGetter();
+                    UserInfoGetter.UserInfoResponse response;
+                    ArrayList<String> nameList = new ArrayList<>();
+                    for (String s : converserIds) {
+                        try {
+                            response = getter.get(getUserInfoMap(s, userId), context);
+                            nameList.add(String.format("%s %s", response.getFirstName(), response.getLastName()));
+                        } catch (NullPointerException e) {
+                            System.out.println("ListConversations: User " + s + " not found");
+                        }
+                    }
+
+                    converserNames = nameList.toArray(new String[nameList.size()]);
                 }
 
-                System.out.println("ListConversations: converserIdString at line 93: " + converserIdString);
+                System.out.println("ListConversations: converserName: " + converserName);
 
-                conversations.add(new Conversation(conversationName, conversationId, converserPublicKey, adminPublicKey, converserIdString, status, lastMessageTime));
+                conversations.add(new Conversation(conversationName, conversationId, converserIdString, converserPublicKey, adminPublicKey, status, lastMessageTime, converserNames));
+
             }
 
             // Sort Conversation objects (-1 is to reverse the order to have newest times first)
@@ -132,6 +154,17 @@ public class ListConversations {
         } finally {
             dbConnection.close();
         }
+    }
+
+    private HashMap getUserInfoMap(String uid, String sub) {
+        HashMap<String, HashMap> topMap = new HashMap();
+        HashMap<String, Object> jsonBody = new HashMap();
+        jsonBody.put("uid", uid);
+        topMap.put("body-json", jsonBody);
+        HashMap<String, Object> context = new HashMap();
+        context.put("sub", sub);
+        topMap.put("context", context);
+        return topMap;
     }
 
     public class ConversationListRequest {
@@ -162,8 +195,10 @@ public class ListConversations {
         private String converserID;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
+        private String[] converserNames;        // Only for support groups; should be empty for one-to-ones
 
-        public Conversation(String conversationName, String conversationID, String converserPublicKey, String adminPublicKey, String converserID, int status, long lastMessageTime) {
+
+        public Conversation(String conversationName, String conversationID, String converserID, String converserPublicKey, String adminPublicKey, int status, long lastMessageTime, String[] converserNames) {
             this.conversationName = conversationName;
             this.conversationID = Integer.parseInt(conversationID);
             this.converserPublicKey = converserPublicKey;
@@ -171,6 +206,7 @@ public class ListConversations {
             this.converserID = converserID;
             this.status = status;
             this.lastMessageTime = lastMessageTime;
+            this.converserNames = converserNames;
         }
 
         public String getConversationName() {
@@ -183,6 +219,18 @@ public class ListConversations {
 
         public int getConversationID() {
             return conversationID;
+        }
+
+        public void setConversationID(int conversationID) {
+            this.conversationID = conversationID;
+        }
+
+        public String[] getConverserNames() {
+            return converserNames;
+        }
+
+        public void setConverserNames(String[] converserNames) {
+            this.converserNames = converserNames;
         }
 
         public void setConversationID(String conversationID) {

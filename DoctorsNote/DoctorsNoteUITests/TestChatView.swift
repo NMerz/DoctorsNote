@@ -38,11 +38,26 @@ class TestChatView: XCTestCase {
         XCTAssert(app!.staticTexts["Work Hours Label"].exists)
     }
     
+    func testLeaveConversation() throws {
+        app?.buttons["Info Button"].tap()
+        XCTAssert(app!.buttons["Leave Conversation"].exists)
+    }
+    
+    func testDeleteChatMessage() {
+        tryLogin()
+        app?.tabBars.buttons["Chats"].tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).press(forDuration: 2)
+        app?.menuItems["Delete"].tap()
+    }
+    
     func tryLogin() {
         let emailField = app!.textFields["Email Field"]
         let passwordField = app!.secureTextFields["Password Field"]
         
-        if (emailField.isHittable) {
+        if (emailField.exists && emailField.isHittable) {
             emailField.tap()
             emailField.typeText("hardin30@purdue.edu")
             

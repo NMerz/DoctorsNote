@@ -182,7 +182,7 @@ class ConnectionProcessor {
     
     func processUser(url: String, uid: String) -> (User?, ConnectionError?) {
         //Placeholder
-            return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", healthSystems: [HealthSystem]()), nil)
+        return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", role: "Patient", healthSystems: [HealthSystem](), workHours: ""), nil)
     }
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
@@ -232,7 +232,8 @@ class ConnectionProcessor {
                 if Data(base64Encoded: messageBase64) == nil {
                     throw ConnectionError(message: "Message JSON field did not meet encryption, encoding, and/or formatting requirements")
                 }
-                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: messageBase64)!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String))
+                let numFails = CognitoHelper.numFails
+                let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: messageBase64)!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String), numFails: numFails)
                 messages.append(newMessage)
             } else {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
@@ -243,7 +244,7 @@ class ConnectionProcessor {
     
     //TODO: Finer processing/passing of any errors returned by server to UI
     //  - Need to discuss this with team
-    func processNewMessage(url: String, message: Message, numFails: Int, cipher: MessageCipher? = nil, publicKeyExternalBase64: String? = nil, adminPublicKeyExternalBase64: String? = nil) -> ConnectionError? {
+    func processNewMessage(url: String, message: Message, cipher: MessageCipher? = nil, publicKeyExternalBase64: String? = nil, adminPublicKeyExternalBase64: String? = nil) -> ConnectionError? {
         var messageJSON = [String: Any]()
         messageJSON["conversationID"] = message.getConversationID()
         if cipher != nil && publicKeyExternalBase64 != nil && adminPublicKeyExternalBase64 != nil {
@@ -272,7 +273,8 @@ class ConnectionProcessor {
             messageJSON["adminContent"] = message.getBase64Content()
         }
         messageJSON["contentType"] = message.getContentType()
-        messageJSON["numFails"] = numFails
+        messageJSON["numFails"] = message.getNumFails()
+
         do {
             let data = try postData(urlString: url, dataJSON: messageJSON)
             if data.count != 0 {
