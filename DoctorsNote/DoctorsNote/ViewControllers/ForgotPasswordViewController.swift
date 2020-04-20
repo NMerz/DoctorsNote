@@ -189,7 +189,7 @@ class PasswordCodeViewController: UIViewController {
                             if (success) {
                                 DispatchQueue.main.async {
                                     // Confirm security question
-                                    let alertController = UIAlertController(title: "Confirm Security Question", message: "You must confirm your security question to proceed.", preferredStyle: .alert)
+                                    let alertController = UIAlertController(title: "Confirm Security Question", message: CognitoHelper.user!.getSecurityQuestion(), preferredStyle: .alert)
                                     
                                     let submitAction = UIAlertAction(title: "Submit", style: .default) { (action) in
                                         let response = alertController.textFields![0].text!
