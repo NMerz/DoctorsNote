@@ -160,13 +160,14 @@ class ConnectionProcessor {
             let conversation = conversationDict as! [String : Any?]
             print(conversation)
            // let conversation = conversationList[conversationKey] as! [String : Any?]
-            print(conversation["conversationID"] as? Int)
-            print(conversation["converserID"] as? String)
-            print(conversation["conversationName"] as? String)
-            print(conversation["lastMessageTime"] as? TimeInterval)
-            print(conversation["status"] as? Int)
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int)
+//            print(conversation["conversationID"] as? Int)
+//            print(conversation["converserID"] as? String)
+//            print(conversation["conversationName"] as? String)
+//            print(conversation["lastMessageTime"] as? TimeInterval)
+//            print(conversation["status"] as? Int)
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil && ((conversation["numMembers"]) as? Int) != nil && ((conversation["description"]) as? String) != nil) {
+                // TODO: numMembers and description fields need to be set once database connection is finished
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int, numMembers: conversation["numMembers"] as! Int, description: conversation["description"] as! String)
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -182,7 +183,7 @@ class ConnectionProcessor {
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
         //Placeholder
-        return (Conversation(conversationID: -1, converserID: "-1", conversationName: "placeholder retrieval", lastMessageTime: Date(), status: -999), nil)
+        return (Conversation(conversationID: -1, converserID: "-1", conversationName: "placeholder retrieval", lastMessageTime: Date(), status: -999, numMembers: -1, description: ""), nil)
     }
     
     func processMessages(url: String, conversationID: Int, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Message] {
@@ -370,6 +371,46 @@ class ConnectionProcessor {
             }
         }
         return appointments
+    }
+    
+    func processJoinSupportGroup(url: String, conversationID: Int) throws -> ConnectionError? {
+        var joinJSON = [String: Any]()
+        joinJSON["userID"] = AWSMobileClient.default().username!
+        joinJSON["conversationID"] = conversationID
+        
+        do {
+            let data = try postData(urlString: url, dataJSON: joinJSON)
+            if data.count != 0 {
+                return ConnectionError(message: "Non-blank return")
+            }
+        } catch let error {
+            return error as? ConnectionError
+        }
+        return nil
+    }
+    
+    func processUserInformation(url: String, uid: String) throws -> User? {
+        var userJSON = [String: Any]()
+        userJSON["uid"] = uid
+        let userData = try postData(urlString: url, dataJSON: userJSON)
+        if (userData.first?.value as? NSArray == nil) {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        
+        for userDict in (userData.first?.value as! NSArray) {
+            if (userDict as? [String : Any?] == nil) {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+            let user = userDict as! [String : Any?]
+            if (((user["email"]) as? String) != nil && ((user["firstName"]) as? String) != nil && ((user["middleName"]) as? String) != nil && ((user["lastName"]) as? String) != nil && ((user["address"]) as? String) != nil && ((user["phoneNumber"]) as? String) != nil) {
+                // WARNING: Not all fields are filled in since some information private/not necessary
+                let user = User(uid: uid, email: user["email"] as! String, firstName: user["firstName"] as! String, middleName: user["middleName"] as! String, lastName: user["lastName"] as! String, dateOfBirth: Date(), address: user["adress"] as! String, sex: "", phoneNumber: user["phoneNumber"] as! String, role: "", healthSystems: [HealthSystem(hospital: "", hospitalWebsite: "", healthcareProvider: "", healthcareWebsite: "")], workHours: "")
+                return user
+            } else {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+        }
+        return nil
     }
 }
 
