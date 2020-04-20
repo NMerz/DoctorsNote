@@ -48,7 +48,24 @@ class MessageCipher {
         privateKey = newPrivateKey
     }
     
-    public func decodePrivateKey(toDecrypt: String) throws -> String  {
+    public func setAndReturnKeyPair(encryptedPrivateKey: String) throws -> (Data, Data) {
+        try setPrivateKey(encryptedPrivateKey: encryptedPrivateKey)
+        if privateKey == nil {
+            throw CipherError(message: "Could not decrypt key")
+        }
+        let cfExport = SecKeyCopyExternalRepresentation(privateKey!, nil)
+        if cfExport == nil {
+            throw CipherError(message: "Could not export key")
+        }
+        let privateKeyExport = (cfExport! as Data)
+        let publicKey = SecKeyCopyPublicKey(privateKey!)
+        let cfExportPublic = SecKeyCopyExternalRepresentation(publicKey!, nil)!
+        let publicKeyExport = (cfExportPublic as Data)
+        return (privateKeyExport, publicKeyExport)
+        
+    }
+    
+    private func decodePrivateKey(toDecrypt: String) throws -> String  {
         if Data(base64Encoded: toDecrypt) == nil {
             throw CipherError(message: "Input key is note base64 encoded")
         }

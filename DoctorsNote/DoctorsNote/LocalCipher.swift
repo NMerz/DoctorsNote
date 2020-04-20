@@ -36,11 +36,20 @@ class LocalCipher {
     public func generateKetSet(password: String, securityQuestionAnswers: [String], username: String) -> (Data, Data, Data) {
         let passwordAESKey = getAESFromPass(password: password, username: username)
         let (privateKeyExport, publicKeyExport) = generateKeyPair()
-        print("privateKeyExport: " + privateKeyExport.base64EncodedString())
+//        print("privateKeyExport: " + privateKeyExport.base64EncodedString())
         let passwordEncryptedPrivateKey = encryptKeyWithAES(keyExport: privateKeyExport, AESKey: passwordAESKey, iv: username)
         let securityAESKey = getAESFromSecurityQuestions(securityQuestionAnswers: securityQuestionAnswers, username: username)
         let secuiryQuestionEncryptedPrivateKey = encryptKeyWithAES(keyExport: privateKeyExport, AESKey: securityAESKey, iv: username)
         return (passwordEncryptedPrivateKey, secuiryQuestionEncryptedPrivateKey, publicKeyExport)
+    }
+    
+    public func resetKeyPair(securityQuestionAnswers: [String], newPassword: String, username: String, connectionProcessor: ConnectionProcessor) throws {
+        let (_, encryptedPrivateKeySQ) = try connectionProcessor.retrieveEncryptedPrivateKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/retrievekeys")
+        let AESKey = getAESFromSecurityQuestions(securityQuestionAnswers: securityQuestionAnswers, username: username)
+        let keyDecrypter = try MessageCipher(uniqueID: username, localAESKey: AESKey)
+        let (decryptedPrivateKey, publicKey) = try keyDecrypter.setAndReturnKeyPair(encryptedPrivateKey: encryptedPrivateKeySQ)
+        let encryptedPrivateKeyP = encryptKeyWithAES(keyExport: decryptedPrivateKey, AESKey: getAESFromPass(password: newPassword, username: username), iv: username)
+        try connectionProcessor.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: encryptedPrivateKeyP.base64EncodedString(), privateKeyS: encryptedPrivateKeySQ, publicKey: publicKey.base64EncodedString())
     }
     
     private func generateKeyPair() -> (Data, Data) {
@@ -66,15 +75,15 @@ class LocalCipher {
         var bytesEncrypted = 0
         let AESKeyUnsafe = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 256)
         _ = AESKey.copyBytes(to: AESKeyUnsafe)
-        print("Pre encryption")
-        print(String(bytes: toEncrypt, encoding: .utf8))
+//        print("Pre encryption")
+//        print(String(bytes: toEncrypt, encoding: .utf8))
         let encryptReturn = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKeyUnsafe.baseAddress, kCCKeySizeAES256, iv, toEncrypt, toEncrypt.count / 128 * 128 + 128, encrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted)
         if encryptReturn != 0 {
             print("Encryption for key failed with return: " + encryptReturn.description)
         }
         let encryptedKey = Data(bytes: encrypted, count: (toEncrypt.count / 128 * 128 + 128))
-        print("Post encryption and encoding:")
-        print(encryptedKey.base64EncodedString())
+//        print("Post encryption and encoding:")
+//        print(encryptedKey.base64EncodedString())
         return encryptedKey
     }
     

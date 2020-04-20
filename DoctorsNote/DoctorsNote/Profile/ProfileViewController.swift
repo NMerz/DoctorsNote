@@ -37,26 +37,28 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var connector2 = Connector()
+        let connector2 = Connector()
         AWSMobileClient.default().getTokens(connector2.setToken(potentialTokens:potentialError:))
-        var processor2 = ConnectionProcessor(connector: connector2)
+        let processor2 = ConnectionProcessor(connector: connector2)
         do {
-            let cipher = LocalCipher()
-            print("username: " + (CognitoHelper.user?.getUID())!)
-            let (keyP, keyS, keyPub) = cipher.generateKetSet(password: "pass", securityQuestionAnswers: ["answer1", "answer2"], username: (CognitoHelper.user?.getUID())!)
-            try processor2.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: keyP.base64EncodedString(), privateKeyS: keyS.base64EncodedString(), publicKey: keyPub.base64EncodedString())
-            //try processor2.processDeleteAppointment(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/appointmentdelete", appointment: Appointment(appointmentID: 25, content: "blah", timeScheduled: Date(), withID: "blah"))
-            do {
-                print(try processor2.retrieveEncryptedPrivateKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/retrievekeys"))
-            } catch let error as ConnectionError {
-                print(error.getMessage())
-                if error.getMessage() == "Null response" {
-                    //TODO: post keys
-                    print("TODO: I need to post the keys")
-                }
+            print("Encrypted Private keys")
+            print(try processor2.retrieveEncryptedPrivateKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/retrievekeys"))
+            let testCipher = LocalCipher()
+            try testCipher.resetKeyPair(securityQuestionAnswers: ["answer1", "answer2"], newPassword: CognitoHelper.password! + "!", username: (CognitoHelper.user?.getUID())!,   connectionProcessor: processor2)
+        }
+        catch let error {
+            if (error as! ConnectionError).getMessage() == "Null response" {
+                do {
+                    let cipher = LocalCipher()
+                    let (keyP, keyS, keyPub) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: ["answer1", "answer2"], username: (CognitoHelper.user?.getUID())!)
+                    try processor2.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: keyP.base64EncodedString(), privateKeyS: keyS.base64EncodedString(), publicKey: keyPub.base64EncodedString())
+                    } catch let error {
+                        print((error as! ConnectionError).getMessage())
+                    }
             }
-        } catch let error {
-            print((error as! ConnectionError).getMessage())
+            else {
+                print((error as! ConnectionError).getMessage())
+            }
         }
         
         // Remove permanent data, should I do this here?

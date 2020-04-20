@@ -421,10 +421,7 @@ class ConnectionProcessor {
         let emptyJSON = [String: Any]()
         let data: [String : Any]
         data = try postData(urlString: url, dataJSON: emptyJSON)
-//        if data.first?.value as? [String : Any?] == nil {
-//            throw ConnectionError(message: "Incorrect JSON format -- expected single level dictionary object")
-//        }
-        let keyJSON = data//data.first?.value as! [String : Any?]
+        let keyJSON = data
         if keyJSON["privateKeyP"] as? String == nil || keyJSON["privateKeyS"] as? String == nil {
             throw ConnectionError(message: "At least one JSON field was missing or in an incorrect format")
         }

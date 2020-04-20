@@ -91,58 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let saltString = "username"
-        let passwordString = "abcd"
-        let attributes = [ kSecAttrKeyType: kSecAttrKeyTypeRSA,
-            kSecAttrKeySizeInBits: 2048,
-            kSecAttrKeyClass: kSecAttrKeyClassPrivate
-            ] as [CFString : Any]
-        let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))!
-        let publicKey = SecKeyCopyPublicKey(privateKey)
-        var error: Unmanaged<CFError>?
-        let cfExport = SecKeyCopyExternalRepresentation(privateKey, &error)!
-        let privateKeyExport = (cfExport as Data)
-        print(error)
-        print(privateKeyExport.base64EncodedString())
-        print((SecKeyCopyExternalRepresentation(publicKey!, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))! as Data).base64EncodedString())
-        let localAESKey = LocalCipher.init().getAESFromPass(password: passwordString, username: saltString)//Data(bytes: newKey, count: 256)
-        print(localAESKey.base64EncodedString())
-        var toEncrypt = privateKeyExport.base64EncodedString()
-        print("key size")
-        print(toEncrypt.count)
-        toEncrypt.reserveCapacity(toEncrypt.count / 128 * 128 + 128)
-        let encrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: (toEncrypt.count / 128 * 128 + 128))
-        var bytesEncrypted = 0
-        var AESKey = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: 256)
-        localAESKey.copyBytes(to: AESKey)
-        let encryptReturn = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, toEncrypt, toEncrypt, toEncrypt.count / 128 * 128 + 128, encrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted) //the first toEncrypt is functioning as the IV (salt?)
-        print (Data(base64Encoded: toEncrypt)!.base64EncodedString())
-        print("Encypted Return:")
-        print(encryptReturn)
-        print(bytesEncrypted)
-        let encryptedText = Data(bytes: encrypted, count: (toEncrypt.count / 128 * 128 + 128))
-        print(encryptedText.base64EncodedString())
-        let decrypted = UnsafeMutablePointer<UInt8>.allocate(capacity: (toEncrypt.count / 128 * 128 + 128))
-        let decryptReturn = CCCrypt(CCOperation(kCCDecrypt), CCAlgorithm(kCCAlgorithmAES128), CCOptions(), AESKey.baseAddress, kCCKeySizeAES256, toEncrypt, encrypted, (toEncrypt.count / 128 * 128 + 128), decrypted,  (toEncrypt.count / 128 * 128 + 128), &bytesEncrypted) //Note: this currently takes a nonbase64 data object, but the return from the API will be in base64. I just have to remember to use the base64 interpretation on it
-        //To expand on the above: Export -> Base64->encode->base64->store->retrieve->non-base64->decode->nonbase64->import
-        
-        print("Decrypt return:")
-        print(decryptReturn)
-        let baseDecrypt = Data(bytes: decrypted, count: toEncrypt.count)
-        print(baseDecrypt.base64EncodedString())
-        let decryptedText = Data(base64Encoded: baseDecrypt)! //Data(base64Encoded: String(data: Data(bytes:decrypted, count: toEncrypt.count / 128 * 128 + 128), encoding: .utf8)!)!
-        print(decryptedText.base64EncodedString())
-        var unmanagedError: Unmanaged<CFError>? = nil
-        let newPrivateKey = SecKeyCreateWithData(decryptedText as CFData, attributes as CFDictionary, UnsafeMutablePointer<Unmanaged<CFError>?>(&unmanagedError))
-        print(unmanagedError)
-        if decryptedText == privateKeyExport {
-            print("Matching data")
-        }
-        if newPrivateKey! == privateKey {
-            print("success")
-        } else {
-            print((SecKeyCopyExternalRepresentation(newPrivateKey!, UnsafeMutablePointer<Unmanaged<CFError>?>.allocate(capacity: 100))! as Data).base64EncodedString())
-        }
+
         requestNotificationAuthorization(application: application)
         
         // Override point for customization after application launch.
