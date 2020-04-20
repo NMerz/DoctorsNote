@@ -20,6 +20,7 @@ class ProfileViewController: UIViewController {
     var mask: CAShapeLayer?
     
     var p: PopupView?
+    var dp: PopupView?
     @IBOutlet weak var remindersPreviewView: UIView!
     @IBOutlet weak var remindersPreviewLabel: UILabel!
     @IBOutlet weak var viewRemindersButton: UIButton!
@@ -170,6 +171,9 @@ class ProfileViewController: UIViewController {
         p = PopupView.init(contentView: contentView)
         p?.maskType = .dimmed
         
+        dp = PopupView.init(contentView: contentView)
+        dp?.maskType = .dimmed
+        
         let reportButton = UIButton(frame: CGRect(x: 25, y: 10, width: width - 50, height: 40))
         let reportLayer = CAShapeLayer()
         reportLayer.path = UIBezierPath(roundedRect: reportButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
@@ -185,6 +189,7 @@ class ProfileViewController: UIViewController {
         let deleteLayer = CAShapeLayer()
         deleteLayer.path = UIBezierPath(roundedRect: deleteButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         deleteButton.layer.mask = deleteLayer
+        deleteButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
         //action to delete user and go to login screen
     
         let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 110, width: 90, height: 40))
