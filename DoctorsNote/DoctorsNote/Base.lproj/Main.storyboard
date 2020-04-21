@@ -1613,12 +1613,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-<<<<<<< HEAD
         <segue reference="sqe-bD-kpk"/>
         <segue reference="gVO-6z-lZw"/>
-=======
         <segue reference="cbR-Dz-3zz"/>
->>>>>>> dev
     </inferredMetricsTieBreakers>
     <resources>
         <image name="bubble.left.and.bubble.right.fill" catalog="system" width="128" height="97"/>

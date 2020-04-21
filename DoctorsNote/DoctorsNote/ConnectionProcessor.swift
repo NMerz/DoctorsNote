@@ -385,8 +385,6 @@ class ConnectionProcessor {
         return appointments
     }
     
-<<<<<<< HEAD
-<<<<<<< HEAD
     // TODO double check
     func processDeleteUser(url: String, uid: String) throws {
         var userJSON = [String: Any]()
@@ -409,11 +407,10 @@ class ConnectionProcessor {
             throw ConnectionError(message: "Non-blank return")
         }
         //Should have returned a blank 200 if successful, if so, no need to do anything
-=======
-    func processJoinSupportGroup(url: String, conversationID: Int) throws -> ConnectionError? {
-=======
+        
+    }
+    
     func processJoinSupportGroup(conversationID: Int) throws -> ConnectionError? {
->>>>>>> dev
         var joinJSON = [String: Any]()
         joinJSON["userId"] = AWSMobileClient.default().username!
         joinJSON["conversationId"] = conversationID
@@ -484,12 +481,6 @@ class ConnectionProcessor {
             throw ConnectionError(message: "At least one JSON field was an incorrect format")
         }
         return nil
-<<<<<<< HEAD
->>>>>>> dev
-=======
-
-        
->>>>>>> dev
     }
 }
 
