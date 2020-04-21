@@ -3,6 +3,7 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -18,15 +19,21 @@ public class AddEvent implements RequestHandler<Map<String,Object>, EventAdder.A
 
     @Override
     public EventAdder.AddEventResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        // Establish connection with MariaDB
-        EventAdder adder = makeEventAdder();
-        EventAdder.AddEventResponse response = adder.add(inputMap, context);
-        if (response == null) {
-            System.out.println("AddEvent: EventAdder returned null");
-            throw new RuntimeException("Server experienced an error");
+        try {
+            // Establish connection with MariaDB
+            EventAdder adder = makeEventAdder();
+            EventAdder.AddEventResponse response = adder.add(inputMap, context);
+            if (response == null) {
+                System.out.println("AddEvent: EventAdder returned null");
+                throw new RuntimeException("Server experienced an error");
+            }
+            System.out.println("AddEvent: EventAdder returned valid response");
+            return response;
+        } catch (SQLException e) {
+            // This should only execute if closing the connection failed
+            System.out.println("AddEvent: Could not close the database connection");
+            return null;
         }
-        System.out.println("AddEvent: EventAdder returned valid response");
-        return response;
     }
 
     public EventAdder makeEventAdder() {

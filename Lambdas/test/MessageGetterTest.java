@@ -33,13 +33,13 @@ public class MessageGetterTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         MessageGetter messageGetter = new MessageGetter(connectionMock);
         Assert.assertEquals(null, messageGetter.get(new HashMap<>(), contextMock));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("context");
         MessageGetter messageGetter = new MessageGetter(connectionMock);
@@ -47,7 +47,7 @@ public class MessageGetterTest {
     }
 
     @Test()
-    public void testBadInput() { //TODO: This test fails for the wrong reason. The sub field isn't actually used. I think it is failing due to not having the connectionMock interactions defined
+    public void testBadInput() throws SQLException { //TODO: This test fails for the wrong reason. The sub field isn't actually used. I think it is failing due to not having the connectionMock interactions defined
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("context")).put("sub", 1);
         MessageGetter messageGetter = new MessageGetter(connectionMock);
@@ -55,7 +55,7 @@ public class MessageGetterTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         MessageGetter messageGetter = new MessageGetter(connectionMock);
         try {
@@ -69,7 +69,7 @@ public class MessageGetterTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testCompleteInput() throws SQLException {
         HashMap completeMap = getSampleMap();
         try {
             // Mocking necessary connection elements

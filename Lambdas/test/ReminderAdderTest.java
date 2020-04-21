@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 public class ReminderAdderTest {
     Connection connectionMock = mock(Connection.class);
 
-    private HashMap getSampleMap() {
+    private HashMap getSampleMap() throws SQLException {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
         jsonBody.put("content", "test reminder");
@@ -32,13 +32,13 @@ public class ReminderAdderTest {
     }
 
     @Test()
-    public void testEmptyInputs() {
+    public void testEmptyInputs() throws SQLException {
         ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
         Assert.assertEquals(null, reminderAdder.add(new HashMap<>(), mock(Context.class)));
     }
 
     @Test()
-    public void testMissingInput() {
+    public void testMissingInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("content");
         ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
@@ -46,7 +46,7 @@ public class ReminderAdderTest {
     }
 
     @Test()
-    public void testBadInput() {
+    public void testBadInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).put("content", 1);
         ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
@@ -54,7 +54,7 @@ public class ReminderAdderTest {
     }
 
     @Test()
-    public void testConnectionError() {
+    public void testConnectionError() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         ((HashMap) incompleteMap.get("body-json")).remove("content");
         ReminderAdder reminderAdder = new ReminderAdder(connectionMock);
@@ -69,7 +69,7 @@ public class ReminderAdderTest {
     }
 
     @Test()
-    public void testCompleteInput() {
+    public void testCompleteInput() throws SQLException {
         HashMap incompleteMap = getSampleMap();
         try {
             when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(Mockito.mock(PreparedStatement.class));

@@ -14,8 +14,8 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    var groups = ["Support Group 1", "Support Group 2"]
-    var filteredGroups: [String]?
+    var groups: [Conversation]?
+    var filteredGroups: [Conversation]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,13 +25,18 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
         searchController.searchBar.placeholder = "Search Support Groups"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        
+        // Get support groups from database
+        
+        groups = [(Conversation(conversationID: -1, converserID: "1", conversationName: "Test Support Group", lastMessageTime: Date(), status: 1, numMembers: 15, description: "Test description"))]
+        
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text!
-        filteredGroups = groups.filter({( name : String) -> Bool in
+        filteredGroups = groups!.filter({( convo: Conversation ) -> Bool in
             let searched = searchText.lowercased()
-            let include = name.contains(searched)
+            let include = convo.getConversationName().contains(searched)
             return (include)
         })
         tableView.reloadData()
@@ -41,15 +46,17 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
         if (isFiltering()) {
             return filteredGroups!.count
         }
-        return groups.count
+        return groups!.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "search_cell") as! SearchGroupCell
         if (isFiltering()) {
-            cell.nameLabel.text = filteredGroups![indexPath.row]
+            cell.conversation = filteredGroups![indexPath.row]
+            cell.nameLabel.text = filteredGroups![indexPath.row].getConversationName()
         } else {
-            cell.nameLabel.text = groups[indexPath.row]
+            cell.conversation = groups![indexPath.row]
+            cell.nameLabel.text = groups![indexPath.row].getConversationName()
         }
         cell.delegate = self
         
@@ -72,6 +79,7 @@ class SearchGroupCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     var p: PopupView?
     var delegate: SearchGroupsTableViewController?
+    var conversation: Conversation?
     
     @IBAction func showInfo(_ sender: Any) {
     
@@ -87,17 +95,26 @@ class SearchGroupCell: UITableViewCell {
         p = PopupView.init(contentView: contentView)
         p?.maskType = .dimmed
 
-        let nameLabel = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
-        nameLabel.text = "Group Name\n\nGroup Description"
-        nameLabel.numberOfLines = 5
+        let nameLabel = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 35))
+        nameLabel.text = "Name: " + conversation!.getConversationName()
+        nameLabel.numberOfLines = 1
+        nameLabel.accessibilityLabel = "Name Label"
+        contentView.addSubview(nameLabel)
         
-        let descriptionOffset = Int(nameLabel.frame.height) + 40
+        let descriptionOffset = Int(nameLabel.frame.maxY)
         let descriptionLabel = UILabel(frame: CGRect(x: 20, y: descriptionOffset, width: width - 20, height: 200))
+        descriptionLabel.numberOfLines = 5
+        descriptionLabel.lineBreakMode = .byTruncatingTail
+        descriptionLabel.text = "Description: " + conversation!.getDescription()
+        descriptionLabel.accessibilityLabel = "Description Label"
+        contentView.addSubview(descriptionLabel)
         
-        let messageOffset = 60 + Int(nameLabel.frame.height) + Int(descriptionLabel.frame.height)
-        let messageLabel = UILabel(frame: CGRect(x: 20, y: messageOffset, width: width - 40, height: 25))
-        nameLabel.text = "## Members"
-    
+        let messageOffset = Int(descriptionLabel.frame.maxY) + 10
+        let memberLabel = UILabel(frame: CGRect(x: 20, y: messageOffset, width: width - 40, height: 25))
+        memberLabel.text = "Members: " + String(conversation!.getNumMembers())
+        memberLabel.accessibilityLabel = "Member Label"
+        contentView.addSubview(memberLabel)
+        
         let closeButton = UIButton(frame: CGRect(x: width/2 + 10, y: height - 75, width: 90, height: 40))
         closeButton.setTitle("Cancel", for: .normal)
         closeButton.backgroundColor = UIColor.systemBlue
@@ -119,7 +136,6 @@ class SearchGroupCell: UITableViewCell {
 
         contentView.addSubview(joinButton)
         contentView.addSubview(closeButton)
-        contentView.addSubview(nameLabel)
 
         let xPos = self.delegate!.view.frame.width / 2
         let yPos = self.delegate!.view.frame.height / 2 
@@ -127,7 +143,7 @@ class SearchGroupCell: UITableViewCell {
         p?.showType = .slideInFromBottom
         p?.maskType = .dimmed
         p?.dismissType = .slideOutToBottom
-        p?.show(at: location, in: self.delegate!.view)
+        p?.show(at: location, in: self.delegate!.tabBarController!.view)
         
     }
     

@@ -3,6 +3,7 @@ package DoctorsNote;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 /*
@@ -17,15 +18,21 @@ import java.util.Map;
 public class RemoveReminder implements RequestHandler<Map<String,Object>, ReminderRemover.RemoveReminderResponse> {
     @Override
     public ReminderRemover.RemoveReminderResponse handleRequest(Map<String,Object> inputMap, Context context) {
-        // Establish connection with MariaDB
-        ReminderRemover remover = makeReminderRemover();
-        ReminderRemover.RemoveReminderResponse response = remover.remove(inputMap, context);
-        if (response == null) {
-            System.out.println("RemoveReminder: ReminderRemover returned null");
-            throw new RuntimeException("Server experienced an error");
+        try {
+            // Establish connection with MariaDB
+            ReminderRemover remover = makeReminderRemover();
+            ReminderRemover.RemoveReminderResponse response = remover.remove(inputMap, context);
+            if (response == null) {
+                System.out.println("RemoveReminder: ReminderRemover returned null");
+                throw new RuntimeException("Server experienced an error");
+            }
+            System.out.println("RemoveReminder: ReminderRemover returned valid response");
+            return response;
+        } catch (SQLException e) {
+            // This should only execute if closing the connection failed
+            System.out.println("RemoveReminder: Could not close the database connection");
+            return null;
         }
-        System.out.println("RemoveReminder: ReminderRemover returned valid response");
-        return response;
     }
 
     public ReminderRemover makeReminderRemover() {

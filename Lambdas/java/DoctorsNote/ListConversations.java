@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class ListConversations {
         System.out.println("ListConversations: Input Map: " + gsonString);
     }
 
-    public ConversationListResponse list(Map<String,Object> jsonString, Context context) {
+    public ConversationListResponse list(Map<String,Object> jsonString, Context context) throws SQLException {
         try {
             printMap(jsonString);
             String userId = (String)((Map<String,Object>)  jsonString.get("context")).get("sub");
@@ -100,9 +101,6 @@ public class ListConversations {
                 conversations.add(new Conversation(conversationName, conversationId, converserIdString, status, lastMessageTime));
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             // Sort Conversation objects (-1 is to reverse the order to have newest times first)
             conversations.sort((o1, o2) -> -1 * Long.compare(o1.getLastMessageTime(), o2.getLastMessageTime()));
 
@@ -115,6 +113,8 @@ public class ListConversations {
         } catch (Exception e) {
             System.out.println("ListConversations: Exception encountered: " + e.toString());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

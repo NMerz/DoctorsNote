@@ -105,22 +105,6 @@ class RemindersVC: UIViewController, UITableViewDelegate, UITableViewDataSource,
         print()
         return cell
         
-        
-        ///
-//        var cell = tableView.dequeueReusableCell(withIdentifier: "remindersCell")
-//        if cell == nil {
-//            cell = UITableViewCell(style: .subtitle, reuseIdentifier: "remindersCell")
-//        }
-//
-//        cell!.textLabel?.text = remindersList[indexPath.row].reminder
-//        let frequency = "\(remindersList[indexPath.row].numTimesADay ?? "nil") time(s) a day, every \(remindersList[indexPath.row].everyNumDays ?? "nil") day(s)"
-//        cell!.detailTextLabel?.text = frequency
-//
-//        return cell!
-        
-//        let cell = UITableViewCell(style: .default, reuseIdentifier: "remindersCell")
-//        cell.textLabel?.text = remindersList[indexPath.row].reminder
-//        return cell
     }
     
     // Delete a reminder

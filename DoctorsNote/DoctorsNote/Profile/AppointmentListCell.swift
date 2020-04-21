@@ -20,7 +20,7 @@ class AppointmentListCell: UITableViewCell {
     }
     
     func setAppointment(appointment: Appointment) {
-        doctor.text = appointment.getContent() + " with " + appointment.getWithID()
+        doctor.text = appointment.getContent() + "\n" + appointment.getWithID()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy 'at' HH:mm"
         let formattedDateTime = dateFormatter.string(from: appointment.getTimeScheduled())

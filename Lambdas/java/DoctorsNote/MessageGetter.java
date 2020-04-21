@@ -5,6 +5,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class MessageGetter {
 
     public MessageGetter(Connection dbConnection) { this.dbConnection = dbConnection; }
 
-    public GetMessagesResponse get(Map<String,Object> inputMap, Context context) {
+    public GetMessagesResponse get(Map<String,Object> inputMap, Context context) throws SQLException {
         try {
             // Reading from database
             PreparedStatement statement = dbConnection.prepareStatement(getMessagesFormatString);
@@ -41,9 +42,6 @@ public class MessageGetter {
                 }
             }
 
-            // Disconnect connection with shortest lifespan possible
-            dbConnection.close();
-
             System.out.println(String.format("MessageGetter: Returning %d messages for conversationID %s",
                     messages.size(),
                     ((Map<String,Object>) inputMap.get("body-json")).get("conversationID")));
@@ -54,6 +52,8 @@ public class MessageGetter {
         } catch (Exception e) {
             System.out.println("MessageGetter: Exception encountered: " + e.toString());
             return null;
+        } finally {
+            dbConnection.close();
         }
     }
 

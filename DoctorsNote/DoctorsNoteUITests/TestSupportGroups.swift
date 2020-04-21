@@ -48,11 +48,64 @@ class TestSupportGroups: XCTestCase {
         app?.tabBars.buttons["Profile"].tap()
     }
     
+    func testSearchSupportGroups() {
+        tryLogin()
+        app?.tabBars.buttons["Support Groups"].tap()
+        app?.buttons["Search Icon"].tap()
+        app?.tables.cells.element(boundBy: 0).buttons["Information Icon"].tap()
+    }
+    
+    func testDisplayNameOnJoin() {
+        tryLogin()
+        app?.tabBars.buttons["Support Groups"].tap()
+        app?.buttons["Search Icon"].tap()
+        app?.tables.cells.element(boundBy: 0).buttons["Information Icon"].tap()
+        XCTAssertTrue(app!.staticTexts["Name Label"].exists)
+    }
+    
+    func testDisplayDescriptionOnJoin() {
+        tryLogin()
+        app?.tabBars.buttons["Support Groups"].tap()
+        app?.buttons["Search Icon"].tap()
+        app?.tables.cells.element(boundBy: 0).buttons["Information Icon"].tap()
+        XCTAssertTrue(app!.staticTexts["Description Label"].exists)
+    }
+
+    func testDisplayMembersOnJoin() {
+        tryLogin()
+        app?.tabBars.buttons["Support Groups"].tap()
+        app?.buttons["Search Icon"].tap()
+        app?.tables.cells.element(boundBy: 0).buttons["Information Icon"].tap()
+        XCTAssertTrue(app!.staticTexts["Member Label"].exists)
+    }
+    
+    func testDeleteSupportGroupMessage() {
+        tryLogin()
+        app?.tabBars.buttons["Support Groups"].tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).press(forDuration: 2)
+        app?.menuItems["Delete"].tap()
+    }
+    
+    func testDisplayInformation() {
+        tryLogin()
+        app?.tabBars.buttons["Support Groups"].tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).tap()
+        sleep(1)
+        app?.buttons["Info Button"].tap()
+        XCTAssertTrue(app!.staticTexts["Name Label"].exists)
+        XCTAssertTrue(app!.staticTexts["Description Label"].exists)
+        XCTAssertTrue(app!.staticTexts["Members Label"].exists)
+    }
+    
     func tryLogin() {
         let emailField = app!.textFields["Email Field"]
         let passwordField = app!.secureTextFields["Password Field"]
         
-        if (emailField.isHittable) {
+        if (emailField.exists && emailField.isHittable) {
             emailField.tap()
             emailField.typeText("hardin30@purdue.edu")
             

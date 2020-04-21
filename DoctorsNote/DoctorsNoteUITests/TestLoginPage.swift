@@ -534,9 +534,11 @@ class TestUserSignIn: XCTestCase {
         let forwardButton = app!.buttons["Forward"]
         let errorLabel = app!.staticTexts["Error Label"]
         
-        if (app!.textFields["Email Field"].exists) {
-            app?.textFields["Email Field"].tap()
-            app?.textFields["Email Field"].typeText("bbh@purdue.edu")
+        let emailField = app!.textFields["Email Field"]
+        
+        if (emailField.exists && emailField.isHittable) {
+            emailField.tap()
+            emailField.typeText("bbh@purdue.edu")
             
             app?.secureTextFields["Password Field"].tap()
             app?.secureTextFields["Password Field"].typeText("DoctorsNote1@")
