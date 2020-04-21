@@ -241,6 +241,18 @@ class ConnectionProcessor {
         return nil //Should have returned a blank 200 if successful, if so, no need to return an error
     }
     
+    // Delete message
+    func processDeleteMessage(url: String, messageId: Int) throws {
+        var messageJSON = [String: Any]()
+        messageJSON["messageId"] = messageId
+
+        let data = try postData(urlString: url, dataJSON: messageJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
+    }
+    
     func processReminders(url: String, numberToRetrieve: Int, startIndex: Int = 0, sinceWhen: Date = Date(timeIntervalSinceNow: TimeInterval(0))) throws -> [Reminder] {
         var reminderJSON = [String : Any]()
         reminderJSON["numberToRetrieve"] = numberToRetrieve

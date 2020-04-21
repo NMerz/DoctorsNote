@@ -232,10 +232,19 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         cell.message!.mask?.removeFromSuperview()
         cell.labelView!.mask?.removeFromSuperview()
         cell.labelView!.text = ""
-        messages.remove(at: deleteIndex!.row)
-        collectionView.deleteItems(at: [deleteIndex!])
+        
         
         // Remove the message from the database
+        do {
+            try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", messageId: messages[deleteIndex!.row].getMessageID())
+        } catch let error {
+            print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        }
+        
+        // Remove message form array
+        messages.remove(at: deleteIndex!.row)
+        collectionView.deleteItems(at: [deleteIndex!])
         
         resignFirstResponder()
     }
