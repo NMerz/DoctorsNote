@@ -18,7 +18,7 @@ import java.util.Map;
 public class ListConversations {
     private final String getConversationFormatString = "SELECT conversationID FROM Conversation_has_User WHERE userID = ? ;";
     private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID = ? ;";
-    private final String getNameTimeAndStatusFormatString = "SELECT conversationName, lastMessageTime, status " +
+    private final String getNameTimeAndStatusFormatString = "SELECT conversationName, lastMessageTime, status, description " +
             "FROM Conversation WHERE conversationID = ?;";
     Connection dbConnection;
 
@@ -82,6 +82,7 @@ public class ListConversations {
                 //long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
                 long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().toEpochMilli();
                 int status = nameAndTimeRS.getInt(3);
+                String description = nameAndTimeRS.getString(4);
                 String converserName;
                 int numMembers;
                 System.out.println("ListConversations: converserIds: " + converserIds.toString());
@@ -104,7 +105,7 @@ public class ListConversations {
 
                 System.out.println("ListConversations: converserName: " + converserName);
 
-                conversations.add(new Conversation(conversationName, conversationId, converserName, status, lastMessageTime, numMembers));
+                conversations.add(new Conversation(conversationName, conversationId, converserName, status, lastMessageTime, numMembers, description));
             }
 
             // Sort Conversation objects (-1 is to reverse the order to have newest times first)
@@ -162,14 +163,16 @@ public class ListConversations {
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
         private int numMembers;
+        private String description;
 
-        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime, int numMembers) {
+        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime, int numMembers, String description) {
             this.conversationName = conversationName;
             this.conversationID = Integer.parseInt(conversationID);
             this.converserID = converserID;
             this.status = status;
             this.lastMessageTime = lastMessageTime;
             this.numMembers = numMembers;
+            this.description = description;
         }
 
         public String getConversationName() {
@@ -222,6 +225,14 @@ public class ListConversations {
 
         public void setNumMembers(int numMembers) {
             this.numMembers = numMembers;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
     }
 
