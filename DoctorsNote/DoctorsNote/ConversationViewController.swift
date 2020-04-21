@@ -60,6 +60,10 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        self.activityIndicator.stopAnimating()
+    }
+    
     func updateSearchResults(for searchController: UISearchController) {
         filteredConversationList = conversationList!.filter({( conversation : Conversation) -> Bool in
             let searched = searchController.searchBar.text!.lowercased()
