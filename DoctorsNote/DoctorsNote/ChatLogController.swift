@@ -181,7 +181,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             else {
-                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: nextMessage.getSender().getFirstName())
+                //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: nextMessage.getSender().getFirstName())
+                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             //cellM.showIncomingMessage(text: "test")
         } else if nextMessage.getContentType() == 1 {
@@ -367,12 +368,12 @@ class FriendCellM: BaseCellM {
 
     }
     
-    func showIncomingMessage(text: String, cname: String) {
+    func showIncomingMessage(text: String) {
         if labelView != nil {
             labelView!.removeFromSuperview()
         }
         
-        print(cname)
+        /*print(cname)
         let nameView = UILabel()
         let name = nameView
         name.numberOfLines = 0
@@ -380,7 +381,7 @@ class FriendCellM: BaseCellM {
         name.textColor = .red
         name.text = cname
         uname.addSubview(name)
-        contentView.addSubview(name)
+        contentView.addSubview(name)*/
         
         
         labelView =  UILabel()
@@ -439,9 +440,9 @@ class FriendCellM: BaseCellM {
         outgoingMessageLayer.frame = label.bounds
         //outgoingMessageLayer.fillColor = UIColor.systemBlue.cgColor
         outgoingMessageLayer.fillColor = UIColor.lightGray.cgColor
-        let nameLayer = CAShapeLayer()
+        /*let nameLayer = CAShapeLayer()
         nameLayer.frame = name.bounds
-        uname.layer.addSublayer(nameLayer)
+        uname.layer.addSublayer(nameLayer)*/
         message.layer.addSublayer(outgoingMessageLayer)
 
     }
