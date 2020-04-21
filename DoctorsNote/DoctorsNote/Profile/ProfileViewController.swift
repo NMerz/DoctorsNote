@@ -102,8 +102,8 @@ class ProfileViewController: UIViewController {
         logOutButton.semanticContentAttribute = UIApplication.shared
         .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
         
-        deleteUserButton.semanticContentAttribute = UIApplication.shared
-               .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        /*deleteUserButton.semanticContentAttribute = UIApplication.shared
+               .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft*/
         
         personalInfoView.layer.shadowColor = UIColor.darkGray.cgColor
         personalInfoView.layer.shadowRadius = 5
@@ -169,7 +169,7 @@ class ProfileViewController: UIViewController {
         print("currentUID:")
         print(CognitoHelper.user!.getUID())
         let currentUID = CognitoHelper.user!.getUID()
-        CognitoHelper.sharedHelper.logout()
+        //CognitoHelper.sharedHelper.logout()
         let connector = Connector()
     AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
