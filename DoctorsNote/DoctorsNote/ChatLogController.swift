@@ -240,9 +240,6 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         cell.labelView!.text = ""
         messages.remove(at: deleteIndex!.row)
         collectionView.deleteItems(at: [deleteIndex!])
-        
-        // Remove the message from the database
-        
         resignFirstResponder()
     }
 
