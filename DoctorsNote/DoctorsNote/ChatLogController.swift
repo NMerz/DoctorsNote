@@ -17,6 +17,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    
     private let cellId = "cellId"
     private var connectionProcessor = ConnectionProcessor(connector: Connector())
     private var messages = [Message]()
@@ -80,6 +81,24 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         layout.estimatedItemSize = CGSize(width: width, height: 90)
         return layout
     }()
+    
+    @IBAction func onLeaveConversationClick(_ sender: UIButton) {
+        // Segue back to conversation list
+        
+        // Backend leave convo
+        let connector = Connector()
+    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: conversation!.getConversationID(), uid: CognitoHelper.user!.getUID())
+        }
+        catch let error {
+            // Fails to delete user
+            print("ERROR")
+            print((error as! ConnectionError).getMessage())
+        }
+    }
+    
     
     @IBAction
     func ourSendButtonClick() {

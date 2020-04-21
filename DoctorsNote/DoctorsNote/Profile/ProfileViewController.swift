@@ -11,12 +11,14 @@ import PopupKit
 import AWSCognito
 import AWSMobileClient
 import UserNotifications
+import AWSMobileClient
 
 class ProfileViewController: UIViewController {
    
     @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var personalInfoView: PersonalInfoView!
     @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var deleteUserButton: UIButton!
     var mask: CAShapeLayer?
     
     var p: PopupView?
@@ -24,7 +26,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var remindersPreviewView: UIView!
     @IBOutlet weak var remindersPreviewLabel: UILabel!
     @IBOutlet weak var viewRemindersButton: UIButton!
-    
+        
     override func viewDidAppear(_ animated: Bool) {
         remindersPreviewLabel.text = "You currently have \(remindersList!.count) reminder(s)."
         UIApplication.shared.applicationIconBadgeNumber = 0
@@ -100,6 +102,9 @@ class ProfileViewController: UIViewController {
         logOutButton.semanticContentAttribute = UIApplication.shared
         .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
         
+        deleteUserButton.semanticContentAttribute = UIApplication.shared
+               .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+        
         personalInfoView.layer.shadowColor = UIColor.darkGray.cgColor
         personalInfoView.layer.shadowRadius = 5
         personalInfoView.layer.shadowOpacity = 0.5
@@ -157,6 +162,27 @@ class ProfileViewController: UIViewController {
     
     }
     
+    
+    
+    @IBAction func deleteUser(_ sender: Any?) {
+        print("Starting deleteUser...")
+        print("currentUID:")
+        print(CognitoHelper.user!.getUID())
+        let currentUID = CognitoHelper.user!.getUID()
+        CognitoHelper.sharedHelper.logout()
+        let connector = Connector()
+    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser", uid: currentUID)
+        }
+        catch let error {
+            // Fails to delete user
+            print("ERROR")
+            print((error as! ConnectionError).getMessage())
+        }
+    }
+    
     @IBAction func showSettings(_ sender: Any) {
     
         let width : Int = Int(self.view.frame.width - 40)
@@ -189,7 +215,7 @@ class ProfileViewController: UIViewController {
         let deleteLayer = CAShapeLayer()
         deleteLayer.path = UIBezierPath(roundedRect: deleteButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         deleteButton.layer.mask = deleteLayer
-        deleteButton.addTarget(self, action: #selector(dismissPopup), for: .touchUpInside)
+        deleteButton.addTarget(self, action: #selector(deleteUser), for: .touchUpInside)
         //action to delete user and go to login screen
     
         let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 110, width: 90, height: 40))
@@ -228,6 +254,24 @@ class ProfileViewController: UIViewController {
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
+        
+    }
+    
+    @objc func deleteUser(sender: UIButton!) {
+        
+        // Backend API connection
+        let currentUser = CognitoHelper.user!
+        CognitoHelper.sharedHelper.logout()
+        let connector = Connector()
+        /*AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processDeleteUser(url: "https://o2lusnhpee.execute/api.us-east-2.amazonaws.com/Development/DeleteUser", user: currentUser)
+        }
+        catch let error {
+            // Fails to delete user
+            print((error as! ConnectionError).getMessage())
+        }*/
         
     }
     

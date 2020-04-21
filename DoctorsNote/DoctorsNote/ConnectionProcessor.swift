@@ -370,6 +370,30 @@ class ConnectionProcessor {
         }
         return appointments
     }
+    
+    // TODO double check
+    func processDeleteUser(url: String, uid: String) throws {
+        var userJSON = [String: Any]()
+        userJSON["uid"] = uid
+
+        let data = try postData(urlString: url, dataJSON: userJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
+    }
+    
+    func processLeaveConversation(url: String, convoID: Int, uid: String) throws {
+        var userJSON = [String: Any]()
+        userJSON["conversationId"] = convoID
+        userJSON["userId"] = uid
+
+        let data = try postData(urlString: url, dataJSON: userJSON)
+        if data.count != 0 {
+            throw ConnectionError(message: "Non-blank return")
+        }
+        //Should have returned a blank 200 if successful, if so, no need to do anything
+    }
 }
 
 class Connector {
