@@ -17,6 +17,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    
     private let cellId = "cellId"
     private var connectionProcessor = ConnectionProcessor(connector: Connector())
     private var messages = [Message]()
@@ -100,6 +101,24 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         layout.estimatedItemSize = CGSize(width: width, height: 90)
         return layout
     }()
+    
+    @IBAction func onLeaveConversationClick(_ sender: UIButton) {
+        // Segue back to conversation list
+        
+        // Backend leave convo
+        let connector = Connector()
+    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: conversation!.getConversationID())
+        }
+        catch let error {
+            // Fails to delete user
+            print("ERROR")
+            print((error as! ConnectionError).getMessage())
+        }
+    }
+    
     
     @IBAction
     func ourSendButtonClick() {
@@ -228,9 +247,26 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         cellM.delegate = self
         let nextMessage = self.messages[messages.count - indexPath.row - 1]
         if nextMessage.getContentType() == 0 {
-            cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+            //cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+            /*if (nextMessage.getSender().getUID() == DoctorsNote.User.getUID(<#T##self: User##User#>)()) {
+                cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+            }*/
+            print(nextMessage.getSender().getFirstName())
+            if (AWSMobileClient.default().username as! String == nextMessage.getSender().getUID()) {
+                cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+            }
+            else {
+                //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: nextMessage.getSender().getFirstName())
+                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+            }
+            //cellM.showIncomingMessage(text: "test")
         } else if nextMessage.getContentType() == 1 {
-            cellM.showOutgoingMessage(image: UIImage(data: nextMessage.getRawContent()) ?? UIImage())
+            if (AWSMobileClient.default().username as! String == nextMessage.getSender().getUID()) {
+                cellM.showOutgoingMessage(image: UIImage(data: nextMessage.getRawContent()) ?? UIImage())
+            }
+            else {
+                cellM.showIncomingMessage(image: UIImage(data: nextMessage.getRawContent()) ?? UIImage())
+            }
         }
 
         return cellM
@@ -248,6 +284,12 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         navigationItem.title = nil
+        if (segue.identifier == "support_group") {
+            let dest = segue.destination as! SupportGroupInfoViewController
+            dest.name = conversation!.getConversationName()
+            dest.desc = conversation!.getDescription()
+            dest.numMembers = String(conversation!.getNumMembers())
+        }
     }
     
     @objc func showDeleteMenu (_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -279,11 +321,18 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         cell.message!.mask?.removeFromSuperview()
         cell.labelView!.mask?.removeFromSuperview()
         cell.labelView!.text = ""
-        messages.remove(at: deleteIndex!.row)
-        collectionView.deleteItems(at: [deleteIndex!])
         
         // Remove the message from the database
+        do {
+            try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", messageId: messages[deleteIndex!.row].getMessageID())
+        } catch let error {
+            print ((error as! ConnectionError).getMessage())
+            print("ERROR!!!!!!!!!!!!")
+        }
         
+        // Remove message form array
+        messages.remove(at: deleteIndex!.row)
+        collectionView.deleteItems(at: [deleteIndex!])
         resignFirstResponder()
     }
 
@@ -331,6 +380,7 @@ class FriendCellM: BaseCellM {
         message = UIView()
         contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40).isActive = true
         contentView.addSubview(message!)
+        contentView.addSubview(uname)
         
         message!.translatesAutoresizingMaskIntoConstraints = false
         
@@ -340,6 +390,11 @@ class FriendCellM: BaseCellM {
         
     }
     
+    var uname: UIView = {
+        let view = UIView()
+        return view
+    }()
+        
     func showOutgoingMessage(text: String) {
         if labelView != nil {
             labelView!.removeFromSuperview()
@@ -352,6 +407,7 @@ class FriendCellM: BaseCellM {
         label.text = text
         
         contentView.addSubview(label)
+        message?.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -398,6 +454,87 @@ class FriendCellM: BaseCellM {
         message?.layer.addSublayer(outgoingMessageLayer)
 
     }
+    
+    func showIncomingMessage(text: String) {
+        if labelView != nil {
+            labelView!.removeFromSuperview()
+        }
+        
+        /*print(cname)
+        let nameView = UILabel()
+        let name = nameView
+        name.numberOfLines = 0
+        name.font = UIFont.systemFont(ofSize: 14)
+        name.textColor = .red
+        name.text = cname
+        uname.addSubview(name)
+        contentView.addSubview(name)*/
+        
+        
+        labelView =  UILabel()
+        let label = labelView!
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .black
+        label.text = text
+        
+        contentView.addSubview(label)
+        
+        message?.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        //label.rightAnchor.constraint(equalTo: message.rightAnchor, constant: -10).isActive = true
+        label.leftAnchor.constraint(equalTo: message!.leftAnchor, constant: 10).isActive = true
+        contentView.topAnchor.constraint(equalTo: label.topAnchor, constant: -10).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant:  10).isActive = true
+
+        //message.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -250).isActive = true
+        message?.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 240).isActive = true
+        
+        let constraintRect = CGSize(width: 0.66 * (message?.frame.width ?? 0),
+                                    height: .greatestFiniteMagnitude)
+        let boundingBox = text.boundingRect(with: constraintRect,
+                                            options: .usesLineFragmentOrigin,
+                                            attributes: [.font: label.font],
+                                            context: nil)
+        label.frame.size = CGSize(width: ceil(boundingBox.width), height: ceil(boundingBox.height))
+        
+        let bubbleSize = CGSize(width: label.frame.width + 28,
+                                     height: label.frame.height + 20)
+        
+        let width = bubbleSize.width
+        let height = bubbleSize.height
+        
+        let bezierPath = UIBezierPath()
+        bezierPath.move(to: CGPoint(x: 22, y: height))
+        bezierPath.addLine(to: CGPoint(x: width - 17, y: height))
+        bezierPath.addCurve(to: CGPoint(x: width, y: height - 17), controlPoint1: CGPoint(x: width - 7.61, y: height), controlPoint2: CGPoint(x: width, y: height - 7.61))
+        bezierPath.addLine(to: CGPoint(x: width, y: 17))
+        bezierPath.addCurve(to: CGPoint(x: width - 17, y: 0), controlPoint1: CGPoint(x: width, y: 7.61), controlPoint2: CGPoint(x: width - 7.61, y: 0))
+        bezierPath.addLine(to: CGPoint(x: 21, y: 0))
+        bezierPath.addCurve(to: CGPoint(x: 4, y: 17), controlPoint1: CGPoint(x: 11.61, y: 0), controlPoint2: CGPoint(x: 4, y: 7.61))
+        bezierPath.addLine(to: CGPoint(x: 4, y: height - 11))
+        bezierPath.addCurve(to: CGPoint(x: 0, y: height), controlPoint1: CGPoint(x: 4, y: height - 1), controlPoint2: CGPoint(x: 0, y: height))
+        bezierPath.addLine(to: CGPoint(x: -0.05, y: height - 0.01))
+        bezierPath.addCurve(to: CGPoint(x: 11.04, y: height - 4.04), controlPoint1: CGPoint(x: 4.07, y: height + 0.43), controlPoint2: CGPoint(x: 8.16, y: height - 1.06))
+        bezierPath.addCurve(to: CGPoint(x: 22, y: height), controlPoint1: CGPoint(x: 16, y: height), controlPoint2: CGPoint(x: 19, y: height))
+        bezierPath.close()
+
+        
+        let outgoingMessageLayer = CAShapeLayer()
+        outgoingMessageLayer.path = bezierPath.cgPath
+        outgoingMessageLayer.frame = label.bounds
+        //outgoingMessageLayer.fillColor = UIColor.systemBlue.cgColor
+        outgoingMessageLayer.fillColor = UIColor.lightGray.cgColor
+        /*let nameLayer = CAShapeLayer()
+        nameLayer.frame = name.bounds
+        uname.layer.addSublayer(nameLayer)*/
+        message?.layer.addSublayer(outgoingMessageLayer)
+
+    }
+    
+    
     
     func showOutgoingMessage(image: UIImage) {
         if labelView != nil {
@@ -468,6 +605,58 @@ class FriendCellM: BaseCellM {
         label.layer.mask = outgoingMessageLayer
         
     }
+    
+        func showIncomingMessage(image: UIImage) {
+            if labelView != nil {
+                labelView!.removeFromSuperview()
+            }
+            labelView =  UILabel()
+            let label = labelView!
+            label.numberOfLines = 0
+            label.font = UIFont.systemFont(ofSize: 18)
+            label.textColor = .white
+            
+            contentView.addSubview(label)
+            message?.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
+            
+            label.translatesAutoresizingMaskIntoConstraints = false
+            
+            label.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
+            contentView.topAnchor.constraint(equalTo: label.topAnchor, constant: -10).isActive = true
+            contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant:  10).isActive = true
+            
+            
+            //Image embedding from https://jayeshkawli.ghost.io/add-image-to-uilabel-with-swift-ios/
+            let imageAttachment = NSTextAttachment()
+            imageAttachment.image = image
+            
+            message?.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -10).isActive = true
+            
+            let constraintRect = CGSize(width: 0.66 * (message?.frame.width ?? 0),
+                                        height: .greatestFiniteMagnitude)
+            imageAttachment.bounds = CGRect(origin: label.center, size: CGSize(width: 200, height: 100))
+            
+            label.attributedText = NSAttributedString(attachment: imageAttachment)
+            
+            let boundingBox = imageAttachment.bounds/*(with: constraintRect,
+                                                options: .usesLineFragmentOrigin,
+                                                attributes: [.font: label.font],
+                                                context: nil)*/
+            label.frame.size = CGSize(width: ceil(boundingBox.width),
+                                      height: ceil(boundingBox.height))
+            
+            let bubbleSize = CGSize(width: label.frame.width + 28,
+                                         height: label.frame.height + 20)
+            
+            let width = bubbleSize.width
+            let height = bubbleSize.height
+            
+            let outgoingMessageLayer = CAShapeLayer()
+            outgoingMessageLayer.path = UIBezierPath(roundedRect: label.bounds, cornerRadius: 10).cgPath
+            outgoingMessageLayer.fillColor = UIColor.systemBlue.cgColor
+            label.layer.mask = outgoingMessageLayer
+            
+        }
     
     override func prepareForReuse() {
         super.prepareForReuse()

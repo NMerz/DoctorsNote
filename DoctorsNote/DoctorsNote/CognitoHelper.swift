@@ -15,6 +15,13 @@ class CognitoHelper {
     public static var user: User?
     public static var password: String?
     public static var numFails: Int = 0
+    public static var newPassword = ""
+    
+    init() {
+        let defaults = UserDefaults.standard
+        CognitoHelper.numFails = Int(defaults.string(forKey: "numFails") ?? "0")!
+        print("NUM FAILS: ", CognitoHelper.numFails)
+    }
     
     func login(email: String, password: String, onDone: @escaping (_ success: Bool, _ err: AWSMobileClientError)->()) {
         print("Password: " + password)

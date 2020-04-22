@@ -1,6 +1,6 @@
 package DoctorsNote;
 
-import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
+//import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,7 +18,7 @@ public class ListConversations {
     private final String getConversationFormatString = "SELECT conversationID FROM Conversation_has_User WHERE userID = ? ;";
     private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID = ? ;";
     private final String getConverserPublicKeyFormatString = "SELECT publicKey FROM UserKeys WHERE userID = ? ;";
-    private final String getDetailsFormatString = "SELECT conversationName, lastMessageTime, status, adminPublicKey " +
+    private final String getDetailsFormatString = "SELECT conversationName, lastMessageTime, status, adminPublicKey, description " +
             "FROM Conversation WHERE conversationID = ?;";
     Connection dbConnection;
 
@@ -83,10 +83,12 @@ public class ListConversations {
                 long lastMessageTime = attributesRS.getTimestamp(2).toInstant().toEpochMilli();
                 int status = attributesRS.getInt(3);
                 String adminPublicKey = attributesRS.getString(4);
+                String description = attributesRS.getString(5);
                 String converserIdString;
                 String converserPublicKey;
                 String converserName;
                 String[] converserNames;
+                int numMembers;
                 System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 // For difference between one to one convos and support groups
@@ -107,35 +109,26 @@ public class ListConversations {
                     UserInfoGetter getter = new UserInfoGetter();
 
                     try {
-                        UserInfoGetter.UserInfoResponse response = getter.get(getUserInfoMap(converserIdString, userId), context);
+                        UserInfoGetter.UserInfoResponse response = getter.get(getUserInfoMap(converserIds.get(0), userId), context);
                         converserName = String.format("%s %s", response.getFirstName(), response.getLastName());
                     } catch (NullPointerException e) {
-                        converserName = converserIdString;
+                        converserName = converserIds.get(0);
                     }
                     conversationName = converserName;
+                    description = "Chat with " + converserName;
                 } else {
                     converserIdString = "N/A";
                     converserPublicKey = "N/A";
                     adminPublicKey = "N/A";
                     converserName = "N/A";
-                    UserInfoGetter getter = new UserInfoGetter();
-                    UserInfoGetter.UserInfoResponse response;
-                    ArrayList<String> nameList = new ArrayList<>();
-                    for (String s : converserIds) {
-                        try {
-                            response = getter.get(getUserInfoMap(s, userId), context);
-                            nameList.add(String.format("%s %s", response.getFirstName(), response.getLastName()));
-                        } catch (NullPointerException e) {
-                            System.out.println("ListConversations: User " + s + " not found");
-                        }
-                    }
 
-                    converserNames = nameList.toArray(new String[nameList.size()]);
                 }
+
+                numMembers = converserIds.size() + 1;       // Since the requesting user isn't included in the size
 
                 System.out.println("ListConversations: converserName: " + converserName);
 
-                conversations.add(new Conversation(conversationName, conversationId, converserIdString, converserPublicKey, adminPublicKey, status, lastMessageTime, converserNames));
+                conversations.add(new Conversation(conversationName, conversationId, converserIdString, converserPublicKey, adminPublicKey, status, lastMessageTime, numMembers, description));
 
             }
 
@@ -195,10 +188,11 @@ public class ListConversations {
         private String converserID;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
-        private String[] converserNames;        // Only for support groups; should be empty for one-to-ones
+        private int numMembers;
+        private String description;
 
+        public Conversation(String conversationName, String conversationID, String converserID, String converserPublicKey, String adminPublicKey, int status, long lastMessageTime, int numMembers, String description) {
 
-        public Conversation(String conversationName, String conversationID, String converserID, String converserPublicKey, String adminPublicKey, int status, long lastMessageTime, String[] converserNames) {
             this.conversationName = conversationName;
             this.conversationID = Integer.parseInt(conversationID);
             this.converserPublicKey = converserPublicKey;
@@ -206,7 +200,8 @@ public class ListConversations {
             this.converserID = converserID;
             this.status = status;
             this.lastMessageTime = lastMessageTime;
-            this.converserNames = converserNames;
+            this.numMembers = numMembers;
+            this.description = description;
         }
 
         public String getConversationName() {
@@ -223,14 +218,6 @@ public class ListConversations {
 
         public void setConversationID(int conversationID) {
             this.conversationID = conversationID;
-        }
-
-        public String[] getConverserNames() {
-            return converserNames;
-        }
-
-        public void setConverserNames(String[] converserNames) {
-            this.converserNames = converserNames;
         }
 
         public void setConversationID(String conversationID) {
@@ -276,8 +263,23 @@ public class ListConversations {
         public void setAdminPublicKey(String adminPublicKey) {
             this.adminPublicKey = adminPublicKey;
         }
-    }
 
+        public int getNumMembers() {
+            return numMembers;
+        }
+
+        public void setNumMembers(int numMembers) {
+            this.numMembers = numMembers;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+    }
     public class ConversationListResponse {
         private Conversation[] conversationList;
 

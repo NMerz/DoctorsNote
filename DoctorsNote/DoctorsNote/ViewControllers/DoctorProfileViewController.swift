@@ -35,3 +35,24 @@ class DoctorProfileViewController: UIViewController {
     */
 
 }
+
+class SupportGroupInfoViewController: UIViewController {
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var membersLabel: UILabel!
+    
+    var name: String?
+    var desc: String?
+    var numMembers: String?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        nameLabel.text = name
+        descriptionLabel.text = desc
+        membersLabel.text = numMembers
+        
+    }
+    
+}

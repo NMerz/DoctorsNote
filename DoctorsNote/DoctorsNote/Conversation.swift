@@ -15,8 +15,10 @@ class Conversation {
     private var conversationName: String
     private var lastMessageTime: Date
     private var status: Int
+    private var numMembers: Int
+    private var description: String
     
-    init(conversationID: Int, converserID: String, converserPublicKey: String, adminPublicKey: String, conversationName: String, lastMessageTime: Date, status: Int) {
+    init(conversationID: Int, converserID: String, converserPublicKey: String, adminPublicKey: String, conversationName: String, lastMessageTime: Date, status: Int, numMembers: Int, description: String) {
         self.conversationID = conversationID
         self.converserID = converserID
         self.converserPublicKey = converserPublicKey
@@ -24,19 +26,22 @@ class Conversation {
         self.conversationName = conversationName
         self.lastMessageTime = lastMessageTime
         self.status = status
+        self.numMembers = numMembers
+        self.description = description
     }
     
     convenience init? (conversationID: Int) {
         let connector = Connector()
         let connectionProcessor = ConnectionProcessor(connector: connector)
-        let (potentialConversation, potentialError) = connectionProcessor.processConversation(url: ConnectionProcessor.standardUrl(), conversationID: conversationID)
+        let (potentialConversation, potentialError) = connectionProcessor.processConversation(url: "TODO", conversationID: conversationID)
         if (potentialError == nil && potentialConversation != nil) {
             let conversation = potentialConversation!
-            self.init (conversationID: conversationID, converserID: conversation.getConverserID(), converserPublicKey: conversation.getConverserPublicKey(), adminPublicKey: conversation.getAdminPublicKey(), conversationName: conversation.getConversationName(), lastMessageTime: conversation.getLastMessageTime(), status: conversation.getStatus())
+            self.init (conversationID: conversationID, converserID: conversation.getConverserID(), converserPublicKey: conversation.getConverserPublicKey(), adminPublicKey: conversation.getAdminPublicKey(), conversationName: conversation.getConversationName(), lastMessageTime: conversation.getLastMessageTime(), status: conversation.getStatus(), numMembers: conversation.getNumMembers(), description: conversation.getDescription())
         }
         //Below this is a temporary mock for functionality
         let conversation = potentialConversation!
-        self.init (conversationID: conversationID, converserID: conversation.getConverserID(), converserPublicKey: conversation.getConverserPublicKey(), adminPublicKey: conversation.getAdminPublicKey(), conversationName: conversation.getConversationName(), lastMessageTime: conversation.getLastMessageTime(), status: conversation.getStatus())
+        self.init (conversationID: conversationID, converserID: conversation.getConverserID(), converserPublicKey: conversation.getConverserPublicKey(), adminPublicKey: conversation.getAdminPublicKey(), conversationName: conversation.getConversationName(), lastMessageTime: conversation.getLastMessageTime(), status: conversation.getStatus(), numMembers: conversation.getNumMembers(), description: conversation.getDescription())
+
         //return nil
     }
     
@@ -66,5 +71,13 @@ class Conversation {
     
     func getStatus() -> Int {
         return status
+    }
+
+    func getNumMembers() -> Int {
+        return numMembers
+    }
+    
+    func getDescription() -> String {
+        return description
     }
 }

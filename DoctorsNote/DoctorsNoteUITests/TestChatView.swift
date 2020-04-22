@@ -39,6 +39,11 @@ class TestChatView: XCTestCase {
     }
     
     func testLeaveConversation() throws {
+        tryLogin()
+        app?.tabBars.buttons["Chats"].tap()
+        sleep(1)
+        app?.collectionViews.cells.element(boundBy: 0).tap()
+        sleep(1)
         app?.buttons["Info Button"].tap()
         XCTAssert(app!.buttons["Leave Conversation"].exists)
     }

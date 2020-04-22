@@ -23,7 +23,7 @@ class AppointmentListVC: UITableViewController, EKEventEditViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Pending Appointments"
+        navigationItem.title = "Appointments"
         
         var connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))

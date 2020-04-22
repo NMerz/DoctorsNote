@@ -85,7 +85,7 @@ class User {
         if let hours = dict["custom:work_hours"] {
             self.workHours = hours
         } else {
-            self.workHours = "" 
+            self.workHours = ""
         }
         self.securityQuestion = dict["custom:securityquestion2"]!
         self.securityAnswer = dict["custom:securityanswer"]!

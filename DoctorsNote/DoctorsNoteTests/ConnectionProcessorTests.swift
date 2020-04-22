@@ -519,6 +519,127 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(conversationList[0].getStatus() == 0)
         
     }
+    
+    // Delete message
+    func testMessageDeleteBadResponseCode() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processDeleteMessage(url: "url", messageId: 1)
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Error connecting on server with return code: 500")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
+    // Delete message
+    func testMessageDeleteBadResponseBody() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processDeleteMessage(url: "url", messageId: 1)
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Non-blank return")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
+    // Delete user
+    func testUserDeleteBadResponseCode() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let asserted = try processor.processDeleteUser(url: "url")
+            XCTAssert((asserted != nil))
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Error connecting on server with return code: 500")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
+    // Delete user
+    func testUserDeleteBadResponseBody() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let asserted = try processor.processDeleteUser(url: "url")
+            XCTAssert((asserted != nil))
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Non-blank return")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
+    // Leave conversation
+    func testLeaveConversationBadResponseCode() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processLeaveConversation(url: "url", convoID: 1)
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Error connecting on server with return code: 500")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
+    // Leave Conversation
+    func testLeaveConversationBadResponseBody() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            let asserted = try processor.processLeaveConversation(url: "url", convoID: 1)
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Non-blank return")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
+    // Get User Info
+    func testUserInfoBadResponseCode() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(500), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processGetUserInfo(url: "url")
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Error connecting on server with return code: 500")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
+    // Leave Conversation
+    func testUserInfoBadResponseBody() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processGetUserInfo(url: "url")
+            XCTAssert(false)
+        } catch let error {
+            print((error as! ConnectionError).getMessage())
+            XCTAssert((error as! ConnectionError).getMessage() == "Non-blank return")
+        }
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+    }
+    
 }
 
 class ConnectorTests : XCTestCase {

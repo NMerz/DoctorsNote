@@ -13,7 +13,7 @@ import AWSMobileClient
 
 class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
     
-    
+    var activityIndicator = UIActivityIndicatorView()
     private let cellId = "cellId"
     private var conversationList: [Conversation]?
     private var filteredConversationList: [Conversation]?
@@ -22,6 +22,11 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicator.center = self.view.center
+        activityIndicator.style = .gray
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -32,21 +37,31 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         collectionView.alwaysBounceVertical = true
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
         
-         let authorizedConnector = Connector()
-         AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
-        var tempList: [Conversation]?
-        let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
-        (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
-        
-        // Filter conversations to include only patient-doctor conversations
-        conversationList = []
-        if (tempList != nil && tempList!.count > 0) {
-            for i in 0...tempList!.count - 1 {
-                if (tempList![i].getConverserID() != "N/A") {
-                    conversationList?.append(tempList![i])
+        self.activityIndicator.startAnimating()
+        DispatchQueue.main.async {
+            let authorizedConnector = Connector()
+            AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            var tempList: [Conversation]?
+            let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+            (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
+            
+            // Filter conversations to include only patient-doctor conversations
+            self.conversationList = []
+            if (tempList != nil && tempList!.count > 0) {
+                for i in 0...tempList!.count - 1 {
+                    if (tempList![i].getConverserID() != "N/A") {
+                        self.conversationList?.append(tempList![i])
+                    }
                 }
             }
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
         }
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.activityIndicator.stopAnimating()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -54,19 +69,6 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
             let searched = searchController.searchBar.text!.lowercased()
             let inName = conversation.getConversationName().lowercased().contains(searched)
             return inName
-//            let authorizedConnector = Connector()
-//             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
-//            let processor = ConnectionProcessor(connector: authorizedConnector)
-//            let (potentialUser, potentialError) = processor.processUser(url: "tdb", uid: conversation.getConverserID())
-//            if potentialError != nil {
-//                //TODO: handle this error
-//                //Must return if this is reached!
-//                return false
-//            }
-//            let user = potentialUser!
-//            let inFirstName = user.getFirstName().contains(searched)
-//            let inLastName = user.getLastName().contains(searched)
-//            return (inFirstName || inLastName)
         })
         collectionView.reloadData()
     }
@@ -104,23 +106,12 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
         cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
-        //cell.conversationID = conversationList![indexPath.row].getConversationID()
-        /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
-        
-//        let df = DateFormatter()
-//        let calendar = Calendar.current
-//        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
-//            df.dateFormat = "hh:mm"
-//        }
-//        else {
-//            df.dateFormat = "MM-dd-YYYY"
-//        }
-//        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
         
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.activityIndicator.startAnimating()
         self.selectedConversation = conversationList![indexPath.row]
         self.performSegue(withIdentifier: "open_chat", sender: self)
     }
