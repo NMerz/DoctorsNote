@@ -14,24 +14,58 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
     
     let searchController = UISearchController(searchResultsController: nil)
     
-    var groups = ["Support Group 1", "Support Group 2"]
-    var filteredGroups: [String]?
+    var groups: [Conversation]?
+    var filteredGroups: [Conversation]?
+    var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        activityIndicator.center = self.view.center
+        activityIndicator.style = .gray
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Support Groups"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        
+
+        // Get all support groups from database
+        DispatchQueue.main.async {
+            let authorizedConnector = Connector()
+            AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            var tempList: [Conversation]?
+            let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+            do {
+                self.groups = try processor.processAllSupportGroups()
+            } catch {
+                // ADD ERROR HANDLING
+            }
+            
+            // Filter conversations
+//            self.conversationList = []
+//            if (tempList != nil && tempList!.count > 0) {
+//                for i in 0...tempList!.count - 1 {
+//                    if (tempList![i].getConverserID() == "N/A") {
+//                        self.conversationList?.append(tempList![i])
+//                    }
+//                }
+//            }
+            self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
+
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text!
-        filteredGroups = groups.filter({( name : String) -> Bool in
+        filteredGroups = groups!.filter({( convo: Conversation ) -> Bool in
             let searched = searchText.lowercased()
-            let include = name.contains(searched)
+            let include = convo.getConversationName().contains(searched)
             return (include)
         })
         tableView.reloadData()
@@ -41,15 +75,17 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
         if (isFiltering()) {
             return filteredGroups!.count
         }
-        return groups.count
+        return groups?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "search_cell") as! SearchGroupCell
         if (isFiltering()) {
-            cell.nameLabel.text = filteredGroups![indexPath.row]
+            cell.conversation = filteredGroups![indexPath.row]
+            cell.nameLabel.text = filteredGroups![indexPath.row].getConversationName()
         } else {
-            cell.nameLabel.text = groups[indexPath.row]
+            cell.conversation = groups![indexPath.row]
+            cell.nameLabel.text = groups![indexPath.row].getConversationName()
         }
         cell.delegate = self
         
@@ -72,6 +108,7 @@ class SearchGroupCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     var p: PopupView?
     var delegate: SearchGroupsTableViewController?
+    var conversation: Conversation?
     
     @IBAction func showInfo(_ sender: Any) {
     
@@ -87,17 +124,26 @@ class SearchGroupCell: UITableViewCell {
         p = PopupView.init(contentView: contentView)
         p?.maskType = .dimmed
 
-        let nameLabel = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 100))
-        nameLabel.text = "Group Name\n\nGroup Description"
-        nameLabel.numberOfLines = 5
+        let nameLabel = UILabel(frame: CGRect(x: 20, y: 20, width: width - 40, height: 35))
+        nameLabel.text = "Name: " + conversation!.getConversationName()
+        nameLabel.numberOfLines = 1
+        nameLabel.accessibilityLabel = "Name Label"
+        contentView.addSubview(nameLabel)
         
-        let descriptionOffset = Int(nameLabel.frame.height) + 40
+        let descriptionOffset = Int(nameLabel.frame.maxY)
         let descriptionLabel = UILabel(frame: CGRect(x: 20, y: descriptionOffset, width: width - 20, height: 200))
+        descriptionLabel.numberOfLines = 5
+        descriptionLabel.lineBreakMode = .byTruncatingTail
+        descriptionLabel.text = "Description: " + conversation!.getDescription()
+        descriptionLabel.accessibilityLabel = "Description Label"
+        contentView.addSubview(descriptionLabel)
         
-        let messageOffset = 60 + Int(nameLabel.frame.height) + Int(descriptionLabel.frame.height)
-        let messageLabel = UILabel(frame: CGRect(x: 20, y: messageOffset, width: width - 40, height: 25))
-        nameLabel.text = "## Members"
-    
+        let messageOffset = Int(descriptionLabel.frame.maxY) + 10
+        let memberLabel = UILabel(frame: CGRect(x: 20, y: messageOffset, width: width - 40, height: 25))
+        memberLabel.text = "Members: " + String(conversation!.getNumMembers())
+        memberLabel.accessibilityLabel = "Member Label"
+        contentView.addSubview(memberLabel)
+        
         let closeButton = UIButton(frame: CGRect(x: width/2 + 10, y: height - 75, width: 90, height: 40))
         closeButton.setTitle("Cancel", for: .normal)
         closeButton.backgroundColor = UIColor.systemBlue
@@ -115,11 +161,10 @@ class SearchGroupCell: UITableViewCell {
         joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         joinButton.layer.mask = joinLayer
         joinButton.accessibilityLabel = "Join Button"
-        joinButton.addTarget(self, action: #selector(setDisplayName), for: .touchUpInside)
+        joinButton.addTarget(self, action: #selector(joinSupportGroup), for: .touchUpInside)
 
         contentView.addSubview(joinButton)
         contentView.addSubview(closeButton)
-        contentView.addSubview(nameLabel)
 
         let xPos = self.delegate!.view.frame.width / 2
         let yPos = self.delegate!.view.frame.height / 2 
@@ -127,15 +172,33 @@ class SearchGroupCell: UITableViewCell {
         p?.showType = .slideInFromBottom
         p?.maskType = .dimmed
         p?.dismissType = .slideOutToBottom
-        p?.show(at: location, in: self.delegate!.view)
+        p?.show(at: location, in: self.delegate!.tabBarController!.view)
         
     }
     
     @objc func dismissPopup(sender: UIButton!) {
         p?.dismiss(animated: true)
     }
+    
+    @objc func joinSupportGroup(sender: UIButton!) {
+        var isError = false
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processJoinSupportGroup(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/JoinSupportGroup", conversationID: conversation!.getConversationID())
+        }
+        catch let error {
+            isError = true
+            print((error as! ConnectionError).getMessage())
+        }
+        if (!isError) {
+            setDisplayName()
+        }
 
-    @objc func setDisplayName(sender: UIButton!) {
+    }
+
+    @objc func setDisplayName() {
         let alertController = UIAlertController(title: "Display Name", message: "You must set a name you like displayed for other group members to see.", preferredStyle: .alert)
         // ADD SOME SORT OF CHECKING TO ENSURE THAT THE NAME IS NOT ALREADY TAKEN.....
         // ERROR CHECKING TO KNOW IF IT IS THERE OWN NAME.

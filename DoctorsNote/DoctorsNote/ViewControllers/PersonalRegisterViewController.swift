@@ -10,6 +10,7 @@ import UIKit
 import AWSCognito
 import AWSMobileClient
 import PopupKit
+import CryptoKit
 
 //
 //
@@ -27,6 +28,10 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     @IBOutlet weak var stateButton: UIButton!
     @IBOutlet weak var zipField: CustomTextField!
     @IBOutlet weak var errorLabel: UILabel!
+    
+    @IBOutlet weak var securityQuestion: CustomTextField!
+    @IBOutlet weak var securityAnswer: CustomTextField!
+    
     
     var p: PopupView?
     var DOBPicker: UIDatePicker?
@@ -76,9 +81,21 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             if (middleName == "") {
                 middleName = "<empty>"
             }
-            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone]) { (details, err) in
-                if let err = err as? AWSMobileClientError {
-                    print("\(err.message)")
+            let cipher = LocalCipher()
+            let (privateKeyP, privateKeyS, publicKey) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: [securityAnswer.text!], username: CognitoHelper.user!.getUID())
+            let connector = Connector()
+            AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+            let connectionProcessor = ConnectionProcessor(connector: connector)
+            do {
+                try connectionProcessor.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: privateKeyP.base64EncodedString(), privateKeyS: privateKeyS.base64EncodedString(), publicKey: publicKey.base64EncodedString())
+            } catch let error {
+                print((error as! ConnectionError).getMessage())
+                return
+            }
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion2":securityQuestion.text!, "custom:securityanswer":securityAnswer.text!.my_hash()]) { (success, err) in
+                if (!success) {
+                    self.errorLabel.text = err
+                    print("\(err)")
                 } else {
                     print("Info updated correctly!")
                     DispatchQueue.main.async {
@@ -99,6 +116,9 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let zip = zipField.isEmpty()
         let isPhoneFormatted = checkPhoneFormat()
         let isZIPFormatted = checkZipFormat()
+        let question = securityQuestion.isEmpty()
+        let answer = securityAnswer.isEmpty()
+        
         
         var DOBFilled = true
         if (DOB == "") {
@@ -143,7 +163,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             }
         }
         
-        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted) {
+        if (first || last || phone || street || city || zip || !DOBFilled || !sexFilled || !stateFilled || !isPhoneFormatted || !isZIPFormatted || question || answer) {
             return false
         }
         errorLabel.text = ""
@@ -273,6 +293,14 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     
 }
 
+extension String {
+    func my_hash() -> String {
+        let inputData = Data(self.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+    }
+}
+
 class StateTableViewController: UITableViewController {
     
     
@@ -304,14 +332,35 @@ class StateTableViewController: UITableViewController {
 }
 
 
+// Inspired by Stack Overflow answer https://stackoverflow.com/questions/38559763/how-to-use-sha256-with-saltsome-key-in-swift
+//extension Data {
+//    var hexString: String {
+//        return map { String(format: "%02hhx", $0) }.joined()
+//    }
+//
+//    var sha256: Data {
+//        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+//        self.withUnsafeBytes({
+//            _ = CC_SHA256($0, CC_LONG(self.count), &digest)
+//        })
+//        return Data(bytes: digest)
+//    }
+//}
 
-
-
-
-
-
-
-
+extension String {
+//    // salt is user's family name
+//    func my_hash(salt: String) -> String {
+//        let data = (self + salt).data(using: .utf8)!.sha256
+//        return String(decoding: data, as: UTF8.self)
+//    }
+    
+    // Inspired by https://www.hackingwithswift.com/example-code/cryptokit/how-to-calculate-the-sha-hash-of-a-string-or-data-instance
+    func hash() -> String {
+        let inputData = Data(self.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+    }
+}
 
 
 //
@@ -530,11 +579,6 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     }
 
 }
-
-
-
-
-
 
 
 

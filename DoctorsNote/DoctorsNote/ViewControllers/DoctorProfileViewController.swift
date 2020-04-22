@@ -20,7 +20,7 @@ class DoctorProfileViewController: UIViewController {
         
         // FIXME: Actually implement
         self.hoursLabel.text = ""
-        self.deleteMessageLabel.text = "Messages sent in DoctorsNote will be deleted after a certain amount of time."
+        self.deleteMessageLabel.text = "Messages sent in DoctorsNote will be deleted after four weeks."
     }
     
 
@@ -34,4 +34,25 @@ class DoctorProfileViewController: UIViewController {
     }
     */
 
+}
+
+class SupportGroupInfoViewController: UIViewController {
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var membersLabel: UILabel!
+    
+    var name: String?
+    var desc: String?
+    var numMembers: String?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        nameLabel.text = name
+        descriptionLabel.text = desc
+        membersLabel.text = numMembers
+        
+    }
+    
 }

@@ -45,7 +45,7 @@ class TestPurgeMessageLabel: XCTestCase {
         let emailField = app!.textFields["Email Field"]
         let passwordField = app!.secureTextFields["Password Field"]
         
-        if (emailField.isHittable) {
+        if (emailField.exists && emailField.isHittable) {
             emailField.tap()
             emailField.typeText("hardin30@purdue.edu")
             

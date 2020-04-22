@@ -121,12 +121,18 @@ class PasswordCodeViewController: UIViewController {
     @IBOutlet weak var newPasswordField: CustomTextField!
     @IBOutlet weak var confirmField: CustomTextField!
     
+    @IBOutlet weak var securityQuestionLabel: UILabel!
+    @IBOutlet weak var securityAnswer: CustomTextField!
+
+    
     var email: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = true
+        
+        securityQuestionLabel.text = CognitoHelper.user!.getSecurityQuestion()
         
         if (email != "") {
             emailField.isHidden = true
@@ -155,25 +161,129 @@ class PasswordCodeViewController: UIViewController {
             emailEmpty = false
             emailValid = true
         }
-        
+
         let codeEmpty = codeField.isEmpty()
         let passwordEmpty = newPasswordField.isEmpty()
         let confirmEmpty = confirmField.isEmpty()
         let passwordsEqual = (self.newPasswordField.text! == self.confirmField.text!)
         
-        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid) {
+        // TODO test this
+        let hashedAnswer = self.securityAnswer.text!.hash()
+        let securityAnswerMatch = (hashedAnswer == CognitoHelper.user!.getSecurityAnswer())
+        
+        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid || !securityAnswerMatch) {
             return
         }
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let connectionProcessor = ConnectionProcessor(connector: connector)
+        do {
+            let cipher = LocalCipher()
+            try cipher.resetKeyPair(securityQuestionAnswers: [self.securityAnswer.text!], newPassword: self.newPasswordField.text!, username: CognitoHelper.user!.getUID(), connectionProcessor: connectionProcessor)
+        } catch let error as CipherError {
+            print(error.getMessage())
+            return
+        } catch let error as ConnectionError {
+            print(error.getMessage())
+        } catch let error {
+            print(error.localizedDescription)
+        }
         
-        AWSMobileClient.default().confirmForgotPassword(username: email!, newPassword: newPasswordField.text!, confirmationCode: codeField.text!) { (res, err) in
+
+        let password = newPasswordField.text!
+        
+        AWSMobileClient.default().confirmForgotPassword(username: email!, newPassword: password, confirmationCode: codeField.text!) { (res, err) in
             if let err = err as? AWSMobileClientError {
-                self.errorLabel.textColor = UIColor.systemRed
-                self.errorLabel.text = err.message
-            } else {
                 DispatchQueue.main.async {
-                    self.navigationController?.popToRootViewController(animated: true)
+                    self.errorLabel.textColor = UIColor.systemRed
+                    self.errorLabel.text = err.message
+                }
+            } else {
+                // Login with new password
+                    CognitoHelper.sharedHelper.login(email: self.email!, password: password) { (success, err) in
+                    if (!success) {
+                        if let err = err as? AWSMobileClientError {
+                            DispatchQueue.main.async {
+                                self.errorLabel.textColor = UIColor.systemRed
+                                self.errorLabel.text = err.message
+                            }
+                        }
+                    } else {
+                        CognitoHelper.sharedHelper.isUserSetUp { (success) in
+                            if (success) {
+                                DispatchQueue.main.async {
+                                    // Confirm security question
+                                    let alertController = UIAlertController(title: "Confirm Security Question", message: CognitoHelper.user!.getSecurityQuestion(), preferredStyle: .alert)
+                                    
+                                    let submitAction = UIAlertAction(title: "Submit", style: .default) { (action) in
+                                        let response = alertController.textFields![0].text!
+                                        let hash = response.my_hash()
+                                        let ans = CognitoHelper.user!.getSecurityAnswer()
+                                        let answersEqual = (hash == ans)
+                                        if (!answersEqual) {
+                                            self.displayTryAgain()
+                                        } else {
+                                            self.displaySuccess()
+                                        }
+                                    }
+                                    submitAction.accessibilityLabel = "Submit Button"
+                                    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                                    cancelAction.accessibilityLabel = "Cancel Button"
+                                    alertController.addAction(submitAction)
+                                    alertController.addAction(cancelAction)
+                                    submitAction.isEnabled = false
+                                    
+                                    alertController.addTextField { (textField) in
+                                        textField.accessibilityLabel = "Display Name Field"
+                                        textField.placeholder = "Enter Display Name"
+                                        
+                                        // This segment of code borrowed from:
+                                        // https://gist.github.com/TheCodedSelf/c4f3984dd9fcc015b3ab2f9f60f8ad51
+                                        
+                                        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: textField, queue: OperationQueue.main, using:
+                                            {_ in
+                                                // Being in this block means that something fired the UITextFieldTextDidChange notification.
+                                                
+                                                // Access the textField object from alertController.addTextField(configurationHandler:) above and get the character count of its non whitespace characters
+                                                let textCount = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines).count ?? 0
+                                                let textIsNotEmpty = textCount > 0
+                                                
+                                                // If the text contains non whitespace characters, enable the OK Button
+                                                submitAction.isEnabled = textIsNotEmpty
+                                            
+                                            })
+                                    }
+                                    self.present(alertController, animated: true, completion: nil)
+                                }
+                            } else {
+                                self.performSegue(withIdentifier: "go_set_up", sender: self)
+                            }
+                        }
+                        
+                    }
                 }
             }
+        }
+    }
+    
+    func displayTryAgain() {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Error: Incorrect security answer.", message: "Please request a new password reset verification code and try again.", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                self.navigationController?.popToRootViewController(animated: true)
+            }))
+            CognitoHelper.sharedHelper.logout()
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    func displaySuccess() {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Success", message: "Your password was successfully updated!", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+                self.navigationController?.popToRootViewController(animated: true)
+            }))
+            CognitoHelper.sharedHelper.logout()
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     

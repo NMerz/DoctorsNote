@@ -20,13 +20,17 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
     let searchController = UISearchController(searchResultsController: nil)
     @IBOutlet weak var collectionView: UICollectionView!
     var selectedConversation: Conversation?
+    var activityIndicator = UIActivityIndicatorView()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let convo1 = Conversation(conversationID: 5, conversationPartner: User(uid: 4, firstName: "your mom", lastName: "", dateOfBirth: "", address: "", healthSystems: nil), lastMessageTime: Date(), unreadMessages: false)
-//        let convo2 = Conversation(conversationID: 5, conversationPartner: "Your Other Mom", lastMessageTime: Date(), unreadMessages: false)
+        activityIndicator.center = self.view.center
+        activityIndicator.style = .gray
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -42,21 +46,29 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         //self.collectionView!.collectionViewLayout = layout
         //layoutCells()
         
-         let authorizedConnector = Connector()
-         AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
-        var tempList: [Conversation]?
-        let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
-        (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
-        
-        // Filter conversations
-        conversationList = []
-        if (tempList != nil && tempList!.count > 0) {
-            for i in 0...tempList!.count - 1 {
-                if (tempList![i].getConverserID() == "N/A") {
-                    conversationList?.append(tempList![i])
+        DispatchQueue.main.async {
+            let authorizedConnector = Connector()
+            AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            var tempList: [Conversation]?
+            let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+            (tempList, _) = processor.processConversationList(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/ConversationList")
+            
+            // Filter conversations
+            self.conversationList = []
+            if (tempList != nil && tempList!.count > 0) {
+                for i in 0...tempList!.count - 1 {
+                    if (tempList![i].getConverserID() == "N/A") {
+                        self.conversationList?.append(tempList![i])
+                    }
                 }
             }
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.activityIndicator.stopAnimating()
     }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23
@@ -115,6 +127,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.activityIndicator.startAnimating()
         self.selectedConversation = conversationList![indexPath.row]
         self.performSegue(withIdentifier: "open_chat", sender: self)
     }
@@ -123,8 +136,6 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellS
         cell.delegate = self
         cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
-        //cell.conversationID = conversationList![indexPath.row].getConversationID()
-        /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
 //        let df = DateFormatter()
 //        let calendar = Calendar.current
@@ -135,7 +146,6 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
 //            df.dateFormat = "MM-dd-YYYY"
 //        }
 //        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
-        //cell.display(<#T##layer: CALayer##CALayer#>)
         
         return cell
     }

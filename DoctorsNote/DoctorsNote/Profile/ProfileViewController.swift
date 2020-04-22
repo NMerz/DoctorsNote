@@ -11,19 +11,22 @@ import PopupKit
 import AWSCognito
 import AWSMobileClient
 import UserNotifications
+import AWSMobileClient
 
 class ProfileViewController: UIViewController {
    
     @IBOutlet weak var logOutButton: UIButton!
     @IBOutlet weak var personalInfoView: PersonalInfoView!
     @IBOutlet weak var settingsButton: UIButton!
+    @IBOutlet weak var deleteUserButton: UIButton!
     var mask: CAShapeLayer?
     
     var p: PopupView?
+    var dp: PopupView?
     @IBOutlet weak var remindersPreviewView: UIView!
     @IBOutlet weak var remindersPreviewLabel: UILabel!
     @IBOutlet weak var viewRemindersButton: UIButton!
-    
+        
     override func viewDidAppear(_ animated: Bool) {
         remindersPreviewLabel.text = "You currently have \(remindersList!.count) reminder(s)."
         UIApplication.shared.applicationIconBadgeNumber = 0
@@ -37,7 +40,30 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        let connector2 = Connector()
+        AWSMobileClient.default().getTokens(connector2.setToken(potentialTokens:potentialError:))
+        let processor2 = ConnectionProcessor(connector: connector2)
+        do {
+            print("Encrypted Private keys")
+            print(try processor2.retrieveEncryptedPrivateKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/retrievekeys"))
+            let testCipher = LocalCipher()
+//            try testCipher.resetKeyPair(securityQuestionAnswers: ["answer1", "answer2"], newPassword: CognitoHelper.password! + "!", username: (CognitoHelper.user?.getUID())!,   connectionProcessor: processor2)
+        }
+        catch let error {
+            if (error as! ConnectionError).getMessage() == "Null response" {
+                do {
+                    let cipher = LocalCipher()
+                    let (keyP, keyS, keyPub) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: ["answer1", "answer2"], username: (CognitoHelper.user?.getUID())!)
+                    try processor2.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: keyP.base64EncodedString(), privateKeyS: keyS.base64EncodedString(), publicKey: keyPub.base64EncodedString())
+                    } catch let error {
+                        print((error as! ConnectionError).getMessage())
+                    }
+            }
+            else {
+                print((error as! ConnectionError).getMessage())
+            }
+        }
+        
         // Remove permanent data, should I do this here?
 //        resetDefaults()
         
@@ -99,6 +125,9 @@ class ProfileViewController: UIViewController {
         logOutButton.semanticContentAttribute = UIApplication.shared
         .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
         
+        /*deleteUserButton.semanticContentAttribute = UIApplication.shared
+               .userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft*/
+        
         personalInfoView.layer.shadowColor = UIColor.darkGray.cgColor
         personalInfoView.layer.shadowRadius = 5
         personalInfoView.layer.shadowOpacity = 0.5
@@ -156,6 +185,26 @@ class ProfileViewController: UIViewController {
     
     }
     
+    
+    
+    @IBAction func deleteUser(_ sender: Any?) {
+        print("Starting deleteUser...")
+        print("currentUID:")
+        print(CognitoHelper.user!.getUID())
+        //CognitoHelper.sharedHelper.logout()
+        let connector = Connector()
+    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser")
+        }
+        catch let error {
+            // Fails to delete user
+            print("ERROR")
+            print((error as! ConnectionError).getMessage())
+        }
+    }
+    
     @IBAction func showSettings(_ sender: Any) {
     
         let width : Int = Int(self.view.frame.width - 40)
@@ -170,7 +219,10 @@ class ProfileViewController: UIViewController {
         p = PopupView.init(contentView: contentView)
         p?.maskType = .dimmed
         
-        let reportButton = UIButton(frame: CGRect(x: 25, y: 10, width: width - 50, height: 40))
+        dp = PopupView.init(contentView: contentView)
+        dp?.maskType = .dimmed
+        
+        let reportButton = UIButton(frame: CGRect(x: 25, y: 20, width: width - 50, height: 60))
         let reportLayer = CAShapeLayer()
         reportLayer.path = UIBezierPath(roundedRect: reportButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         reportButton.layer.mask = reportLayer
@@ -179,15 +231,16 @@ class ProfileViewController: UIViewController {
         reportButton.accessibilityIdentifier = "Report Button"
         reportButton.addTarget(self, action: #selector(sendReport), for: .touchUpInside)
         
-        let deleteButton = UIButton(frame:CGRect(x:width/2 - 75, y: 60, width: 150, height: 40))
+       /* let deleteButton = UIButton(frame:CGRect(x:width/2 - 75, y: 60, width: 150, height: 40))
         deleteButton.setTitle("Delete Account", for: .normal)
         deleteButton.backgroundColor = UIColor.systemRed
         let deleteLayer = CAShapeLayer()
         deleteLayer.path = UIBezierPath(roundedRect: deleteButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         deleteButton.layer.mask = deleteLayer
-        //action to delete user and go to login screen
+        deleteButton.addTarget(self, action: #selector(deleteUser), for: .touchUpInside)
+        //action to delete user and go to login screen*/
     
-        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 110, width: 90, height: 40))
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 95, width: 90, height: 50))
         closeButton.setTitle("Done", for: .normal)
         closeButton.backgroundColor = UIColor.systemBlue
         let layer = CAShapeLayer()
@@ -197,7 +250,6 @@ class ProfileViewController: UIViewController {
 
         contentView.addSubview(reportButton)
         contentView.addSubview(closeButton)
-        contentView.addSubview(deleteButton)
 
         let xPos = self.view.frame.width / 2
         let yPos = self.view.frame.height - CGFloat(height) + (tabBarController?.tabBar.frame.height)! - 20
