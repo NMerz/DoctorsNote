@@ -28,13 +28,13 @@ class TestDeleteUser: XCTestCase {
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        tryLogout()
+        //tryLogout()
     }
 
     func testDeleteButton() {
         tryLogin()
-        //app?.navigationBars.buttons.element
-        XCTAssert(app!.staticTexts["Privacy Info Label"].exists)
+        
+        XCTAssert(app!.navigationBars.buttons["Log Out"].exists)
     }
     
     func tryLogin() {
@@ -55,7 +55,7 @@ class TestDeleteUser: XCTestCase {
    }
     
     func tryLogout() {
-        if (app!.buttons["Log Out"].exists && app!.buttons["Log Out"].isHittable) {
+        if (app!.buttons["Log Out"].exists) {
             app?.buttons["Log Out"].tap()
         }
     }
