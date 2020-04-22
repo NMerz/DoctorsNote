@@ -16,19 +16,47 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
     
     var groups: [Conversation]?
     var filteredGroups: [Conversation]?
+    var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        activityIndicator.center = self.view.center
+        activityIndicator.style = .gray
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Support Groups"
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        // Get support groups from database
-        
-        groups = [(Conversation(conversationID: -1, converserID: "1", conversationName: "Test Support Group", lastMessageTime: Date(), status: 1, numMembers: 15, description: "Test description"))]
+        // Get all support groups from database
+        DispatchQueue.main.async {
+            let authorizedConnector = Connector()
+            AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            var tempList: [Conversation]?
+            let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+            do {
+                (self.groups, _) = try processor.processAllSupportGroups()
+            } catch {
+                // ADD ERROR HANDLING
+            }
+            
+            // Filter conversations
+//            self.conversationList = []
+//            if (tempList != nil && tempList!.count > 0) {
+//                for i in 0...tempList!.count - 1 {
+//                    if (tempList![i].getConverserID() == "N/A") {
+//                        self.conversationList?.append(tempList![i])
+//                    }
+//                }
+//            }
+            self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
         
     }
     
@@ -46,7 +74,7 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
         if (isFiltering()) {
             return filteredGroups!.count
         }
-        return groups!.count
+        return groups?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

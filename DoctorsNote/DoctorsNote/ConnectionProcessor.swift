@@ -165,9 +165,9 @@ class ConnectionProcessor {
 //            print(conversation["conversationName"] as? String)
 //            print(conversation["lastMessageTime"] as? TimeInterval)
 //            print(conversation["status"] as? Int)
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil && ((conversation["numMembers"]) as? Int) != nil /*&& ((conversation["description"]) as? String) != nil*/) {
+            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil && ((conversation["numMembers"]) as? Int) != nil) {
                 // TODO: numMembers and description fields need to be set once database connection is finished
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int, numMembers: conversation["numMembers"] as! Int, description: ""/*conversation["description"] as! String*/)
+                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int, numMembers: conversation["numMembers"] as! Int, description: conversation["description"] as? String ?? "")
                 conversations.append(newConversation)
             } else {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
@@ -207,11 +207,11 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let message = messageDict as! [String : Any?]
-            print((message["messageId"]! as? Int) != nil)
-            print((message["content"] as? String) != nil)
-            print(Data(base64Encoded: (message["content"] as! String)) != nil)
-            print((message["contentType"] as? Int) != nil)
-            print((message["sender"] as? String) != nil)
+//            print((message["messageId"]! as? Int) != nil)
+//            print((message["content"] as? String) != nil)
+//            print(Data(base64Encoded: (message["content"] as! String)) != nil)
+//            print((message["contentType"] as? Int) != nil)
+//            print((message["sender"] as? String) != nil)
             if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
                 let numFails = CognitoHelper.numFails
                 let newMessage = Message(messageID: message["messageId"] as! Int, conversationID: conversationID, content: Data(base64Encoded: (message["content"] as! String))!, contentType: message["contentType"] as! Int, sender: User(uid: message["sender"] as! String), numFails: numFails)
@@ -271,15 +271,15 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let reminder = reminderDict as! [String : Any?]
-            print((reminder["reminderID"] as? Int) != nil)
-            print((reminder["remindee"] as? String) != nil)
-            print((reminder["creatorID"] as? String) != nil)
-            print((reminder["timeCreated"] as? Int) != nil)
-            print((reminder["timeCreated"] as! Double) / 1000.0)
-            print((reminder["intradayFrequency"] as? Int) != nil)
-            print((reminder["daysBetweenReminders"] as? Int) != nil)
-            print((reminder["content"] as? String) != nil)
-            print((reminder["descriptionContent"] as? String) != nil)
+//            print((reminder["reminderID"] as? Int) != nil)
+//            print((reminder["remindee"] as? String) != nil)
+//            print((reminder["creatorID"] as? String) != nil)
+//            print((reminder["timeCreated"] as? Int) != nil)
+//            print((reminder["timeCreated"] as! Double) / 1000.0)
+//            print((reminder["intradayFrequency"] as? Int) != nil)
+//            print((reminder["daysBetweenReminders"] as? Int) != nil)
+//            print((reminder["content"] as? String) != nil)
+//            print((reminder["descriptionContent"] as? String) != nil)
             if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["intradayFrequency"] as? Int) != nil) && ((reminder["daysBetweenReminders"] as? Int) != nil) && ((reminder["content"] as? String) != nil) && ((reminder["descriptionContent"] as? String) != nil) {
                 let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, descriptionContent: reminder["descriptionContent"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: ((reminder["timeCreated"] as! Double) / 1000.0)), intradayFrequency: reminder["intradayFrequency"] as! Int, daysBetweenReminders: reminder["daysBetweenReminders"] as! Int)
                 reminders.append(newReminder)
@@ -490,7 +490,7 @@ class ConnectionProcessor {
     
     func processAllSupportGroups() throws -> ([Conversation]?, ConnectionError?) {
         
-        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/GetSupportGroups"
+        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/SupportGroupList"
         let (potentialData, potentialError) = retrieveData(urlString: url)
         if (potentialError != nil) {
             return (nil, potentialError)
@@ -498,24 +498,46 @@ class ConnectionProcessor {
         if (potentialData == nil) { //Should never happen if potentialError is nil
             return (nil, ConnectionError(message: "Data nil with no error"))
         }
-        let groupList = potentialData!
         var groups = [Conversation]()
-        if (groupList.first?.value as? NSArray == nil) {
+        if ((potentialData!["conversationIds"] as? NSArray) == nil) {
             return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
         }
-        for groupDict in (groupList.first?.value as! NSArray) {
-            if (groupDict as? [String : Any?] == nil) {
-                return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
+        let idList = potentialData!["conversationIds"] as! NSArray
+        for id in idList {
+            var convoJSON = [String: Any]()
+            convoJSON["conversationId"] = id
+            let getConvoUrl = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/GetConversationFromID"
+            let convoData = try postData(urlString: getConvoUrl, dataJSON: convoJSON)
+
+            if (convoData.count == 0) {
+                throw ConnectionError(message: "Unable to find conversation")
             }
-            print(groupDict)
-            let conversation = groupDict as! [String : Any?]
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil && ((conversation["numMembers"]) as? Int) != nil /*&& ((conversation["description"]) as? String) != nil*/) {
-                // TODO: numMembers and description fields need to be set once database connection is finished
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int, numMembers: conversation["numMembers"] as! Int, description: ""/*conversation["description"] as! String*/)
+            
+            // Note this lambda returns data in a funky way so we have to parse data in a funky way
+            // A future improvement should be made to the lamdba to return data similar to other functions
+            var conversationID = 0, converserID = "", conversationName = "", status = 0, numMembers = 0, description = "", lastMessageTime = Date()
+            for data in convoData {
+                switch data.key {
+                case "description":
+                    description = data.value as? String ?? ""
+                case "status":
+                    status = data.value as? Int ?? 0
+                case "converserID":
+                    converserID = data.value as? String ?? ""
+                case "conversationName":
+                    conversationName = data.value as? String ?? ""
+                case "lastMessageTime":
+                    lastMessageTime = Date(timeIntervalSince1970: (data.value as? TimeInterval ?? 0) / 1000.0)
+                case "numMembers":
+                    numMembers = data.value as? Int ?? 0
+                case "conversationID":
+                    conversationID = data.value as? Int ?? 0
+                default:
+                    throw ConnectionError(message: "At least one JSON field was an incorrect format")
+                }
+            }
+            let newConversation = Conversation(conversationID: conversationID, converserID: converserID, conversationName: conversationName, lastMessageTime: lastMessageTime, status: status, numMembers: numMembers, description: description)
                 groups.append(newConversation)
-            } else {
-                return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
-            }
         }
         return (groups, potentialError)
     }
@@ -536,7 +558,7 @@ class ConnectionProcessor {
         let user = userData as! [String : Any?]
         if (((user["email"]) as? String) != nil && ((user["firstName"]) as? String) != nil && ((user["middleName"]) as? String) != nil && ((user["lastName"]) as? String) != nil && ((user["address"]) as? String) != nil && ((user["phoneNumber"]) as? String) != nil) {
             // WARNING: Not all fields are filled in since some information private/not necessary
-            let user = User(uid: uid, email: user["email"] as! String, firstName: user["firstName"] as! String, middleName: user["middleName"] as! String, lastName: user["lastName"] as! String, dateOfBirth: Date(), address: user["address"] as! String, sex: "", phoneNumber: user["phoneNumber"] as! String, role: "", healthSystems: [HealthSystem(hospital: "", hospitalWebsite: "", healthcareProvider: "", healthcareWebsite: "")], workHours: "")
+            let user = User(uid: uid, email: user["email"] as! String, firstName: user["firstName"] as! String, middleName: user["middleName"] as! String, lastName: user["lastName"] as! String, dateOfBirth: Date(), address: user["address"] as! String, sex: "", phoneNumber: user["phoneNumber"] as! String, role: "", healthSystems: [HealthSystem(hospital: "", hospitalWebsite: "", healthcareProvider: "", healthcareWebsite: "")], workHours: "", securityQuestion: "", securityAnswer: "")
             return user
         } else {
             throw ConnectionError(message: "At least one JSON field was an incorrect format")
