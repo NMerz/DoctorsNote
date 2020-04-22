@@ -222,7 +222,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             do {
                 let cipher = LocalCipher()
                 messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID())))
-                print(messages)
+                print(messages) 
             } catch let error {
                 print (error.localizedDescription)
                 print("ERROR!!!!!!!!!!!!")

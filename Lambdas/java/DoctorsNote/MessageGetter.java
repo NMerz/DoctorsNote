@@ -37,10 +37,10 @@ public class MessageGetter {
                 String sender = messageResult.getString(3);
                 long contentType = messageResult.getLong(4);
                 String senderContent = messageResult.getString(5);
-                String receiverContent = messageResult.getString(5);
+                String receiverContent = messageResult.getString(6);
 
                 if (timeSent >= 0) {
-                    if (currentUser == sender) {
+                    if (currentUser.equals(sender)) {
                         messages.add(new Message(senderContent, contentType, messageId, timeSent, sender));
                     } else {
                         messages.add(new Message(receiverContent, contentType, messageId, timeSent, sender));

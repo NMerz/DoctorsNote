@@ -158,29 +158,38 @@ class ConnectionProcessor {
             if (conversationDict as? [String : Any?] == nil) {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
             }
-            print(conversationDict)
+//            print(conversationDict)
             let conversation = conversationDict as! [String : Any?]
-            print(conversation)
+//            print(conversation)
            // let conversation = conversationList[conversationKey] as! [String : Any?]
-            print(conversation["conversationID"] as? Int)
-            print(conversation["converserID"] as? String)
-            print(conversation["converserPublicKey"] as? String)
-            print(conversation["adminPublicKey"] as? String)
-            print(conversation["conversationName"] as? String)
-            print(conversation["lastMessageTime"] as? TimeInterval)
-            print(conversation["status"] as? Int)
-            print((conversation["status"] as? Int) != nil)
-            print((conversation["numMembers"] as? Int) != nil)
-            if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["converserPublicKey"] as? String) != nil) && ((conversation["adminPublicKey"] as? String) != nil) &&  ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) &&
-                ((conversation["numMembers"] as? Int) != nil) &&
-                ((conversation["description"] as? String) != nil) {
-                let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, converserPublicKey: conversation["converserPublicKey"] as! String, adminPublicKey: conversation["adminPublicKey"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int, numMembers: conversation["numMembers"] as! Int, description: conversation["description"] as! String)
+            do {
+                let newConversation = try extractConversation(conversation: conversation)
                 conversations.append(newConversation)
-            } else {
+            } catch {
                 return (nil, ConnectionError(message: "At least one JSON field was an incorrect format"))
             }
         }
         return (conversations, potentialError)
+    }
+    
+    func extractConversation(conversation: [String : Any?]) throws -> Conversation {
+        print(conversation["conversationID"] as? Int)
+        print(conversation["converserID"] as? String)
+        print(conversation["converserPublicKey"] as? String)
+        print(conversation["adminPublicKey"] as? String)
+        print(conversation["conversationName"] as? String)
+        print(conversation["lastMessageTime"] as? TimeInterval)
+        print(conversation["status"] as? Int)
+        print((conversation["status"] as? Int) != nil)
+        print((conversation["numMembers"] as? Int) != nil)
+        if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["converserPublicKey"] as? String) != nil) && ((conversation["adminPublicKey"] as? String) != nil) &&  ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) &&
+            ((conversation["numMembers"] as? Int) != nil) &&
+            ((conversation["description"] as? String) != nil) {
+            let newConversation = Conversation(conversationID:  conversation["conversationID"] as! Int, converserID:  conversation["converserID"] as! String, converserPublicKey: conversation["converserPublicKey"] as! String, adminPublicKey: conversation["adminPublicKey"] as! String, conversationName: conversation["conversationName"] as! String, lastMessageTime: Date(timeIntervalSince1970: (conversation["lastMessageTime"] as! TimeInterval) / 1000.0), status: conversation["status"] as! Int, numMembers: conversation["numMembers"] as! Int, description: conversation["description"] as! String)
+            return newConversation
+        } else {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
     }
     
     func processUser(url: String, uid: String) -> (User?, ConnectionError?) {
@@ -222,12 +231,12 @@ class ConnectionProcessor {
             if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
                 let messageBase64: String
                 if cipher != nil {
-                do {
-                    let rawMessage = Data(base64Encoded: (message["content"] as! String))!
-                    messageBase64 = try cipher!.decrypt(toDecrypt: rawMessage)
-                } catch let error as CipherError {
-                    throw ConnectionError(message: error.getMessage())
-                }
+                    do {
+                        let rawMessage = Data(base64Encoded: (message["content"] as! String))!
+                        messageBase64 = try cipher!.decrypt(toDecrypt: rawMessage)
+                    } catch let error as CipherError {
+                        throw ConnectionError(message: error.getMessage())
+                    }
                 } else {
                     messageBase64 = (message["recieverContent"] as! String)
                 }
@@ -527,16 +536,34 @@ class ConnectionProcessor {
     }
     
     //TODO: fix calls
-    func processAllSupportGroups(url: String) throws -> [Conversation] {
+    func processAllSupportGroups() throws -> [Conversation] {
         
-//        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/GetSupportGroups"
-        let (allConversations, potentialError) = processConversationList(url: url)
-        if potentialError != nil {
+        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/SupportGroupList"
+        let (potentialData, potentialError) = retrieveData(urlString: url)
+        if (potentialError != nil) {
             throw potentialError!
-        } else if allConversations == nil {
-            throw ConnectionError(message: "ConversationList return unexplicably nil!")
         }
-        return allConversations!
+        if (potentialData == nil) { //Should never happen if potentialError is nil
+            throw ConnectionError(message: "Data nil with no error")
+        }
+        var groups = [Conversation]()
+        if ((potentialData!["conversationIds"] as? NSArray) == nil) {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        let idList = potentialData!["conversationIds"] as! NSArray
+        for id in idList {
+            var convoJSON = [String: Any]()
+            convoJSON["conversationId"] = id
+            let getConvoUrl = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/GetConversationFromID"
+            let convoData = try postData(urlString: getConvoUrl, dataJSON: convoJSON)
+
+            if (convoData.count == 0) {
+                throw ConnectionError(message: "Unable to find conversation")
+            }
+            let newConversation = try extractConversation(conversation: convoData)
+            groups.append(newConversation)
+        }
+        return groups
     }
     
     func processUserInformation(uid: String) throws -> User? {

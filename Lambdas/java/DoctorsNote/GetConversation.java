@@ -14,12 +14,12 @@ import java.util.Map;
  *
  * Error Handling: Returns null or a RuntimeException if an unrecoverable error is encountered
  */
-public class GetConversation implements RequestHandler<Map<String,Object>, ConversationGetter.Conversation> {
+public class GetConversation implements RequestHandler<Map<String,Object>, Conversation> {
 
-    public ConversationGetter.Conversation handleRequest(Map<String,Object> inputMap, Context context) {
+    public Conversation handleRequest(Map<String,Object> inputMap, Context context) {
         try {
             ConversationGetter conversationGetter = makeConversationGetter();
-            ConversationGetter.Conversation response = conversationGetter.get(inputMap, context);
+            Conversation response = conversationGetter.get(inputMap, context);
             if (response == null) {
                 System.out.println("GetConversation: ConversationGetter returned null");
                 throw new RuntimeException("Server experienced an error");

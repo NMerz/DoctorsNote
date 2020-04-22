@@ -108,11 +108,13 @@ class MessageCipher {
                 throw CipherError(message: "Input key is not base64 encoded")
             }
             publicKeyExternalRepresentation = Data(base64Encoded: publicKeyExternalBase64!)!
+            print("Other public key:" + publicKeyExternalRepresentation.base64EncodedString())
         } else {
             if privateKey == nil {
                 throw CipherError(message: "Private key must be set to encrypt messages for self")
             }
             publicKeyExternalRepresentation = SecKeyCopyExternalRepresentation(SecKeyCopyPublicKey(privateKey!)!, nil)! as Data
+            print("Own public key:" + publicKeyExternalRepresentation.base64EncodedString())
 //            let data = toEncrypt.data(using: .utf8)! as CFData
 //            var unmanagedError: Unmanaged<CFError>? = nil
 //            let encrypted = SecKeyCreateEncryptedData(SecKeyCopyPublicKey(privateKey!)!, .rsaEncryptionOAEPSHA512AESGCM, data, &unmanagedError) as Data?

@@ -41,7 +41,7 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
             var tempList: [Conversation]?
             let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
             do {
-                self.groups = try processor.processAllSupportGroups(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/SupportGroupList")
+                self.groups = try processor.processAllSupportGroups()
             } catch {
                 // ADD ERROR HANDLING
             }
