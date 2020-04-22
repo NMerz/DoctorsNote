@@ -82,6 +82,17 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             if (middleName == "") {
                 middleName = "<empty>"
             }
+            let cipher = LocalCipher()
+            let (privateKeyP, privateKeyS, publicKey) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: [securityAnswer.text!], username: CognitoHelper.user!.getUID())
+            let connector = Connector()
+            AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+            let connectionProcessor = ConnectionProcessor(connector: connector)
+            do {
+                try connectionProcessor.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: privateKeyP.base64EncodedString(), privateKeyS: privateKeyS.base64EncodedString(), publicKey: publicKey.base64EncodedString())
+            } catch let error {
+                print((error as! ConnectionError).getMessage())
+                return
+            }
             CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion":securityQuestion.text!.hash(), "custom:securityanswer":securityAnswer.text!.hash()]) { (details, err) in
                 if let err = err as? AWSMobileClientError {
                     print("\(err.message)")

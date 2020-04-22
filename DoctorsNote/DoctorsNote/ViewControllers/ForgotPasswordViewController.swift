@@ -174,6 +174,21 @@ class PasswordCodeViewController: UIViewController {
         if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid || !securityAnswerMatch) {
             return
         }
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let connectionProcessor = ConnectionProcessor(connector: connector)
+        do {
+            let cipher = LocalCipher()
+            try cipher.resetKeyPair(securityQuestionAnswers: [self.securityAnswer.text!], newPassword: self.newPasswordField.text!, username: CognitoHelper.user!.getUID(), connectionProcessor: connectionProcessor)
+        } catch let error as CipherError {
+            print(error.getMessage())
+            return
+        } catch let error as ConnectionError {
+            print(error.getMessage())
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
         
         AWSMobileClient.default().confirmForgotPassword(username: email!, newPassword: newPasswordField.text!, confirmationCode: codeField.text!) { (res, err) in
             if let err = err as? AWSMobileClientError {
