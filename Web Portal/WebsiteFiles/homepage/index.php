@@ -164,8 +164,8 @@ if (isset($_POST['submitPair'])) {
                 //echo $numFound;
 
                 if ($isDuplicate == 0) {
-                    $pdo->query("INSERT INTO Conversation (status)
-                            VALUES (0);");
+                    $pdo->query("INSERT INTO Conversation (status, adminPublicKey)
+                            VALUES (0, \"MIIBCgKCAQEA3EuLDvxNqAF3bRqwlxEAsfcGLg/LnVWJxB/fmBOyZVbKWF8klgScF5aw1irj3NwJw810Xp3ZZOhOUHxW6jw85XIoCdwmwzGPEHbbvwXNsW/uP5pSv3GZa1RuiLP8XjUZ2uzGK3mjHMrAlPn5hhYntp730C/1tyYOJgr3eWzLH7lWcHpR2cv06JOoVrwuk67ggXgNlNy0nY0dPmar+OEKd911JDcWbS77BZ5CkT8WeKG9I2SwFNH1KdnEbbGQLe3iZRUrWxYbRg0EQsE9gpML14R3ee9YjRlh1Y/Z904bEaD5vhy+/DwjdAag1C+0BtGiYNpJ/wbjFEKgqFKVD1V/bwIDAQAB\");");
                     $lastID = $pdo->lastInsertId();
 
                     //Add corresponding Conversation_has_User rows
