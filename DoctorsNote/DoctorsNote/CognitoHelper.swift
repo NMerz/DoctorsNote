@@ -94,6 +94,13 @@ class CognitoHelper {
         if let workHours = attributeMap["custom:work_hours"] {
             CognitoHelper.user?.setWorkHours(workHours: workHours)
         }
+        if let question = attributeMap["custom:securityquestion"] {
+            CognitoHelper.user?.setSecurityQuestion(securityQuestion: question)
+        }
+        if let answer = attributeMap["custom:securityanswer"] {
+            CognitoHelper.user?.setSecurityAnswer(securityAnswer: answer)
+        }
+        
     }
     
     func setHealthcareInformation(role:String, hospital:String, hospitalWebsite: String, healthcareProvider: String, healthcareWebsite:String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {
