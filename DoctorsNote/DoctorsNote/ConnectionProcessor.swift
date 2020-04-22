@@ -522,12 +522,11 @@ class ConnectionProcessor {
         
     }
     
-    func processJoinSupportGroup(conversationID: Int) throws {
+    func processJoinSupportGroup(url: String, conversationID: Int) throws {
         var joinJSON = [String: Any]()
         joinJSON["userId"] = AWSMobileClient.default().username!
         joinJSON["conversationId"] = String(conversationID)
     
-        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/JoinSupportGroup"
         do {
             let data = try postData(urlString: url, dataJSON: joinJSON)
             if data.count != 0 {
