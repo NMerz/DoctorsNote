@@ -48,6 +48,10 @@ class MessageCipher {
         privateKey = newPrivateKey
     }
     
+    public func setPrivateKey(newPrivateKey: SecKey) {
+        privateKey = newPrivateKey
+    }
+    
     public func setAndReturnKeyPair(encryptedPrivateKey: String) throws -> (Data, Data) {
         try setPrivateKey(encryptedPrivateKey: encryptedPrivateKey)
         if privateKey == nil {

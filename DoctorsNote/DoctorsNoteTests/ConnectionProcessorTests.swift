@@ -234,6 +234,43 @@ class ConnectionProcessorTests: XCTestCase {
         XCTAssert(potentialError?.getMessage() == "Non-blank return")
     }
     
+    func testMessagePostEncryption() {
+        let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
+        let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
+        let processor = ConnectionProcessor(connector: connector)
+        var cipherMock: MessageCipherMock? = nil
+        do {
+            cipherMock = try MessageCipherMock()
+        } catch {
+            
+        }
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, contentType: 0, sender: User(uid: "id1")!, numFails: 0), cipher: cipherMock!, publicKeyExternalBase64: "fake key", adminPublicKeyExternalBase64: "fakeKey")
+        XCTAssert(connector.getConductPostTaskCalls() == 1)
+        XCTAssert(potentialError == nil)
+        let postedData = connector.getPostedData()
+        XCTAssert(postedData != nil)
+        if postedData == nil {
+            return
+        }
+        var postedDictionary: [String: Any]? = nil
+        do {
+            postedDictionary = try JSONSerialization.jsonObject(with: postedData!, options: .allowFragments) as? [String: Any]
+        } catch {
+            XCTAssert(false)
+        }
+        XCTAssert(postedDictionary != nil)
+        if postedDictionary == nil {
+            return
+        }
+        XCTAssert(postedDictionary!["senderContent"] as! String != "content")
+        XCTAssert(postedDictionary!["receiverContent"] as! String != "content")
+        XCTAssert(postedDictionary!["adminContent"] as! String != "content")
+        XCTAssert(postedDictionary!["senderContent"] as! String != "content".data(using: .utf8)!.base64EncodedString())
+        XCTAssert(postedDictionary!["receiverContent"] as! String != "content".data(using: .utf8)!.base64EncodedString())
+        XCTAssert(postedDictionary!["adminContent"] as! String != "content".data(using: .utf8)!.base64EncodedString())
+
+    }
+    
     func testValidMessagePost() {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
@@ -616,7 +653,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processGetUserInfo(url: "url")
+            try processor.processGetUserInfo(url: "url", uid: "userID")
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -631,7 +668,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processGetUserInfo(url: "url")
+            try processor.processGetUserInfo(url: "url", uid: "userID")
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -673,6 +710,7 @@ class ConnectorMock: Connector {
     var returnData = Data?(nil)
     var responseHeader = URLResponse?(nil)
     var potentialError = Error?(nil)
+    var postedData: Data? = nil
     
     init() {
         
@@ -692,8 +730,12 @@ class ConnectorMock: Connector {
     
     override func conductPostTask(manager: ConnectionProcessor, request: inout URLRequest, data: Data) {
         conductPostTaskCalls += 1
-        
+        postedData = data
         manager.processConnection(returnData: returnData, response: responseHeader, potentialError: potentialError)
+    }
+    
+    func getPostedData() -> Data? {
+        return postedData
     }
     
     func getConductRetrievalTaskCalls() -> Int {
@@ -785,4 +827,13 @@ class ConnectionProcessorMock : ConnectionProcessor {
     override func processConnection(returnData: Data?, response: URLResponse?, potentialError: Error?) {
         
     }
+}
+
+class MessageCipherMock : MessageCipher {
+    init () throws {
+        let (newPrivateKey, _ , _) = LocalCipher().generateKetSet(password: "password", securityQuestionAnswers: ["answer"], username: "notunique")
+        try super.init(uniqueID: "notunique", localAESKey: newPrivateKey)
+    }
+    
+    override func 
 }
