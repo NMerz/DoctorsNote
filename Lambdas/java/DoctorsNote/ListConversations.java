@@ -85,7 +85,7 @@ public class ListConversations {
                 int status = attributesRS.getInt(3);
                 String adminPublicKey = attributesRS.getString(4);
                 String description = attributesRS.getString(5);
-                int isSupportGroup = attributesRS.getInt(5);
+                int isSupportGroup = attributesRS.getInt(6);
                 String converserIdString;
                 String converserPublicKey;
 

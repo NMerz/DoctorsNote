@@ -238,7 +238,7 @@ class ConnectionProcessor {
                         throw ConnectionError(message: error.getMessage())
                     }
                 } else {
-                    messageBase64 = (message["recieverContent"] as! String)
+                    messageBase64 = (message["content"] as! String)
                 }
                 print(Data(base64Encoded: messageBase64) != nil)
                 if Data(base64Encoded: messageBase64) == nil {
