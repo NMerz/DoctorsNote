@@ -57,40 +57,52 @@ class CognitoHelper {
             }
             else if dict!["address"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["birthdate"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["gender"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["phone_number"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["custom:healthcare_provider"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["custom:hospital"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["custom:healthcare_website"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["custom:hospital_website"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["custom:role"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["custom:securityquestion2"] == nil {
                 onDone(false)
+                return
             }
             else if dict!["custom:securityanswer"] == nil {
                 onDone(false)
+                return
             }
             else {
                 CognitoHelper.user = User(uid: AWSMobileClient.default().username!, dict: dict!)
                 onDone(true)
+                return
             }
         }
     }
