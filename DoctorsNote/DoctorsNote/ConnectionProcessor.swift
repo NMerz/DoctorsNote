@@ -536,13 +536,7 @@ class ConnectionProcessor {
         } else if allConversations == nil {
             throw ConnectionError(message: "ConversationList return unexplicably nil!")
         }
-        var supportGroupConversations = [Conversation]()
-        for conversation in allConversations! {
-            if conversation.getConverserID() == "N/A" {
-                supportGroupConversations.append(conversation)
-            }
-        }
-        return supportGroupConversations
+        return allConversations!
     }
     
     func processUserInformation(uid: String) throws -> User? {
