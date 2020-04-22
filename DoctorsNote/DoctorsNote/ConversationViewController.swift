@@ -105,7 +105,20 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCell
         cell.delegate = self
-        cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
+        
+        do {
+            let authorizedConnector = Connector()
+            AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            var tempList: [Conversation]?
+            let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+            let user = try processor.processUserInformation(uid: conversationList![indexPath.row].getConverserID())
+            cell.nameLabel.text = user!.getFirstName() + " " + user!.getLastName()
+        } catch {
+            cell.nameLabel.text = "Unknown"
+            print("Error getting user from id")
+        }
+        
+        //cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
         
         return cell
     }

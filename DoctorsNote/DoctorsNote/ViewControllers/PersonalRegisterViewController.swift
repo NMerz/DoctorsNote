@@ -11,7 +11,6 @@ import AWSCognito
 import AWSMobileClient
 import PopupKit
 import CryptoKit
-//#import <CommonCrypto/CommonHMAC.h>
 
 //
 //
@@ -93,9 +92,10 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
                 print((error as! ConnectionError).getMessage())
                 return
             }
-            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion":securityQuestion.text!.hash(), "custom:securityanswer":securityAnswer.text!.hash()]) { (details, err) in
-                if let err = err as? AWSMobileClientError {
-                    print("\(err.message)")
+            CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion2":securityQuestion.text!, "custom:securityanswer":securityAnswer.text!.my_hash()]) { (success, err) in
+                if (!success) {
+                    self.errorLabel.text = err
+                    print("\(err)")
                 } else {
                     print("Info updated correctly!")
                     DispatchQueue.main.async {
@@ -116,9 +116,9 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let zip = zipField.isEmpty()
         let isPhoneFormatted = checkPhoneFormat()
         let isZIPFormatted = checkZipFormat()
-        
         let question = securityQuestion.isEmpty()
         let answer = securityAnswer.isEmpty()
+        
         
         var DOBFilled = true
         if (DOB == "") {
@@ -291,6 +291,14 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
     }
 
     
+}
+
+extension String {
+    func my_hash() -> String {
+        let inputData = Data(self.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+    }
 }
 
 class StateTableViewController: UITableViewController {

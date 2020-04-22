@@ -214,11 +214,11 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let message = messageDict as! [String : Any?]
-            print((message["messageId"]! as? Int) != nil)
-            print((message["content"] as? String) != nil)
-            print(Data(base64Encoded: (message["content"] as! String)) != nil)
-            print((message["contentType"] as? Int) != nil)
-            print((message["sender"] as? String) != nil)
+//            print((message["messageId"]! as? Int) != nil)
+//            print((message["content"] as? String) != nil)
+//            print(Data(base64Encoded: (message["content"] as! String)) != nil)
+//            print((message["contentType"] as? Int) != nil)
+//            print((message["sender"] as? String) != nil)
             if ((message["messageId"] as? Int) != nil) && ((message["content"] as? String) != nil) && Data(base64Encoded: (message["content"] as! String)) != nil && ((message["contentType"] as? Int) != nil) && ((message["sender"] as? String) != nil) {
                 let messageBase64: String
                 if cipher != nil {
@@ -318,15 +318,15 @@ class ConnectionProcessor {
                 throw ConnectionError(message: "At least one JSON field was an incorrect format")
             }
             let reminder = reminderDict as! [String : Any?]
-            print((reminder["reminderID"] as? Int) != nil)
-            print((reminder["remindee"] as? String) != nil)
-            print((reminder["creatorID"] as? String) != nil)
-            print((reminder["timeCreated"] as? Int) != nil)
-            print((reminder["timeCreated"] as! Double) / 1000.0)
-            print((reminder["intradayFrequency"] as? Int) != nil)
-            print((reminder["daysBetweenReminders"] as? Int) != nil)
-            print((reminder["content"] as? String) != nil)
-            print((reminder["descriptionContent"] as? String) != nil)
+//            print((reminder["reminderID"] as? Int) != nil)
+//            print((reminder["remindee"] as? String) != nil)
+//            print((reminder["creatorID"] as? String) != nil)
+//            print((reminder["timeCreated"] as? Int) != nil)
+//            print((reminder["timeCreated"] as! Double) / 1000.0)
+//            print((reminder["intradayFrequency"] as? Int) != nil)
+//            print((reminder["daysBetweenReminders"] as? Int) != nil)
+//            print((reminder["content"] as? String) != nil)
+//            print((reminder["descriptionContent"] as? String) != nil)
             if ((reminder["reminderID"] as? Int) != nil) && ((reminder["remindee"] as? String) != nil) && ((reminder["creatorID"] as? String) != nil) && ((reminder["timeCreated"] as? Int) != nil) && ((reminder["intradayFrequency"] as? Int) != nil) && ((reminder["daysBetweenReminders"] as? Int) != nil) && ((reminder["content"] as? String) != nil) && ((reminder["descriptionContent"] as? String) != nil) {
                 let newReminder = Reminder(reminderID: reminder["reminderID"] as! Int, content: reminder["content"] as! String, descriptionContent: reminder["descriptionContent"] as! String, creatorID: reminder["creatorID"] as! String, remindeeID: reminder["remindee"] as! String, timeCreated: Date(timeIntervalSince1970: ((reminder["timeCreated"] as! Double) / 1000.0)), intradayFrequency: reminder["intradayFrequency"] as! Int, daysBetweenReminders: reminder["daysBetweenReminders"] as! Int)
                 reminders.append(newReminder)

@@ -16,21 +16,49 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
     
     var groups: [Conversation]?
     var filteredGroups: [Conversation]?
+    var activityIndicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        activityIndicator.center = self.view.center
+        activityIndicator.style = .gray
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Support Groups"
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
-        // Get support groups from database
-        
-        groups = [(Conversation(conversationID: -1, converserID: "1", converserPublicKey: "don't use me", adminPublicKey: "don't use me either", conversationName: "Test Support Group", lastMessageTime: Date(), status: 1, numMembers: 15, description: "Test description"))]
 
-        
+        // Get all support groups from database
+        DispatchQueue.main.async {
+            let authorizedConnector = Connector()
+            AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            var tempList: [Conversation]?
+            let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+            do {
+                self.groups = try processor.processAllSupportGroups(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/SupportGroupList")
+            } catch {
+                // ADD ERROR HANDLING
+            }
+            
+            // Filter conversations
+//            self.conversationList = []
+//            if (tempList != nil && tempList!.count > 0) {
+//                for i in 0...tempList!.count - 1 {
+//                    if (tempList![i].getConverserID() == "N/A") {
+//                        self.conversationList?.append(tempList![i])
+//                    }
+//                }
+//            }
+            self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+        }
+
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -47,7 +75,7 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
         if (isFiltering()) {
             return filteredGroups!.count
         }
-        return groups!.count
+        return groups?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -133,7 +161,7 @@ class SearchGroupCell: UITableViewCell {
         joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         joinButton.layer.mask = joinLayer
         joinButton.accessibilityLabel = "Join Button"
-        joinButton.addTarget(self, action: #selector(setDisplayName), for: .touchUpInside)
+        joinButton.addTarget(self, action: #selector(joinSupportGroup), for: .touchUpInside)
 
         contentView.addSubview(joinButton)
         contentView.addSubview(closeButton)
@@ -151,8 +179,26 @@ class SearchGroupCell: UITableViewCell {
     @objc func dismissPopup(sender: UIButton!) {
         p?.dismiss(animated: true)
     }
+    
+    @objc func joinSupportGroup(sender: UIButton!) {
+        let isError = false
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processJoinSupportGroup(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/JoinSupportGroup", conversationID: conversation!.getConversationID())
+        }
+        catch let error {
+            let isError = true
+            print((error as! ConnectionError).getMessage())
+        }
+        if (!isError) {
+            setDisplayName()
+        }
 
-    @objc func setDisplayName(sender: UIButton!) {
+    }
+
+    @objc func setDisplayName() {
         let alertController = UIAlertController(title: "Display Name", message: "You must set a name you like displayed for other group members to see.", preferredStyle: .alert)
         // ADD SOME SORT OF CHECKING TO ENSURE THAT THE NAME IS NOT ALREADY TAKEN.....
         // ERROR CHECKING TO KNOW IF IT IS THERE OWN NAME.

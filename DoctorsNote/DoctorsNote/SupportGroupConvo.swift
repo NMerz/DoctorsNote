@@ -30,6 +30,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         activityIndicator.style = .gray
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -62,6 +63,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
                 }
             }
             self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
         }
     }
     
