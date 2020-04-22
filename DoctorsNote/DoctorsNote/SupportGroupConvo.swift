@@ -136,8 +136,6 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellS
         cell.delegate = self
         cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
-        //cell.conversationID = conversationList![indexPath.row].getConversationID()
-        /*cell.nameLabel.text = conversationList![indexPath.row].getConversationPartner().getFirstName() + " " + conversationList![indexPath.row].getConversationPartner().getLastName()*/
         
 //        let df = DateFormatter()
 //        let calendar = Calendar.current
@@ -148,7 +146,6 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
 //            df.dateFormat = "MM-dd-YYYY"
 //        }
 //        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
-        //cell.display(<#T##layer: CALayer##CALayer#>)
         
         return cell
     }

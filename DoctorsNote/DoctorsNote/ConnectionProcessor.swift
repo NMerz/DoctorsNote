@@ -522,16 +522,20 @@ class ConnectionProcessor {
         
     }
     
-    //TODO: fix calls
-    func processJoinSupportGroup(url:String, conversationID: Int) throws {
+    func processJoinSupportGroup(conversationID: Int) throws {
         var joinJSON = [String: Any]()
         joinJSON["userId"] = AWSMobileClient.default().username!
-        joinJSON["conversationId"] = conversationID
-        
-//        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/JoinSupportGroup"
-        let data = try postData(urlString: url, dataJSON: joinJSON)
-        if data.count != 0 {
-            throw ConnectionError(message: "Non-blank return")
+        joinJSON["conversationId"] = String(conversationID)
+    
+        let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/JoinSupportGroup"
+        do {
+            let data = try postData(urlString: url, dataJSON: joinJSON)
+            if data.count != 0 {
+                throw ConnectionError(message: "Non-blank return")
+            }
+        } catch {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format.")
+
         }
     }
     
