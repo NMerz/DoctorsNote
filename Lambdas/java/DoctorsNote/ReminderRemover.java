@@ -22,7 +22,7 @@ public class ReminderRemover {
 
     public RemoveReminderResponse remove(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
-            System.out.println("ReminderRemover: Preparing to remove reminder with id " + ((Map<String,Object>) inputMap.get("body-json")).get("reminderID"));
+            System.out.println("ReminderRemover: Preparing to remove reminder with id " + ((Map<String,Object>) inputMap.get("body-json")).get("reminderID").toString());
             PreparedStatement statement = dbConnection.prepareStatement(removeReminderFormatString);
             statement.setLong(1, Long.parseLong(((Map<String,Object>) inputMap.get("body-json")).get("reminderID").toString()));
             System.out.println(statement);
@@ -37,7 +37,7 @@ public class ReminderRemover {
             // Serialize and return an empty response object
             return new RemoveReminderResponse();
         } catch (Exception e) {
-            System.out.println("ReminderRemover: Exception encountered: " + e.getMessage());
+            System.out.println("ReminderRemover: Exception encountered: " + e.toString());
             return null;
         } finally {
             dbConnection.close();

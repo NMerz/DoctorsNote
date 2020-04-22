@@ -17,7 +17,7 @@ public class ConversationLeaver {
         try {
 
             String conversationId = (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationId");
-            String userId = (String)((Map<String,Object>) inputMap.get("body-json")).get("userId");
+            String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
 
             System.out.println("ConversationLeaver: Removing " + userId + " from " + conversationId);
 
@@ -31,6 +31,7 @@ public class ConversationLeaver {
                 System.out.println("ConversationLeaver: Update successful");
             } else {
                 System.out.println(String.format("ConversationLeaver: Update failed (%d)", ret));
+                throw new RuntimeException(String.format("ConversationLeaver: Update failed (%d)", ret));
             }
 
             // Serialize and return an empty response object

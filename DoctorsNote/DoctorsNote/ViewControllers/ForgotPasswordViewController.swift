@@ -121,6 +121,9 @@ class PasswordCodeViewController: UIViewController {
     @IBOutlet weak var newPasswordField: CustomTextField!
     @IBOutlet weak var confirmField: CustomTextField!
     
+    @IBOutlet weak var securityQuestionLabel: UILabel!
+    @IBOutlet weak var securityAnswer: CustomTextField!
+
     
     var email: String?
     
@@ -128,6 +131,8 @@ class PasswordCodeViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = true
+        
+        securityQuestionLabel.text = CognitoHelper.user!.getSecurityQuestion()
         
         if (email != "") {
             emailField.isHidden = true
@@ -161,10 +166,29 @@ class PasswordCodeViewController: UIViewController {
         let passwordEmpty = newPasswordField.isEmpty()
         let confirmEmpty = confirmField.isEmpty()
         let passwordsEqual = (self.newPasswordField.text! == self.confirmField.text!)
-
-        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid) {
+        
+        // TODO test this
+        let hashedAnswer = self.securityAnswer.text!.hash()
+        let securityAnswerMatch = (hashedAnswer == CognitoHelper.user!.getSecurityAnswer())
+        
+        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid || !securityAnswerMatch) {
             return
         }
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let connectionProcessor = ConnectionProcessor(connector: connector)
+        do {
+            let cipher = LocalCipher()
+            try cipher.resetKeyPair(securityQuestionAnswers: [self.securityAnswer.text!], newPassword: self.newPasswordField.text!, username: CognitoHelper.user!.getUID(), connectionProcessor: connectionProcessor)
+        } catch let error as CipherError {
+            print(error.getMessage())
+            return
+        } catch let error as ConnectionError {
+            print(error.getMessage())
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
 
         let password = newPasswordField.text!
         

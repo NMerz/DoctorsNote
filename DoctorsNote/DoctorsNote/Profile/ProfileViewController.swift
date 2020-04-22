@@ -40,7 +40,30 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        let connector2 = Connector()
+        AWSMobileClient.default().getTokens(connector2.setToken(potentialTokens:potentialError:))
+        let processor2 = ConnectionProcessor(connector: connector2)
+        do {
+            print("Encrypted Private keys")
+            print(try processor2.retrieveEncryptedPrivateKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/retrievekeys"))
+            let testCipher = LocalCipher()
+//            try testCipher.resetKeyPair(securityQuestionAnswers: ["answer1", "answer2"], newPassword: CognitoHelper.password! + "!", username: (CognitoHelper.user?.getUID())!,   connectionProcessor: processor2)
+        }
+        catch let error {
+            if (error as! ConnectionError).getMessage() == "Null response" {
+                do {
+                    let cipher = LocalCipher()
+                    let (keyP, keyS, keyPub) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: ["answer1", "answer2"], username: (CognitoHelper.user?.getUID())!)
+                    try processor2.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: keyP.base64EncodedString(), privateKeyS: keyS.base64EncodedString(), publicKey: keyPub.base64EncodedString())
+                    } catch let error {
+                        print((error as! ConnectionError).getMessage())
+                    }
+            }
+            else {
+                print((error as! ConnectionError).getMessage())
+            }
+        }
+        
         // Remove permanent data, should I do this here?
 //        resetDefaults()
         
@@ -168,13 +191,12 @@ class ProfileViewController: UIViewController {
         print("Starting deleteUser...")
         print("currentUID:")
         print(CognitoHelper.user!.getUID())
-        let currentUID = CognitoHelper.user!.getUID()
         //CognitoHelper.sharedHelper.logout()
         let connector = Connector()
     AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser", uid: currentUID)
+            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser")
         }
         catch let error {
             // Fails to delete user

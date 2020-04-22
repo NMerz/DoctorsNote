@@ -16,8 +16,8 @@ public class ConversationJoiner {
     public JoinConversationResponse join(Map<String, Object> inputMap, Context context) throws SQLException {
         try {
 
-            String conversationId = (String)((Map<String,Object>) inputMap.get("body-json")).get("conversationId");
-            String userId = (String)((Map<String,Object>) inputMap.get("body-json")).get("userId");
+            String conversationId = ((Map<String,Object>) inputMap.get("body-json")).get("conversationId").toString();
+            String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
 
             System.out.println("ConversationJoiner: Adding " + userId + " to " + conversationId);
 

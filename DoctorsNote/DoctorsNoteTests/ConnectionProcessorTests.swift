@@ -556,7 +556,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let asserted = try processor.processDeleteUser(url: "url", uid: "2id")
+            let asserted = try processor.processDeleteUser(url: "url")
             XCTAssert((asserted != nil))
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -571,7 +571,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let asserted = try processor.processDeleteUser(url: "url", uid: "2id")
+            let asserted = try processor.processDeleteUser(url: "url")
             XCTAssert((asserted != nil))
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -586,7 +586,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processLeaveConversation(url: "url", convoID: 1, uid: "1id")
+            try processor.processLeaveConversation(url: "url", convoID: 1)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -601,7 +601,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let asserted = try processor.processLeaveConversation(url: "url", convoID: 1, uid: "1id")
+            let asserted = try processor.processLeaveConversation(url: "url", convoID: 1)
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -616,7 +616,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processGetUserInfo(url: "url", uid: "1id")
+            try processor.processGetUserInfo(url: "url")
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -631,11 +631,11 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processGetUserInfo(url: "url", uid: "1id")
+            try processor.processGetUserInfo(url: "url")
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
-            // we want a non blank return
+            XCTAssert((error as! ConnectionError).getMessage() == "Non-blank return")
         }
         XCTAssert(connector.getConductPostTaskCalls() == 1)
     }

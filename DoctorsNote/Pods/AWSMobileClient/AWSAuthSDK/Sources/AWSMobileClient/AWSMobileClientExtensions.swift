@@ -55,7 +55,7 @@ public struct SessionToken {
         }
     }
     
-    public init(tokenString: String?) {
+    init(tokenString: String?) {
         self.tokenString = tokenString
     }
 }
@@ -74,13 +74,6 @@ public struct Tokens {
 
     /// Expiration date if available.
     public let expiration: Date?
-    
-    public init (idToken: SessionToken?, accessToken: SessionToken?, refreshToken: SessionToken?, expiration: Date?) {
-        self.idToken = idToken
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
-        self.expiration = expiration
-    }
     
 }
 
