@@ -19,6 +19,7 @@ public class ListConversations {
     private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID = ? ;";
     private final String getConverserPublicKeyFormatString = "SELECT publicKey FROM UserKeys WHERE userID = ? ;";
     private final String getDetailsFormatString = "SELECT conversationName, lastMessageTime, status, adminPublicKey, description, isSupportGroup " +
+
             "FROM Conversation WHERE conversationID = ?;";
     Connection dbConnection;
 
@@ -87,6 +88,7 @@ public class ListConversations {
                 int isSupportGroup = attributesRS.getInt(5);
                 String converserIdString;
                 String converserPublicKey;
+
                 String converserName;
                 String[] converserNames;
                 int numMembers;
