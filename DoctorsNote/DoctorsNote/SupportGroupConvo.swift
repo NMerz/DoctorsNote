@@ -61,7 +61,12 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
                     }
                 }
             }
+            self.collectionView.reloadData()
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.activityIndicator.stopAnimating()
     }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23

@@ -148,17 +148,33 @@
                         <viewLayoutGuide key="safeArea" id="iHi-vc-bhP"/>
                     </view>
                     <navigationItem key="navigationItem" id="Lc4-3k-ZyS">
-                        <barButtonItem key="leftBarButtonItem" title="Item" style="plain" id="sbs-YE-Lbr">
-                            <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="64B-vX-woW">
-                                <rect key="frame" x="20" y="7" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <accessibility key="accessibilityConfiguration" label="settings"/>
-                                <state key="normal" backgroundImage="gear" catalog="system"/>
-                                <connections>
-                                    <action selector="showSettings:" destination="on2-3t-fWa" eventType="touchUpInside" id="HDS-aA-weT"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
+                        <nil key="title"/>
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" style="plain" id="sbs-YE-Lbr">
+                                <button key="customView" opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="64B-vX-woW">
+                                    <rect key="frame" x="20" y="7" width="30" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <accessibility key="accessibilityConfiguration" label="settings"/>
+                                    <state key="normal" backgroundImage="gear" catalog="system"/>
+                                    <connections>
+                                        <action selector="showSettings:" destination="on2-3t-fWa" eventType="touchUpInside" id="HDS-aA-weT"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="50E-P1-ldt">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cde-o3-1O7">
+                                    <rect key="frame" x="58" y="7" width="92" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" title="Delete User">
+                                        <color key="titleColor" systemColor="linkColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="deleteUser:" destination="on2-3t-fWa" eventType="touchUpInside" id="bto-A1-lEY"/>
+                                        <segue destination="Gw0-8v-qMO" kind="presentation" modalPresentationStyle="fullScreen" id="gVO-6z-lZw"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="hp3-y3-qpv">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" id="ttd-mx-Pnp">
                                 <rect key="frame" x="309" y="11" width="85" height="22"/>
@@ -178,6 +194,7 @@
                         </userDefinedRuntimeAttributes>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteUserButton" destination="cde-o3-1O7" id="GUv-3x-hYS"/>
                         <outlet property="logOutButton" destination="ttd-mx-Pnp" id="gMy-pH-EAn"/>
                         <outlet property="personalInfoView" destination="V1e-MI-kWw" id="XAI-hb-6gk"/>
                         <outlet property="remindersPreviewLabel" destination="Nnt-aD-uUB" id="HB5-Ce-czM"/>
@@ -937,6 +954,9 @@
                                 <rect key="frame" x="140" y="757" width="135" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Leave Conversation"/>
+                                <connections>
+                                    <action selector="onLeaveConversationClick:" destination="Lif-Qk-rRq" eventType="touchUpInside" id="J1m-zk-hPO"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -961,6 +981,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mj0-aK-wat" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Lif-Qk-rRq" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="-820.28985507246387" y="1838.8392857142856"/>
         </scene>
@@ -1592,6 +1613,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="sqe-bD-kpk"/>
+        <segue reference="gVO-6z-lZw"/>
         <segue reference="cbR-Dz-3zz"/>
     </inferredMetricsTieBreakers>
     <resources>

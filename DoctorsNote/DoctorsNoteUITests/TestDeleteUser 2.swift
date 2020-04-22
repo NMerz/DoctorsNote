@@ -28,34 +28,34 @@ class TestDeleteUser: XCTestCase {
 
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-        //tryLogout()
+        tryLogout()
     }
 
     func testDeleteButton() {
         tryLogin()
-        
-        XCTAssert(app!.navigationBars.buttons["Log Out"].exists)
+        //app?.navigationBars.buttons.element
+        XCTAssert(app!.staticTexts["Privacy Info Label"].exists)
     }
     
     func tryLogin() {
-       let emailField = app!.textFields["Email Field"]
-       let passwordField = app!.secureTextFields["Password Field"]
+           let emailField = app!.textFields["Email Field"]
+           let passwordField = app!.secureTextFields["Password Field"]
            
-        if (emailField.exists && emailField.isHittable) {
-           emailField.tap()
-           emailField.typeText("hardin30@purdue.edu")
-           
-           passwordField.press(forDuration: 1.1)
-           passwordField.typeText("DoctorsNote1@")
-           
-           app?.staticTexts["Account Label"].tap()
-           app?.buttons["Log In"].tap()
-           sleep(2)
+           if (emailField.isHittable) {
+               emailField.tap()
+               emailField.typeText("hardin30@purdue.edu")
+               
+               passwordField.press(forDuration: 1.1)
+               passwordField.typeText("DoctorsNote1@")
+               
+               app?.staticTexts["Account Label"].tap()
+               app?.buttons["Log In"].tap()
+               sleep(2)
+           }
        }
-   }
     
     func tryLogout() {
-        if (app!.buttons["Log Out"].exists) {
+        if (app!.buttons["Log Out"].exists && app!.buttons["Log Out"].isHittable) {
             app?.buttons["Log Out"].tap()
         }
     }

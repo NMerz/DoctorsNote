@@ -1,5 +1,6 @@
 package DoctorsNote;
 
+import com.amazonaws.services.cognitoidp.model.UserNotFoundException;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ListConversations {
@@ -29,18 +31,12 @@ public class ListConversations {
         System.out.println("ListConversations: Input Map: " + gsonString);
     }
 
-    public ConversationListResponse list(Map<String,Object> jsonString, Context context) throws SQLException {
+    public ConversationListResponse list(Map<String,Object> inputMap, Context context) throws SQLException {
         try {
-            printMap(jsonString);
-            String userId = (String)((Map<String,Object>)  jsonString.get("context")).get("sub");
-            for (String key : ((Map<String,Object>)jsonString.get("context")).keySet()) {
-                System.out.println("Key:" + key);
-                System.out.println(((Map<String,Object>)jsonString.get("context")).get(key));
-            }
-//            ConversationListRequest request = new ConversationListRequest(jsonString.get("userId").toString());
-            ConversationListRequest request = new ConversationListRequest(((Map<String,Object>)jsonString.get("context")).get("sub").toString());
+            String userId = (String)((Map<String,Object>) inputMap.get("context")).get("sub");
+            printMap(inputMap);
 
-            System.out.println("ListConversations: Getting conversations for " + context.getIdentity().getIdentityId());
+            System.out.println("ListConversations: Getting conversations for " + userId);
 
             // Request necessary information from MariaDB and process into Conversation objects
             PreparedStatement getConversationStatement = dbConnection.prepareStatement(getConversationFormatString);
@@ -71,7 +67,7 @@ public class ListConversations {
                     }
                 }
 
-                System.out.println("ListConversations: converserIds at line 67: " + converserIds.toString());
+                System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 if (converserIds.size() == 0) {
                     continue;
@@ -86,19 +82,29 @@ public class ListConversations {
                 //long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().getEpochSecond();
                 long lastMessageTime = nameAndTimeRS.getTimestamp(2).toInstant().toEpochMilli();
                 int status = nameAndTimeRS.getInt(3);
-                String converserIdString;
-                System.out.println("ListConversations: converserIds at line 84: " + converserIds.toString());
+                String converserName;
+                int numMembers;
+                System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 // For difference between one to one convos and support groups
                 if (converserIds.size() == 1) {
-                    converserIdString = converserIds.get(0);
+                    UserInfoGetter getter = new UserInfoGetter();
+
+                    try {
+                        UserInfoGetter.UserInfoResponse response = getter.get(getUserInfoMap(converserIds.get(0), userId), context);
+                        converserName = String.format("%s %s", response.getFirstName(), response.getLastName());
+                    } catch (NullPointerException e) {
+                        converserName = converserIds.get(0);
+                    }
                 } else {
-                    converserIdString = "N/A";
+                    converserName = "N/A";
                 }
 
-                System.out.println("ListConversations: converserIdString at line 93: " + converserIdString);
+                numMembers = converserIds.size() + 1;       // Since the requesting user isn't included in the size
 
-                conversations.add(new Conversation(conversationName, conversationId, converserIdString, status, lastMessageTime));
+                System.out.println("ListConversations: converserName: " + converserName);
+
+                conversations.add(new Conversation(conversationName, conversationId, converserName, status, lastMessageTime, numMembers));
             }
 
             // Sort Conversation objects (-1 is to reverse the order to have newest times first)
@@ -116,6 +122,17 @@ public class ListConversations {
         } finally {
             dbConnection.close();
         }
+    }
+
+    private HashMap getUserInfoMap(String uid, String sub) {
+        HashMap<String, HashMap> topMap = new HashMap();
+        HashMap<String, Object> jsonBody = new HashMap();
+        jsonBody.put("uid", uid);
+        topMap.put("body-json", jsonBody);
+        HashMap<String, Object> context = new HashMap();
+        context.put("sub", sub);
+        topMap.put("context", context);
+        return topMap;
     }
 
     public class ConversationListRequest {
@@ -144,13 +161,15 @@ public class ListConversations {
         private String converserID;
         private int status;
         private long lastMessageTime;        // In UNIX time stamp. Should be long; int expires in 2038
+        private int numMembers;
 
-        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime) {
+        public Conversation(String conversationName, String conversationID, String converserID, int status, long lastMessageTime, int numMembers) {
             this.conversationName = conversationName;
             this.conversationID = Integer.parseInt(conversationID);
             this.converserID = converserID;
             this.status = status;
             this.lastMessageTime = lastMessageTime;
+            this.numMembers = numMembers;
         }
 
         public String getConversationName() {
@@ -163,6 +182,10 @@ public class ListConversations {
 
         public int getConversationID() {
             return conversationID;
+        }
+
+        public void setConversationID(int conversationID) {
+            this.conversationID = conversationID;
         }
 
         public void setConversationID(String conversationID) {
@@ -191,6 +214,14 @@ public class ListConversations {
 
         public void setLastMessageTime(long lastMessageTime) {
             this.lastMessageTime = lastMessageTime;
+        }
+
+        public int getNumMembers() {
+            return numMembers;
+        }
+
+        public void setNumMembers(int numMembers) {
+            this.numMembers = numMembers;
         }
     }
 

@@ -17,6 +17,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
+    
     private let cellId = "cellId"
     private var connectionProcessor = ConnectionProcessor(connector: Connector())
     private var messages = [Message]()
@@ -88,6 +89,24 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         layout.estimatedItemSize = CGSize(width: width, height: 90)
         return layout
     }()
+    
+    @IBAction func onLeaveConversationClick(_ sender: UIButton) {
+        // Segue back to conversation list
+        
+        // Backend leave convo
+        let connector = Connector()
+    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: conversation!.getConversationID(), uid: CognitoHelper.user!.getUID())
+        }
+        catch let error {
+            // Fails to delete user
+            print("ERROR")
+            print((error as! ConnectionError).getMessage())
+        }
+    }
+    
     
     @IBAction
     func ourSendButtonClick() {
@@ -258,7 +277,6 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         cell.labelView!.mask?.removeFromSuperview()
         cell.labelView!.text = ""
         
-        
         // Remove the message from the database
         do {
             try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", messageId: messages[deleteIndex!.row].getMessageID())
@@ -270,7 +288,6 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         // Remove message form array
         messages.remove(at: deleteIndex!.row)
         collectionView.deleteItems(at: [deleteIndex!])
-        
         resignFirstResponder()
     }
 
@@ -328,18 +345,6 @@ class FriendCellM: BaseCellM {
         
     }
     
-        //message.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
-        //message.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
-        contentView.topAnchor.constraint(greaterThanOrEqualTo: message.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(greaterThanOrEqualTo: message.bottomAnchor).isActive = true
-        
-    }
-    
-    var message: UIView = {
-        let view = UIView()
-        return view
-    }()
-    
     var uname: UIView = {
         let view = UIView()
         return view
@@ -357,7 +362,7 @@ class FriendCellM: BaseCellM {
         label.text = text
         
         contentView.addSubview(label)
-        message.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
+        message?.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -430,19 +435,19 @@ class FriendCellM: BaseCellM {
         
         contentView.addSubview(label)
         
-        message.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
+        message?.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
         
         label.translatesAutoresizingMaskIntoConstraints = false
         
         //label.rightAnchor.constraint(equalTo: message.rightAnchor, constant: -10).isActive = true
-        label.leftAnchor.constraint(equalTo: message.leftAnchor, constant: 10).isActive = true
+        label.leftAnchor.constraint(equalTo: message!.leftAnchor, constant: 10).isActive = true
         contentView.topAnchor.constraint(equalTo: label.topAnchor, constant: -10).isActive = true
         contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant:  10).isActive = true
 
         //message.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -250).isActive = true
-        message.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 240).isActive = true
+        message?.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 240).isActive = true
         
-        let constraintRect = CGSize(width: 0.66 * message.frame.width,
+        let constraintRect = CGSize(width: 0.66 * (message?.frame.width ?? 0),
                                     height: .greatestFiniteMagnitude)
         let boundingBox = text.boundingRect(with: constraintRect,
                                             options: .usesLineFragmentOrigin,
@@ -480,7 +485,7 @@ class FriendCellM: BaseCellM {
         /*let nameLayer = CAShapeLayer()
         nameLayer.frame = name.bounds
         uname.layer.addSublayer(nameLayer)*/
-        message.layer.addSublayer(outgoingMessageLayer)
+        message?.layer.addSublayer(outgoingMessageLayer)
 
     }
     
@@ -567,7 +572,7 @@ class FriendCellM: BaseCellM {
             label.textColor = .white
             
             contentView.addSubview(label)
-            message.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
+            message?.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
             
             label.translatesAutoresizingMaskIntoConstraints = false
             
@@ -580,9 +585,9 @@ class FriendCellM: BaseCellM {
             let imageAttachment = NSTextAttachment()
             imageAttachment.image = image
             
-            message.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -10).isActive = true
+            message?.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -10).isActive = true
             
-            let constraintRect = CGSize(width: 0.66 * message.frame.width,
+            let constraintRect = CGSize(width: 0.66 * (message?.frame.width ?? 0),
                                         height: .greatestFiniteMagnitude)
             imageAttachment.bounds = CGRect(origin: label.center, size: CGSize(width: 200, height: 100))
             
