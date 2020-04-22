@@ -180,7 +180,7 @@ class SearchGroupCell: UITableViewCell {
     }
     
     @objc func joinSupportGroup(sender: UIButton!) {
-        let isError = false
+        var isError = false
         let connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
@@ -188,7 +188,7 @@ class SearchGroupCell: UITableViewCell {
             try processor.processJoinSupportGroup(conversationID: conversation!.getConversationID())
         }
         catch let error {
-            let isError = true
+            isError = true
             print((error as! ConnectionError).getMessage())
         }
         if (!isError) {

@@ -471,21 +471,20 @@ class ConnectionProcessor {
         
     }
     
-    func processJoinSupportGroup(conversationID: Int) throws -> ConnectionError? {
+    func processJoinSupportGroup(conversationID: Int) throws {
         var joinJSON = [String: Any]()
         joinJSON["userId"] = AWSMobileClient.default().username!
-        joinJSON["conversationId"] = conversationID
+        joinJSON["conversationId"] = String(conversationID)
         
         let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/JoinSupportGroup"
         do {
             let data = try postData(urlString: url, dataJSON: joinJSON)
             if data.count != 0 {
-                return ConnectionError(message: "Non-blank return")
+                throw ConnectionError(message: "Non-blank return")
             }
-        } catch let error {
-            return error as? ConnectionError
+        } catch {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format.")
         }
-        return nil
     }
     
     func processAllSupportGroups() throws -> ([Conversation]?, ConnectionError?) {

@@ -118,7 +118,15 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
             print("Error getting user from id")
         }
         
-        //cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
+        let df = DateFormatter()
+        let calendar = Calendar.current
+        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
+            df.dateFormat = "hh:mm"
+        }
+        else {
+            df.dateFormat = "MM-dd-YYYY"
+        }
+        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
         
         return cell
     }
