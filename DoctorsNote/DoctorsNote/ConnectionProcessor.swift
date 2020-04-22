@@ -385,6 +385,55 @@ class ConnectionProcessor {
         return appointments
     }
     
+    func processGetUserInfo(url: String, uid: String) throws -> String {
+        var userJSON = [String: Any]()
+        userJSON["uid"] = uid
+        
+        let dataList = try postData(urlString: url, dataJSON: userJSON)
+        
+        var name = ""
+        if (dataList.first?.value as? NSArray == nil) {
+            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+        }
+        
+        for dataDict in (dataList.first?.value as! NSArray) {
+            if (dataDict as? [String : Any?] == nil) {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+            let data = dataDict as! [String : Any?]
+            if (((data["firstName"] as? String) != nil) && ((data["lastName"] as? String) != nil)) {
+                name += data["firstName"] as! String
+            }
+            else {
+                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+            }
+            
+        }
+        
+        return name
+
+//        let appointmentJSON = [String: Any]()
+//        let appointmentList = try postData(urlString: url, dataJSON: appointmentJSON)
+//        var appointments = [Appointment]()
+//        if (appointmentList.first?.value as? NSArray == nil) {
+//            throw ConnectionError(message: "At least one JSON field was an incorrect format")
+//        }
+//
+//        for appointmentDict in (appointmentList.first?.value as! NSArray) {
+//            if (appointmentDict as? [String : Any?] == nil) {
+//                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+//            }
+//            let appointment = appointmentDict as! [String : Any?]
+//            if ((appointment["appointmentID"] as? Int) != nil) && ((appointment["timeScheduled"] as? Int) != nil) && ((appointment["content"] as? String) != nil) && ((appointment["withID"] as? String) != nil) && ((appointment["status"] as? Int) != nil) {
+//                let newAppointment = Appointment(appointmentID: appointment["appointmentID"] as! Int, content: appointment["content"] as! String, timeScheduled: Date(timeIntervalSince1970: TimeInterval((appointment["timeScheduled"] as! Double)) / 1000.0), withID: appointment["withID"] as! String, status: appointment["status"] as! Int)
+//                appointments.append(newAppointment)
+//            } else {
+//                throw ConnectionError(message: "At least one JSON field was an incorrect format")
+//            }
+//        }
+//        return appointments
+    }
+    
     // TODO double check
     func processDeleteUser(url: String, uid: String) throws -> ConnectionError? {
         print ("int connector function")
