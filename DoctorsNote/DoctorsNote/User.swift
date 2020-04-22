@@ -24,7 +24,10 @@ class User {
     private var healthSystems: [HealthSystem]
     private var workHours: String
     
-    init (uid: String, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, role: String, healthSystems: [HealthSystem], workHours: String) {
+    private var securityQuestion: String
+    private var securityAnswer: String
+    
+    init (uid: String, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, role: String, healthSystems: [HealthSystem], workHours: String, securityQuestion: String, securityAnswer: String) {
         self.uid = uid
         self.email = email
         self.firstName = firstName
@@ -37,6 +40,8 @@ class User {
         self.sex = sex
         self.phoneNumber = phoneNumber
         self.workHours = workHours
+        self.securityQuestion = securityQuestion
+        self.securityAnswer = securityAnswer
     }
     
     convenience init! (uid: String) {
@@ -45,11 +50,11 @@ class User {
         let (potentialUser, potentialError) = connectionProcessor.processUser(url: ConnectionProcessor.standardUrl(), uid: uid)
         if (potentialError == nil && potentialUser != nil) {
             let user = potentialUser!
-            self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), role: user.getRole(), healthSystems: user.getHealthSystems(), workHours: user.getWorkHours())
+            self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), role: user.getRole(), healthSystems: user.getHealthSystems(), workHours: user.getWorkHours(), securityQuestion: user.getSecurityQuestion(), securityAnswer: user.getSecurityAnswer())
         }
         //Below this is a temporary mock for functionality
         let user = potentialUser!
-        self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), role: user.getRole(), healthSystems: user.getHealthSystems(), workHours: user.getWorkHours())
+        self.init (uid: uid, email: user.getEmail(), firstName: user.getFirstName(), middleName: user.getMiddleName(), lastName: user.getLastName(), dateOfBirth: user.getDateOfBirth(), address: user.getAddress(), sex: user.getSex(), phoneNumber: user.getPhoneNumber(), role: user.getRole(), healthSystems: user.getHealthSystems(), workHours: user.getWorkHours(), securityQuestion: user.getSecurityQuestion(), securityAnswer: user.getSecurityAnswer())
 //        return nil
     }
     
@@ -81,6 +86,8 @@ class User {
         } else {
             self.workHours = ""
         }
+        self.securityQuestion = dict["custom:securityquestion2"] ?? "Type 'answer'"
+        self.securityAnswer = dict["custom:securityanswer"] ?? "answer".my_hash()
     }
     
     func getUID() -> String {
@@ -137,6 +144,14 @@ class User {
         return workHours
     }
     
+    func getSecurityQuestion() -> String {
+        return securityQuestion
+    }
+    
+    func getSecurityAnswer() -> String {
+        return securityAnswer
+    }
+    
     func setEmail(email: String) {
         self.email = email
     }
@@ -189,6 +204,14 @@ class User {
     
     func setWorkHours(workHours: String) {
         self.workHours = workHours
+    }
+    
+    func setSecurityQuestion(securityQuestion: String) {
+        self.securityQuestion = securityQuestion
+    }
+    
+    func setSecurityAnswer(securityAnswer: String) {
+        self.securityAnswer = securityAnswer
     }
     
 }

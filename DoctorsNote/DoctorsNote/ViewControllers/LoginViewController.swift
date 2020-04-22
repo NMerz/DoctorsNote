@@ -25,6 +25,9 @@ class LoginViewController: UIViewController {
         if (CognitoHelper.sharedHelper.isLoggedIn()) {
             decideNextController()
         }
+        
+        // Set up security question/answer if not set up yet
+//        AWSMobileClient.default().updateUserAttributes(attributeMap: ["custom:securityquestion":"Type 'answer'", "custom:securityanswer":"answer".my_hash()], completionHandler: <#([UserCodeDeliveryDetails]?, Error?) -> Void#>)
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -83,6 +86,7 @@ class LoginViewController: UIViewController {
                     self.performSegue(withIdentifier: "go_to_main", sender: self)
                 }
             } else {
+                
                 DispatchQueue.main.async {
                     // User needs to finish creating profile
                     self.performSegue(withIdentifier: "show_profile_setup", sender: self)
@@ -116,8 +120,4 @@ class ManualSegue: UIStoryboardSegue {
         UIApplication.shared.delegate?.window??.rootViewController = self.destination.navigationController
     }
   }
-}
-
-class LoginNavController: UINavigationController {
-    
 }

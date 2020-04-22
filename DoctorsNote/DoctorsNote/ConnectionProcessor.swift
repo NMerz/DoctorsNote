@@ -178,7 +178,7 @@ class ConnectionProcessor {
     
     func processUser(url: String, uid: String) -> (User?, ConnectionError?) {
         //Placeholder
-        return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", role: "Patient", healthSystems: [HealthSystem](), workHours: ""), nil)
+        return (User(uid: "-1", email: "email", firstName: "temp", middleName: "place", lastName: "holder", dateOfBirth: Date(), address: "nowhere",  sex: "Male", phoneNumber: "9119119111", role: "Patient", healthSystems: [HealthSystem](), workHours: "", securityQuestion: "", securityAnswer: ""), nil)
     }
     
     func processConversation(url: String, conversationID: Int) -> (Conversation?, ConnectionError?) {
