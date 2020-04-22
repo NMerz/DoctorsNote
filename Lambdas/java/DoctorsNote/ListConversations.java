@@ -18,7 +18,7 @@ public class ListConversations {
     private final String getConversationFormatString = "SELECT conversationID FROM Conversation_has_User WHERE userID = ? ;";
     private final String getUserFormatString = "SELECT userID FROM Conversation_has_User WHERE conversationID = ? ;";
     private final String getConverserPublicKeyFormatString = "SELECT publicKey FROM UserKeys WHERE userID = ? ;";
-    private final String getDetailsFormatString = "SELECT conversationName, lastMessageTime, status, adminPublicKey, description " +
+    private final String getDetailsFormatString = "SELECT conversationName, lastMessageTime, status, adminPublicKey, description, isSupportGroup " +
             "FROM Conversation WHERE conversationID = ?;";
     Connection dbConnection;
 
@@ -84,6 +84,7 @@ public class ListConversations {
                 int status = attributesRS.getInt(3);
                 String adminPublicKey = attributesRS.getString(4);
                 String description = attributesRS.getString(5);
+                int isSupportGroup = attributesRS.getInt(5);
                 String converserIdString;
                 String converserPublicKey;
                 String converserName;
@@ -92,7 +93,7 @@ public class ListConversations {
                 System.out.println("ListConversations: converserIds: " + converserIds.toString());
 
                 // For difference between one to one convos and support groups
-                if (converserIds.size() == 1) {
+                if (isSupportGroup == 0) {
                     converserNames = new String[]{};
                     converserIdString = converserIds.get(0);
                     PreparedStatement getPublicKeyStatement = dbConnection.prepareStatement(getConverserPublicKeyFormatString);
