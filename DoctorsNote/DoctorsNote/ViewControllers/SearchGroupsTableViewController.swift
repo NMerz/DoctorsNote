@@ -160,7 +160,7 @@ class SearchGroupCell: UITableViewCell {
         joinLayer.path = UIBezierPath(roundedRect: joinButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         joinButton.layer.mask = joinLayer
         joinButton.accessibilityLabel = "Join Button"
-        joinButton.addTarget(self, action: #selector(setDisplayName), for: .touchUpInside)
+        joinButton.addTarget(self, action: #selector(joinSupportGroup), for: .touchUpInside)
 
         contentView.addSubview(joinButton)
         contentView.addSubview(closeButton)
@@ -178,8 +178,26 @@ class SearchGroupCell: UITableViewCell {
     @objc func dismissPopup(sender: UIButton!) {
         p?.dismiss(animated: true)
     }
+    
+    @objc func joinSupportGroup(sender: UIButton!) {
+        let isError = false
+        let connector = Connector()
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        let processor = ConnectionProcessor(connector: connector)
+        do {
+            try processor.processJoinSupportGroup(conversationID: conversation!.getConversationID())
+        }
+        catch let error {
+            let isError = true
+            print((error as! ConnectionError).getMessage())
+        }
+        if (!isError) {
+            setDisplayName()
+        }
 
-    @objc func setDisplayName(sender: UIButton!) {
+    }
+
+    @objc func setDisplayName() {
         let alertController = UIAlertController(title: "Display Name", message: "You must set a name you like displayed for other group members to see.", preferredStyle: .alert)
         // ADD SOME SORT OF CHECKING TO ENSURE THAT THE NAME IS NOT ALREADY TAKEN.....
         // ERROR CHECKING TO KNOW IF IT IS THERE OWN NAME.

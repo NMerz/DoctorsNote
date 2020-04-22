@@ -200,7 +200,7 @@ class ProfileViewController: UIViewController {
         dp = PopupView.init(contentView: contentView)
         dp?.maskType = .dimmed
         
-        let reportButton = UIButton(frame: CGRect(x: 25, y: 10, width: width - 50, height: 40))
+        let reportButton = UIButton(frame: CGRect(x: 25, y: 20, width: width - 50, height: 60))
         let reportLayer = CAShapeLayer()
         reportLayer.path = UIBezierPath(roundedRect: reportButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         reportButton.layer.mask = reportLayer
@@ -209,16 +209,16 @@ class ProfileViewController: UIViewController {
         reportButton.accessibilityIdentifier = "Report Button"
         reportButton.addTarget(self, action: #selector(sendReport), for: .touchUpInside)
         
-        let deleteButton = UIButton(frame:CGRect(x:width/2 - 75, y: 60, width: 150, height: 40))
+       /* let deleteButton = UIButton(frame:CGRect(x:width/2 - 75, y: 60, width: 150, height: 40))
         deleteButton.setTitle("Delete Account", for: .normal)
         deleteButton.backgroundColor = UIColor.systemRed
         let deleteLayer = CAShapeLayer()
         deleteLayer.path = UIBezierPath(roundedRect: deleteButton.bounds, cornerRadius: DefinedValues.fieldRadius).cgPath
         deleteButton.layer.mask = deleteLayer
         deleteButton.addTarget(self, action: #selector(deleteUser), for: .touchUpInside)
-        //action to delete user and go to login screen
+        //action to delete user and go to login screen*/
     
-        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 110, width: 90, height: 40))
+        let closeButton = UIButton(frame: CGRect(x: width/2 - 45, y: 95, width: 90, height: 50))
         closeButton.setTitle("Done", for: .normal)
         closeButton.backgroundColor = UIColor.systemBlue
         let layer = CAShapeLayer()
@@ -228,7 +228,6 @@ class ProfileViewController: UIViewController {
 
         contentView.addSubview(reportButton)
         contentView.addSubview(closeButton)
-        contentView.addSubview(deleteButton)
 
         let xPos = self.view.frame.width / 2
         let yPos = self.view.frame.height - CGFloat(height) + (tabBarController?.tabBar.frame.height)! - 20
@@ -254,24 +253,6 @@ class ProfileViewController: UIViewController {
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
-        
-    }
-    
-    @objc func deleteUser(sender: UIButton!) {
-        
-        // Backend API connection
-        let currentUser = CognitoHelper.user!
-        CognitoHelper.sharedHelper.logout()
-        let connector = Connector()
-        /*AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
-        let processor = ConnectionProcessor(connector: connector)
-        do {
-            try processor.processDeleteUser(url: "https://o2lusnhpee.execute/api.us-east-2.amazonaws.com/Development/DeleteUser", user: currentUser)
-        }
-        catch let error {
-            // Fails to delete user
-            print((error as! ConnectionError).getMessage())
-        }*/
         
     }
     
