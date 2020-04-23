@@ -324,7 +324,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         
         // Remove the message from the database
         do {
-            try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", messageId: messages[deleteIndex!.row].getMessageID())
+            print(messages[deleteIndex!.row].getBase64Content())
+            try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteMessage", messageId: messages[deleteIndex!.row].getMessageID()) // messagelist
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")

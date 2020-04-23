@@ -305,6 +305,7 @@ class ConnectionProcessor {
 
         let data = try postData(urlString: url, dataJSON: messageJSON)
         if data.count != 0 {
+            print(data.first?.key)
             throw ConnectionError(message: "Non-blank return")
         }
         //Should have returned a blank 200 if successful, if so, no need to do anything
