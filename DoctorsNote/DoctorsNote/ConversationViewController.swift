@@ -19,6 +19,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     private var filteredConversationList: [Conversation]?
     let searchController = UISearchController(searchResultsController: nil)
     var selectedConversation: Conversation?
+    var selectedName: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +113,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
             var tempList: [Conversation]?
             let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
             let user = try processor.processUserInformation(uid: conversationList![indexPath.row].getConverserID())
-            cell.nameLabel.text = user!.getFirstName() + " " + user!.getLastName()
+            selectedName = user!.getFirstName() + " " + user!.getLastName()
+            cell.nameLabel.text = selectedName
         } catch {
             cell.nameLabel.text = "Unknown"
             print("Error getting user from id")
@@ -145,6 +147,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         if (segue.identifier == "open_chat") {
             let dest = segue.destination as! ChatLogController
             dest.conversation = selectedConversation
+            dest.converserName = selectedName
         }
     }
     

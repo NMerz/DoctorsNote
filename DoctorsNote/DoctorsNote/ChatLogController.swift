@@ -25,6 +25,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     var conversation: Conversation?
     var deleteIndex: IndexPath? // IndexPath of the conversation to delete once selected
+    var converserName: String?
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageText: UITextField!
@@ -90,7 +91,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     override func viewWillAppear(_ animated: Bool) {
         // TODO: Update later
-        navigationItem.title = "Test Doctor"
+        navigationItem.title = converserName ?? ""
     }
     
     
@@ -143,9 +144,13 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: toSend, cipher: cipher, publicKeyExternalBase64: conversation?.getConverserPublicKey(), adminPublicKeyExternalBase64: conversation?.getAdminPublicKey())
                 if (err != nil) {
                     CognitoHelper.numFails += 1
+                    let defaults = UserDefaults.standard
+                    defaults.set(CognitoHelper.numFails, forKey: "numFails")
                     throw err!
                 } else {
                     CognitoHelper.numFails = 0
+                    let defaults = UserDefaults.standard
+                    defaults.set(CognitoHelper.numFails, forKey: "numFails")
                 }
             } catch let error {
                 if error as? ConnectionError != nil {
@@ -153,6 +158,9 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 } else {
                     print("Error: " + error.localizedDescription)
                 }
+                CognitoHelper.numFails += 1
+                let defaults = UserDefaults.standard
+                defaults.set(CognitoHelper.numFails, forKey: "numFails")
                 let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
@@ -163,6 +171,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: toSend)
             if (err != nil) {
                 CognitoHelper.numFails += 1
+                let defaults = UserDefaults.standard
+                defaults.set(CognitoHelper.numFails, forKey: "numFails")
                 let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
@@ -170,6 +180,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 self.present(alertController, animated: true, completion: nil)
             } else {
                 CognitoHelper.numFails = 0
+                let defaults = UserDefaults.standard
+                defaults.set(CognitoHelper.numFails, forKey: "numFails")
             }
         }
     }

@@ -165,7 +165,7 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
             //print(selectedConversation?.getConversationID())
             dest.conversation = selectedConversation
             //print(dest.conversation?.getConversationID())
-            segue.destination.title = "Support Group"
+            dest.converserName = selectedConversation?.getConversationName()
             //let path = collectionView.indexPathsForSelectedItems
             //dest.conversationID = conversationList![path![0].row].getConversationID()
             //segue.destination.title = conversationList![0].getConversationPartner().getFirstName()
