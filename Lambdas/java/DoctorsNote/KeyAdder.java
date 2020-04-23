@@ -24,7 +24,7 @@ public class KeyAdder {
             statement.setString(2, ((Map<String,Object>)  inputMap.get("body-json")).get("privateKeyP").toString());
             statement.setString(3, ((Map<String,Object>)  inputMap.get("body-json")).get("privateKeyS").toString());
             statement.setString(4, ((Map<String,Object>)  inputMap.get("body-json")).get("publicKey").toString());
-            statement.setLong(5, Long.parseLong(((Map<String,Object>)  inputMap.get("body-json")).get("publicKey").toString()));
+            statement.setLong(5, Long.parseLong(((Map<String,Object>)  inputMap.get("body-json")).get("length").toString()));
 
             System.out.println("KeyAdder: statement: " + statement.toString());
 
