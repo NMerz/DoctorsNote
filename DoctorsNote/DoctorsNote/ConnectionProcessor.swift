@@ -520,8 +520,9 @@ class ConnectionProcessor {
     }
     
     // TODO fix calls
-    func processDeleteUser(url: String) throws{
+    func processDeleteUser(url: String, uid: String) throws{
         print ("int connector function")
+        
         var userJSON = [String: Any]()
         let data = try postData(urlString: url, dataJSON: userJSON)
         if data.count != 0 {
@@ -534,7 +535,6 @@ class ConnectionProcessor {
         //print("In connector function")
         var userJSON = [String: Any]()
         userJSON["conversationId"] = convoID
-        userJSON["userId"] = uid
         
         //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser"
 
