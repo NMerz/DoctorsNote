@@ -13,21 +13,29 @@ import AWSMobileClient
 
 class ConversationViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
     
-    var activityIndicator = UIActivityIndicatorView()
     private let cellId = "cellId"
     private var conversationList: [Conversation]?
     private var filteredConversationList: [Conversation]?
+
     let searchController = UISearchController(searchResultsController: nil)
+    var activityIndicator = UIActivityIndicatorView()
+    var refresher: UIRefreshControl?
+   
     var selectedConversation: Conversation?
     var selectedName: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activityIndicator.center = self.view.center
-        activityIndicator.style = .gray
+        activityIndicator.center = self.collectionView.center
+        activityIndicator.style = .medium
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
+        
+        refresher = UIRefreshControl()
+        refresher?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refresher?.addTarget(self, action: #selector(resfreshData), for: .valueChanged)
+        collectionView.refreshControl = refresher
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -38,6 +46,15 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
         collectionView.alwaysBounceVertical = true
         collectionView.register(FriendCell.self, forCellWithReuseIdentifier: cellId)
         
+        resfreshData()
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.activityIndicator.stopAnimating()
+    }
+    
+    @objc func resfreshData(){
         self.activityIndicator.startAnimating()
         DispatchQueue.main.async {
             let authorizedConnector = Connector()
@@ -57,12 +74,8 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
             }
             self.collectionView.reloadData()
             self.activityIndicator.stopAnimating()
+            self.collectionView.refreshControl?.endRefreshing()
         }
-        
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.activityIndicator.stopAnimating()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -215,7 +228,7 @@ class FriendCell: BaseCellC {
         
         addConstraintsWithFormat(format: "H:|-12-[v0(68)]", views: profileImageView)
         
-        addConstraintsWithFormat(format: "V:[v0(68)]", views: profileImageView)
+        addConstraintsWithFormat(format: "V:|-0-[v0(68)]", views: profileImageView)
         
         addConstraint(NSLayoutConstraint(item: profileImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         

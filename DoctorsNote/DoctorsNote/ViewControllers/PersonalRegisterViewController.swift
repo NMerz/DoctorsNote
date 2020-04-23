@@ -382,8 +382,8 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     var hospital: String?
     var hospitalWebsite: String?
     
-    let providers = ["Humana", "Aetna", "Other"]
-    let providerWebsites = ["https://humana.com", "https://aetna.com", ""]
+    let providers = ["Humana", "Aetna"]
+    let providerWebsites = ["https://humana.com", "https://aetna.com"]
     var provider: String?
     var providerWebsite: String?
     

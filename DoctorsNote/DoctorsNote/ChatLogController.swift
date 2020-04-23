@@ -57,8 +57,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView!.collectionViewLayout = layout
 
-        let testString = "Hello, \nWorld!\n test"
-        let testMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (testString.data(using: .utf8))!, contentType: 0, numFails: CognitoHelper.numFails)
+        //let testString = "Hello, \nWorld!\n test"
+        //let testMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (testString.data(using: .utf8))!, contentType: 0, numFails: CognitoHelper.numFails)
         // Do any additional setup after loading the view.
         messagesShown = 20;
         do {
@@ -80,6 +80,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print (error.localizedDescription)
             print("ERROR!!!!!!!!!!!!")
         }
+        
+        messages.reverse()
         
         let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
         let lastItemIndex = NSIndexPath(item: item, section: 0)
@@ -247,6 +249,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 print("ERROR!!!!!!!!!!!!")
             }
         }
+        messages.reverse()
         collectionView.reloadData()
     }
     
@@ -257,14 +260,15 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellM = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellM
         cellM.delegate = self
-        let nextMessage = self.messages[messages.count - indexPath.row - 1]
+        //let nextMessage = self.messages[messages.count - indexPath.row - 1]
+        let nextMessage = self.messages[indexPath.row]
         if nextMessage.getContentType() == 0 {
             //cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             /*if (nextMessage.getSender().getUID() == DoctorsNote.User.getUID(<#T##self: User##User#>)()) {
                 cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }*/
             print(nextMessage.getSender().getFirstName())
-            if (AWSMobileClient.default().username as! String == nextMessage.getSender().getUID()) {
+            if (AWSMobileClient.default().username! == nextMessage.getSender().getUID()) {
                 cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             else {
@@ -273,7 +277,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             }
             //cellM.showIncomingMessage(text: "test")
         } else if nextMessage.getContentType() == 1 {
-            if (AWSMobileClient.default().username as! String == nextMessage.getSender().getUID()) {
+            if (AWSMobileClient.default().username! == nextMessage.getSender().getUID()) {
                 cellM.showOutgoingMessage(image: UIImage(data: nextMessage.getRawContent()) ?? UIImage())
             }
             else {
@@ -287,7 +291,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     @IBAction func onClick(_ sender: Any) {
-        if (conversation!.getConverserID() as! String == "N/A") {
+        if (conversation!.getConverserID() == "N/A") {
             performSegue(withIdentifier: "support_group", sender: self)
         }
         else {
@@ -334,6 +338,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     @objc func deleteMessage() {
+        
         // Remove the cell from the view
         let cell = collectionView.cellForItem(at: deleteIndex!) as! FriendCellM
         cell.message!.mask?.removeFromSuperview()
@@ -342,7 +347,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         
         // Remove the message from the database
         do {
-            print(messages[deleteIndex!.row].getBase64Content())
+            //print("base64:")
+            //print(messages[deleteIndex!.row].getBase64Content())
             try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteMessage", messageId: messages[deleteIndex!.row].getMessageID()) // messagelist
         } catch let error {
             print ((error as! ConnectionError).getMessage())

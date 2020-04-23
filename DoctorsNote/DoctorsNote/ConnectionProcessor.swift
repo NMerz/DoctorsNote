@@ -303,6 +303,9 @@ class ConnectionProcessor {
     func processDeleteMessage(url: String, messageId: Int) throws {
         var messageJSON = [String: Any]()
         messageJSON["messageId"] = messageId
+        print("messageId:")
+        print(messageId)
+        messageJSON["messageId"] = String(messageId)
 
         let data = try postData(urlString: url, dataJSON: messageJSON)
         if data.count != 0 {
@@ -473,50 +476,20 @@ class ConnectionProcessor {
         var userJSON = [String: Any]()
         userJSON["uid"] = uid
         
-        let dataList = try postData(urlString: url, dataJSON: userJSON)
+        let data: [String : Any]
+        data = try postData(urlString: url, dataJSON: userJSON)
         var name = ""
-        
-        if (dataList as? [String : Any?] == nil) {
-            print("not map")
-            throw ConnectionError(message: "At least one JSON field was an incorrect format")
-        }
-        
-        let data = dataList as! [String : Any?]
+
         if (((data["firstName"] as? String) != nil) && ((data["lastName"] as? String) != nil)) {
             name += data["firstName"] as! String
             name += " "
             name += data["lastName"] as! String
         }
         else {
-            print("no firstName lastName")
             throw ConnectionError(message: "At least one JSON field was an incorrect format")
         }
-        
         return name
         
-//        Previous
-//        if (dataList.first?.value as? NSArray == nil) {
-//            print("not nsarray")
-//            throw ConnectionError(message: "At least one JSON field was an incorrect format")
-//        }
-//
-//        for dataDict in (dataList.first?.value as! NSArray) {
-//            if (dataDict as? [String : Any?] == nil) {
-//                print("not nsarray 2")
-//                throw ConnectionError(message: "At least one JSON field was an incorrect format")
-//            }
-//            let data = dataDict as! [String : Any?]
-//            if (((data["firstName"] as? String) != nil) && ((data["lastName"] as? String) != nil)) {
-//                name += data["firstName"] as! String
-//            }
-//            else {
-//                print("no firstName lastName")
-//                throw ConnectionError(message: "At least one JSON field was an incorrect format")
-//            }
-//
-//        }
-        
-        return name
     }
     
     // TODO fix calls
@@ -524,6 +497,7 @@ class ConnectionProcessor {
         print ("int connector function")
         
         var userJSON = [String: Any]()
+        userJSON["uid"] = uid
         let data = try postData(urlString: url, dataJSON: userJSON)
         if data.count != 0 {
             throw ConnectionError(message: "Non-blank return")
@@ -536,7 +510,7 @@ class ConnectionProcessor {
         var userJSON = [String: Any]()
         userJSON["conversationId"] = convoID
         
-        //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser"
+        //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation"
 
         let data = try postData(urlString: url, dataJSON: userJSON)
         //print("after lambda call")
