@@ -208,6 +208,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         }
 
         return cellM
+
         // Configure the cell
     }
     
@@ -228,6 +229,11 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             dest.desc = conversation!.getDescription()
             dest.numMembers = String(conversation!.getNumMembers())
         }
+        if (segue.identifier == "chat") {
+            let dest = segue.destination as! DoctorProfileViewController
+            dest.conversationID = conversation!.getConversationID()
+        }
+        
     }
     
     @objc func showDeleteMenu (_ gestureRecognizer: UILongPressGestureRecognizer) {

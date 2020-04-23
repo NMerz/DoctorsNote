@@ -13,6 +13,7 @@ class DoctorProfileViewController: UIViewController {
 
     @IBOutlet weak var hoursLabel: UILabel!
     @IBOutlet weak var deleteMessageLabel: UILabel!
+    var conversationID: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,7 @@ class DoctorProfileViewController: UIViewController {
             AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
             let processor = ConnectionProcessor(connector: connector)
             do {
-                try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: 12, uid: currentUID)
+                try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: self.conversationID!, uid: currentUID)
             }
             catch let error {
                 // Fails to delete user
