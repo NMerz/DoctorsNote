@@ -27,7 +27,7 @@ public class EventRemover {
             System.out.println("EventRemover: Removing event on behalf of " + userId);
 
             PreparedStatement statement = dbConnection.prepareStatement(removeEventFormatString);
-            statement.setInt(1, Integer.parseInt((String)((Map<String,Object>) inputMap.get("body-json")).get("appointmentID")));
+            statement.setInt(1, Integer.parseInt(((Map<String,Object>) inputMap.get("body-json")).get("appointmentID").toString()));
             System.out.println("EventRemover: statement: " + statement);
             int ret = statement.executeUpdate();
 

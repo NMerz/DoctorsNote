@@ -21,7 +21,6 @@ import AWSCognitoIdentityProvider
 
 /// The error enum for `AWSMobileClient` errors.
 public enum AWSMobileClientError: Error {
-    
     case aliasExists(message: String)
     case codeDeliveryFailure(message: String)
     case codeMismatch(message: String)
@@ -69,7 +68,6 @@ public enum AWSMobileClientError: Error {
 
 public extension AWSMobileClientError {
     /// Underlying error message of `AWSMobileClientError`
-
     var message: String {
         switch self {
         case .aliasExists(let message),

@@ -16,6 +16,9 @@ import AWSCognito
 import AWSMobileClient
 import UserNotifications
 
+import CryptoKit
+import CommonCrypto
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -36,14 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
         requestNotificationAuthorization(application: application)
         
         let defaults = UserDefaults.standard
         let defaultValue = ["numFails" : "0", "newPassword":""]
         defaults.register(defaults: defaultValue)
         CognitoHelper.newPassword = defaults.value(forKey: "newPassword") as! String
-        print(CognitoHelper.newPassword)
-        print(defaults.value(forKey: "numFails"))
+        CognitoHelper.password = CognitoHelper.newPassword
+        CognitoHelper.numFails = defaults.value(forKey: "numFails") as! Int
         
         AWSMobileClient.default().initialize { (userState, error) in
             if let userState = userState {

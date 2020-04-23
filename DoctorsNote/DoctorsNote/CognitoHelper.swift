@@ -13,6 +13,7 @@ class CognitoHelper {
 
     public static let sharedHelper = CognitoHelper()
     public static var user: User?
+    public static var password: String?
     public static var numFails: Int = 0
     public static var newPassword = ""
     
@@ -23,6 +24,8 @@ class CognitoHelper {
     }
     
     func login(email: String, password: String, onDone: @escaping (_ success: Bool, _ err: AWSMobileClientError)->()) {
+        print("Password: " + password)
+        CognitoHelper.password = password
         AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
             if let err = err as? AWSMobileClientError {
                 print("\(err.message)")
@@ -157,7 +160,8 @@ class CognitoHelper {
                     CognitoHelper.user?.setSecurityAnswer(securityAnswer: securityAnswer)
                 }
             }
-        }
+        }     
+
     }
     
     func setHealthcareInformation(role:String, hospital:String, hospitalWebsite: String, healthcareProvider: String, healthcareWebsite:String, onDone: @escaping (_ success: Bool, _ errMessage: String)->Void) {

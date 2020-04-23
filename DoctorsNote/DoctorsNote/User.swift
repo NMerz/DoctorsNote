@@ -26,6 +26,7 @@ class User {
     
     private var securityQuestion: String
     private var securityAnswer: String
+
     
     init (uid: String, email: String, firstName: String, middleName: String, lastName: String, dateOfBirth: Date, address: String, sex: String, phoneNumber: String, role: String, healthSystems: [HealthSystem], workHours: String, securityQuestion: String, securityAnswer: String) {
         self.uid = uid
@@ -86,8 +87,8 @@ class User {
         } else {
             self.workHours = ""
         }
-        self.securityQuestion = dict["custom:securityquestion2"] ?? "Type 'answer'"
-        self.securityAnswer = dict["custom:securityanswer"] ?? "answer".my_hash()
+        self.securityQuestion = dict["custom:securityquestion2"]!
+        self.securityAnswer = dict["custom:securityanswer"]!
     }
     
     func getUID() -> String {

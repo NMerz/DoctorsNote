@@ -6,6 +6,8 @@ out
 .DS_Store
 xcuserdata
 *.iml
+*.jar
+
 xcshareddata
 # Xcode
 #

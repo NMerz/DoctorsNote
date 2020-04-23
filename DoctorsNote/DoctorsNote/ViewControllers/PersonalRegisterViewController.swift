@@ -11,6 +11,7 @@ import AWSCognito
 import AWSMobileClient
 import PopupKit
 import CryptoKit
+
 //
 //
 //
@@ -80,6 +81,17 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
             if (middleName == "") {
                 middleName = "<empty>"
             }
+            let cipher = LocalCipher()
+            let (privateKeyP, privateKeyS, length, publicKey) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: [securityAnswer.text!], username: CognitoHelper.user!.getUID())
+            let connector = Connector()
+            AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+            let connectionProcessor = ConnectionProcessor(connector: connector)
+            do {
+                try connectionProcessor.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: privateKeyP.base64EncodedString(), privateKeyS: privateKeyS.base64EncodedString(), length: length, publicKey: publicKey.base64EncodedString())
+            } catch let error {
+                print((error as! ConnectionError).getMessage())
+                return
+            }
             CognitoHelper.sharedHelper.updateAttributes(attributeMap: ["name":firstNameField.text!, "middle_name":middleName, "family_name":lastNameField.text!, "gender":sex, "birthdate":DOB, "address":address, "phone_number":phone, "custom:securityquestion2":securityQuestion.text!, "custom:securityanswer":securityAnswer.text!.my_hash()]) { (success, err) in
                 if (!success) {
                     self.errorLabel.text = err
@@ -106,6 +118,7 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
         let isZIPFormatted = checkZipFormat()
         let question = securityQuestion.isEmpty()
         let answer = securityAnswer.isEmpty()
+        
         
         var DOBFilled = true
         if (DOB == "") {
@@ -319,14 +332,35 @@ class StateTableViewController: UITableViewController {
 }
 
 
+// Inspired by Stack Overflow answer https://stackoverflow.com/questions/38559763/how-to-use-sha256-with-saltsome-key-in-swift
+//extension Data {
+//    var hexString: String {
+//        return map { String(format: "%02hhx", $0) }.joined()
+//    }
+//
+//    var sha256: Data {
+//        var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
+//        self.withUnsafeBytes({
+//            _ = CC_SHA256($0, CC_LONG(self.count), &digest)
+//        })
+//        return Data(bytes: digest)
+//    }
+//}
 
-
-
-
-
-
-
-
+extension String {
+//    // salt is user's family name
+//    func my_hash(salt: String) -> String {
+//        let data = (self + salt).data(using: .utf8)!.sha256
+//        return String(decoding: data, as: UTF8.self)
+//    }
+    
+    // Inspired by https://www.hackingwithswift.com/example-code/cryptokit/how-to-calculate-the-sha-hash-of-a-string-or-data-instance
+    func hash() -> String {
+        let inputData = Data(self.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+    }
+}
 
 
 //
@@ -545,11 +579,6 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     }
 
 }
-
-
-
-
-
 
 
 

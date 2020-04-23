@@ -33,6 +33,7 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
+
         // Get all support groups from database
         DispatchQueue.main.async {
             let authorizedConnector = Connector()
@@ -40,7 +41,7 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
             var tempList: [Conversation]?
             let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
             do {
-                (self.groups, _) = try processor.processAllSupportGroups()
+                self.groups = try processor.processAllSupportGroups()
             } catch {
                 // ADD ERROR HANDLING
             }
@@ -57,7 +58,7 @@ class SearchGroupsTableViewController: UITableViewController, UISearchResultsUpd
             self.tableView.reloadData()
             self.activityIndicator.stopAnimating()
         }
-        
+
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -180,15 +181,15 @@ class SearchGroupCell: UITableViewCell {
     }
     
     @objc func joinSupportGroup(sender: UIButton!) {
-        let isError = false
+        var isError = false
         let connector = Connector()
         AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processJoinSupportGroup(conversationID: conversation!.getConversationID())
+            try processor.processJoinSupportGroup(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/JoinSupportGroup", conversationID: conversation!.getConversationID())
         }
         catch let error {
-            let isError = true
+            isError = true
             print((error as! ConnectionError).getMessage())
         }
         if (!isError) {
