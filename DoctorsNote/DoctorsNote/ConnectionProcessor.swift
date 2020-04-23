@@ -302,6 +302,7 @@ class ConnectionProcessor {
     // Delete message
     func processDeleteMessage(url: String, messageId: Int) throws {
         var messageJSON = [String: Any]()
+        messageJSON["messageId"] = messageId
         print("messageId:")
         print(messageId)
         messageJSON["messageId"] = String(messageId)
@@ -494,6 +495,7 @@ class ConnectionProcessor {
     // TODO fix calls
     func processDeleteUser(url: String, uid: String) throws{
         print ("int connector function")
+        
         var userJSON = [String: Any]()
         userJSON["uid"] = uid
         let data = try postData(urlString: url, dataJSON: userJSON)
@@ -503,7 +505,7 @@ class ConnectionProcessor {
         //Should have returned a blank 200 if successful, if so, no need to do anything
     }
     
-    func processLeaveConversation(url: String, convoID: Int) throws {
+    func processLeaveConversation(url: String, convoID: String) throws {
         //print("In connector function")
         var userJSON = [String: Any]()
         userJSON["conversationId"] = convoID
