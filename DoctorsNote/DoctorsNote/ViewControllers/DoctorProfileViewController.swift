@@ -47,7 +47,7 @@ class DoctorProfileViewController: UIViewController {
                 print((error as! ConnectionError).getMessage())
             }
             print("left convo")
-            self.performSegue(withIdentifier: "Conversation", sender: nil)
+        self.navigationController!.popToRootViewController(animated: true)
         }
         ))
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
