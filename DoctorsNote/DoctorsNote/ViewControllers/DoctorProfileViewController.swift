@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AWSMobileClient
 
 class DoctorProfileViewController: UIViewController {
 
@@ -21,6 +22,33 @@ class DoctorProfileViewController: UIViewController {
         // FIXME: Actually implement
         self.hoursLabel.text = ""
         self.deleteMessageLabel.text = "Messages sent in DoctorsNote will be deleted after four weeks."
+    }
+    
+    @IBAction func confirmation() {
+        let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to leave this conversation", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            let currentUID = CognitoHelper.user!.getUID()
+            //let convoID = 
+            //CognitoHelper.sharedHelper.logout()
+            let connector = Connector()
+            AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+            let processor = ConnectionProcessor(connector: connector)
+            do {
+                try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: 12, uid: currentUID)
+            }
+            catch let error {
+                // Fails to delete user
+                print("ERROR")
+                print((error as! ConnectionError).getMessage())
+            }
+            print("user deleted")
+            self.performSegue(withIdentifier: "Conversation", sender: nil)
+        }
+        ))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true)
     }
     
 

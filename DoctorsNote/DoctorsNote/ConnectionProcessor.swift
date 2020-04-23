@@ -459,8 +459,6 @@ class ConnectionProcessor {
         var userJSON = [String: Any]()
         userJSON["conversationId"] = convoID
         userJSON["userId"] = uid
-        
-        //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser"
 
         let data = try postData(urlString: url, dataJSON: userJSON)
         //print("after lambda call")

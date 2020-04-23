@@ -90,23 +90,6 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         return layout
     }()
     
-    @IBAction func onLeaveConversationClick(_ sender: UIButton) {
-        // Segue back to conversation list
-        
-        // Backend leave convo
-        let connector = Connector()
-    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
-        let processor = ConnectionProcessor(connector: connector)
-        do {
-            try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: conversation!.getConversationID(), uid: CognitoHelper.user!.getUID())
-        }
-        catch let error {
-            // Fails to delete user
-            print("ERROR")
-            print((error as! ConnectionError).getMessage())
-        }
-    }
-    
     
     @IBAction
     func ourSendButtonClick() {
