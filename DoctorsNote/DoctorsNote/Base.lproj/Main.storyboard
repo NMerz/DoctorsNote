@@ -937,27 +937,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NORMAL WORK HOURS" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Em5-A9-hg6">
-                                <rect key="frame" x="25" y="165" width="193" height="21"/>
+                                <rect key="frame" x="25" y="113" width="369" height="21"/>
                                 <accessibility key="accessibilityConfiguration" label="Work Hours Label"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Normal hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6PB-8b-HPz">
-                                <rect key="frame" x="40" y="196" width="364" height="21"/>
+                                <rect key="frame" x="40" y="144" width="364" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Message deletion reminder" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGi-o3-Dev">
-                                <rect key="frame" x="40" y="386" width="297" height="132"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message deletion reminder" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MGi-o3-Dev">
+                                <rect key="frame" x="25" y="185" width="364" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="mxv-Yj-74H"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-XS-iR9">
-                                <rect key="frame" x="121" y="267" width="135" height="30"/>
-                                <state key="normal" title="Leave Conversation"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVC-XS-iR9">
+                                <rect key="frame" x="127.5" y="325" width="159" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Leave Conversation">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="confirmation" destination="bLo-c2-Fla" eventType="touchUpInside" id="sd1-ua-Ifa"/>
                                 </connections>
@@ -968,12 +974,14 @@
                             <constraint firstItem="MGi-o3-Dev" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="25" id="0g3-b4-GE5"/>
                             <constraint firstItem="6PB-8b-HPz" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="40" id="3TB-fS-64Y"/>
                             <constraint firstItem="Em5-A9-hg6" firstAttribute="top" secondItem="Nrx-Ek-xhV" secondAttribute="top" constant="25" id="Hog-OX-OqU"/>
+                            <constraint firstItem="eVC-XS-iR9" firstAttribute="top" secondItem="MGi-o3-Dev" secondAttribute="bottom" constant="20" id="IB9-Sn-6a8"/>
+                            <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="Em5-A9-hg6" secondAttribute="trailing" constant="20" id="LSu-Na-wgc"/>
                             <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="MGi-o3-Dev" secondAttribute="trailing" constant="25" id="ToX-RT-pKX"/>
+                            <constraint firstItem="eVC-XS-iR9" firstAttribute="centerX" secondItem="5VP-pI-ISv" secondAttribute="centerX" id="Uiy-7h-UjM"/>
                             <constraint firstItem="Em5-A9-hg6" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="25" id="aPF-th-R96"/>
-                            <constraint firstItem="eVC-XS-iR9" firstAttribute="top" secondItem="6PB-8b-HPz" secondAttribute="bottom" constant="50" id="fS4-YY-cvT"/>
                             <constraint firstItem="6PB-8b-HPz" firstAttribute="top" secondItem="Em5-A9-hg6" secondAttribute="bottom" constant="10" id="h4x-kg-nVI"/>
                             <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="6PB-8b-HPz" secondAttribute="trailing" constant="10" id="qT1-ps-xjB"/>
-                            <constraint firstItem="MGi-o3-Dev" firstAttribute="top" secondItem="6PB-8b-HPz" secondAttribute="bottom" constant="40" id="uJu-8t-gjJ"/>
+                            <constraint firstItem="MGi-o3-Dev" firstAttribute="top" secondItem="6PB-8b-HPz" secondAttribute="bottom" constant="20" id="r0H-Ad-nKD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nrx-Ek-xhV"/>
                     </view>
@@ -1304,7 +1312,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tUq-nf-bVE">
-                                <rect key="frame" x="0.0" y="88" width="414" height="729"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="680"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="udN-Fv-yXq">
                                     <size key="itemSize" width="128" height="128"/>
@@ -1313,7 +1321,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <view key="backgroundView" contentMode="scaleToFill" id="WdX-zF-UP0">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="729"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="680"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 </view>
@@ -1324,7 +1332,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Daq-kW-vLF">
-                                <rect key="frame" x="0.0" y="817" width="414" height="45"/>
+                                <rect key="frame" x="0.0" y="768" width="414" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nAw-57-JVw">
                                         <rect key="frame" x="49" y="3" width="301" height="34"/>
@@ -1618,7 +1626,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="cbR-Dz-3zz"/>
+        <segue reference="sqe-bD-kpk"/>
         <segue reference="R3u-vc-8Vr"/>
         <segue reference="PdX-eu-mE1"/>
     </inferredMetricsTieBreakers>

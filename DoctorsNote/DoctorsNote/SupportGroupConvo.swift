@@ -270,7 +270,7 @@ class FriendCellS: BaseCellC {
     private func setupContainerView() {
         let containerView = UIView()
         addSubview(containerView)
-        addConstraintsWithFormat(format: "H:|-90-[v0]|", views: containerView)
+        addConstraintsWithFormat(format: "H:|-90-[v0]-0-|", views: containerView)
         addConstraintsWithFormat(format: "V:[v0(50)]", views: containerView)
         addConstraint(NSLayoutConstraint(item: containerView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         
@@ -279,7 +279,7 @@ class FriendCellS: BaseCellC {
         containerView.addSubview(timeLabel)
         containerView.addSubview(hasReadImageView)
         
-        containerView.addConstraintsWithFormat(format: "H:|[v0][v1(180)]-12-|", views: nameLabel, timeLabel)
+        containerView.addConstraintsWithFormat(format: "H:|[v0(>=150)][v1(100)]-12-|", views: nameLabel, timeLabel)
         
         containerView.addConstraintsWithFormat(format: "V:|[v0][v1(24)]|", views: nameLabel, messageLabel)
         
