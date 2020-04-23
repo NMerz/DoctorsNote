@@ -13,24 +13,30 @@ import AWSMobileClient
 
 class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchResultsUpdating {
     
+    @IBOutlet weak var collectionView: UICollectionView!
     
     private let cellId = "cellId"
     private var conversationList: [Conversation]?
     private var filteredConversationList: [Conversation]?
-    let searchController = UISearchController(searchResultsController: nil)
-    @IBOutlet weak var collectionView: UICollectionView!
-    var selectedConversation: Conversation?
-    var activityIndicator = UIActivityIndicatorView()
     
+    let searchController = UISearchController(searchResultsController: nil)
+    var activityIndicator = UIActivityIndicatorView()
+    var refresher: UIRefreshControl?
+    
+    var selectedConversation: Conversation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activityIndicator.center = self.view.center
-        activityIndicator.style = .gray
+        activityIndicator.center = self.collectionView.center
+        activityIndicator.style = .medium
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
+        
+        refresher = UIRefreshControl()
+        refresher?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refresher?.addTarget(self, action: #selector(resfreshData), for: .valueChanged)
+        collectionView.refreshControl = refresher
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -46,7 +52,17 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         //self.collectionView!.collectionViewLayout = layout
         //layoutCells()
         
+        resfreshData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.activityIndicator.stopAnimating()
+    }
+    
+    @objc func resfreshData(){
+        self.activityIndicator.startAnimating()
         DispatchQueue.main.async {
+            self.activityIndicator.startAnimating()
             let authorizedConnector = Connector()
             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
             var tempList: [Conversation]?
@@ -64,12 +80,9 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
             }
             self.collectionView.reloadData()
             self.activityIndicator.stopAnimating()
+            self.collectionView.refreshControl?.endRefreshing()
         }
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.activityIndicator.stopAnimating()
-    }
+   }
     
     // Inspired by: https://medium.com/@andrea.toso/uicollectionviewcell-dynamic-height-swift-b099b28ddd23
     var layout: UICollectionViewFlowLayout = {
@@ -137,16 +150,16 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         cell.delegate = self
         cell.nameLabel.text = conversationList![indexPath.row].getConversationName()
         
-//        let df = DateFormatter()
-//        let calendar = Calendar.current
-//        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
-//            df.dateFormat = "hh:mm"
-//        }
-//        else {
-//            df.dateFormat = "MM-dd-YYYY"
-//        }
-//        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
-        
+        let df = DateFormatter()
+        let calendar = Calendar.current
+        if calendar.isDateInToday(conversationList![indexPath.row].getLastMessageTime()) {
+            df.dateFormat = "hh:mm"
+        }
+        else {
+            df.dateFormat = "MM-dd-YYYY"
+        }
+        cell.timeLabel.text = df.string(from: conversationList![indexPath.row].getLastMessageTime())
+
         return cell
     }
     
@@ -238,7 +251,7 @@ class FriendCellS: BaseCellC {
         
         addConstraintsWithFormat(format: "H:|-12-[v0(68)]", views: profileImageView)
         
-        addConstraintsWithFormat(format: "V:[v0(68)]", views: profileImageView)
+        addConstraintsWithFormat(format: "V:|-0-[v0(68)]", views: profileImageView)
         
         addConstraint(NSLayoutConstraint(item: profileImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0))
         
