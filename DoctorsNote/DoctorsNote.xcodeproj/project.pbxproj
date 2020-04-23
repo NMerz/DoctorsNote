@@ -28,13 +28,14 @@
 		9D325395242A765F0057B354 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0124105BDA00E787FB /* User.swift */; };
 		9D41A4A62443BA880069A1B8 /* MessageCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A4A52443BA880069A1B8 /* MessageCipher.swift */; };
 		9D41A4A72443BA8B0069A1B8 /* MessageCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D41A4A52443BA880069A1B8 /* MessageCipher.swift */; };
+		9D5E42BF245101EF0008D003 /* LocalCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB41362444072A0021FDDC /* LocalCipher.swift */; };
 		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
 		9DD1D469242E8B3200925298 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3BA28242C258900820F05 /* Appointment.swift */; };
 		9DDB41372444072A0021FDDC /* LocalCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB41362444072A0021FDDC /* LocalCipher.swift */; };
 		B51C6A20242C551F00048BCF /* TestChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C6A1F242C551F00048BCF /* TestChatView.swift */; };
-		B51C6A22242C574B00048BCF /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		B51C6A23242C574B00048BCF /* BuildFile in Sources */ = {isa = PBXBuildFile; };
-		B51C6A24242C577300048BCF /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		B51C6A22242C574B00048BCF /* (null) in Sources */ = {isa = PBXBuildFile; };
+		B51C6A23242C574B00048BCF /* (null) in Sources */ = {isa = PBXBuildFile; };
+		B51C6A24242C577300048BCF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B51C6A25242C577300048BCF /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D267F0E24105CD000E787FB /* Message.swift */; };
 		B51C6A26242C577300048BCF /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D23056D24105ED00064E6E2 /* Reminder.swift */; };
 		B52ABE6A23F5B872007B3D6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52ABE6923F5B872007B3D6A /* AppDelegate.swift */; };
@@ -62,7 +63,7 @@
 		B5AC8B352409CF13002E070D /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AC8B342409CF13002E070D /* ChatLogController.swift */; };
 		B5AE7347241563C600A9CDAE /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
 		B5AE73492415698600A9CDAE /* TestLoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE73482415698600A9CDAE /* TestLoginPage.swift */; };
-		B5AE734E24156C5B00A9CDAE /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		B5AE734E24156C5B00A9CDAE /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B5AE7351241573AB00A9CDAE /* AccountRegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7350241573AB00A9CDAE /* AccountRegisterViewController.swift */; };
 		B5C12168241DCCC400B2905A /* DoctorProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C12167241DCCC400B2905A /* DoctorProfileViewController.swift */; };
 		B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5AE7346241563C600A9CDAE /* CognitoHelper.swift */; };
@@ -270,8 +271,8 @@
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
 				447323FF243184900026DA34 /* SupportGroupConvo.swift */,
-				9D41A4A52443BA880069A1B8 /* MessageCipher.swift */,
 				9DDB41362444072A0021FDDC /* LocalCipher.swift */,
+				9D41A4A52443BA880069A1B8 /* MessageCipher.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";
@@ -685,12 +686,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5E105D3243BA231004F9507 /* CognitoHelper.swift in Sources */,
-				B51C6A24242C577300048BCF /* BuildFile in Sources */,
+				B51C6A24242C577300048BCF /* (null) in Sources */,
 				B51C6A25242C577300048BCF /* Message.swift in Sources */,
 				B51C6A26242C577300048BCF /* Reminder.swift in Sources */,
-				B51C6A22242C574B00048BCF /* BuildFile in Sources */,
-				B51C6A23242C574B00048BCF /* BuildFile in Sources */,
-				B5AE734E24156C5B00A9CDAE /* BuildFile in Sources */,
+				B51C6A22242C574B00048BCF /* (null) in Sources */,
+				B51C6A23242C574B00048BCF /* (null) in Sources */,
+				B5AE734E24156C5B00A9CDAE /* (null) in Sources */,
 				9D41A4A72443BA8B0069A1B8 /* MessageCipher.swift in Sources */,
 				9D137F40242BAB6E00A0B0AB /* ConnectionProcessor.swift in Sources */,
 				9D137F43242BAB7700A0B0AB /* Conversation.swift in Sources */,
@@ -702,6 +703,7 @@
 				9D137F46242BAC2000A0B0AB /* HealthSystem.swift in Sources */,
 				9D137F49242BAC4000A0B0AB /* User.swift in Sources */,
 				9DD1D469242E8B3200925298 /* Appointment.swift in Sources */,
+				9D5E42BF245101EF0008D003 /* LocalCipher.swift in Sources */,
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

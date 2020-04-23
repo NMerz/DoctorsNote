@@ -67,7 +67,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
 
             } else {
                 let cipher = LocalCipher()
-                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID())))
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()), processor: connectionProcessor))
             }
             print(messages)
         } catch let error as CipherError {
@@ -140,7 +140,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     func sendMessage(toSend: Message) {
         if conversation?.getConverserID() != "N/A" {
             do {
-                let cipher = try MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: LocalCipher().getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()))
+                let cipher = try MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: LocalCipher().getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()), processor: connectionProcessor)
                 let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: toSend, cipher: cipher, publicKeyExternalBase64: conversation?.getConverserPublicKey(), adminPublicKeyExternalBase64: conversation?.getAdminPublicKey())
                 if (err != nil) {
                     CognitoHelper.numFails += 1
@@ -233,7 +233,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         if conversation?.getConverserID() != "N/A" {
             do {
                 let cipher = LocalCipher()
-                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID())))
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()), processor: connectionProcessor))
                 print(messages) 
             } catch let error {
                 print (error.localizedDescription)

@@ -173,15 +173,16 @@ class ConnectionProcessor {
     }
     
     func extractConversation(conversation: [String : Any?]) throws -> Conversation {
-        print(conversation["conversationID"] as? Int)
-        print(conversation["converserID"] as? String)
-        print(conversation["converserPublicKey"] as? String)
-        print(conversation["adminPublicKey"] as? String)
-        print(conversation["conversationName"] as? String)
-        print(conversation["lastMessageTime"] as? TimeInterval)
-        print(conversation["status"] as? Int)
+        print(conversation["conversationID"] as? Int != nil)
+        print(conversation["converserID"] as? String != nil)
+        print(conversation["converserPublicKey"] as? String != nil)
+        print(conversation["adminPublicKey"] as? String != nil)
+        print(conversation["conversationName"] as? String != nil)
+        print(conversation["lastMessageTime"] as? TimeInterval != nil)
+        print(conversation["status"] as? Int != nil )
         print((conversation["status"] as? Int) != nil)
         print((conversation["numMembers"] as? Int) != nil)
+        print((conversation["description"] as? String) != nil)
         if ((conversation["conversationID"] as? Int) != nil) && ((conversation["converserID"] as? String) != nil) && ((conversation["converserPublicKey"] as? String) != nil) && ((conversation["adminPublicKey"] as? String) != nil) &&  ((conversation["conversationName"] as? String) != nil) && ((conversation["lastMessageTime"] as? TimeInterval) != nil) && ((conversation["status"] as? Int) != nil) &&
             ((conversation["numMembers"] as? Int) != nil) &&
             ((conversation["description"] as? String) != nil) {
@@ -444,21 +445,22 @@ class ConnectionProcessor {
     
     //Returns the two encryptions of the private key (base64) data (in base64 format)
     //Note: exact formatting may change and this method should make no assumptions nor do validation
-    func retrieveEncryptedPrivateKeys(url: String) throws -> (String, String) {
+    func retrieveEncryptedPrivateKeys(url: String) throws -> (String, String, Int) {
         let emptyJSON = [String: Any]()
         let data: [String : Any]
         data = try postData(urlString: url, dataJSON: emptyJSON)
         let keyJSON = data
-        if keyJSON["privateKeyP"] as? String == nil || keyJSON["privateKeyS"] as? String == nil {
+        if keyJSON["privateKeyP"] as? String == nil || keyJSON["privateKeyS"] as? String == nil || keyJSON["length"] as? Int == nil {
             throw ConnectionError(message: "At least one JSON field was missing or in an incorrect format")
         }
-        return (keyJSON["privateKeyP"] as! String, keyJSON["privateKeyS"] as! String)
+        return (keyJSON["privateKeyP"] as! String, keyJSON["privateKeyS"] as! String, keyJSON["length"] as! Int)
     }
     
-    func postKeys(url: String, privateKeyP: String , privateKeyS: String, publicKey: String) throws {
+    func postKeys(url: String, privateKeyP: String , privateKeyS: String, length: Int, publicKey: String) throws {
         var keyJSON = [String: Any]()
         keyJSON["privateKeyP"] = privateKeyP
         keyJSON["privateKeyS"] = privateKeyS
+        keyJSON["length"] = length
         keyJSON["publicKey"] = publicKey
 
         let data = try postData(urlString: url, dataJSON: keyJSON)
