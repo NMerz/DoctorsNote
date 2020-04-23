@@ -271,8 +271,8 @@
 				442F306523F883A8001EBC3C /* ConversationViewController.swift */,
 				B82083CA24033A1E00CF41D0 /* SupportGroupMessageVC.swift */,
 				447323FF243184900026DA34 /* SupportGroupConvo.swift */,
-				9D41A4A52443BA880069A1B8 /* MessageCipher.swift */,
 				9DDB41362444072A0021FDDC /* LocalCipher.swift */,
+				9D41A4A52443BA880069A1B8 /* MessageCipher.swift */,
 			);
 			path = DoctorsNote;
 			sourceTree = "<group>";

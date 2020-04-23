@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 public class KeyAdder {
-    private final String addKeysFormatString = "REPLACE INTO UserKeys(userID, encryptedKey1, encryptedKey2, publicKey) VALUES(?, ?, ?, ?);";
+    private final String addKeysFormatString = "REPLACE INTO UserKeys(userID, encryptedKey1, encryptedKey2, publicKey, length) VALUES(?, ?, ?, ?, ?);";
     Connection dbConnection;
 
     public KeyAdder(Connection dbConnection) { this.dbConnection = dbConnection; }
@@ -24,6 +24,7 @@ public class KeyAdder {
             statement.setString(2, ((Map<String,Object>)  inputMap.get("body-json")).get("privateKeyP").toString());
             statement.setString(3, ((Map<String,Object>)  inputMap.get("body-json")).get("privateKeyS").toString());
             statement.setString(4, ((Map<String,Object>)  inputMap.get("body-json")).get("publicKey").toString());
+            statement.setLong(5, Long.parseLong(((Map<String,Object>)  inputMap.get("body-json")).get("publicKey").toString()));
 
             System.out.println("KeyAdder: statement: " + statement.toString());
 

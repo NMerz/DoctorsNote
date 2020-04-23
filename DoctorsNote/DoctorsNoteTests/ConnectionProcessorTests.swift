@@ -238,13 +238,17 @@ class ConnectionProcessorTests: XCTestCase {
         let response = HTTPURLResponse(url: URL(string: "url")!, statusCode: Int(200), httpVersion: "HTTP/1.0", headerFields: [String : String]())
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
-        var cipherMock: MessageCipherMock? = nil
+        let (newPrivateKey, _ , length, _) = LocalCipher().generateKetSet(password: "password", securityQuestionAnswers: ["answer"], username: "notunique")
+        let returnString = "{\"privateKeyP\":\"" + newPrivateKey.base64EncodedString() + "\", \"privateKeyS\":\" \",\"length\":" + String(Int(length)) + "}"
+        let returnData = Data((returnString).utf8)
+        let connector2 = ConnectorMock(returnData: returnData, responseHeader: response, potentialError: nil)
+        let processor2 = ConnectionProcessor(connector: connector2)
+        var cipher: MessageCipher? = nil
         do {
-            cipherMock = try MessageCipherMock()
+            cipher = try MessageCipher(uniqueID: "notunique", localAESKey: LocalCipher().getAESFromPass(password: "password", username: "notunique"), processor: processor2)
         } catch {
-            
         }
-        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, contentType: 0, sender: User(uid: "id1")!, numFails: 0), cipher: cipherMock!, publicKeyExternalBase64: "fake key", adminPublicKeyExternalBase64: "fakeKey")
+        let potentialError = processor.processNewMessage(url: "url", message: Message(messageID: 1, conversationID: 1, content: "content".data(using: .utf8)!, contentType: 0, sender: User(uid: "id1")!, numFails: 0), cipher: cipher!, publicKeyExternalBase64: "MIIBCgKCAQEA0E5A8SyAJ5+tBYHgfmGyYHnfGmTm4JlflOZU4SShcm9Gax76lCrcwOhBSCk3HqHgv4u/EVsfuKc/DZnHyvOUXKj78q+D3Lhp1PDbHPQurOUrbAMf4m0zKuLcdTWe6ZZzf2/CeNcbEzXNoiBBCaVWe23tnpG0XjIsF8wbdcGkO/aPCScbtjDnKybmzX0XygpGTKE3gJGs7Ze+K0/7K1hM+fD5kkjPkQUcBAdjF/AefMzI64mds0fEU5Ge11o2Nhdx9rmKrPtafYfnG0hglvqGVf5z3X/Vh1Wt2soB1wOvx4nh8aoaDO1/rXgtqYdtxRmRULyOjG48/YWGgAHvuweJEQIDAQAB", adminPublicKeyExternalBase64: "MIIBCgKCAQEA0E5A8SyAJ5+tBYHgfmGyYHnfGmTm4JlflOZU4SShcm9Gax76lCrcwOhBSCk3HqHgv4u/EVsfuKc/DZnHyvOUXKj78q+D3Lhp1PDbHPQurOUrbAMf4m0zKuLcdTWe6ZZzf2/CeNcbEzXNoiBBCaVWe23tnpG0XjIsF8wbdcGkO/aPCScbtjDnKybmzX0XygpGTKE3gJGs7Ze+K0/7K1hM+fD5kkjPkQUcBAdjF/AefMzI64mds0fEU5Ge11o2Nhdx9rmKrPtafYfnG0hglvqGVf5z3X/Vh1Wt2soB1wOvx4nh8aoaDO1/rXgtqYdtxRmRULyOjG48/YWGgAHvuweJEQIDAQAB")
         XCTAssert(connector.getConductPostTaskCalls() == 1)
         XCTAssert(potentialError == nil)
         let postedData = connector.getPostedData()
@@ -830,10 +834,9 @@ class ConnectionProcessorMock : ConnectionProcessor {
 }
 
 class MessageCipherMock : MessageCipher {
-    init () throws {
-        let (newPrivateKey, _ , _) = LocalCipher().generateKetSet(password: "password", securityQuestionAnswers: ["answer"], username: "notunique")
-        try super.init(uniqueID: "notunique", localAESKey: newPrivateKey)
+    init (conenctionProcessor: ConnectionProcessor) throws {
+//        let (newPrivateKey, _ ,length,  _) = LocalCipher().generateKetSet(password: "password", securityQuestionAnswers: ["answer"], username: "notunique")
+        try super.init(uniqueID: "notunique", localAESKey: LocalCipher().getAESFromPass(password: "pass", username: "notunique"), processor: conenctionProcessor)
     }
     
-    override func 
 }
