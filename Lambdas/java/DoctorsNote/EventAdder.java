@@ -35,7 +35,7 @@ public class EventAdder {
             System.out.println("EventAdder: statement: " + statement);
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("EventAdder: Update successful");
             } else {
                 System.out.println(String.format("EventAdder: Update failed (%d)", ret));

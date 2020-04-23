@@ -31,7 +31,7 @@ public class EventRemover {
             System.out.println("EventRemover: statement: " + statement);
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("EventRemover: Update successful");
             } else {
                 System.out.println(String.format("EventRemover: Update failed (%d)", ret));

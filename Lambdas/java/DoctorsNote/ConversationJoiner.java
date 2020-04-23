@@ -27,7 +27,7 @@ public class ConversationJoiner {
             System.out.println("ConversationJoiner: statement: " + statement.toString());
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("ConversationJoiner: Update successful");
             } else {
                 System.out.println(String.format("ConversationJoiner: Update failed (%d)", ret));

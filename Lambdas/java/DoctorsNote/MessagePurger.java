@@ -27,7 +27,7 @@ public class MessagePurger {
             System.out.println("MessagePurger: statement: " + statement);
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("MessagePurger: Update successful");
             } else {
                 System.out.println(String.format("MessagePurger: Update failed (%d)", ret));

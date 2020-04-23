@@ -30,7 +30,7 @@ public class MessageRemover {
             System.out.println("MessageRemover: statement: " + statement);
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("MessageRemover: Update successful");
             } else {
                 System.out.println(String.format("MessageRemover: Update failed (%d)", ret));

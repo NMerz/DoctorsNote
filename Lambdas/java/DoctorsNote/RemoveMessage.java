@@ -9,7 +9,7 @@ import java.util.Map;
 /*
  * A Lambda handler for removing messages for a user.
  *
- * Expects: A JSON body with the following fields: messageId (int)
+ * Expects: A JSON body with the following fields: messageId (String)
  * Returns: An empty object
  *
  * Error Handling: Returns null if an unrecoverable error is encountered

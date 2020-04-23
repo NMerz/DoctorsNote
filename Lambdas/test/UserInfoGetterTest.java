@@ -18,7 +18,7 @@ public class UserInfoGetterTest {
     private HashMap getSampleMap() {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
-        jsonBody.put("uid", "37d6a758-e79f-442f-af49-6bff78c8ad10");
+        jsonBody.put("uid", "02dd0332-50a1-4795-96d5-8bc2d7903e10");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
         context.put("sub", "sub-123");

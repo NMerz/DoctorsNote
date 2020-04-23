@@ -26,7 +26,7 @@ public class ReminderPurger {
             statement.setTimestamp(1, new Timestamp(weekAgoEpochTime));
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("ReminderPurger: Update successful");
             } else {
                 System.out.println(String.format("ReminderPurger: Update failed (%d)", ret));

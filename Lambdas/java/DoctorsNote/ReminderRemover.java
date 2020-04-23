@@ -28,7 +28,7 @@ public class ReminderRemover {
             System.out.println(statement);
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("ReminderRemover: Update successful");
             } else {
                 System.out.println(String.format("ReminderRemover: Update failed (%d)", ret));

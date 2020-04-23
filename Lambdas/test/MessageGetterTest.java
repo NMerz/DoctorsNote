@@ -28,6 +28,7 @@ public class MessageGetterTest {
         jsonBody.put("numberToRetrieve", "20");
         topMap.put("body-json", jsonBody);
         HashMap<String, Object> context = new HashMap();
+        context.put("sub", "fake-user");
         topMap.put("context", context);
         return topMap;
     }

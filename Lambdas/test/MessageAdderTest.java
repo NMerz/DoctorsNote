@@ -18,7 +18,9 @@ public class MessageAdderTest {
     private HashMap getSampleMap() {
         HashMap<String, HashMap> topMap = new HashMap();
         HashMap<String, Object> jsonBody = new HashMap();
-        jsonBody.put("content", "Test Message");
+        jsonBody.put("senderContent", "Test Message");
+        jsonBody.put("receiverContent", "Test Message");
+        jsonBody.put("adminContent", "Test Message");
         jsonBody.put("contentType", 0L);
 //        jsonBody.put("senderId", "0000000001");
         jsonBody.put("conversationID", 1L);
@@ -68,9 +70,12 @@ public class MessageAdderTest {
 
     @Test()
     public void testCompleteInput() throws SQLException {
+        PreparedStatement psMock = Mockito.mock(PreparedStatement.class);
         HashMap completeMap = getSampleMap();
         try {
-            when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(Mockito.mock(PreparedStatement.class));
+            when(connectionMock.prepareStatement(Mockito.anyString())).thenReturn(psMock);
+            when(psMock.executeUpdate()).thenReturn(1);
+
         } catch (SQLException e) {
             Assert.fail();
         }

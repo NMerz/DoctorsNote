@@ -123,8 +123,12 @@ public class ListConversationsTest {
                     .thenReturn(true)
                     .thenReturn(false)
                     .thenReturn(true)
+                    .thenReturn(false)
+                    .thenReturn(true)
+                    .thenReturn(true)
+                    .thenReturn(false)
                     .thenReturn(false);
-            Mockito.when(rsMock.getString(1)).thenReturn("12345").thenReturn("test-id").thenReturn("test-name");
+            Mockito.when(rsMock.getString(1)).thenReturn("12345").thenReturn("test-id").thenReturn("test-name").thenReturn("Fake description");
             Mockito.when(rsMock.getTimestamp(2)).thenReturn(new Timestamp(1L));
             Mockito.when(rsMock.getInt(3)).thenReturn(0);
         } catch (SQLException e) {
@@ -150,10 +154,15 @@ public class ListConversationsTest {
                     .thenReturn(false)
                     .thenReturn(true)
                     .thenReturn(true)
+                    .thenReturn(false)
+                    .thenReturn(true)
+                    .thenReturn(true)
+                    .thenReturn(false)
                     .thenReturn(false);
             Mockito.when(rsMock.getString(1)).thenReturn("12345").thenReturn("test-id").thenReturn("test-id2").thenReturn("test-name");
             Mockito.when(rsMock.getTimestamp(2)).thenReturn(new Timestamp(1L));
             Mockito.when(rsMock.getInt(3)).thenReturn(0);
+            Mockito.when(rsMock.getInt(6)).thenReturn(1);
         } catch (SQLException e) {
             Assert.fail();
         }

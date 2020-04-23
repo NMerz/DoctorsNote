@@ -35,7 +35,7 @@ public class ReminderAdder {
             System.out.println(statement);
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret > 0) {
                 System.out.println("ReminderAdder: Update successful");
             } else {
                 System.out.println(String.format("ReminderAdder: Update failed (%d)", ret));
