@@ -46,9 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaultValue = ["numFails" : "0", "newPassword":""]
         defaults.register(defaults: defaultValue)
         CognitoHelper.newPassword = defaults.value(forKey: "newPassword") as! String
-        print(CognitoHelper.newPassword)
         CognitoHelper.password = CognitoHelper.newPassword
-        print(defaults.value(forKey: "numFails"))
+        CognitoHelper.numFails = defaults.value(forKey: "numFails") as! Int
         
         AWSMobileClient.default().initialize { (userState, error) in
             if let userState = userState {
