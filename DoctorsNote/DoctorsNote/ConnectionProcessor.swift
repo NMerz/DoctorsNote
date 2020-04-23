@@ -473,27 +473,16 @@ class ConnectionProcessor {
         var userJSON = [String: Any]()
         userJSON["uid"] = uid
         
-        let dataList = try postData(urlString: url, dataJSON: userJSON)
-        
+        let data: [String : Any]
+        data = try postData(urlString: url, dataJSON: userJSON)
         var name = ""
-        if (dataList.first?.value as? NSArray == nil) {
+
+        if (((data["firstName"] as? String) != nil) && ((data["lastName"] as? String) != nil)) {
+            name += data["firstName"] as! String
+        }
+        else {
             throw ConnectionError(message: "At least one JSON field was an incorrect format")
         }
-        
-        for dataDict in (dataList.first?.value as! NSArray) {
-            if (dataDict as? [String : Any?] == nil) {
-                throw ConnectionError(message: "At least one JSON field was an incorrect format")
-            }
-            let data = dataDict as! [String : Any?]
-            if (((data["firstName"] as? String) != nil) && ((data["lastName"] as? String) != nil)) {
-                name += data["firstName"] as! String
-            }
-            else {
-                throw ConnectionError(message: "At least one JSON field was an incorrect format")
-            }
-            
-        }
-        
         return name
     }
     

@@ -32,6 +32,7 @@
 		9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */; };
 		9DD1D469242E8B3200925298 /* Appointment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8E3BA28242C258900820F05 /* Appointment.swift */; };
 		9DDB41372444072A0021FDDC /* LocalCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDB41362444072A0021FDDC /* LocalCipher.swift */; };
+		9DFBD9272451E39800D52629 /* EncryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFBD9262451E39800D52629 /* EncryptionTests.swift */; };
 		B51C6A20242C551F00048BCF /* TestChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51C6A1F242C551F00048BCF /* TestChatView.swift */; };
 		B51C6A22242C574B00048BCF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		B51C6A23242C574B00048BCF /* (null) in Sources */ = {isa = PBXBuildFile; };
@@ -125,6 +126,7 @@
 		9D41A4A52443BA880069A1B8 /* MessageCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCipher.swift; sourceTree = "<group>"; };
 		9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionProcessorTests.swift; sourceTree = "<group>"; };
 		9DDB41362444072A0021FDDC /* LocalCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCipher.swift; sourceTree = "<group>"; };
+		9DFBD9262451E39800D52629 /* EncryptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionTests.swift; sourceTree = "<group>"; };
 		B50173F82408323F003D2224 /* SearchGroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupsTableViewController.swift; sourceTree = "<group>"; };
 		B51C6A1F242C551F00048BCF /* TestChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestChatView.swift; sourceTree = "<group>"; };
 		B52ABE6623F5B872007B3D6A /* DoctorsNote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorsNote.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,6 +285,7 @@
 				B52ABE8023F5B874007B3D6A /* DoctorsNoteTests.swift */,
 				B52ABE8223F5B874007B3D6A /* Info.plist */,
 				9D90C38B23F9CF8B006FD4C6 /* ConnectionProcessorTests.swift */,
+				9DFBD9262451E39800D52629 /* EncryptionTests.swift */,
 			);
 			path = DoctorsNoteTests;
 			sourceTree = "<group>";
@@ -700,6 +703,7 @@
 				9D90C39B2400666B006FD4C6 /* ConnectionProcessorTests.swift in Sources */,
 				B52ABE8123F5B874007B3D6A /* DoctorsNoteTests.swift in Sources */,
 				9D137F48242BAC3D00A0B0AB /* Message.swift in Sources */,
+				9DFBD9272451E39800D52629 /* EncryptionTests.swift in Sources */,
 				9D137F46242BAC2000A0B0AB /* HealthSystem.swift in Sources */,
 				9D137F49242BAC4000A0B0AB /* User.swift in Sources */,
 				9DD1D469242E8B3200925298 /* Appointment.swift in Sources */,
