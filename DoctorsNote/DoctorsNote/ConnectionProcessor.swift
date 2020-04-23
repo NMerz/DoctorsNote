@@ -505,7 +505,7 @@ class ConnectionProcessor {
         //Should have returned a blank 200 if successful, if so, no need to do anything
     }
     
-    func processLeaveConversation(url: String, convoID: Int) throws {
+    func processLeaveConversation(url: String, convoID: String) throws {
         //print("In connector function")
         var userJSON = [String: Any]()
         userJSON["conversationId"] = convoID

@@ -29,21 +29,24 @@ class DoctorProfileViewController: UIViewController {
         let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to leave this conversation", preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
-            let currentUID = CognitoHelper.user!.getUID()
+           // let currentUID = CognitoHelper.user!.getUID()
             //let convoID = 
             //CognitoHelper.sharedHelper.logout()
+            print ("conversationID:" )
+            print (self.conversationID!)
+            var convoID = String(self.conversationID!)
             let connector = Connector()
             AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
             let processor = ConnectionProcessor(connector: connector)
             do {
-                try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: self.conversationID!, uid: currentUID)
+                try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: convoID)
             }
             catch let error {
                 // Fails to delete user
                 print("ERROR")
                 print((error as! ConnectionError).getMessage())
             }
-            print("user deleted")
+            print("left convo")
             self.performSegue(withIdentifier: "Conversation", sender: nil)
         }
         ))

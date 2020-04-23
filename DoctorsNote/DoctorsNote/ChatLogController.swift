@@ -105,7 +105,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         return layout
     }()
     
-    @IBAction func onLeaveConversationClick(_ sender: UIButton) {
+    /*@IBAction func onLeaveConversationClick(_ sender: UIButton) {
         // Segue back to conversation list
         
         // Backend leave convo
@@ -120,7 +120,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print("ERROR")
             print((error as! ConnectionError).getMessage())
         }
-    }
+    }*/
     
     
     @IBAction
