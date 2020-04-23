@@ -302,7 +302,7 @@ class ConnectionProcessor {
     // Delete message
     func processDeleteMessage(url: String, messageId: Int) throws {
         var messageJSON = [String: Any]()
-        messageJSON["messageId"] = messageId
+        messageJSON["messageID"] = messageId            // was messageId
 
         let data = try postData(urlString: url, dataJSON: messageJSON)
         if data.count != 0 {
