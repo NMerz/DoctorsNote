@@ -190,13 +190,14 @@ class ProfileViewController: UIViewController {
     @IBAction func deleteUser(_ sender: Any?) {
         print("Starting deleteUser...")
         print("currentUID:")
-        print(CognitoHelper.user!.getUID())
+        let currentId = CognitoHelper.user!.getUID()
+        print(currentId)
         //CognitoHelper.sharedHelper.logout()
         let connector = Connector()
     AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser")
+            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser", uid: currentId)
         }
         catch let error {
             // Fails to delete user

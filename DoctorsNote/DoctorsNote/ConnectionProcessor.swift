@@ -302,11 +302,12 @@ class ConnectionProcessor {
     // Delete message
     func processDeleteMessage(url: String, messageId: Int) throws {
         var messageJSON = [String: Any]()
-        messageJSON["messageID"] = messageId            // was messageId
+        print("messageId:")
+        print(messageId)
+        messageJSON["messageId"] = String(messageId)
 
         let data = try postData(urlString: url, dataJSON: messageJSON)
         if data.count != 0 {
-            print(data.first?.key)
             throw ConnectionError(message: "Non-blank return")
         }
         //Should have returned a blank 200 if successful, if so, no need to do anything
@@ -521,9 +522,10 @@ class ConnectionProcessor {
     }
     
     // TODO fix calls
-    func processDeleteUser(url: String) throws{
+    func processDeleteUser(url: String, uid: String) throws{
         print ("int connector function")
         var userJSON = [String: Any]()
+        userJSON["uid"] = uid
         let data = try postData(urlString: url, dataJSON: userJSON)
         if data.count != 0 {
             throw ConnectionError(message: "Non-blank return")
@@ -536,7 +538,7 @@ class ConnectionProcessor {
         var userJSON = [String: Any]()
         userJSON["conversationId"] = convoID
         
-        //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser"
+        //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation"
 
         let data = try postData(urlString: url, dataJSON: userJSON)
         //print("after lambda call")

@@ -328,6 +328,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     @objc func deleteMessage() {
+        
         // Remove the cell from the view
         let cell = collectionView.cellForItem(at: deleteIndex!) as! FriendCellM
         cell.message!.mask?.removeFromSuperview()
@@ -336,6 +337,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         
         // Remove the message from the database
         do {
+            print("base64:")
             print(messages[deleteIndex!.row].getBase64Content())
             try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteMessage", messageId: messages[deleteIndex!.row].getMessageID()) // messagelist
         } catch let error {
