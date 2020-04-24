@@ -990,9 +990,7 @@
                             <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="6PB-8b-HPz" secondAttribute="trailing" constant="10" id="qT1-ps-xjB"/>
                             <constraint firstItem="MGi-o3-Dev" firstAttribute="top" secondItem="6PB-8b-HPz" secondAttribute="bottom" constant="40" id="uJu-8t-gjJ"/>
                             <constraint firstItem="eVC-XS-iR9" firstAttribute="leading" secondItem="Nrx-Ek-xhV" secondAttribute="leading" constant="155" id="w7c-1P-Aa9"/>
-                            <constraint firstItem="6PB-8b-HPz" firstAttribute="top" secondItem="Em5-A9-hg6" secondAttribute="bottom" constant="10" id="h4x-kg-nVI"/>
-                            <constraint firstItem="Nrx-Ek-xhV" firstAttribute="trailing" secondItem="6PB-8b-HPz" secondAttribute="trailing" constant="10" id="qT1-ps-xjB"/>
-                            <constraint firstItem="MGi-o3-Dev" firstAttribute="top" secondItem="6PB-8b-HPz" secondAttribute="bottom" constant="20" id="r0H-Ad-nKD"/>
+                            <constraint firstItem="6PB-8b-HPz" firstAttribute="top" secondItem="6PB-8b-HPz" secondAttribute="bottom" constant="20" id="r0H-Ad-nKD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nrx-Ek-xhV"/>
                     </view>

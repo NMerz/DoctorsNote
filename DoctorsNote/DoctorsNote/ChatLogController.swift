@@ -273,8 +273,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             }
             else {
                 //let name = nextMessage.getSender().getFirstName() + " " + nextMessage.getSender().getLastName()
-                let name = navigationController!.title
-                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: name!)
+                let name = self.navigationItem.title!
+                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: name)
                 //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             //cellM.showIncomingMessage(text: "test")
@@ -496,17 +496,17 @@ class FriendCellM: BaseCellM {
         print(cname)
         uname = UILabel()
         let name = uname!
-        name.backgroundColor = .green
+        //name.backgroundColor = .green
         name.numberOfLines = 1
         name.font = UIFont.systemFont(ofSize: 14)
-        name.textColor = .red
+        name.textColor = .gray
         name.text = "\t" + cname
         //uname.addSubview(name)
         
         
         labelView =  UILabel()
         let label = labelView!
-        label.backgroundColor = .magenta
+        //label.backgroundColor = .magenta
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .black
@@ -514,7 +514,7 @@ class FriendCellM: BaseCellM {
         
         contentView.addSubview(label)
         contentView.addSubview(name)
-        contentView.backgroundColor = .cyan
+        //contentView.backgroundColor = .cyan
         
         message?.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
         
@@ -526,10 +526,11 @@ class FriendCellM: BaseCellM {
         //name.rightAnchor.constraint(equalTo: message!.rightAnchor, constant: 40).isActive = true
         
         //contentView.topAnchor.constraint(equalTo: name.topAnchor, constant: -10).isActive = true
-        contentView.topAnchor.constraint(equalTo: message!.topAnchor, constant: 0).isActive = true
+        label.topAnchor.constraint(equalTo: message!.topAnchor, constant: 10).isActive = true
+        contentView.topAnchor.constraint(equalTo: message!.topAnchor, constant: -20).isActive = true
         contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant:  10).isActive = true
         //name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40).isActive = true
-        name.bottomAnchor.constraint(equalTo: message!.topAnchor, constant: -40).isActive = true
+        //name.bottomAnchor.constraint(equalTo: message!.topAnchor, constant: -40).isActive = true
 
         //message.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -250).isActive = true
         message?.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 240).isActive = true
