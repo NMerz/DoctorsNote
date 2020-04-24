@@ -510,7 +510,7 @@ class ConnectionProcessor {
         var userJSON = [String: Any]()
         userJSON["conversationId"] = convoID
         
-        //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation"
+        //let url = "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/leaveconversation"
 
         let data = try postData(urlString: url, dataJSON: userJSON)
         //print("after lambda call")
