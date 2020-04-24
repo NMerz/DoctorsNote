@@ -125,8 +125,7 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
             AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
             let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
             let user = try processor.processUserInformation(uid: conversationList![indexPath.row].getConverserID())
-            selectedName = user!.getFirstName() + " " + user!.getLastName()
-            cell.nameLabel.text = selectedName
+            cell.nameLabel.text = user!.getFirstName() + " " + user!.getLastName()
         } catch {
             cell.nameLabel.text = "Unknown"
             print("Error getting user from id")
@@ -148,6 +147,17 @@ class ConversationViewController: UICollectionViewController, UICollectionViewDe
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.activityIndicator.startAnimating()
         self.selectedConversation = conversationList![indexPath.row]
+        do {
+            let authorizedConnector = Connector()
+            AWSMobileClient.default().getTokens(authorizedConnector.setToken(potentialTokens:potentialError:))
+            let processor : ConnectionProcessor = ConnectionProcessor(connector: authorizedConnector)
+            let user = try processor.processUserInformation(uid: conversationList![indexPath.row].getConverserID())
+            
+            selectedName = user!.getFirstName() + " " + user!.getLastName()
+        } catch {
+            selectedName = ""
+            print("Unable to retrieve user information.")
+        }
         self.performSegue(withIdentifier: "open_chat", sender: self)
     }
     

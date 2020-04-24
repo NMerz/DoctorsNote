@@ -928,7 +928,7 @@
             </objects>
             <point key="canvasLocation" x="1808.6956521739132" y="1125"/>
         </scene>
-        <!--Test Doctor-->
+        <!--Doctor Profile View Controller-->
         <scene sceneID="X8T-vl-8sN">
             <objects>
                 <viewController id="bLo-c2-Fla" customClass="DoctorProfileViewController" customModule="DoctorsNote" customModuleProvider="target" sceneMemberID="viewController">
@@ -985,7 +985,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nrx-Ek-xhV"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Test Doctor" largeTitleDisplayMode="always" id="4Zh-5I-ZVf">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="4Zh-5I-ZVf">
                         <barButtonItem key="backBarButtonItem" title="Back" id="cyx-fw-ASD"/>
                     </navigationItem>
                     <connections>

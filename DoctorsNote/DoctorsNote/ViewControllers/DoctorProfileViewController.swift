@@ -13,10 +13,14 @@ class DoctorProfileViewController: UIViewController {
 
     @IBOutlet weak var hoursLabel: UILabel!
     @IBOutlet weak var deleteMessageLabel: UILabel!
+    
     var conversationID: Int?
+    var converserName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationItem.title = converserName ?? ""
 
         self.navigationController?.navigationItem.backBarButtonItem?.title = "Back"
         

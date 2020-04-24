@@ -175,13 +175,8 @@ class SupportGroupConvo: UIViewController, UICollectionViewDataSource, UICollect
         if (segue.identifier == "open_chat") {
             // TODO: Update later
             let dest = segue.destination as! ChatLogController
-            //print(selectedConversation?.getConversationID())
             dest.conversation = selectedConversation
-            //print(dest.conversation?.getConversationID())
             dest.converserName = selectedConversation?.getConversationName()
-            //let path = collectionView.indexPathsForSelectedItems
-            //dest.conversationID = conversationList![path![0].row].getConversationID()
-            //segue.destination.title = conversationList![0].getConversationPartner().getFirstName()
         }
     }
     
