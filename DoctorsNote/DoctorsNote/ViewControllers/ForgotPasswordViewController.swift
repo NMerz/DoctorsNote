@@ -228,8 +228,8 @@ class PasswordCodeViewController: UIViewController {
                                     submitAction.isEnabled = false
                                     
                                     alertController.addTextField { (textField) in
-                                        textField.accessibilityLabel = "Display Name Field"
-                                        textField.placeholder = "Enter Display Name"
+                                        textField.accessibilityLabel = "Answer Field"
+                                        textField.placeholder = "Enter Security Answer"
                                         
                                         // This segment of code borrowed from:
                                         // https://gist.github.com/TheCodedSelf/c4f3984dd9fcc015b3ab2f9f60f8ad51

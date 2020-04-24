@@ -302,7 +302,6 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        navigationItem.title = nil
         if (segue.identifier == "support_group") {
             let dest = segue.destination as! SupportGroupInfoViewController
             dest.name = conversation!.getConversationName()
@@ -312,8 +311,9 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         if (segue.identifier == "chat") {
             let dest = segue.destination as! DoctorProfileViewController
             dest.conversationID = conversation!.getConversationID()
+            dest.converserName = self.navigationItem.title ?? ""
         }
-        
+        navigationItem.title = nil
     }
     
     @objc func showDeleteMenu (_ gestureRecognizer: UILongPressGestureRecognizer) {
