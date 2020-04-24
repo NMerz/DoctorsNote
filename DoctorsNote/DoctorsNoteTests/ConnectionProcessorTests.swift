@@ -783,7 +783,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processLeaveConversation(url: "url", convoID: 1)
+            try processor.processLeaveConversation(url: "url", convoID: "1")
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
@@ -798,7 +798,7 @@ class ConnectionProcessorTests: XCTestCase {
         let connector = ConnectorMock(returnData: Data("{\"unwanted\":\"data\"}".utf8), responseHeader: response, potentialError: nil)
         let processor = ConnectionProcessor(connector: connector)
         do {
-            let asserted = try processor.processLeaveConversation(url: "url", convoID: 1)
+            let asserted = try processor.processLeaveConversation(url: "url", convoID: "1")
             XCTAssert(false)
         } catch let error {
             print((error as! ConnectionError).getMessage())
