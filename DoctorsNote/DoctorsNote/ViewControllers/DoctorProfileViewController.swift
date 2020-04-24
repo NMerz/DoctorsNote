@@ -39,7 +39,7 @@ class DoctorProfileViewController: UIViewController {
             AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
             let processor = ConnectionProcessor(connector: connector)
             do {
-                try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/LeaveConversation", convoID: convoID)
+                try processor.processLeaveConversation(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/leaveconversation", convoID: convoID)
             }
             catch let error {
                 // Fails to delete user
