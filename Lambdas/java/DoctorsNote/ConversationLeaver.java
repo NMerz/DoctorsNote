@@ -27,7 +27,7 @@ public class ConversationLeaver {
             System.out.println("ConversationLeaver: statement: " + statement.toString());
             int ret = statement.executeUpdate();
 
-            if (ret == 0) {
+            if (ret == 1) {
                 System.out.println("ConversationLeaver: Update successful");
             } else {
                 System.out.println(String.format("ConversationLeaver: Update failed (%d)", ret));
