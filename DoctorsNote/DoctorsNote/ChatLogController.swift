@@ -273,8 +273,14 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             }
             else {
                 //let name = nextMessage.getSender().getFirstName() + " " + nextMessage.getSender().getLastName()
-                let name = self.navigationItem.title!
-                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: name)
+                //support group
+                if (conversation!.getConverserID() == "N/A") {
+                    cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: "")
+                }
+                else {
+                    let name = self.navigationItem.title!
+                    cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: name)
+                }
                 //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             //cellM.showIncomingMessage(text: "test")
