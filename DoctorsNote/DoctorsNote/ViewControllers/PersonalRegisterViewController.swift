@@ -82,12 +82,12 @@ class PersonalRegisterViewController: UIViewController, UIPickerViewDataSource, 
                 middleName = "<empty>"
             }
             let cipher = LocalCipher()
-            let (privateKeyP, privateKeyS, publicKey) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: [securityAnswer.text!], username: CognitoHelper.user!.getUID())
+            let (privateKeyP, privateKeyS, length, publicKey) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: [securityAnswer.text!], username: CognitoHelper.user!.getUID())
             let connector = Connector()
             AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
             let connectionProcessor = ConnectionProcessor(connector: connector)
             do {
-                try connectionProcessor.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: privateKeyP.base64EncodedString(), privateKeyS: privateKeyS.base64EncodedString(), publicKey: publicKey.base64EncodedString())
+                try connectionProcessor.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: privateKeyP.base64EncodedString(), privateKeyS: privateKeyS.base64EncodedString(), length: length, publicKey: publicKey.base64EncodedString())
             } catch let error {
                 print((error as! ConnectionError).getMessage())
                 return
@@ -382,8 +382,8 @@ class HealthRegisterViewController: UIViewController, UIPickerViewDataSource, UI
     var hospital: String?
     var hospitalWebsite: String?
     
-    let providers = ["Humana", "Aetna", "Other"]
-    let providerWebsites = ["https://humana.com", "https://aetna.com", ""]
+    let providers = ["Humana", "Aetna"]
+    let providerWebsites = ["https://humana.com", "https://aetna.com"]
     var provider: String?
     var providerWebsite: String?
     

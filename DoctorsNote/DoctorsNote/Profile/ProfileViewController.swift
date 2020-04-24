@@ -46,15 +46,15 @@ class ProfileViewController: UIViewController {
         do {
             print("Encrypted Private keys")
             print(try processor2.retrieveEncryptedPrivateKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/retrievekeys"))
-            let testCipher = LocalCipher()
+//            let testCipher = LocalCipher()
 //            try testCipher.resetKeyPair(securityQuestionAnswers: ["answer1", "answer2"], newPassword: CognitoHelper.password! + "!", username: (CognitoHelper.user?.getUID())!,   connectionProcessor: processor2)
         }
         catch let error {
             if (error as! ConnectionError).getMessage() == "Null response" {
                 do {
                     let cipher = LocalCipher()
-                    let (keyP, keyS, keyPub) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: ["answer1", "answer2"], username: (CognitoHelper.user?.getUID())!)
-                    try processor2.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: keyP.base64EncodedString(), privateKeyS: keyS.base64EncodedString(), publicKey: keyPub.base64EncodedString())
+                    let (keyP, keyS, length, keyPub) = cipher.generateKetSet(password: CognitoHelper.password!, securityQuestionAnswers: ["answer1", "answer2"], username: (CognitoHelper.user?.getUID())!)
+                    try processor2.postKeys(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/addkeys", privateKeyP: keyP.base64EncodedString(), privateKeyS: keyS.base64EncodedString(), length: length, publicKey: keyPub.base64EncodedString())
                     } catch let error {
                         print((error as! ConnectionError).getMessage())
                     }
@@ -185,25 +185,53 @@ class ProfileViewController: UIViewController {
     
     }
     
+    @IBAction func confirmation() {
+        let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to delete this user", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { action in
+            let currentUID = CognitoHelper.user!.getUID()
+            //CognitoHelper.sharedHelper.logout()
+            let connector = Connector()
+            AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+            let processor = ConnectionProcessor(connector: connector)
+            do {
+                try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser", uid: currentUID)
+            }
+            catch let error {
+                // Fails to delete user
+                print("ERROR")
+                print((error as! ConnectionError).getMessage())
+            }
+            print("user deleted")
+            self.performSegue(withIdentifier: "Login", sender: nil)
+        }
+        ))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true)
+    }
     
-    
-    @IBAction func deleteUser(_ sender: Any?) {
+    /*func deleteUser(_ sender: Any?) {
         print("Starting deleteUser...")
         print("currentUID:")
-        print(CognitoHelper.user!.getUID())
+        let currentId = CognitoHelper.user!.getUID()
+        print(currentId)
         //CognitoHelper.sharedHelper.logout()
         let connector = Connector()
-    AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
         let processor = ConnectionProcessor(connector: connector)
         do {
-            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser")
+            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser", uid: )
+            try processor.processDeleteUser(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteUser", uid: currentId)
         }
         catch let error {
             // Fails to delete user
             print("ERROR")
             print((error as! ConnectionError).getMessage())
         }
-    }
+        print("user deleted")
+        //CognitoHelper.sharedHelper.logout()
+    }*/
     
     @IBAction func showSettings(_ sender: Any) {
     

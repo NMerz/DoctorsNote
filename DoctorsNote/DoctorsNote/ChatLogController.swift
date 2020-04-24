@@ -25,6 +25,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     var conversation: Conversation?
     var deleteIndex: IndexPath? // IndexPath of the conversation to delete once selected
+    var converserName: String?
     
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageText: UITextField!
@@ -56,8 +57,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView!.collectionViewLayout = layout
 
-        let testString = "Hello, \nWorld!\n test"
-        let testMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (testString.data(using: .utf8))!, contentType: 0, numFails: CognitoHelper.numFails)
+        //let testString = "Hello, \nWorld!\n test"
+        //let testMessage = Message(messageID: -1, conversationID: conversation!.getConversationID(), content: (testString.data(using: .utf8))!, contentType: 0, numFails: CognitoHelper.numFails)
         // Do any additional setup after loading the view.
         messagesShown = 20;
         do {
@@ -66,7 +67,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
 
             } else {
                 let cipher = LocalCipher()
-                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID())))
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()), processor: connectionProcessor))
             }
             print(messages)
         } catch let error as CipherError {
@@ -80,6 +81,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print("ERROR!!!!!!!!!!!!")
         }
         
+        messages.reverse()
+        
         let item = self.collectionView(self.collectionView, numberOfItemsInSection: 0) - 1
         let lastItemIndex = NSIndexPath(item: item, section: 0)
         self.collectionView.scrollToItem(at: lastItemIndex as IndexPath, at: .top, animated: true)
@@ -90,7 +93,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     
     override func viewWillAppear(_ animated: Bool) {
         // TODO: Update later
-        navigationItem.title = "Test Doctor"
+        navigationItem.title = converserName ?? ""
     }
     
     
@@ -102,7 +105,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         return layout
     }()
     
-    @IBAction func onLeaveConversationClick(_ sender: UIButton) {
+    /*@IBAction func onLeaveConversationClick(_ sender: UIButton) {
         // Segue back to conversation list
         
         // Backend leave convo
@@ -117,7 +120,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             print("ERROR")
             print((error as! ConnectionError).getMessage())
         }
-    }
+    }*/
     
     
     @IBAction
@@ -139,13 +142,17 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     func sendMessage(toSend: Message) {
         if conversation?.getConverserID() != "N/A" {
             do {
-                let cipher = try MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: LocalCipher().getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()))
+                let cipher = try MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: LocalCipher().getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()), processor: connectionProcessor)
                 let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: toSend, cipher: cipher, publicKeyExternalBase64: conversation?.getConverserPublicKey(), adminPublicKeyExternalBase64: conversation?.getAdminPublicKey())
                 if (err != nil) {
                     CognitoHelper.numFails += 1
+                    let defaults = UserDefaults.standard
+                    defaults.set(CognitoHelper.numFails, forKey: "numFails")
                     throw err!
                 } else {
                     CognitoHelper.numFails = 0
+                    let defaults = UserDefaults.standard
+                    defaults.set(CognitoHelper.numFails, forKey: "numFails")
                 }
             } catch let error {
                 if error as? ConnectionError != nil {
@@ -153,6 +160,9 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 } else {
                     print("Error: " + error.localizedDescription)
                 }
+                CognitoHelper.numFails += 1
+                let defaults = UserDefaults.standard
+                defaults.set(CognitoHelper.numFails, forKey: "numFails")
                 let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
@@ -163,6 +173,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
             let err = connectionProcessor.processNewMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messageadd", message: toSend)
             if (err != nil) {
                 CognitoHelper.numFails += 1
+                let defaults = UserDefaults.standard
+                defaults.set(CognitoHelper.numFails, forKey: "numFails")
                 let alertController = UIAlertController(title: "Error Sending Message", message: "The message failed to send.", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
                 alertController.addAction(okAction)
@@ -170,6 +182,8 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 self.present(alertController, animated: true, completion: nil)
             } else {
                 CognitoHelper.numFails = 0
+                let defaults = UserDefaults.standard
+                defaults.set(CognitoHelper.numFails, forKey: "numFails")
             }
         }
     }
@@ -221,7 +235,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         if conversation?.getConverserID() != "N/A" {
             do {
                 let cipher = LocalCipher()
-                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID())))
+                messages = try connectionProcessor.processMessages(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", conversationID: conversation!.getConversationID(), numberToRetrieve: messagesShown, cipher: MessageCipher(uniqueID: CognitoHelper.user!.getUID(), localAESKey: cipher.getAESFromPass(password: CognitoHelper.password!, username: CognitoHelper.user!.getUID()), processor: connectionProcessor))
                 print(messages) 
             } catch let error {
                 print (error.localizedDescription)
@@ -235,6 +249,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 print("ERROR!!!!!!!!!!!!")
             }
         }
+        messages.reverse()
         collectionView.reloadData()
     }
     
@@ -245,23 +260,32 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cellM = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! FriendCellM
         cellM.delegate = self
-        let nextMessage = self.messages[messages.count - indexPath.row - 1]
+        //let nextMessage = self.messages[messages.count - indexPath.row - 1]
+        let nextMessage = self.messages[indexPath.row]
         if nextMessage.getContentType() == 0 {
             //cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             /*if (nextMessage.getSender().getUID() == DoctorsNote.User.getUID(<#T##self: User##User#>)()) {
                 cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }*/
             print(nextMessage.getSender().getFirstName())
-            if (AWSMobileClient.default().username as! String == nextMessage.getSender().getUID()) {
+            if (AWSMobileClient.default().username! == nextMessage.getSender().getUID()) {
                 cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             else {
-                //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: nextMessage.getSender().getFirstName())
-                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+                //let name = nextMessage.getSender().getFirstName() + " " + nextMessage.getSender().getLastName()
+                //support group
+                if (conversation!.getConverserID() == "N/A") {
+                    cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: "")
+                }
+                else {
+                    let name = self.navigationItem.title!
+                    cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: name)
+                }
+                //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             //cellM.showIncomingMessage(text: "test")
         } else if nextMessage.getContentType() == 1 {
-            if (AWSMobileClient.default().username as! String == nextMessage.getSender().getUID()) {
+            if (AWSMobileClient.default().username! == nextMessage.getSender().getUID()) {
                 cellM.showOutgoingMessage(image: UIImage(data: nextMessage.getRawContent()) ?? UIImage())
             }
             else {
@@ -270,11 +294,12 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         }
 
         return cellM
+
         // Configure the cell
     }
     
     @IBAction func onClick(_ sender: Any) {
-        if (conversation!.getConverserID() as! String == "N/A") {
+        if (conversation!.getConverserID() == "N/A") {
             performSegue(withIdentifier: "support_group", sender: self)
         }
         else {
@@ -283,13 +308,18 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        navigationItem.title = nil
         if (segue.identifier == "support_group") {
             let dest = segue.destination as! SupportGroupInfoViewController
             dest.name = conversation!.getConversationName()
             dest.desc = conversation!.getDescription()
             dest.numMembers = String(conversation!.getNumMembers())
         }
+        if (segue.identifier == "chat") {
+            let dest = segue.destination as! DoctorProfileViewController
+            dest.conversationID = conversation!.getConversationID()
+            dest.converserName = self.navigationItem.title ?? ""
+        }
+        navigationItem.title = nil
     }
     
     @objc func showDeleteMenu (_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -316,6 +346,7 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
     }
     
     @objc func deleteMessage() {
+        
         // Remove the cell from the view
         let cell = collectionView.cellForItem(at: deleteIndex!) as! FriendCellM
         cell.message!.mask?.removeFromSuperview()
@@ -324,7 +355,9 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
         
         // Remove the message from the database
         do {
-            try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/messagelist/", messageId: messages[deleteIndex!.row].getMessageID())
+            //print("base64:")
+            //print(messages[deleteIndex!.row].getBase64Content())
+            try connectionProcessor.processDeleteMessage(url: "https://o2lufnhpee.execute-api.us-east-2.amazonaws.com/Development/DeleteMessage", messageId: messages[deleteIndex!.row].getMessageID()) // messagelist
         } catch let error {
             print ((error as! ConnectionError).getMessage())
             print("ERROR!!!!!!!!!!!!")
@@ -373,27 +406,30 @@ class FriendCellM: BaseCellM {
     
     var delegate: ChatLogController?
     var labelView: UILabel? = nil
+    var uname: UILabel? = nil
     var message: UIView? = nil
     
     override func setupViews() {
         
         message = UIView()
+        //uname = UIView()
         contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40).isActive = true
         contentView.addSubview(message!)
-        contentView.addSubview(uname)
+        //contentView.addSubview(uname!)
         
         message!.translatesAutoresizingMaskIntoConstraints = false
         
         message!.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
+        //uname!.rightAnchor.constrain(equalTo: contentView.rightAnchor, constant: -15).isActive = true
         contentView.topAnchor.constraint(greaterThanOrEqualTo: message!.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(greaterThanOrEqualTo: message!.bottomAnchor).isActive = true
         
     }
     
-    var uname: UIView = {
+    /*var uname: UIView = {
         let view = UIView()
         return view
-    }()
+    }()*/
         
     func showOutgoingMessage(text: String) {
         if labelView != nil {
@@ -455,30 +491,36 @@ class FriendCellM: BaseCellM {
 
     }
     
-    func showIncomingMessage(text: String) {
+    func showIncomingMessage(text: String, cname: String) {
         if labelView != nil {
             labelView!.removeFromSuperview()
         }
+        if uname != nil {
+            uname?.removeFromSuperview()
+        }
         
-        /*print(cname)
-        let nameView = UILabel()
-        let name = nameView
-        name.numberOfLines = 0
+        print(cname)
+        uname = UILabel()
+        let name = uname!
+        //name.backgroundColor = .green
+        name.numberOfLines = 1
         name.font = UIFont.systemFont(ofSize: 14)
-        name.textColor = .red
-        name.text = cname
-        uname.addSubview(name)
-        contentView.addSubview(name)*/
+        name.textColor = .gray
+        name.text = "\t" + cname
+        //uname.addSubview(name)
         
         
         labelView =  UILabel()
         let label = labelView!
+        //label.backgroundColor = .magenta
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .black
         label.text = text
         
         contentView.addSubview(label)
+        contentView.addSubview(name)
+        //contentView.backgroundColor = .cyan
         
         message?.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
         
@@ -486,8 +528,15 @@ class FriendCellM: BaseCellM {
         
         //label.rightAnchor.constraint(equalTo: message.rightAnchor, constant: -10).isActive = true
         label.leftAnchor.constraint(equalTo: message!.leftAnchor, constant: 10).isActive = true
-        contentView.topAnchor.constraint(equalTo: label.topAnchor, constant: -10).isActive = true
+        name.leftAnchor.constraint(equalTo: message!.leftAnchor, constant: 10).isActive = true
+        //name.rightAnchor.constraint(equalTo: message!.rightAnchor, constant: 40).isActive = true
+        
+        //contentView.topAnchor.constraint(equalTo: name.topAnchor, constant: -10).isActive = true
+        label.topAnchor.constraint(equalTo: message!.topAnchor, constant: 10).isActive = true
+        contentView.topAnchor.constraint(equalTo: message!.topAnchor, constant: -20).isActive = true
         contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant:  10).isActive = true
+        //name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40).isActive = true
+        //name.bottomAnchor.constraint(equalTo: message!.topAnchor, constant: -40).isActive = true
 
         //message.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -250).isActive = true
         message?.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 240).isActive = true
@@ -499,6 +548,7 @@ class FriendCellM: BaseCellM {
                                             attributes: [.font: label.font],
                                             context: nil)
         label.frame.size = CGSize(width: ceil(boundingBox.width), height: ceil(boundingBox.height))
+        name.frame.size = CGSize(width: 200, height: 20)
         
         let bubbleSize = CGSize(width: label.frame.width + 28,
                                      height: label.frame.height + 20)
@@ -527,9 +577,10 @@ class FriendCellM: BaseCellM {
         outgoingMessageLayer.frame = label.bounds
         //outgoingMessageLayer.fillColor = UIColor.systemBlue.cgColor
         outgoingMessageLayer.fillColor = UIColor.lightGray.cgColor
-        /*let nameLayer = CAShapeLayer()
+        let nameLayer = CAShapeLayer()
         nameLayer.frame = name.bounds
-        uname.layer.addSublayer(nameLayer)*/
+        nameLayer.fillColor = UIColor.green.cgColor
+        message?.layer.addSublayer(nameLayer)
         message?.layer.addSublayer(outgoingMessageLayer)
 
     }

@@ -24,7 +24,7 @@ class CognitoHelper {
     }
     
     func login(email: String, password: String, onDone: @escaping (_ success: Bool, _ err: AWSMobileClientError)->()) {
-        print("Password: " + password)
+//        print("Password: " + password)
         CognitoHelper.password = password
         AWSMobileClient.default().signIn(username: email, password: password) { (result, err) in
             if let err = err as? AWSMobileClientError {

@@ -211,7 +211,7 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="authUser" elementType="Argument">
               <stringProp name="Argument.name">authUser</stringProp>
-              <stringProp name="Argument.value">37d6a758-e79f-442f-af49-6bff78c8ad10</stringProp>
+              <stringProp name="Argument.value">4cd43f45-0f72-4296-a88a-0d87d0e01942</stringProp>
               <stringProp name="Argument.desc">Cognito user id for user associated with auth token used in header</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
@@ -222,7 +222,7 @@
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Authorization</stringProp>
-              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJjb2duaXRvOmdyb3VwcyI6WyJXZWJQb3J0YWxBZG1pbiJdLCJiaXJ0aGRhdGUiOiIwM1wvMDhcLzIwMjAiLCJnZW5kZXIiOiJNYWxlIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfQ29icmcxa0JuIiwiY3VzdG9tOmhvc3BpdGFsIjoiSVUgQXJuZXR0IiwiY3VzdG9tOnVzZXJJRCI6IjEyMzQ1Njc4OSIsImNvZ25pdG86cm9sZXMiOlsiYXJuOmF3czppYW06OjM2MzMyODc2ODcxODpyb2xlXC9XZWJfUG9ydGFsX0FkbWluIl0sImF1dGhfdGltZSI6MTU4NTc3ODkzMCwiY3VzdG9tOmhvc3BpdGFsX3dlYnNpdGUiOiJodHRwczpcL1wvaXVoZWFsdGgub3JnXC9maW5kLWxvY2F0aW9uc1wvaXUtaGVhbHRoLWFybmV0dC1ob3NwaXRhbCIsImV4cCI6MTU4Njk2NjQxMSwiY3VzdG9tOnJvbGUiOiJkb2N0b3IiLCJpYXQiOjE1ODY5NjI4MTEsImVtYWlsIjoiaGFyZGluMzBAcHVyZHVlLmVkdSIsImN1c3RvbTpoZWFsdGhjYXJlX3Byb3ZpZGVyIjoiSHVtYW5hIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImFkZHJlc3MiOnsiZm9ybWF0dGVkIjoiMzk4MCBOIEdyYWhhbSBSZCBNYWRpc29uIElOIDQ3MjUwIn0sInBob25lX251bWJlcl92ZXJpZmllZCI6ZmFsc2UsImNvZ25pdG86dXNlcm5hbWUiOiIzN2Q2YTc1OC1lNzlmLTQ0MmYtYWY0OS02YmZmNzhjOGFkMTAiLCJjdXN0b206ZGlzcGxheV9uYW1lIjoiVGVzdCBEaXNwbGF5IE5hbWUiLCJtaWRkbGVfbmFtZSI6IkJ1cmsiLCJhdWQiOiI0b2R1OG80Zm5lZjRldjdib29obWMxZDh0byIsImV2ZW50X2lkIjoiZGM4ZWQ2MzMtYTQ2OC00YzJlLTllN2YtZGJkZmFiMGNhNWE4IiwidG9rZW5fdXNlIjoiaWQiLCJjdXN0b206aGVhbHRoY2FyZV93ZWJzaXRlIjoiaHR0cHM6XC9cL3d3dy5odW1hbmEuY29tIiwibmFtZSI6IkJlbmphbWluIiwicGhvbmVfbnVtYmVyIjoiKzExMjM0NTY3ODkwIiwiZmFtaWx5X25hbWUiOiJIYXJkaW4ifQ.A6RTI6QRlrHeOpzSqkFi8Fbq2zJnUpNdOAaTiIzYPdfo_n-Rv0znwLCu1YkSNh4Fc9OLIFnCyHqCmiYSz9frOgwcjYjQXgjharEzpl5YR7Qxe8nMKdpxt7QR3duATA8DJ2gtKT3wdSZIFNDIb_JK763Y4C-OenbjqYbfM_h7H0WFhMzNVA43yuxsLh5TaGZ0y4dGWB-mJB05z1vPrAKmyvKiFF9I4rwMN0Fljh9OQBPYAo9s0z2Qn8EBco9dOqubE8_cp6x5NNy9JWRrB3wM9oM3cFPfCMoctRAa2m1uhlroRsHBAjhqwwRJTMEaI54w-UL3NDl37uC-oH8P710qsA</stringProp>
+              <stringProp name="Header.value">eyJraWQiOiIrWUduY0kzbUtBdGZtd1wvWTd0SXhcL1o1cEkzdDAweDZBbGZVTjVIR1l5V1k9IiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwY2JlYzgyOC1mNzgyLTQ3MmUtYjA2Ni1lZDk0Mzg2YmQzYTUiLCJiaXJ0aGRhdGUiOiIwNFwvMjJcLzIwMjAiLCJnZW5kZXIiOiJNYWxlIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tXC91cy1lYXN0LTJfQ29icmcxa0JuIiwiY3VzdG9tOmhvc3BpdGFsIjoiSVUgSGVhbHRoIEFybmV0dCBIb3NwaXRhbCIsImN1c3RvbTpzZWN1cml0eXF1ZXN0aW9uMiI6IlEiLCJjdXN0b206c2VjdXJpdHlhbnN3ZXIiOiI2Yjc4MmE0ZGUxZmQ4MjQ0MjJiYzgzN2U3ODA4OWU5M2E4NGUxZTQ3YmQ3ZmU0ZTYxNjE1NThlNTJjZjFmNDdmIiwiYXV0aF90aW1lIjoxNTg3Njg0NTYwLCJjdXN0b206aG9zcGl0YWxfd2Vic2l0ZSI6Imh0dHBzOlwvXC9pdWhlYWx0aC5vcmdcL2ZpbmQtbG9jYXRpb25zXC9pdS1oZWFsdGgtYXJuZXR0LWhvc3BpdGFsIiwiZXhwIjoxNTg3Njg4MTYwLCJjdXN0b206cm9sZSI6IkRvY3RvciIsImlhdCI6MTU4NzY4NDU2MCwiZW1haWwiOiJtZXJ6bkBwdXJkdWUuZWR1IiwiY3VzdG9tOmhlYWx0aGNhcmVfcHJvdmlkZXIiOiJIdW1hbmEiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYWRkcmVzcyI6eyJmb3JtYXR0ZWQiOiJDbGFzc2lmaWVkIEZvcnQgV2F5bmUgSU4gMTIzNDUifSwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjBjYmVjODI4LWY3ODItNDcyZS1iMDY2LWVkOTQzODZiZDNhNSIsIm1pZGRsZV9uYW1lIjoiVyIsImF1ZCI6IjRvZHU4bzRmbmVmNGV2N2Jvb2htYzFkOHRvIiwiZXZlbnRfaWQiOiJhNDE5NWY2Ni00NzY0LTQyY2YtOTdhMC02YzI0ZGI3ZGQ2OTAiLCJ0b2tlbl91c2UiOiJpZCIsImN1c3RvbTpoZWFsdGhjYXJlX3dlYnNpdGUiOiJodHRwczpcL1wvaHVtYW5hLmNvbSIsIm5hbWUiOiJOYXRoYW4iLCJwaG9uZV9udW1iZXIiOiIrMTEyMzQ1Njc4OTAiLCJmYW1pbHlfbmFtZSI6Ik1lcnoifQ.FGMN_Z0K8h6bwc-0GOqI2r2NIMYLC7_v7QKlhErdY6ZNvhy08bwvwHB4fNk5o6OjYN1woTatYRvzRRMU061DKv7yl-djOg-lcIxZZ_2qV6ZldxW19i3boLlH2DU9u2VoccBU6RgCYxDU_xafVd4iIqZqzoVuR_LRrfXdgUjmrlySB68KpQsw4UHoECxP7TFAMriRxZEcN8ZYRCB8zDlfQQOVyByjACDsN6-UpgmrbI3eF_eiZl0rC9Q4Ch3QzqyqfcRCaktKxhZUUesMCE2BLKcqsyoszYvs1MxG2hKXmiSrtJuJPNifAP-Ed8LGIdwA_krF1XC3qscUr5CEh9QZNg</stringProp>
             </elementProp>
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>
@@ -398,6 +398,16 @@
             <boolProp name="ISREGEX">true</boolProp>
           </JSONPathAssertion>
           <hashTree/>
+          <JSONPathAssertion guiclass="JSONPathAssertionGui" testclass="JSONPathAssertion" testname="Assert converserPublicKey is right length range" enabled="true">
+            <stringProp name="JSON_PATH">$.conversationList.[0].converserPublicKey</stringProp>
+            <stringProp name="EXPECTED_VALUE">...............................................................................................................................................................................................................................................................................................................................................................?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?</stringProp>
+            <boolProp name="JSONVALIDATION">true</boolProp>
+            <boolProp name="EXPECT_NULL">false</boolProp>
+            <boolProp name="INVERT">false</boolProp>
+            <boolProp name="ISREGEX">true</boolProp>
+            <stringProp name="TestPlan.comments">350-370 chars (base64 encoding will cause some variance)</stringProp>
+          </JSONPathAssertion>
+          <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="messageList Test" enabled="true">
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -405,7 +415,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;conversationID&quot;: 15, &quot;numberToRetrieve&quot;: 1, &quot;startIndex&quot;: 1, &quot;sinceWhen&quot;: 0}</stringProp>
+                <stringProp name="Argument.value">{&quot;conversationID&quot;: 16, &quot;numberToRetrieve&quot;: 1, &quot;startIndex&quot;: 1, &quot;sinceWhen&quot;: 0}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -524,7 +534,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;conversationID&quot;: 15, &quot;content&quot;: &quot;${base64Post}&quot;, &quot;contentType&quot;: 0}</stringProp>
+                <stringProp name="Argument.value">{&quot;conversationID&quot;: 16, &quot;senderContent&quot;: &quot;${base64Post}&quot;, &quot;receiverContent&quot;: &quot;${base64Post}&quot;, &quot;adminContent&quot;: &quot;${base64Post}&quot;, &quot;contentType&quot;: 0, &quot;numFails&quot;: 0}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -542,6 +552,7 @@
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="TestPlan.comments">Test for Support Groups - Jmeter can&apos;t encrypt/decrypt</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
@@ -621,7 +632,7 @@ vars.put(&quot;base64Post&quot;, new String(&quot;TmF0aGFu4oCZcyB0ZXN0&quot; + n
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">{&quot;conversationID&quot;: 15, &quot;numberToRetrieve&quot;: 1, &quot;startIndex&quot;: 1, &quot;sinceWhen&quot;: 0}</stringProp>
+                <stringProp name="Argument.value">{&quot;conversationID&quot;: 16, &quot;numberToRetrieve&quot;: 1, &quot;startIndex&quot;: 1, &quot;sinceWhen&quot;: 0}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
@@ -639,7 +650,7 @@ vars.put(&quot;base64Post&quot;, new String(&quot;TmF0aGFu4oCZcyB0ZXN0&quot; + n
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="TestPlan.comments">Required that this runs after processMessageTest</stringProp>
+          <stringProp name="TestPlan.comments">Required that this runs after processMessageTest; Test for Support Groups - Jmeter can&apos;t encrypt/decrypt</stringProp>
         </HTTPSamplerProxy>
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Status Code assertion" enabled="true">

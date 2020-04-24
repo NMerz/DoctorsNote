@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class KeyGetter {
-    private final String getKeysFormatString = "SELECT encryptedKey1, encryptedKey2 FROM UserKeys" +
+    private final String getKeysFormatString = "SELECT encryptedKey1, encryptedKey2, length FROM UserKeys" +
             " WHERE userID = ?;";
     Connection dbConnection;
 
@@ -29,10 +29,11 @@ public class KeyGetter {
             if (keyResult.next()) {
                 String privateKeyP = keyResult.getString(1);
                 String privateKeyS = keyResult.getString(2);
+                Long length = keyResult.getLong(3);
                 if (keyResult.next()) {
                     throw new GetKeysException("Error: more than one row of key entries found!");
                 }
-                return new GetKeysResponse(privateKeyP, privateKeyS);
+                return new GetKeysResponse(privateKeyP, privateKeyS, length);
             }
             return null;
         } catch (Exception e) {
@@ -47,10 +48,12 @@ public class KeyGetter {
     public class GetKeysResponse {
         private String privateKeyP;
         private String privateKeyS;
+        private long length;
 
-        public GetKeysResponse(String privateKeyP, String privateKeyS) {
+        public GetKeysResponse(String privateKeyP, String privateKeyS, Long length) {
             this.privateKeyP = privateKeyP;
             this.privateKeyS = privateKeyS;
+            this.length = length;
         }
 
         public String getPrivateKeyP() {
@@ -67,6 +70,14 @@ public class KeyGetter {
 
         public void setPrivateKeyS(String privateKeyS) {
             this.privateKeyS = privateKeyS;
+        }
+
+        public long getLength() {
+            return length;
+        }
+
+        public void setLength(long length) {
+            this.length = length;
         }
     }
 

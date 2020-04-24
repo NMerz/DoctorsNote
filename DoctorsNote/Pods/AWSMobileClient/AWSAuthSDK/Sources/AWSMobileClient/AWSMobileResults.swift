@@ -66,7 +66,7 @@ public enum AWSMobileClientError: Error {
     case deviceNotRemembered(message: String)
 }
 
-extension AWSMobileClientError {
+public extension AWSMobileClientError {
     /// Underlying error message of `AWSMobileClientError`
     var message: String {
         switch self {

@@ -132,8 +132,6 @@ class PasswordCodeViewController: UIViewController {
         
         self.navigationItem.hidesBackButton = true
         
-        securityQuestionLabel.text = CognitoHelper.user!.getSecurityQuestion()
-        
         if (email != "") {
             emailField.isHidden = true
             emailLabel.isHidden = true
@@ -166,27 +164,9 @@ class PasswordCodeViewController: UIViewController {
         let passwordEmpty = newPasswordField.isEmpty()
         let confirmEmpty = confirmField.isEmpty()
         let passwordsEqual = (self.newPasswordField.text! == self.confirmField.text!)
-        
-        // TODO test this
-        let hashedAnswer = self.securityAnswer.text!.hash()
-        let securityAnswerMatch = (hashedAnswer == CognitoHelper.user!.getSecurityAnswer())
-        
-        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid || !securityAnswerMatch) {
+                
+        if (emailEmpty || codeEmpty || passwordEmpty || confirmEmpty || !passwordsEqual || !emailValid) {
             return
-        }
-        let connector = Connector()
-        AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
-        let connectionProcessor = ConnectionProcessor(connector: connector)
-        do {
-            let cipher = LocalCipher()
-            try cipher.resetKeyPair(securityQuestionAnswers: [self.securityAnswer.text!], newPassword: self.newPasswordField.text!, username: CognitoHelper.user!.getUID(), connectionProcessor: connectionProcessor)
-        } catch let error as CipherError {
-            print(error.getMessage())
-            return
-        } catch let error as ConnectionError {
-            print(error.getMessage())
-        } catch let error {
-            print(error.localizedDescription)
         }
         
 
@@ -223,6 +203,20 @@ class PasswordCodeViewController: UIViewController {
                                         if (!answersEqual) {
                                             self.displayTryAgain()
                                         } else {
+                                            let connector = Connector()
+                                            AWSMobileClient.default().getTokens(connector.setToken(potentialTokens:potentialError:))
+                                            let connectionProcessor = ConnectionProcessor(connector: connector)
+                                            do {
+                                                let cipher = LocalCipher()
+                                                try cipher.resetKeyPair(securityQuestionAnswers: [response], newPassword: self.newPasswordField.text!, username: CognitoHelper.user!.getUID(), connectionProcessor: connectionProcessor)
+                                            } catch let error as CipherError {
+                                                print(error.getMessage())
+                                                return
+                                            } catch let error as ConnectionError {
+                                                print(error.getMessage())
+                                            } catch let error {
+                                                print(error.localizedDescription)
+                                            }
                                             self.displaySuccess()
                                         }
                                     }
@@ -234,8 +228,8 @@ class PasswordCodeViewController: UIViewController {
                                     submitAction.isEnabled = false
                                     
                                     alertController.addTextField { (textField) in
-                                        textField.accessibilityLabel = "Display Name Field"
-                                        textField.placeholder = "Enter Display Name"
+                                        textField.accessibilityLabel = "Answer Field"
+                                        textField.placeholder = "Enter Security Answer"
                                         
                                         // This segment of code borrowed from:
                                         // https://gist.github.com/TheCodedSelf/c4f3984dd9fcc015b3ab2f9f60f8ad51
