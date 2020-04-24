@@ -272,8 +272,10 @@ class ChatLogController: UIViewController, UICollectionViewDelegate, UICollectio
                 cellM.showOutgoingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             else {
-                //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: nextMessage.getSender().getFirstName())
-                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
+                //let name = nextMessage.getSender().getFirstName() + " " + nextMessage.getSender().getLastName()
+                let name = navigationController!.title
+                cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!, cname: name!)
+                //cellM.showIncomingMessage(text: String(data: nextMessage.getRawContent(), encoding: .utf8)!)
             }
             //cellM.showIncomingMessage(text: "test")
         } else if nextMessage.getContentType() == 1 {
@@ -398,27 +400,30 @@ class FriendCellM: BaseCellM {
     
     var delegate: ChatLogController?
     var labelView: UILabel? = nil
+    var uname: UILabel? = nil
     var message: UIView? = nil
     
     override func setupViews() {
         
         message = UIView()
+        //uname = UIView()
         contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 40).isActive = true
         contentView.addSubview(message!)
-        contentView.addSubview(uname)
+        //contentView.addSubview(uname!)
         
         message!.translatesAutoresizingMaskIntoConstraints = false
         
         message!.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
+        //uname!.rightAnchor.constrain(equalTo: contentView.rightAnchor, constant: -15).isActive = true
         contentView.topAnchor.constraint(greaterThanOrEqualTo: message!.topAnchor).isActive = true
         contentView.bottomAnchor.constraint(greaterThanOrEqualTo: message!.bottomAnchor).isActive = true
         
     }
     
-    var uname: UIView = {
+    /*var uname: UIView = {
         let view = UIView()
         return view
-    }()
+    }()*/
         
     func showOutgoingMessage(text: String) {
         if labelView != nil {
@@ -480,30 +485,36 @@ class FriendCellM: BaseCellM {
 
     }
     
-    func showIncomingMessage(text: String) {
+    func showIncomingMessage(text: String, cname: String) {
         if labelView != nil {
             labelView!.removeFromSuperview()
         }
+        if uname != nil {
+            uname?.removeFromSuperview()
+        }
         
-        /*print(cname)
-        let nameView = UILabel()
-        let name = nameView
-        name.numberOfLines = 0
+        print(cname)
+        uname = UILabel()
+        let name = uname!
+        name.backgroundColor = .green
+        name.numberOfLines = 1
         name.font = UIFont.systemFont(ofSize: 14)
         name.textColor = .red
-        name.text = cname
-        uname.addSubview(name)
-        contentView.addSubview(name)*/
+        name.text = "\t" + cname
+        //uname.addSubview(name)
         
         
         labelView =  UILabel()
         let label = labelView!
+        label.backgroundColor = .magenta
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .black
         label.text = text
         
         contentView.addSubview(label)
+        contentView.addSubview(name)
+        contentView.backgroundColor = .cyan
         
         message?.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
         
@@ -511,8 +522,14 @@ class FriendCellM: BaseCellM {
         
         //label.rightAnchor.constraint(equalTo: message.rightAnchor, constant: -10).isActive = true
         label.leftAnchor.constraint(equalTo: message!.leftAnchor, constant: 10).isActive = true
-        contentView.topAnchor.constraint(equalTo: label.topAnchor, constant: -10).isActive = true
+        name.leftAnchor.constraint(equalTo: message!.leftAnchor, constant: 10).isActive = true
+        //name.rightAnchor.constraint(equalTo: message!.rightAnchor, constant: 40).isActive = true
+        
+        //contentView.topAnchor.constraint(equalTo: name.topAnchor, constant: -10).isActive = true
+        contentView.topAnchor.constraint(equalTo: message!.topAnchor, constant: 0).isActive = true
         contentView.bottomAnchor.constraint(equalTo: label.bottomAnchor, constant:  10).isActive = true
+        //name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40).isActive = true
+        name.bottomAnchor.constraint(equalTo: message!.topAnchor, constant: -40).isActive = true
 
         //message.leftAnchor.constraint(equalTo: label.leftAnchor, constant: -250).isActive = true
         message?.rightAnchor.constraint(equalTo: label.rightAnchor, constant: 240).isActive = true
@@ -524,6 +541,7 @@ class FriendCellM: BaseCellM {
                                             attributes: [.font: label.font],
                                             context: nil)
         label.frame.size = CGSize(width: ceil(boundingBox.width), height: ceil(boundingBox.height))
+        name.frame.size = CGSize(width: 200, height: 20)
         
         let bubbleSize = CGSize(width: label.frame.width + 28,
                                      height: label.frame.height + 20)
@@ -552,9 +570,10 @@ class FriendCellM: BaseCellM {
         outgoingMessageLayer.frame = label.bounds
         //outgoingMessageLayer.fillColor = UIColor.systemBlue.cgColor
         outgoingMessageLayer.fillColor = UIColor.lightGray.cgColor
-        /*let nameLayer = CAShapeLayer()
+        let nameLayer = CAShapeLayer()
         nameLayer.frame = name.bounds
-        uname.layer.addSublayer(nameLayer)*/
+        nameLayer.fillColor = UIColor.green.cgColor
+        message?.layer.addSublayer(nameLayer)
         message?.layer.addSublayer(outgoingMessageLayer)
 
     }
